@@ -1,0 +1,82 @@
+---
+title: "Human-Plant Coevolution model"
+author: "Andreas Angourakis & Jonàs Alcaina"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  pdf_document:
+    fig_caption: yes
+    number_sections: yes
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, # hide code and messages
+                      cache=TRUE, autodep=TRUE) 
+source("library/hpModel.run.R")
+source("library/hpModel.exploration.R")
+source("library/hpModel.plot.R")
+require(reshape2)
+require(ggplot2)
+require(scales)
+
+run.table <- function(run.result)
+{
+  run.parnames <- names(run.result$PARS)
+  run.parvalues <- c()
+  for (i in 1:length(run.result$PARS))
+  {
+    run.parvalues <- c(run.parvalues, run.result$PARS[[i]])
+  }
+  knitr::kable(cbind(run.parnames, run.parvalues), col.names = c("parameter", "values"))
+}
+
+exp.table <- function(exp.results)
+{
+  exp.parnames <- c()
+  exp.values <- c()
+  for (i in 1:17)
+  {
+    exp.parnames <- c(exp.parnames, names(exp.results)[i])
+    value <- levels(factor(exp.results[[i]]))
+    if (length(value) > 1) 
+    {
+      value <- as.numeric(as.character(value))
+      value <- paste(min(value), "-", max(value), "(sample=", length(value), ")")
+    }
+    exp.values <- c(exp.values, value)
+  }
+  knitr::kable(cbind(exp.parnames, exp.values), col.names = c("parameter", "values"))
+}
+```
+
+
+**_Parameters_**
+
+ Abbreviation     | Description
+ ---------------- | ---------------------
+ `r.h`, `r.p`     | intrinsic growth rates for human and plant populations
+ `max.h`          | utility per unit of other resources to humans of type 1 (population of type 1 that can be sustained by resources independent of HP relationship)
+ `max.p`          | utility per unit of non-anthropic space to type 1 plants
+ `Um.ph`          | utility per unit **of** type N plants **to** type N humans 
+ `Um.hp`          | utility per unit **of** type N humans **to** type N plants
+ `n.h`, `n.p`     | number of phenotypes of humans and plants
+ `v.h`, `v.p`     | level of undirected variation in humans and plants
+ `iniH`, `iniP`   | initial populations of humans and plants
+ `Ump.ph`         | proportion of utility to humans per unit of type 1 plants **less** than type N
+ `Ump.hp`         | proportion of utility to plants per unit of type 1 humans **less** than type N
+ `Kmp.h`          | proportion of utility per unit of other resources gained by type N humans **less** than type 1
+ `Kmp.p`          | proportion of utility per unit of non-anthropic space gained by type N plants **less** than type 1
+ `MaxArea`        | maximum contiguous area to be used by plants
+
+
+```{r child = '1_singleRunPlots.Rmd'}
+```
+
+```{r child = '2_oneParameterExplorationPlots.Rmd'}
+```
+
+```{r child = '3_twoParameterExplorationPlots.Rmd'}
+```
+
+```{r child = '4_fourParameterExplorationPlots.Rmd'}
+```
