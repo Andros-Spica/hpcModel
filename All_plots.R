@@ -1,6 +1,6 @@
-source("hpModel.run.R")
-source("hpModel.exploration.R")
-source("hpModel.plot.R")
+source("library/hpModel.run.R")
+source("library/hpModel.exploration.R")
+source("library/hpModel.plot.R")
 require(reshape2)
 require(ggplot2)
 require(scales)
@@ -12,7 +12,7 @@ require(scales)
 # Um.ph, Um.hp
 SEQ1 <- seq(0.5, 1.5, length.out=5)
 # max.h, max.p
-SEQ2 <- seq(50, 300, length.out=10)
+SEQ2 <- seq(50, 300, length.out=5)
 
 exp4 <- hpModel.exploration(
   # growth rate 
