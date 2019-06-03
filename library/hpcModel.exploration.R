@@ -37,7 +37,7 @@ hpModel.exploration <- function(
 )
 {
   if (messages) { cat('preparing experiments...') }
-  source('hpModel.run.R')
+  #source('hpModel.run.R')
   
   # acumulabe 
   DF <- data.frame()

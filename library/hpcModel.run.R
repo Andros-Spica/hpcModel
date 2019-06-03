@@ -7,7 +7,7 @@ Fitness <- function(i, U.BA, K.A)
 
 
 hpModel.run <- function(
-  # growth rate 
+  # intrinsic growth rate 
   r.h = 0.15, 
   r.p = 0.15, 
   # basic resources:
@@ -42,7 +42,10 @@ hpModel.run <- function(
   saveTrajectories = FALSE,
   messages = TRUE, 
   PLOT = FALSE, 
-  SLEEP = 0.05)
+  SLEEP = 0.05,
+  savePlots = FALSE,
+  plotDirectory = "plots/runPlot/",
+  plotFileName = "runPlot<time>.png")
 {
   #-----------SETUP-------------------------------------------------------------------
   
@@ -153,7 +156,18 @@ hpModel.run <- function(
         RESULTS$TYPES$P.n <- P.n 
         RESULTS$TYPES$fit.h <- fit.h
         RESULTS$TYPES$fit.p <- fit.p
+        
         hpModel.plot(RESULTS, SLEEP=SLEEP)
+        
+        if (savePlots)
+        {
+          dir.create(file.path(plotDirectory))
+          #<time>
+          png(paste(plotDirectory, plotFileName, sep=""), width = 1000, height = 1000)
+          hpModel.plot(RESULTS, SLEEP=SLEEP)
+          dev.off()
+        }
+        
     }
     
     # break loop & check evolution -------------------------------------------------
