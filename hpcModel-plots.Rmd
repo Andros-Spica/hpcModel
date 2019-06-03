@@ -12,9 +12,9 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, # hide code and messages
                       cache=TRUE, autodep=TRUE) 
-source("library/hpModel.run.R")
-source("library/hpModel.exploration.R")
-source("library/hpModel.plot.R")
+source("library/hpcModel.run.R")
+source("library/hpcModel.exploration.R")
+source("library/hpcModel.plot.R")
 require(reshape2)
 require(ggplot2)
 require(scales)

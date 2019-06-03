@@ -7,13 +7,14 @@ hpModel.plot <- function(RESULTS, SLEEP=0.05) {
   
   ### set plot positions
   layout(matrix(
-    c(1, 1, 1, 9, 1, 1, 1, 5, 2, 2, 2, 6, 3, 3, 3, 7, 4, 4, 4, 8),
-    nrow = 5,
+    c(1, 1, 1, 9, 1, 1, 1, 5, 2, 2, 2, 6, 3, 3, 3, 7, 4, 4, 4, 8,
+      10, 10, 10, 11), # last row with x axis title
+    nrow = 6,
     ncol = 4,
     byrow = TRUE
-  ))
+  ), heights = c(1, 1, 1, 1, 1, 0.1))
   
-  par(mar = c(3, 4, 0.3, 0.3), lab.cex = 1.2)
+  par(mar = c(3, 4, 0.3, 0.3), cex.lab = 1.2)
   
   ### 1. population
   plot(
@@ -21,7 +22,7 @@ hpModel.plot <- function(RESULTS, SLEEP=0.05) {
     type = 'l',
     col = 'blue',
     ylim = c(0, max(c(TRAJ$H, TRAJ$P, TRAJ$K.h, TRAJ$K.p), na.rm = T)),
-    xlim = c(0, t),
+    xlim = c(0, t + ceiling(t * 0.35)),
     xlab = '',
     ylab = 'populations'
   )
@@ -31,7 +32,11 @@ hpModel.plot <- function(RESULTS, SLEEP=0.05) {
   points(TRAJ$K.p, type = 'l', col = 'darkred', lty = 2)
   
   # legend
-  legend('bottomright', legend=c("Plant", "Human", "Plant (K)", "Human (K)"),
+  legend('right', 
+         legend=c("Plant (P)", 
+                  "Human (H)", 
+                  "Plant (K.p)", 
+                  "Human (K.h)"),
          col=c('red', 'blue', 'darkred', 'darkblue'), 
          lty=c(1, 1, 2, 2), cex=0.8)
   
@@ -40,7 +45,7 @@ hpModel.plot <- function(RESULTS, SLEEP=0.05) {
     TRAJ$IN.h,
     type = 'l',
     col = 'blue',
-    xlim = c(0, t),
+    xlim = c(0, t + ceiling(t * 0.35)),
     xlab = '',
     ylab = 'growth',
     ylim = c(min(c(TRAJ$IN.h, TRAJ$IN.p), na.rm = T), max(c(TRAJ$IN.h, TRAJ$IN.p), na.rm = T))
@@ -48,12 +53,18 @@ hpModel.plot <- function(RESULTS, SLEEP=0.05) {
   points(TRAJ$IN.p, type = 'l', col = 'red')
   abline(h = 0, lty = 2)
   
+  # legend
+  legend('right', 
+         legend=c("Plant (IN.p)", 
+                  "Humans (IN.h))"), 
+         lty = c(1, 1), col=c('red', 'blue'), cex=0.8)
+  
   ### 3. Utility
   plot(
     TRAJ$U.ph,
     type = 'l',
     col = 'red',
-    xlim = c(0, t),
+    xlim = c(0, t + ceiling(t * 0.35)),
     ylim = c(0, max(c(TRAJ$U.ph, TRAJ$U.hp, TRAJ$Kb.h, TRAJ$Kb.p), na.rm = T)),
     xlab = '',
     ylab = 'utility'
@@ -69,7 +80,11 @@ hpModel.plot <- function(RESULTS, SLEEP=0.05) {
          lty = 2)
   
   # legend
-  legend('bottomright', legend=c("Plant -> Humans (U.ph)", "Humans -> Plant (Um.hp))", "Plant (K)", "Human (K)"),
+  legend('right', 
+         legend=c("Plant to Humans\n(U.ph)", 
+                  "Humans to Plant\n(Um.hp))", 
+                  "Other to Humans\n(Kb.h)", 
+                  "Other to Plants\n(Kb.p)"),
          col=c('red', 'blue', 'darkred', 'darkblue'), 
          lty=c(1, 1, 2, 2), cex=0.8)
   
@@ -78,7 +93,7 @@ hpModel.plot <- function(RESULTS, SLEEP=0.05) {
     TRAJ$LM.h,
     type = 'l',
     col = 'blue',
-    xlim = c(0, t),
+    xlim = c(0, t + ceiling(t * 0.35)),
     xlab = 't',
     ylab = 'fitness slope',
     ylim = c(min(c(TRAJ$LM.h, TRAJ$LM.p), na.rm = T), max(c(TRAJ$LM.h, TRAJ$LM.p), na.rm = T))
@@ -86,7 +101,11 @@ hpModel.plot <- function(RESULTS, SLEEP=0.05) {
   points(TRAJ$LM.p, type = 'l', col = 'red')
   abline(h = 0, lty = 2)
   
-  # add legend
+  # legend
+  legend('right', 
+         legend=c("Plant (LM.p)", 
+                  "Humans (LM.h))"), 
+         lty = c(1, 1), col=c('red', 'blue'), cex=0.8)
   
   ### 6. & 7. population types
   par(mar = c(1, 3, 1, 0.3))
@@ -122,6 +141,14 @@ hpModel.plot <- function(RESULTS, SLEEP=0.05) {
   plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
   text(0.5, 0.55, labels = 'Human-Plant\nCoevolution\nmodel', cex = 2, font = 2)
 
+  ### add t axis title plot
+  plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
+  text(0.6, 0.8, labels = 't', cex = 1)
+  
+  ### add types axis title plot
+  plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
+  text(0.62, 0.65, labels = '"wild" <---> "domesticated"', cex = 0.8)
+  
   # sleep
   Sys.sleep(SLEEP)
 }
