@@ -6,7 +6,7 @@ Fitness <- function(i, U.BA, K.A)
 }
 
 
-hpModel.run <- function(
+hpcModel.run <- function(
   # intrinsic growth rate 
   r.h = 0.15, 
   r.p = 0.15, 
@@ -37,17 +37,42 @@ hpModel.run <- function(
   # maximum local area to be used by populations (multiplier or scaling effect)
   MaxArea = 200, 
   # settings 
+  # simulation flow & data
   maxIt = 20000,
   tol = 6,
   saveTrajectories = FALSE,
   messages = TRUE, 
-  PLOT = FALSE, 
-  SLEEP = 0.05,
-  savePlots = FALSE,
-  plotDirectory = "plots/runPlot/",
-  plotFileName = "runPlot<time>.png")
+  # plotting
+  plot.preview = FALSE, 
+  plot.sleep = 0.05,
+  plot.save = FALSE,
+  plot.saveEvery = 5,
+  plot.directory = "plots/runPlot/",
+  plot.fileName = "runPlot")
 {
   #-----------SETUP-------------------------------------------------------------------
+  
+  RESULTS <- list()
+  RESULTS$PARS <- list(
+    r.h = r.h, 
+    r.p = r.p, 
+    max.h = max.h,                               
+    max.p = max.p,                                
+    Um.ph = Um.ph,
+    Um.hp = Um.hp,
+    n.h = n.h,         
+    n.p = n.p,        
+    v.h = v.h,
+    v.p = v.p,
+    iniH = iniH,
+    iniP = iniP,
+    Ump.ph = Ump.ph,                                  
+    Ump.hp = Ump.hp,                                   
+    Kmp.h = Kmp.h,                                
+    Kmp.p = Kmp.p, 
+    MaxArea = MaxArea,
+    maxIt = maxIt, 
+    tol = tol)
   
   ### declare fixed vectors of utility anb basic resources ===========================
   # utility
@@ -56,6 +81,7 @@ hpModel.run <- function(
   # basic resources
   Km.h.per.type <- seq(max.h, max.h/Kmp.h, length.out=n.h)
   Km.p.per.type <- seq(max.p, max.p/Kmp.p, length.out=n.p)
+  
   ### declare cumulative vectors =====================================================
   ### declare states (cumulative)
   # population
@@ -136,9 +162,8 @@ hpModel.run <- function(
     try(LM.p[t] <- lm(fit.p[t,] ~ aux.p)$coefficients[2])
 
     ### running plot --------------------------------------------------------------------
-    if(PLOT) 
+    if(plot.preview || plot.save) 
     {
-        RESULTS <- list()
         RESULTS$END <- list(time = t)
         RESULTS$TRAJECTORIES <- data.frame(
             H = H, P = P, 
@@ -157,17 +182,22 @@ hpModel.run <- function(
         RESULTS$TYPES$fit.h <- fit.h
         RESULTS$TYPES$fit.p <- fit.p
         
-        hpModel.plot(RESULTS, SLEEP=SLEEP)
-        
-        if (savePlots)
+        if (plot.preview)
         {
-          dir.create(file.path(plotDirectory))
-          #<time>
-          png(paste(plotDirectory, plotFileName, sep=""), width = 1000, height = 1000)
-          hpModel.plot(RESULTS, SLEEP=SLEEP)
-          dev.off()
+          hpcModel.plot(RESULTS, device.sleep = plot.sleep)
         }
         
+        if (plot.save && t %% plot.saveEvery == 1)
+        {
+          dir.create(file.path(plot.directory))
+          
+          tWithZeros <- paste0(paste(rep('0', nchar(maxIt) - nchar(t)), collapse = ''), t)
+          
+          png(paste(plot.directory, plot.fileName, '_', tWithZeros, '.png', sep = ""), 
+              width = 1000, height = 1000)
+          hpcModel.plot(RESULTS, device.sleep = plot.sleep)
+          dev.off()
+        }
     }
     
     # break loop & check evolution -------------------------------------------------
@@ -184,33 +214,14 @@ hpModel.run <- function(
   if (messages) { cat('done.\nloading results...') }
   
   # build results list -----------------------------------------------------------------
-  RESULTS <- list()
-  RESULTS$PARS <- list(
-    r.h = r.h, 
-    r.p = r.p, 
-    max.h = max.h,                               
-    max.p = max.p,                                
-    Um.ph = Um.ph,
-    Um.hp = Um.hp,
-    n.h = n.h,         
-    n.p = n.p,        
-    v.h = v.h,
-    v.p = v.p,
-    iniH = iniH,
-    iniP = iniP,
-    Ump.ph = Ump.ph,                                  
-    Ump.hp = Ump.hp,                                   
-    Kmp.h = Kmp.h,                                
-    Kmp.p = Kmp.p, 
-    MaxArea = MaxArea,
-    maxIt = maxIt, 
-    tol = tol)
+  
   RESULTS$END <- list(
     evol.h = evol.h, 
     evol.p = evol.p, 
     LM.h = LM.h[t], 
     LM.p = LM.p[t], 
     time = t)
+  
   if (saveTrajectories)
   {
     RESULTS$TRAJECTORIES <- data.frame(

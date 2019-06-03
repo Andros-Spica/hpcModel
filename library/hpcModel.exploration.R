@@ -1,4 +1,4 @@
-hpModel.exploration <- function(
+hpcModel.exploration <- function(
   # growth rate 
   r.h = 0.15, 
   r.p = 0.15, 
@@ -30,9 +30,10 @@ hpModel.exploration <- function(
   Kmp.p = 10, 
   # maximum local area to be used by populations (multiplier or scaling effect)
   MaxArea = 200, 
-  # settings 
-  maxIt=20000,
-  tol=6,
+  # simulation flow & data
+  maxIt = 20000,
+  tol = 6,
+  saveTrajectories = FALSE,
   messages = TRUE
 )
 {
@@ -73,7 +74,7 @@ hpModel.exploration <- function(
                                     i = i + 1
                                   }
                                   
-                                  RUN <- hpModel.run(
+                                  RUN <- hpcModel.run(
                                     r.h = r.h.i, 
                                     r.p = r.p.i,
                                     max.h = max.h.i, 
@@ -92,7 +93,11 @@ hpModel.exploration <- function(
                                     Kmp.p = Kmp.p.i,
                                     MaxArea = MaxArea,
                                     maxIt=maxIt,
-                                    tol=tol
+                                    tol=tol,
+                                    saveTrajectories = saveTrajectories,
+                                    messages = messages,
+                                    plot.preview = FALSE, 
+                                    plot.save = FALSE
                                   )
                                   
                                   DF <- rbind(DF, c(RUN$PARS, RUN$END))

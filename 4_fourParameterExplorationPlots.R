@@ -1,8 +1,7 @@
 
-
-source("hpModel.run.R")
-source("hpModel.exploration.R")
-source("hpModel.plot.R")
+source("library/hpcModel.run.R")
+source("library/hpcModel.exploration.R")
+source("library/hpcModel.plot.R")
 require(reshape2)
 require(ggplot2)
 require(scales)
@@ -19,7 +18,7 @@ SEQ1 <- seq(0.5, 1.5, length.out = 5)
 # max.h, max.p
 SEQ2 <- seq(50, 300, length.out = 5)
 
-exp1 <- hpModel.exploration(
+exp1 <- hpcModel.exploration(
   # growth rate
   r.h = 0.15,
   r.p = 0.15,
@@ -44,7 +43,15 @@ exp1 <- hpModel.exploration(
   # proportion of mean utility
   Kmp.h = 10,
   Kmp.p = 10,
-  MaxArea = 200
+  # maximum local area to be used by populations (multiplier or scaling effect)
+  MaxArea = 200,
+  # settings 
+  # simulation flow & data
+  maxIt = 20000,
+  tol = 6,
+  saveTrajectories = FALSE,
+  messages = TRUE
+  
 )
 
 g1 <- ggplot(exp1, aes(x = max.h, y = max.p)) +
@@ -93,7 +100,7 @@ SEQ3 <- seq(0.5, 1.5, length.out = 5)
 # max.h, max.p
 SEQ4 <- seq(1, 10, length.out = 10)
 
-exp2 <- hpModel.exploration(
+exp2 <- hpcModel.exploration(
   # growth rate
   r.h = 0.15,
   r.p = 0.15,
@@ -121,8 +128,14 @@ exp2 <- hpModel.exploration(
   # # independent of HP relationship in relation to type 1
   Kmp.h = 10,
   Kmp.p = 10,
-  # maximum local area to be used by plants (multiplier or scaling effect)
-  MaxArea = 200
+  # maximum local area to be used by populations (multiplier or scaling effect)
+  MaxArea = 200,
+  # settings 
+  # simulation flow & data
+  maxIt = 20000,
+  tol = 6,
+  saveTrajectories = FALSE,
+  messages = TRUE
 )
 
 g2 <- ggplot(exp2, aes(x = Ump.ph, y = Ump.hp)) +
@@ -166,7 +179,7 @@ SEQ5 <- seq(1, 10, length.out = 5)
 # max.h, max.p
 SEQ6 <- seq(50, 300, length.out = 10)
 
-exp3 <- hpModel.exploration(
+exp3 <- hpcModel.exploration(
   # growth rate
   r.h = 0.15,
   r.p = 0.15,
@@ -194,8 +207,14 @@ exp3 <- hpModel.exploration(
   # # independent of HP relationship in relation to type 1
   Kmp.h = 10,
   Kmp.p = 10,
-  # maximum local area to be used by plants (multiplier or scaling effect)
-  MaxArea = 200
+  # maximum local area to be used by populations (multiplier or scaling effect)
+  MaxArea = 200,
+  # settings 
+  # simulation flow & data
+  maxIt = 20000,
+  tol = 6,
+  saveTrajectories = FALSE,
+  messages = TRUE
 )
 
 g3 <- ggplot(exp3, aes(x = max.h, y = max.p)) +
@@ -245,7 +264,7 @@ SEQ7 <- seq(1, 10, length.out = 5)
 # max.h, max.p
 SEQ8 <- seq(50, 300, length.out = 10)
 
-exp4 <- hpModel.exploration(
+exp4 <- hpcModel.exploration(
   # growth rate
   r.h = 0.15,
   r.p = 0.15,
@@ -270,7 +289,14 @@ exp4 <- hpModel.exploration(
   # proportion of mean utility
   Kmp.h = SEQ7,
   Kmp.p = SEQ7,
-  MaxArea = 200
+  # maximum local area to be used by populations (multiplier or scaling effect)
+  MaxArea = 200,
+  # settings 
+  # simulation flow & data
+  maxIt = 20000,
+  tol = 6,
+  saveTrajectories = FALSE,
+  messages = TRUE
 )
 
 g4 <- ggplot(exp4, aes(x = max.h, y = max.p)) +

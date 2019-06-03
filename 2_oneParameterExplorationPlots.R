@@ -1,7 +1,7 @@
 
-source("hpModel.run.R")
-source("hpModel.exploration.R")
-source("hpModel.plot.R")
+source("library/hpcModel.run.R")
+source("library/hpcModel.exploration.R")
+source("library/hpcModel.plot.R")
 require(reshape2)
 require(ggplot2)
 require(scales)
@@ -12,7 +12,7 @@ require(scales)
 
 SEQ <- seq(50, 300, length.out = 30)
 
-exp1 <- hpModel.exploration(
+exp1 <- hpcModel.exploration(
   # growth rate
   r.h = 0.15,
   r.p = 0.15,
@@ -37,10 +37,14 @@ exp1 <- hpModel.exploration(
   # proportion of mean  basic resources
   Kmp.h = 10,
   Kmp.p = 10,
-  # settings
-  MaxArea = 200,
+  # maximum local area to be used by populations (multiplier or scaling effect)
+  MaxArea = 200, 
+  # settings 
+  # simulation flow & data
   maxIt = 20000,
-  tol = 6
+  tol = 6,
+  saveTrajectories = FALSE,
+  messages = TRUE
 )
 
 # plot
@@ -64,7 +68,7 @@ result2 <- data.frame()
 
 for (i in seq(2, 4, by = 0.01))
 {
-  exp2 <- hpModel.run(
+  exp2 <- hpcModel.run(
     # growth rate
     r.h = 0.15,
     r.p = 0.15,
@@ -89,11 +93,14 @@ for (i in seq(2, 4, by = 0.01))
     # proportion of mean  basic resources
     Kmp.h = 10,
     Kmp.p = 10,
-    # settings
-    MaxArea = 200,
+    # maximum local area to be used by populations (multiplier or scaling effect)
+    MaxArea = 200, 
+    # settings 
+    # simulation flow & data
     maxIt = 600,
     tol = Inf,
-    saveTrajectories = TRUE
+    saveTrajectories = TRUE,
+    messages = TRUE
   )
   
   # store the result

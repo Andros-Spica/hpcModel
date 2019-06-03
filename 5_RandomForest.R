@@ -1,7 +1,7 @@
 
-source("hpModel.run.R")
-source("hpModel.exploration.R")
-source("hpModel.plot.R")
+source("library/hpcModel.run.R")
+source("library/hpcModel.exploration.R")
+source("library/hpcModel.plot.R")
 require(reshape2)
 require(ggplot2)
 require(scales)
@@ -46,12 +46,12 @@ PARS <- as.data.frame(LHS)
 
 # build cluster
 cl <- makeCluster(6)
-clusterExport(cl, list('hpModel.run', 'Fitness', 'PARS'), envir = environment())
+clusterExport(cl, list('hpcModel.run', 'Fitness', 'PARS'), envir = environment())
 
 # loop
 ret <- parLapply(cl, 1:nrow(PARS),
                  function(p) {
-                   RESULTS <- hpModel.run(
+                   RESULTS <- hpcModel.run(
                      r.h = 0.15,
                      r.p = 0.15,
                      max.h = PARS[p, 1],

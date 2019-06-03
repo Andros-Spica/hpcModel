@@ -1,7 +1,7 @@
 
-source("hpModel.run.R")
-source("hpModel.exploration.R")
-source("hpModel.plot.R")
+source("library/hpcModel.run.R")
+source("library/hpcModel.exploration.R")
+source("library/hpcModel.plot.R")
 require(reshape2)
 require(ggplot2)
 require(scales)
@@ -12,7 +12,7 @@ require(scales)
 
 SEQ <- seq(0.1, 2, length.out = 14)
 
-exp3 <- hpModel.exploration(
+exp3 <- hpcModel.exploration(
   # growth rate
   r.h = 0.15,
   r.p = 0.15,
@@ -37,9 +37,14 @@ exp3 <- hpModel.exploration(
   # proportion of mean utility
   Kmp.h = 10,
   Kmp.p = 10,
+  # maximum local area to be used by populations (multiplier or scaling effect)
   MaxArea = 200,
+  # settings 
+  # simulation flow & data
   maxIt = 20000,
-  tol = 6
+  tol = 6,
+  saveTrajectories = FALSE,
+  messages = TRUE
 )
 
 #svg('plots/3_Um-Um.svg', width=10, height=10)
