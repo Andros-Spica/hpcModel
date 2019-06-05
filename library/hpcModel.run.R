@@ -7,33 +7,33 @@ Fitness <- function(i, U.BA, K.A)
 
 
 hpcModel.run <- function(
-  # intrinsic growth rate 
-  r.h = 0.15, 
-  r.p = 0.15, 
-  # basic resources:
-  # population of type 1 that can be sustained by resources independent of HP relationship
-  max.h = 80,                               
-  max.p = 100,                                
-  # Utility of individuals of type N
-  Um.ph = 1.7,
-  Um.hp = 1,
-  # number of discrete types
-  n.h = 10,         
-  n.p = 10,        
-  # undirected variation 
-  v.h = 0.15,
-  v.p = 0.15,
   # initial populations
   iniH = 10,
   iniP = 10,
+  # number of discrete types
+  n.H = 10,         
+  n.P = 10,        
+  # undirected variation 
+  v.H = 0.15,
+  v.P = 0.15,
+  # intrinsic growth rate 
+  r.H = 0.15, 
+  r.P = 0.15, 
+  # Utility of individuals of type N
+  mU.PnH = 1.7,
+  mU.HnP = 1,
   # proportion of mean utility:
   # How less utility has type 1 individuals in relation to type N
-  Ump.ph = 10,                                  
-  Ump.hp = 10,                                   
+  pmU.P1H = 10,                                  
+  pmU.H1P = 10,                                   
+  # basic resources:
+  # population of type 1 that can be sustained by resources independent of HP relationship
+  mU.bH1 = 80,                               
+  mU.bP1 = 100,                                
   # How less population of type N can be sustained by resources 
   # # independent of HP relationship in relation to type 1
-  Kmp.h = 10,                                
-  Kmp.p = 10, 
+  pmU.bHn = 10,                                
+  pmU.bPn = 10, 
   # maximum local area to be used by populations (multiplier or scaling effect)
   MaxArea = 200, 
   # settings 
@@ -54,33 +54,33 @@ hpcModel.run <- function(
   
   RESULTS <- list()
   RESULTS$PARS <- list(
-    r.h = r.h, 
-    r.p = r.p, 
-    max.h = max.h,                               
-    max.p = max.p,                                
-    Um.ph = Um.ph,
-    Um.hp = Um.hp,
-    n.h = n.h,         
-    n.p = n.p,        
-    v.h = v.h,
-    v.p = v.p,
     iniH = iniH,
     iniP = iniP,
-    Ump.ph = Ump.ph,                                  
-    Ump.hp = Ump.hp,                                   
-    Kmp.h = Kmp.h,                                
-    Kmp.p = Kmp.p, 
+    n.H = n.H,         
+    n.P = n.P,        
+    v.H = v.H,
+    v.P = v.P,
+    r.H = r.H, 
+    r.P = r.P, 
+    mU.PnH = mU.PnH,
+    mU.HnP = mU.HnP,
+    pmU.P1H = pmU.P1H,                                  
+    pmU.H1P = pmU.H1P,                                   
+    mU.bH1 = mU.bH1,                               
+    mU.bP1 = mU.bP1,                                
+    pmU.bHn = pmU.bHn,                                
+    pmU.bPn = pmU.bPn, 
     MaxArea = MaxArea,
     maxIt = maxIt, 
     tol = tol)
   
   ### declare fixed vectors of utility anb basic resources ===========================
   # utility
-  Um.ph.per.type <- seq(Um.ph/Ump.ph, Um.ph, length.out=n.p)
-  Um.hp.per.type <- seq(Um.hp/Ump.hp, Um.hp, length.out=n.h)
+  mU.PH.per.type <- seq(mU.PnH/pmU.P1H, mU.PnH, length.out=n.P)
+  mU.HP.per.type <- seq(mU.HnP/pmU.H1P, mU.HnP, length.out=n.H)
   # basic resources
-  Km.h.per.type <- seq(max.h, max.h/Kmp.h, length.out=n.h)
-  Km.p.per.type <- seq(max.p, max.p/Kmp.p, length.out=n.p)
+  mU.bH.per.type <- seq(mU.bH1, mU.bH1/pmU.bHn, length.out=n.H)
+  mU.bP.per.type <- seq(mU.bP1, mU.bP1/pmU.bPn, length.out=n.P)
   
   ### declare cumulative vectors =====================================================
   ### declare states (cumulative)
@@ -91,35 +91,35 @@ hpcModel.run <- function(
   H[1] <- iniH    
   P[1] <- iniP
   # total carrying capacity
-  K.h <- rep(NA, maxIt)
-  K.p <- rep(NA, maxIt)
+  K.H <- rep(NA, maxIt)
+  K.P <- rep(NA, maxIt)
   # basic resources 
-  Kb.h <- rep(NA, maxIt)
-  Kb.p <- rep(NA, maxIt)
+  U.bH <- rep(NA, maxIt)
+  U.bP <- rep(NA, maxIt)
   # Utility
-  U.ph <- rep(NA, maxIt)
-  U.hp <- rep(NA, maxIt)
+  U.PH <- rep(NA, maxIt)
+  U.HP <- rep(NA, maxIt)
   # fitness of every type
-  fit.h <- matrix(NA, maxIt, n.h)
-  fit.p <- matrix(NA, maxIt, n.p)
+  fit.H <- matrix(NA, maxIt, n.H)
+  fit.P <- matrix(NA, maxIt, n.P)
   # population proportions of every type
-  H.n <- matrix(NA, maxIt, n.h)
-  P.n <- matrix(NA, maxIt, n.p)
+  pop.H <- matrix(NA, maxIt, n.H)
+  pop.P <- matrix(NA, maxIt, n.P)
   # set initial conditions
-  H.n[1,] <- c(1, rep(0, n.h-1))
-  P.n[1,] <- c(1, rep(0, n.p-1))
+  pop.H[1,] <- c(1, rep(0, n.H-1))
+  pop.P[1,] <- c(1, rep(0, n.P-1))
   ### stats (cumulative) -------------------------------------------------------------
   # increment
-  IN.h <- rep(NA, maxIt)
-  IN.p <- rep(NA, maxIt)
+  dH <- rep(NA, maxIt)
+  dP <- rep(NA, maxIt)
   # fitness slope
-  aux.h <- 1:n.h
-  aux.p <- 1:n.p
-  LM.h <- rep(NA, maxIt)
-  LM.p <- rep(NA, maxIt)
+  types.H <- 1:n.H
+  types.P <- 1:n.P
+  coevo.H <- rep(NA, maxIt)
+  coevo.P <- rep(NA, maxIt)
   # evolution time 
-  evol.h <- 0
-  evol.p <- 0
+  timing.H <- 0
+  timing.P <- 0
 
   #-----------ITERATIONS-------------------------------------------------------------------
   if (messages) { cat('running simulation...') }
@@ -128,38 +128,38 @@ hpcModel.run <- function(
   {
     ### carrying capacity ----------------------------------------------------------
     # set utilities
-    U.ph[t] <- sum(P[t] * P.n[t,] * Um.ph.per.type)
-    U.hp[t] <- sum(H[t] * H.n[t,] * Um.hp.per.type)
-    #U.hp[t] <- min(sum(H[t] * H.n[t,] * Um.hp.per.type), MaxArea)
+    U.PH[t] <- sum(P[t] * pop.P[t,] * mU.PH.per.type)
+    U.HP[t] <- sum(H[t] * pop.H[t,] * mU.HP.per.type)
+    #U.HP[t] <- min(sum(H[t] * pop.H[t,] * mU.HP.per.type), MaxArea)
     # set basic resources 
-    Kb.h[t] <- sum(H.n[t,] * Km.h.per.type)
-    Kb.p[t] <- sum(P.n[t,] * Km.p.per.type)
+    U.bH[t] <- sum(pop.H[t,] * mU.bH.per.type)
+    U.bP[t] <- sum(pop.P[t,] * mU.bP.per.type)
     # update carrying capacity
-    K.h[t] <- sum(U.ph[t], Kb.h[t])
-    K.p[t] <- min(sum(U.hp[t], Kb.p[t]), MaxArea)
+    K.H[t] <- sum(U.PH[t], U.bH[t])
+    K.P[t] <- min(sum(U.HP[t], U.bP[t]), MaxArea)
     ### update population types ----------------------------------------------------
     # set fitness
-    fit.h[t,] <- Fitness(1:n.h, U.ph[t], K.h[t])
-    fit.p[t,] <- Fitness(1:n.p, U.hp[t], K.p[t])
+    fit.H[t,] <- Fitness(1:n.H, U.PH[t], K.H[t])
+    fit.P[t,] <- Fitness(1:n.P, U.HP[t], K.P[t])
     # set undirected variation 
-    H.n[t,] <- H.n[t,] + v.h * ((1/n.h) - H.n[t,])
-    P.n[t,] <- P.n[t,] + v.p * ((1/n.p) - P.n[t,])
+    pop.H[t,] <- pop.H[t,] + v.H * ((1/n.H) - pop.H[t,])
+    pop.P[t,] <- pop.P[t,] + v.P * ((1/n.P) - pop.P[t,])
     # replicator dynamics
-    H.n[t+1,] <- fit.h[t,] * H.n[t,] / sum(fit.h[t,] * H.n[t,])
-    P.n[t+1,] <- fit.p[t,] * P.n[t,] / sum(fit.p[t,] * P.n[t,])
+    pop.H[t+1,] <- fit.H[t,] * pop.H[t,] / sum(fit.H[t,] * pop.H[t,])
+    pop.P[t+1,] <- fit.P[t,] * pop.P[t,] / sum(fit.P[t,] * pop.P[t,])
     # alternative replicator dynamics [generates chaotic regime]
-    # H.n[t+1,] <- H.n[t,] + 0.1 * (H.n[t,] * (fit.h - sum(fit.h * H.n[t,])))
-    # P.n[t+1,] <- P.n[t,] + 0.1 * (P.n[t,] * (fit.p - sum(fit.p * P.n[t,])))
+    # pop.H[t+1,] <- pop.H[t,] + 0.1 * (pop.H[t,] * (fit.H - sum(fit.H * pop.H[t,])))
+    # pop.P[t+1,] <- pop.P[t,] + 0.1 * (pop.P[t,] * (fit.P - sum(fit.P * pop.P[t,])))
     ### update populations --------------------------------------------------------- 
-    H[t+1] <- (1 + r.h) * H[t] - r.h * (H[t]^2 / K.h[t])
-    P[t+1] <- (1 + r.p) * P[t] - r.p * (P[t]^2 / K.p[t])
+    H[t+1] <- (1 + r.H) * H[t] - r.H * (H[t]^2 / K.H[t])
+    P[t+1] <- (1 + r.P) * P[t] - r.P * (P[t]^2 / K.P[t])
     ### update stats ---------------------------------------------------------------
     # increments (delta)
-    IN.h[t] <- H[t+1] - H[t]
-    IN.p[t] <- P[t+1] - P[t]
+    dH[t] <- H[t+1] - H[t]
+    dP[t] <- P[t+1] - P[t]
     # slope of the fitness function
-    try(LM.h[t] <- lm(fit.h[t,] ~ aux.h)$coefficients[2])
-    try(LM.p[t] <- lm(fit.p[t,] ~ aux.p)$coefficients[2])
+    try(coevo.H[t] <- lm(fit.H[t,] ~ types.H)$coefficients[2])
+    try(coevo.P[t] <- lm(fit.P[t,] ~ types.P)$coefficients[2])
 
     ### running plot --------------------------------------------------------------------
     if(plot.preview || plot.save) 
@@ -167,20 +167,20 @@ hpcModel.run <- function(
         RESULTS$END <- list(time = t)
         RESULTS$TRAJECTORIES <- data.frame(
             H = H, P = P, 
-            U.ph = U.ph,
-            U.hp = U.hp,
-            Kb.h = Kb.h,
-            Kb.p = Kb.p,
-            K.h = K.h,
-            K.p = K.p,
-            IN.h = IN.h,
-            IN.p = IN.p,
-            LM.h = LM.h,
-            LM.p = LM.p)
-        RESULTS$TYPES$H.n <- H.n
-        RESULTS$TYPES$P.n <- P.n 
-        RESULTS$TYPES$fit.h <- fit.h
-        RESULTS$TYPES$fit.p <- fit.p
+            U.PH = U.PH,
+            U.HP = U.HP,
+            U.bH = U.bH,
+            U.bP = U.bP,
+            K.H = K.H,
+            K.P = K.P,
+            dH = dH,
+            dP = dP,
+            coevo.H = coevo.H,
+            coevo.P = coevo.P)
+        RESULTS$TYPES$pop.H <- pop.H
+        RESULTS$TYPES$pop.P <- pop.P 
+        RESULTS$TYPES$fit.H <- fit.H
+        RESULTS$TYPES$fit.P <- fit.P
         
         if (plot.preview)
         {
@@ -204,10 +204,10 @@ hpcModel.run <- function(
     if (t > 2) 
     {
       # evolution (store the time step of change) 
-      if (evol.h == 0) {evol.h <- ifelse(H.n[t-1,1] > H.n[t-1,n.h], 0, t)}
-      if (evol.p == 0) {evol.p <- ifelse(P.n[t-1,1] > P.n[t-1,n.p], 0, t)}
+      if (timing.H == 0) {timing.H <- ifelse(pop.H[t-1,1] > pop.H[t-1,n.H], 0, t)}
+      if (timing.P == 0) {timing.P <- ifelse(pop.P[t-1,1] > pop.P[t-1,n.P], 0, t)}
       # break loop (reltol method: from optim)
-      if(abs(LM.h[t-2] - LM.h[t-1]) < 10^-tol & abs(LM.p[t-2] - LM.p[t-1]) < 10^-tol) {break}
+      if(abs(coevo.H[t-2] - coevo.H[t-1]) < 10^-tol & abs(coevo.P[t-2] - coevo.P[t-1]) < 10^-tol) {break}
     }
   }
   
@@ -216,10 +216,10 @@ hpcModel.run <- function(
   # build results list -----------------------------------------------------------------
   
   RESULTS$END <- list(
-    evol.h = evol.h, 
-    evol.p = evol.p, 
-    LM.h = LM.h[t], 
-    LM.p = LM.p[t], 
+    timing.H = timing.H, 
+    timing.P = timing.P, 
+    coevo.H = coevo.H[t], 
+    coevo.P = coevo.P[t], 
     time = t)
   
   if (saveTrajectories)
@@ -227,20 +227,20 @@ hpcModel.run <- function(
     RESULTS$TRAJECTORIES <- data.frame(
       H = H, 
       P = P, 
-      U.ph = U.ph,
-      U.hp = U.hp,
-      Kb.h = Kb.h,
-      Kb.p = Kb.p,
-      K.h = K.h,
-      K.p = K.p,
-      IN.h = IN.h,
-      IN.p = IN.p,
-      LM.h = LM.h, 
-      LM.p = LM.p)
-    RESULTS$TYPES$H.n <- H.n
-    RESULTS$TYPES$P.n <- P.n 
-    RESULTS$TYPES$fit.h <- fit.h
-    RESULTS$TYPES$fit.p <- fit.p
+      U.PH = U.PH,
+      U.HP = U.HP,
+      U.bH = U.bH,
+      U.bP = U.bP,
+      K.H = K.H,
+      K.P = K.P,
+      dH = dH,
+      dP = dP,
+      coevo.H = coevo.H, 
+      coevo.P = coevo.P)
+    RESULTS$TYPES$pop.H <- pop.H
+    RESULTS$TYPES$pop.P <- pop.P 
+    RESULTS$TYPES$fit.H <- fit.H
+    RESULTS$TYPES$fit.P <- fit.P
   }
   
   if (messages) { cat('done.\n') }
