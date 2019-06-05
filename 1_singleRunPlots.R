@@ -9,47 +9,34 @@ require(scales)
 ########################################################################################
 ### single run
 
-run1 <- hpModel.run(
-  # growth rate
-  r.h = 0.05,
-  # 0.05
-  r.p = 0.1,
-  # 0.1
-  # basic resources
-  max.h = 80,
-  # 80
-  max.p = 100,
-  # 100
-  # utility
-  Um.ph = 1.7,
-  # 1.7
-  Um.hp = 1,
-  # 1
-  # number of types
-  n.h = 10,
-  # 10
-  n.p = 10,
-  # 10
-  # undirected variation
-  v.h = 0.15,
-  # 0.15
-  v.p = 0.15,
-  # 0.15
-  # initial conditions
+run1 <- hpcModel.run(
+  # initial populations
   iniH = 10,
-  # 10
   iniP = 10,
-  # 10
-  # proportion of mean utility
-  Ump.ph = 10,
-  # 10
-  Ump.hp = 100,
-  # 100
-  # proportion of mean basic resources
-  Kmp.h = 100,
-  # 100
-  Kmp.p = 100,
-  # 100
+  # number of discrete types
+  n.H = 10,         
+  n.P = 10,        
+  # undirected variation 
+  v.H = 0.15,
+  v.P = 0.15,
+  # intrinsic growth rate 
+  r.H = 0.05, 
+  r.P = 0.1, 
+  # Utility of individuals of type N
+  mU.PnH = 1.7,
+  mU.HnP = 1,
+  # proportion of mean utility:
+  # How less utility has type 1 individuals in relation to type N
+  pmU.P1H = 10,                                  
+  pmU.H1P = 100,                                   
+  # basic resources:
+  # population of type 1 that can be sustained by resources independent of HP relationship
+  mU.bH1 = 80,                               
+  mU.bP1 = 100,                                
+  # How less population of type N can be sustained by resources 
+  # # independent of HP relationship in relation to type 1
+  pmU.bHn = 100,                                
+  pmU.bPn = 100,
   # maximum local area to be used by populations (multiplier or scaling effect)
   MaxArea = 200, 
   # settings 
@@ -60,16 +47,12 @@ run1 <- hpModel.run(
   messages = TRUE, 
   # plotting
   plot.preview = FALSE, 
-  plot.sleep = 0.05,
-  plot.save = FALSE,
-  plot.saveEvery = 5,
-  plot.directory = "plots/runPlot/",
-  plot.fileName = "runPlot"
+  plot.save = FALSE
 )
 
 #svg('plots/1_singleRun.svg', width=10, height=10)
 png("plots/1_singleRun.png", width = 1000, height = 1000)
-hpModel.plot(run1)
+hpcModel.plot(run1)
 dev.off()
 
 run1$END
@@ -108,47 +91,34 @@ dev.off()
 ########################################################################################
 ### single run (generate images every step for animation) 
 
-run2 <- hpModel.run(
-  # growth rate
-  r.h = 0.05,
-  # 0.05
-  r.p = 0.1,
-  # 0.1
-  # basic resources
-  max.h = 80,
-  # 80
-  max.p = 100,
-  # 100
-  # utility
-  Um.ph = 1.7,
-  # 1.7
-  Um.hp = 1,
-  # 1
-  # number of types
-  n.h = 10,
-  # 10
-  n.p = 10,
-  # 10
-  # undirected variation
-  v.h = 0.15,
-  # 0.15
-  v.p = 0.15,
-  # 0.15
-  # initial conditions
+run2 <- hpcModel.run(
+  # initial populations
   iniH = 10,
-  # 10
   iniP = 10,
-  # 10
-  # proportion of mean utility
-  Ump.ph = 10,
-  # 10
-  Ump.hp = 100,
-  # 100
-  # proportion of mean basic resources
-  Kmp.h = 100,
-  # 100
-  Kmp.p = 100,
-  # 100
+  # number of discrete types
+  n.H = 10,         
+  n.P = 10,        
+  # undirected variation 
+  v.H = 0.15,
+  v.P = 0.15,
+  # intrinsic growth rate 
+  r.H = 0.05, 
+  r.P = 0.1, 
+  # Utility of individuals of type N
+  mU.PnH = 1.7,
+  mU.HnP = 1,
+  # proportion of mean utility:
+  # How less utility has type 1 individuals in relation to type N
+  pmU.P1H = 10,                                  
+  pmU.H1P = 100,                                   
+  # basic resources:
+  # population of type 1 that can be sustained by resources independent of HP relationship
+  mU.bH1 = 80,                               
+  mU.bP1 = 100,                                
+  # How less population of type N can be sustained by resources 
+  # # independent of HP relationship in relation to type 1
+  pmU.bHn = 100,                                
+  pmU.bPn = 100,
   # maximum local area to be used by populations (multiplier or scaling effect)
   MaxArea = 200, 
   # settings 
@@ -156,7 +126,7 @@ run2 <- hpModel.run(
   maxIt = 20000,
   tol = 6,
   saveTrajectories = TRUE,
-  messages = TRUE, 
+  messages = TRUE,  
   # plotting
   plot.preview = FALSE, 
   plot.sleep = 0.05,
@@ -166,7 +136,7 @@ run2 <- hpModel.run(
   plot.fileName = "runPlot"
 )
 
-hpModel.plot(run2)
+hpcModel.plot(run2)
 
 # Generate an animated GIF using the images in plot.directory folder
 
