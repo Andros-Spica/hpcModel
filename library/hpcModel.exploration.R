@@ -11,21 +11,20 @@ hpcModel.exploration <- function(
   # intrinsic growth rate 
   r.H = 0.15, 
   r.P = 0.15, 
+  # proportion of mean utility per capita:
   # Utility of individuals of type N
   mU.PnH = 1.7,
   mU.HnP = 1,
-  # proportion of mean utility:
-  # How less utility has type 1 individuals in relation to type N
-  pmU.P1H = 10,                                  
-  pmU.H1P = 10,                                   
+  # Utility of individuals of type 1
+  mU.P1H = 10,                                  
+  mU.H1P = 10,                                   
   # basic resources:
+  # population of type N that can be sustained by resources independent of HP relationship
+  mU.bHn = 10,                                
+  mU.bPn = 10, 
   # population of type 1 that can be sustained by resources independent of HP relationship
   mU.bH1 = 80,                               
   mU.bP1 = 100,                                
-  # How less population of type N can be sustained by resources 
-  # # independent of HP relationship in relation to type 1
-  pmU.bHn = 10,                                
-  pmU.bPn = 10, 
   # maximum local area to be used by populations (multiplier or scaling effect)
   MaxArea = 200, 
   # settings 
@@ -46,7 +45,7 @@ hpcModel.exploration <- function(
     i = 1 # experiment index for console messages
     N = (length(r.H) * length(r.P) * length(mU.bH1) * length(mU.bP1) * length(mU.PnH) * length(mU.HnP) *
            length(n.H) * length(n.P) * length(v.H) * length(v.P) * length(iniH) * length(iniP) *
-           length(pmU.P1H) * length(pmU.H1P) * length(pmU.bHn) * length(pmU.bPn))
+           length(mU.P1H) * length(mU.H1P) * length(mU.bHn) * length(mU.bPn))
     cat(paste('done\niterating parameters values (total number of combinations = ', N, '\n'))
   }
   
@@ -63,10 +62,10 @@ hpcModel.exploration <- function(
                     for (v.P.i in v.P) {
                       for (iniH.i in iniH) {
                         for (iniP.i in iniP) {
-                          for (pmU.P1H.i in pmU.P1H) {
-                            for (pmU.H1P.i in pmU.H1P) {
-                              for (pmU.bHn.i in pmU.bHn) {
-                                for (pmU.bPn.i in pmU.bPn) {
+                          for (mU.P1H.i in mU.P1H) {
+                            for (mU.H1P.i in mU.H1P) {
+                              for (mU.bHn.i in mU.bHn) {
+                                for (mU.bPn.i in mU.bPn) {
                                   
                                   if (messages) { 
                                     cat(paste('===========================================\nexperiment ', i, ' of ', N, '\n'))
@@ -74,22 +73,22 @@ hpcModel.exploration <- function(
                                   }
                                   
                                   RUN <- hpcModel.run(
+                                    iniH = iniH.i, 
+                                    iniP = iniP.i,
                                     r.H = r.H.i, 
                                     r.P = r.P.i,
-                                    mU.bH1 = mU.bH1.i, 
-                                    mU.bP1 = mU.bP1.i,
-                                    mU.PnH = mU.PnH.i,
-                                    mU.HnP = mU.HnP.i,
                                     n.H = n.H.i, 
                                     n.P = n.P.i,
                                     v.H = v.H.i, 
                                     v.P = v.P.i,
-                                    iniH = iniH.i, 
-                                    iniP = iniP.i,
-                                    pmU.P1H = pmU.P1H.i, 
-                                    pmU.H1P = pmU.H1P.i,
-                                    pmU.bHn = pmU.bHn.i, 
-                                    pmU.bPn = pmU.bPn.i,
+                                    mU.PnH = mU.PnH.i,
+                                    mU.HnP = mU.HnP.i,
+                                    mU.P1H = mU.P1H.i, 
+                                    mU.H1P = mU.H1P.i,
+                                    mU.bH1 = mU.bH1.i, 
+                                    mU.bP1 = mU.bP1.i,
+                                    mU.bHn = mU.bHn.i, 
+                                    mU.bPn = mU.bPn.i,
                                     MaxArea = MaxArea,
                                     maxIt=maxIt,
                                     tol=tol,

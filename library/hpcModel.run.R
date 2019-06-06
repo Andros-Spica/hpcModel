@@ -19,21 +19,20 @@ hpcModel.run <- function(
   # intrinsic growth rate 
   r.H = 0.15, 
   r.P = 0.15, 
+  # proportion of mean utility per capita:
   # Utility of individuals of type N
   mU.PnH = 1.7,
   mU.HnP = 1,
-  # proportion of mean utility:
-  # How less utility has type 1 individuals in relation to type N
-  pmU.P1H = 10,                                  
-  pmU.H1P = 10,                                   
+  # Utility of individuals of type 1
+  mU.P1H = 10,                                  
+  mU.H1P = 10,                                   
   # basic resources:
+  # population of type N that can be sustained by resources independent of HP relationship
+  mU.bHn = 10,                                
+  mU.bPn = 10, 
   # population of type 1 that can be sustained by resources independent of HP relationship
   mU.bH1 = 80,                               
   mU.bP1 = 100,                                
-  # How less population of type N can be sustained by resources 
-  # # independent of HP relationship in relation to type 1
-  pmU.bHn = 10,                                
-  pmU.bPn = 10, 
   # maximum local area to be used by populations (multiplier or scaling effect)
   MaxArea = 200, 
   # settings 
@@ -64,23 +63,23 @@ hpcModel.run <- function(
     r.P = r.P, 
     mU.PnH = mU.PnH,
     mU.HnP = mU.HnP,
-    pmU.P1H = pmU.P1H,                                  
-    pmU.H1P = pmU.H1P,                                   
+    mU.P1H = mU.P1H,                                  
+    mU.H1P = mU.H1P,                                   
+    mU.bHn = mU.bHn,                                
+    mU.bPn = mU.bPn, 
     mU.bH1 = mU.bH1,                               
     mU.bP1 = mU.bP1,                                
-    pmU.bHn = pmU.bHn,                                
-    pmU.bPn = pmU.bPn, 
     MaxArea = MaxArea,
     maxIt = maxIt, 
     tol = tol)
   
   ### declare fixed vectors of utility anb basic resources ===========================
   # utility
-  mU.PH.per.type <- seq(mU.PnH/pmU.P1H, mU.PnH, length.out=n.P)
-  mU.HP.per.type <- seq(mU.HnP/pmU.H1P, mU.HnP, length.out=n.H)
+  mU.PH.per.type <- seq(mU.P1H, mU.PnH, length.out = n.P)
+  mU.HP.per.type <- seq(mU.H1P, mU.HnP, length.out = n.H)
   # basic resources
-  mU.bH.per.type <- seq(mU.bH1, mU.bH1/pmU.bHn, length.out=n.H)
-  mU.bP.per.type <- seq(mU.bP1, mU.bP1/pmU.bPn, length.out=n.P)
+  mU.bH.per.type <- seq(mU.bH1, mU.bHn, length.out = n.H)
+  mU.bP.per.type <- seq(mU.bP1, mU.bPn, length.out = n.P)
   
   ### declare cumulative vectors =====================================================
   ### declare states (cumulative)

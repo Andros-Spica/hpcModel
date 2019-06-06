@@ -22,23 +22,22 @@ run1 <- hpcModel.run(
   # intrinsic growth rate 
   r.H = 0.05, 
   r.P = 0.1, 
+  # proportion of mean utility per capita:
   # Utility of individuals of type N
   mU.PnH = 1.7,
   mU.HnP = 1,
-  # proportion of mean utility:
-  # How less utility has type 1 individuals in relation to type N
-  pmU.P1H = 10,                                  
-  pmU.H1P = 100,                                   
+  # Utility of individuals of type 1
+  mU.P1H = 0.17,                                  
+  mU.H1P = 0.01,                                   
   # basic resources:
+  # population of type N that can be sustained by resources independent of HP relationship
+  mU.bHn = 0.08,                                
+  mU.bPn = 1, 
   # population of type 1 that can be sustained by resources independent of HP relationship
   mU.bH1 = 80,                               
   mU.bP1 = 100,                                
-  # How less population of type N can be sustained by resources 
-  # # independent of HP relationship in relation to type 1
-  pmU.bHn = 100,                                
-  pmU.bPn = 100,
   # maximum local area to be used by populations (multiplier or scaling effect)
-  MaxArea = 200, 
+  MaxArea = 200,
   # settings 
   # simulation flow & data
   maxIt = 20000,
@@ -104,21 +103,20 @@ run2 <- hpcModel.run(
   # intrinsic growth rate 
   r.H = 0.05, 
   r.P = 0.1, 
+  # proportion of mean utility per capita:
   # Utility of individuals of type N
   mU.PnH = 1.7,
   mU.HnP = 1,
-  # proportion of mean utility:
-  # How less utility has type 1 individuals in relation to type N
-  pmU.P1H = 10,                                  
-  pmU.H1P = 100,                                   
+  # Utility of individuals of type 1
+  mU.P1H = 0.17,                                  
+  mU.H1P = 0.01,                                   
   # basic resources:
+  # population of type N that can be sustained by resources independent of HP relationship
+  mU.bHn = 0.08,                                
+  mU.bPn = 1, 
   # population of type 1 that can be sustained by resources independent of HP relationship
   mU.bH1 = 80,                               
   mU.bP1 = 100,                                
-  # How less population of type N can be sustained by resources 
-  # # independent of HP relationship in relation to type 1
-  pmU.bHn = 100,                                
-  pmU.bPn = 100,
   # maximum local area to be used by populations (multiplier or scaling effect)
   MaxArea = 200, 
   # settings 
@@ -135,8 +133,6 @@ run2 <- hpcModel.run(
   plot.directory = "plots/runPlot/",
   plot.fileName = "runPlot"
 )
-
-hpcModel.plot(run2)
 
 # Generate an animated GIF using the images in plot.directory folder
 
