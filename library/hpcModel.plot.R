@@ -29,7 +29,7 @@ hpcModel.plot <-
     ),
     heights = c(1, 1, 1, 1, 1, 0.1, 0.7))
     
-    par(mar = c(3, 5, 0.3, 0.3), 
+    par(mar = c(3, 5, 0.4, 0.3), 
         cex.axis = scaleMultiplier * 1,
         cex.lab = scaleMultiplier * 1.2)
     
@@ -59,10 +59,10 @@ hpcModel.plot <-
     # legend
     legend(
       'right',
-      legend = c("Plant (P)",
-                 "Human (H)",
-                 "Plant (K.P)",
-                 "Human (K.H)"),
+      legend = c("Plants (P)",
+                 "Humans (H)",
+                 "Plants (K.P)",
+                 "Humans (K.H)"),
       col = c('red', 'blue', 'darkred', 'darkblue'),
       lty = c(1, 1, 2, 2),
       cex = scaleMultiplier * 0.8
@@ -88,7 +88,7 @@ hpcModel.plot <-
     # legend
     legend(
       'right',
-      legend = c("Plant (dP)",
+      legend = c("Plants (dP)",
                  "Humans (dH))"),
       lty = c(1, 1),
       col = c('red', 'blue'),
@@ -99,7 +99,7 @@ hpcModel.plot <-
     plot(
       TRAJ$U.PH,
       type = 'l',
-      col = 'red',
+      col = 'blue',
       xlim = c(0, t + ceiling(t * 0.35)),
       ylim = c(0, max(
         c(TRAJ$U.PH, TRAJ$U.HP, TRAJ$U.bH, TRAJ$U.bP), na.rm = T
@@ -107,54 +107,58 @@ hpcModel.plot <-
       xlab = '',
       ylab = 'utility'
     )
-    points(TRAJ$U.HP, type = 'l', col = 'blue')
+    points(TRAJ$U.HP, type = 'l', col = 'red')
     points(TRAJ$U.bH,
            type = 'l',
-           col = 'blue',
+           col = 'darkblue',
            lty = 2)
     points(TRAJ$U.bP,
            type = 'l',
-           col = 'red',
+           col = 'darkred',
            lty = 2)
     
     # legend
     legend(
       'right',
       legend = c(
-        "Plant to Humans\n(U.PH)",
-        "Humans to Plant\n(U.HP))",
+        "Plants to Humans\n(U.PH)",
+        "Humans to Plants\n(U.HP))",
         "Other to Humans\n(U.bH)",
         "Other to Plants\n(U.bP)"
       ),
-      col = c('red', 'blue', 'darkred', 'darkblue'),
+      col = c('blue', 'red', 'darkblue', 'darkred'),
       lty = c(1, 1, 2, 2),
       cex = scaleMultiplier * 0.8
     )
     
-    # 4. slope in fitness
+    # 4. Coevolution and dependency coefficients
     plot(
       TRAJ$coevo.H,
       type = 'l',
       col = 'blue',
       xlim = c(0, t + ceiling(t * 0.35)),
       xlab = 't',
-      ylab = 'fitness slope',
+      ylab = 'coevolution\nand dependency',
       ylim = c(min(c(
-        TRAJ$coevo.H, TRAJ$coevo.P
+        TRAJ$coevo.H, TRAJ$coevo.P, TRAJ$depend.H, TRAJ$depend.P
       ), na.rm = T), max(c(
-        TRAJ$coevo.H, TRAJ$coevo.P
+        TRAJ$coevo.H, TRAJ$coevo.P, TRAJ$depend.H, TRAJ$depend.P
       ), na.rm = T))
     )
     points(TRAJ$coevo.P, type = 'l', col = 'red')
+    points(TRAJ$depend.H, type = 'l', lty = 2, col = 'darkblue')
+    points(TRAJ$depend.P, type = 'l', lty = 2, col = 'darkred')
     abline(h = 0, lty = 2)
     
     # legend
     legend(
       'right',
-      legend = c("Plant (coevo.P)",
-                 "Humans (coevo.H))"),
-      lty = c(1, 1),
-      col = c('red', 'blue'),
+      legend = c("Human change (coevo.H))",
+                 "Plant change (coevo.P)",
+                 "Human dependency (depend.H))",
+                 "Plant dependency (depend.P)"),
+      lty = c(1, 1, 2, 2),
+      col = c('blue', 'red', 'darkblue', 'darkred'),
       cex = scaleMultiplier * 0.8
     )
     
@@ -162,7 +166,7 @@ hpcModel.plot <-
     par(mar = c(1, 3, 1, 0.3), cex.main = scaleMultiplier)
     
     barplot(TYPES$pop.H[t,],
-            main = 'Human types',
+            main = 'human types',
             width = 0.86,
             ylim = c(0, 1))
     barplot(TYPES$pop.P[t,],
@@ -184,7 +188,7 @@ hpcModel.plot <-
       TYPES$fit.P[t,],
       col = 'red',
       type = 'b',
-      main = 'fitness Plants',
+      main = 'fitness plants',
       cex = scaleMultiplier
     )
     

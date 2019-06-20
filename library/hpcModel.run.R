@@ -11,29 +11,28 @@ hpcModel.run <- function(
   iniH = 10,
   iniP = 10,
   # number of discrete types
-  n.H = 10,         
-  n.P = 10,        
+  n.H = 30,         
+  n.P = 30,        
   # undirected variation 
   v.H = 0.15,
   v.P = 0.15,
   # intrinsic growth rate 
-  r.H = 0.15, 
-  r.P = 0.15, 
-  # proportion of mean utility per capita:
-  # Utility of individuals of type N
-  mU.PnH = 1.7,
+  r.H = 0.04, 
+  r.P = 0.1, 
+  # Utility per capita of individuals of type N
+  mU.PnH = 1.5,
   mU.HnP = 1,
-  # Utility of individuals of type 1
-  mU.P1H = 10,                                  
-  mU.H1P = 10,                                   
+  # Utility per capita of individuals of type 1
+  mU.P1H = 0.15,                                  
+  mU.H1P = 0,                                   
   # basic resources:
   # population of type N that can be sustained by resources independent of HP relationship
-  mU.bHn = 10,                                
-  mU.bPn = 10, 
+  U.bHn = 10,                                
+  U.bPn = 20, 
   # population of type 1 that can be sustained by resources independent of HP relationship
-  mU.bH1 = 80,                               
-  mU.bP1 = 100,                                
-  # maximum local area to be used by populations (multiplier or scaling effect)
+  U.bH1 = 80,                               
+  U.bP1 = 100,                                
+  # maximum local area to be used by plant population
   MaxArea = 200, 
   # settings 
   # simulation flow & data
@@ -65,10 +64,10 @@ hpcModel.run <- function(
     mU.HnP = mU.HnP,
     mU.P1H = mU.P1H,                                  
     mU.H1P = mU.H1P,                                   
-    mU.bHn = mU.bHn,                                
-    mU.bPn = mU.bPn, 
-    mU.bH1 = mU.bH1,                               
-    mU.bP1 = mU.bP1,                                
+    U.bHn = U.bHn,                                
+    U.bPn = U.bPn, 
+    U.bH1 = U.bH1,                               
+    U.bP1 = U.bP1,                                
     MaxArea = MaxArea,
     maxIt = maxIt, 
     tol = tol)
@@ -78,8 +77,8 @@ hpcModel.run <- function(
   mU.PH.per.type <- seq(mU.P1H, mU.PnH, length.out = n.P)
   mU.HP.per.type <- seq(mU.H1P, mU.HnP, length.out = n.H)
   # basic resources
-  mU.bH.per.type <- seq(mU.bH1, mU.bHn, length.out = n.H)
-  mU.bP.per.type <- seq(mU.bP1, mU.bPn, length.out = n.P)
+  U.bH.per.type <- seq(U.bH1, U.bHn, length.out = n.H)
+  U.bP.per.type <- seq(U.bP1, U.bPn, length.out = n.P)
   
   ### declare cumulative vectors =====================================================
   ### declare states (cumulative)
@@ -116,6 +115,8 @@ hpcModel.run <- function(
   types.P <- 1:n.P
   coevo.H <- rep(NA, maxIt)
   coevo.P <- rep(NA, maxIt)
+  depend.H <- rep(NA, maxIt)
+  depend.P <- rep(NA, maxIt)
   # evolution time 
   timing.H <- 0
   timing.P <- 0
@@ -131,8 +132,8 @@ hpcModel.run <- function(
     U.HP[t] <- sum(H[t] * pop.H[t,] * mU.HP.per.type)
     #U.HP[t] <- min(sum(H[t] * pop.H[t,] * mU.HP.per.type), MaxArea)
     # set basic resources 
-    U.bH[t] <- sum(pop.H[t,] * mU.bH.per.type)
-    U.bP[t] <- sum(pop.P[t,] * mU.bP.per.type)
+    U.bH[t] <- sum(pop.H[t,] * U.bH.per.type)
+    U.bP[t] <- sum(pop.P[t,] * U.bP.per.type)
     # update carrying capacity
     K.H[t] <- sum(U.PH[t], U.bH[t])
     K.P[t] <- min(sum(U.HP[t], U.bP[t]), MaxArea)
@@ -156,9 +157,12 @@ hpcModel.run <- function(
     # increments (delta)
     dH[t] <- H[t+1] - H[t]
     dP[t] <- P[t+1] - P[t]
-    # slope of the fitness function
-    try(coevo.H[t] <- lm(fit.H[t,] ~ types.H)$coefficients[2])
-    try(coevo.P[t] <- lm(fit.P[t,] ~ types.P)$coefficients[2])
+    # slope of the population distribution among types (degree of coevolution)
+    coevo.H[t] <- cor(pop.H[t,], types.H)
+    coevo.P[t] <- cor(pop.P[t,], types.P)
+    # slope of the fitness function (degree of dependency)
+    try(depend.H[t] <- lm(fit.H[t,] ~ types.H)$coefficients[2])
+    try(depend.P[t] <- lm(fit.P[t,] ~ types.P)$coefficients[2])
 
     ### running plot --------------------------------------------------------------------
     if(plot.preview || plot.save) 
@@ -175,7 +179,9 @@ hpcModel.run <- function(
             dH = dH,
             dP = dP,
             coevo.H = coevo.H,
-            coevo.P = coevo.P)
+            coevo.P = coevo.P,
+            depend.H = depend.H,
+            depend.P = depend.P)
         RESULTS$TYPES$pop.H <- pop.H
         RESULTS$TYPES$pop.P <- pop.P 
         RESULTS$TYPES$fit.H <- fit.H
@@ -206,7 +212,9 @@ hpcModel.run <- function(
       if (timing.H == 0) {timing.H <- ifelse(pop.H[t-1,1] > pop.H[t-1,n.H], 0, t)}
       if (timing.P == 0) {timing.P <- ifelse(pop.P[t-1,1] > pop.P[t-1,n.P], 0, t)}
       # break loop (reltol method: from optim)
-      if(abs(coevo.H[t-2] - coevo.H[t-1]) < 10^-tol & abs(coevo.P[t-2] - coevo.P[t-1]) < 10^-tol) {break}
+      evolution.stopped <- (abs(coevo.H[t-2] - coevo.H[t-1]) < 10^-tol & abs(coevo.P[t-2] - coevo.P[t-1]) < 10^-tol)
+      populations.stable <- (abs(H[t-2] - H[t-1]) < 10^-tol & abs(P[t-2] - P[t-1]) < 10^-tol)
+      if (evolution.stopped && populations.stable) {break}
     }
   }
   
@@ -219,6 +227,8 @@ hpcModel.run <- function(
     timing.P = timing.P, 
     coevo.H = coevo.H[t], 
     coevo.P = coevo.P[t], 
+    depend.H = depend.H[t], 
+    depend.P = depend.P[t], 
     time = t)
   
   if (saveTrajectories)
@@ -235,7 +245,9 @@ hpcModel.run <- function(
       dH = dH,
       dP = dP,
       coevo.H = coevo.H, 
-      coevo.P = coevo.P)
+      coevo.P = coevo.P,
+      depend.H = depend.H,
+      depend.P = depend.P)
     RESULTS$TYPES$pop.H <- pop.H
     RESULTS$TYPES$pop.P <- pop.P 
     RESULTS$TYPES$fit.H <- fit.H
