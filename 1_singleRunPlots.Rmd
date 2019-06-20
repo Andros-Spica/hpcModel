@@ -1,19 +1,20 @@
----
-output: 
-  html_document: default
-  pdf_document: default
----
+# Single runs
 
-
-```{r setup, include=FALSE}
+```{r 1_setup, include=FALSE}
+# this chunk is needed in case you want to compile a separated html/pdf for this exploration 
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, # hide code and messages
                       cache=TRUE, autodep=TRUE) 
-source("library/hpModel.run.R")
-source("library/hpModel.exploration.R")
-source("library/hpModel.plot.R")
+print(getwd())
+source("library/hpcModel.run.R")
+source("library/hpcModel.exploration.R")
+source("library/hpcModel.plot.R")
+# for ggplot:
 require(reshape2)
 require(ggplot2)
 require(scales)
+# for creating animates GIF
+require(purrr)
+require(magick)
 
 run.table <- function(run.result)
 {
@@ -37,106 +38,593 @@ exp.table <- function(exp.results)
     if (length(value) > 1) 
     {
       value <- as.numeric(as.character(value))
-      value <- paste(min(value), "-", max(value), "(sample=", length(value), ")")
+      value <- paste(min(value), "-", max(value), "(sample =", length(value), ")")
     }
     exp.values <- c(exp.values, value)
   }
-  knitr::kable(cbind(exp.parnames, exp.values), col.names = c("parameter", "values"))
+  knitr::kable(cbind(exp.parnames, exp.values), col.names = c("parameter", "value"))
 }
 ```
 
-## Single runs
+```{r 1_setup_plus, include=FALSE}
+# this chunk is specific for this exploration 
+runPlot.dir <- "plots/runPlot/" # directory holding animation files
 
-### Parameter exploration - experiment Um-max:
+plot.trajectory <- function(meltedRunData, plotScale = 1)
+{
+  ggplot(meltedRunData,
+         aes(x = time, y = value, colour = variable), size = 2 * plotScale) +
+    geom_line(size = 0.2 * plotScale) +
+    ylab("population") + 
+    scale_color_manual(labels = c('Humans', ' Plants'), values = c('blue', 'red')) +
+    
+    theme(axis.title = element_text(size = 3 * plotScale),
+          axis.text = element_text(size = 2 * plotScale),
+          legend.title = element_blank(),
+          legend.text = element_text(size = 3 * plotScale),
+          legend.key.size = unit(0.2 * plotScale, 'lines'))
+}
 
+animate.trajectory <- function(filePath, fileName, delete.frames = TRUE)
+{
+  # files <- dir(filePath)
+  # for (i in 1:length(files))
+  # {
+  #   files[i] <- paste0(filePath, files[i])
+  # }
+  files <- paste0(filePath, dir(path = filePath, pattern = paste0("^", fileName, ".*\\.png$")))
+  images <- map(files, image_read)
+  images <- image_join(images)
+  animation <- image_animate(images, fps = 10)
+  image_write(animation, paste0(filePath, fileName, "-anim.gif"))
+  if (delete.frames) { unlink(files); }
+}
+```
 
+## Fast coevolution (default)
 
-```{r run-default, cache=TRUE, results = 'hide'}
-run1 <- hpModel.run(
-  # growth rate
-  r.h = 0.05,
-  # 0.05
-  r.p = 0.1,
-  # 0.1
-  # basic resources
-  max.h = 80,
-  # 80
-  max.p = 100,
-  # 100
-  # utility
-  Um.ph = 1.7,
-  # 1.7
-  Um.hp = 1,
-  # 1
-  # number of types
-  n.h = 10,
-  # 10
-  n.p = 10,
-  # 10
-  # undirected variation
-  v.h = 0.15,
-  # 0.15
-  v.p = 0.15,
-  # 0.15
-  # initial conditions
+```{r 1_run.coevo.coeta-name, cache=TRUE}
+run.coevo.coeta.name <- "coevo.coeta"
+```
+
+```{r 1_run.coevo.coeta, cache=TRUE, include=FALSE, dependson='run.coevo.coeta-name'}
+
+run.coevo.coeta <- hpcModel.run(
+  # initial populations
   iniH = 10,
-  # 10
   iniP = 10,
-  # 10
-  # proportion of mean utility
-  Ump.ph = 10,
-  # 10
-  Ump.hp = 100,
-  # 100
-  # proportion of mean basic resources
-  Kmp.h = 100,
-  # 100
-  Kmp.p = 100,
-  # 100
-  # settings
+  # number of discrete types
+  n.H = 30,         
+  n.P = 30,        
+  # undirected variation 
+  v.H = 0.15,
+  v.P = 0.15,
+  # intrinsic growth rate 
+  r.H = 0.04, 
+  r.P = 0.1, 
+  # Utility per capita of individuals of type N
+  mU.PnH = 1.5,
+  mU.HnP = 1,
+  # Utility per capita of individuals of type 1
+  mU.P1H = 0.15,                                  
+  mU.H1P = 0,                                   
+  # basic resources:
+  # population of type N that can be sustained by resources independent of HP relationship
+  U.bHn = 10,                                
+  U.bPn = 20, 
+  # population of type 1 that can be sustained by resources independent of HP relationship
+  U.bH1 = 80,                               
+  U.bP1 = 100,                                 
+  # maximum local area to be used by populations (multiplier or scaling effect)
   MaxArea = 200,
-  maxIt = 1000,
-  tol = 4,
+  # settings 
+  # simulation flow & data
+  maxIt = 20000,
+  tol = 6,
   saveTrajectories = TRUE,
-  PLOT = F,
-  SLEEP = 0.1
+  messages = TRUE, 
+  # plotting
+  plot.preview = FALSE, 
+  plot.save = FALSE
 )
 ```
 
-```{r run-default-pars, cache=TRUE, dependson='run-default'}
-run.table(run1)
+*Parameter setting*:
+
+```{r 1_run.coevo.coeta-pars, cache=TRUE, dependson='run.coevo.coeta'}
+run.table(run.coevo.coeta)
 ```
 
+Plotting the *end state*, i.e. both populations become stationary:
 
-```{r run-default-multiplot, cache=TRUE, dependson='run-default', fig.width=8, fig.height=8}
-hpModel.plot(run1)
+```{r 1_run.coevo.coeta-plot, cache=TRUE, dependson='run.coevo.coeta', fig.width=8, fig.height=8}
+hpcModel.plot(run.coevo.coeta, scale.override = 1)
 ```
 
+*Output end-state variables* at the end state:
 
-```{r run-default-end, cache=TRUE, dependson='run-default'}
-run1$END
-```
+ Abbreviation | Description                                                            
+ ------------ | ---------------------
+ `time`       | `r run.coevo.coeta$END$time`
+ `coevo.H`    | `r run.coevo.coeta$END$coevo.H`
+ `coevo.P`    | `r run.coevo.coeta$END$coevo.P`
+ `depend.H`   | `r run.coevo.coeta$END$depend.H`
+ `depend.P`   | `r run.coevo.coeta$END$depend.P`
+ `timing.H`   | `r run.coevo.coeta$END$timing.H`
+ `timing.P`   | `r run.coevo.coeta$END$timing.P`
 
-```{r run-default-plot, results = 'hide', cache=TRUE, dependson='run-default'}
-g.data <-
-  data.frame(H = run1$TRAJECTORIES$H, P = run1$TRAJECTORIES$P)[!is.na(run1$TRAJECTORIES$H), ]
+Plotting population trajectories with *ggplot*: 
 
-g.data$time <- 1:nrow(g.data)
+```{r 1_run.coevo.coeta-ggplot, include=FALSE, cache=TRUE, dependson='run.coevo.coeta'}
+run.coevo.coeta.melted <-
+  data.frame(H = run.coevo.coeta$TRAJECTORIES$H, 
+             P = run.coevo.coeta$TRAJECTORIES$P)[!is.na(run.coevo.coeta$TRAJECTORIES$H), ]
 
-g.data <- melt(g.data, measure.vars = c('H', 'P'))
+run.coevo.coeta.melted$time <- 1:nrow(run.coevo.coeta.melted)
 
-g1 <- 
-  ggplot(g.data,
-         aes(x = time, y = value, colour = variable)) +
-  geom_line() +
-  scale_color_manual(values = c('blue', 'red'))
+run.coevo.coeta.melted <- melt(run.coevo.coeta.melted, measure.vars = c('H', 'P'))
 
-#svg('plots/1_singleRun.svg', width=10, height=10)
-png("plots/1_singleRun.png")
-g1
+plotScale = 10
+#svg('plots/1_singleRun-ggplot.svg', width=plotScale, height=plotScale)
+png(paste0("plots/1_singleRun-ggplot-", run.coevo.coeta.name, ".png"), 
+    width = 200 * plotScale, height = 100 * plotScale)
+plot.trajectory(run.coevo.coeta.melted, plotScale = plotScale)
 dev.off()
 ```
 
-```{r fig-Um-max-plot, echo=FALSE}
-knitr::include_graphics('plots/1_singleRun.png')
+```{r 1_run.coevo.coeta-ggplot-print, echo=FALSE, dependson='run.coevo.coeta-ggplot'}
+knitr::include_graphics(paste0("plots/1_singleRun-ggplot-", run.coevo.coeta.name, ".png"))
+```
+
+Animated GIF showing the *sequence of states* throughout the simulation:
+
+```{r 1_run.coevo.coeta-frames, include=FALSE, dependson='1_run.coevo.coeta-name'}
+run2 <- hpcModel.run(
+  # initial populations
+  iniH = 10,
+  iniP = 10,
+  # number of discrete types
+  n.H = 30,         
+  n.P = 30,        
+  # undirected variation 
+  v.H = 0.15,
+  v.P = 0.15,
+  # intrinsic growth rate 
+  r.H = 0.04, 
+  r.P = 0.1, 
+  # Utility per capita of individuals of type N
+  mU.PnH = 1.5,
+  mU.HnP = 1,
+  # Utility per capita of individuals of type 1
+  mU.P1H = 0.15,                                  
+  mU.H1P = 0,                                   
+  # basic resources:
+  # population of type N that can be sustained by resources independent of HP relationship
+  U.bHn = 10,                                
+  U.bPn = 20, 
+  # population of type 1 that can be sustained by resources independent of HP relationship
+  U.bH1 = 80,                               
+  U.bP1 = 100,                                 
+  # maximum local area to be used by populations (multiplier or scaling effect)
+  MaxArea = 200, 
+  # settings 
+  # simulation flow & data
+  maxIt = 20000,
+  tol = 6,
+  saveTrajectories = TRUE,
+  messages = TRUE,  
+  # plotting
+  plot.preview = FALSE, 
+  plot.sleep = 0.05,
+  plot.save = TRUE,
+  plot.saveEvery = 5,
+  plot.directory = runPlot.dir,
+  plot.fileName = paste0(run.coevo.coeta.name, "-runPlot")
+)
+
+# Generate an animated GIF using the images in plot.directory folder
+animate.trajectory(runPlot.dir, run.coevo.coeta.name)
+```
+
+```{r 1_run.coevo.coeta-animation, echo=FALSE, dependson='run.coevo.coeta-frames'}
+knitr::include_graphics(paste0(runPlot.dir, run.coevo.coeta.name, "-anim.gif"))
+```
+
+## No coevolution
+
+```{r 1_run.no.coevo-name, cache=TRUE}
+run.no.coevo.name <- "no.coevo"
+```
+
+```{r 1_run.no.coevo, cache=TRUE, include=FALSE, dependson='run.no.coevo-name'}
+
+run.no.coevo <- hpcModel.run(
+  # initial populations
+  iniH = 10,
+  iniP = 10,
+  # number of discrete types
+  n.H = 30,         
+  n.P = 30,        
+  # undirected variation 
+  v.H = 0.15,
+  v.P = 0.15,
+  # intrinsic growth rate 
+  r.H = 0.04, 
+  r.P = 0.1, 
+  # Utility per capita of individuals of type N
+  mU.PnH = 1.5,
+  mU.HnP = 1,
+  # Utility per capita of individuals of type 1
+  mU.P1H = 0,                                  
+  mU.H1P = 0,                                   
+  # basic resources:
+  # population of type N that can be sustained by resources independent of HP relationship
+  U.bHn = 10,                                
+  U.bPn = 20, 
+  # population of type 1 that can be sustained by resources independent of HP relationship
+  U.bH1 = 80,                               
+  U.bP1 = 100,                                 
+  # maximum local area to be used by populations (multiplier or scaling effect)
+  MaxArea = 200,
+  # settings 
+  # simulation flow & data
+  maxIt = 20000,
+  tol = 6,
+  saveTrajectories = TRUE,
+  messages = TRUE, 
+  # plotting
+  plot.preview = FALSE, 
+  plot.sleep = 0.05,
+  plot.save = TRUE,
+  plot.saveEvery = 5,
+  plot.directory = runPlot.dir,
+  plot.fileName = paste0(run.no.coevo.name, "-runPlot")
+)
+
+# Generate an animated GIF using the images in plot.directory folder
+animate.trajectory(runPlot.dir, run.no.coevo.name)
+
+knitr::include_graphics(paste0(runPlot.dir, run.no.coevo.name, "-anim.gif"))
+```
+
+## Coevolution with early cultivation
+
+```{r 1_run.coevo.early.cult-name, cache=TRUE}
+run.coevo.early.cult.name <- "coevo.early.cult"
+```
+
+```{r 1_run.coevo.early.cult, cache=TRUE, include=FALSE, dependson='run.coevo.early.cult-name'}
+
+run.coevo.early.cult <- hpcModel.run(
+  # initial populations
+  iniH = 10,
+  iniP = 10,
+  # number of discrete types
+  n.H = 30,         
+  n.P = 30,        
+  # undirected variation 
+  v.H = 0.15,
+  v.P = 0.15,
+  # intrinsic growth rate 
+  r.H = 0.04, 
+  r.P = 0.1, 
+  # Utility per capita of individuals of type N
+  mU.PnH = 2,
+  mU.HnP = 1,
+  # Utility per capita of individuals of type 1
+  mU.P1H = 1,                                  
+  mU.H1P = 0,                                   
+  # basic resources:
+  # population of type N that can be sustained by resources independent of HP relationship
+  U.bHn = 10,                                
+  U.bPn = 20, 
+  # population of type 1 that can be sustained by resources independent of HP relationship
+  U.bH1 = 80,                               
+  U.bP1 = 100,                                 
+  # maximum local area to be used by populations (multiplier or scaling effect)
+  MaxArea = 200,
+  # settings 
+  # simulation flow & data
+  maxIt = 20000,
+  tol = 6,
+  saveTrajectories = TRUE,
+  messages = TRUE, 
+  # plotting
+  plot.preview = FALSE, 
+  plot.sleep = 0.05,
+  plot.save = TRUE,
+  plot.saveEvery = 5,
+  plot.directory = runPlot.dir,
+  plot.fileName = paste0(run.coevo.early.cult.name, "-runPlot")
+)
+
+# Generate an animated GIF using the images in plot.directory folder
+animate.trajectory(runPlot.dir, run.coevo.early.cult.name)
+
+knitr::include_graphics(paste0(runPlot.dir, run.coevo.early.cult.name, "-anim.gif"))
+```
+
+## Coevolution with early domestication
+
+```{r 1_run.coevo.early.dom-name, cache=TRUE}
+run.coevo.early.dom.name <- "coevo.early.dom"
+```
+
+```{r 1_run.coevo.early.dom, cache=TRUE, include=FALSE, dependson='run.coevo.early.dom-name'}
+
+run.coevo.early.dom <- hpcModel.run(
+  # initial populations
+  iniH = 10,
+  iniP = 10,
+  # number of discrete types
+  n.H = 30,         
+  n.P = 30,        
+  # undirected variation 
+  v.H = 0.15,
+  v.P = 0.15,
+  # intrinsic growth rate 
+  r.H = 0.04, 
+  r.P = 0.1, 
+  # Utility per capita of individuals of type N
+  mU.PnH = 1,
+  mU.HnP = 1,
+  # Utility per capita of individuals of type 1
+  mU.P1H = 1,                                  
+  mU.H1P = 0,                                   
+  # basic resources:
+  # population of type N that can be sustained by resources independent of HP relationship
+  U.bHn = 10,                                
+  U.bPn = 20, 
+  # population of type 1 that can be sustained by resources independent of HP relationship
+  U.bH1 = 80,                               
+  U.bP1 = 20,                                 
+  # maximum local area to be used by populations (multiplier or scaling effect)
+  MaxArea = 200,
+  # settings 
+  # simulation flow & data
+  maxIt = 20000,
+  tol = 6,
+  saveTrajectories = TRUE,
+  messages = TRUE, 
+  # plotting
+  plot.preview = FALSE, 
+  plot.sleep = 0.05,
+  plot.save = TRUE,
+  plot.saveEvery = 5,
+  plot.directory = runPlot.dir,
+  plot.fileName = paste0(run.coevo.early.dom.name, "-runPlot")
+)
+
+# Generate an animated GIF using the images in plot.directory folder
+animate.trajectory(runPlot.dir, run.coevo.early.dom.name)
+
+knitr::include_graphics(paste0(runPlot.dir, run.coevo.early.dom.name, "-anim.gif"))
+```
+
+## Cultivation without domestication
+
+```{r 1_run.cult.without.dom-name, cache=TRUE}
+run.cult.without.dom.name <- "cult.without.dom"
+```
+
+```{r 1_run.cult.without.dom, cache=TRUE, include=FALSE, dependson='run.cult.without.dom-name'}
+
+run.cult.without.dom <- hpcModel.run(
+  # initial populations
+  iniH = 10,
+  iniP = 10,
+  # number of discrete types
+  n.H = 30,         
+  n.P = 30,        
+  # undirected variation 
+  v.H = 0.15,
+  v.P = 0.15,
+  # intrinsic growth rate 
+  r.H = 0.04, 
+  r.P = 0.1, 
+  # Utility per capita of individuals of type N
+  mU.PnH = 2.5,
+  mU.HnP = 0.45,
+  # Utility per capita of individuals of type 1
+  mU.P1H = 0.15,                                  
+  mU.H1P = 0,                                   
+  # basic resources:
+  # population of type N that can be sustained by resources independent of HP relationship
+  U.bHn = 10,                                
+  U.bPn = 20, 
+  # population of type 1 that can be sustained by resources independent of HP relationship
+  U.bH1 = 80,                               
+  U.bP1 = 100,                                 
+  # maximum local area to be used by populations (multiplier or scaling effect)
+  MaxArea = 200,
+  # settings 
+  # simulation flow & data
+  maxIt = 20000,
+  tol = 6,
+  saveTrajectories = TRUE,
+  messages = TRUE, 
+  # plotting
+  plot.preview = FALSE, 
+  plot.sleep = 0.05,
+  plot.save = TRUE,
+  plot.saveEvery = 5,
+  plot.directory = runPlot.dir,
+  plot.fileName = paste0(run.cult.without.dom.name, "-runPlot")
+)
+
+# Generate an animated GIF using the images in plot.directory folder
+animate.trajectory(runPlot.dir, run.cult.without.dom.name)
+
+knitr::include_graphics(paste0(runPlot.dir, run.cult.without.dom.name, "-anim.gif"))
+```
+
+## Coevolution with population "bleep"
+
+```{r 1_run.coevo.bleep-name, cache=TRUE}
+run.coevo.bleep.name <- "coevo.bleep"
+```
+
+```{r 1_run.coevo.bleep, cache=TRUE, include=FALSE, dependson='run.coevo.bleep-name'}
+
+run.coevo.bleep <- hpcModel.run(
+  # initial populations
+  iniH = 10,
+  iniP = 10,
+  # number of discrete types
+  n.H = 30,         
+  n.P = 30,        
+  # undirected variation 
+  v.H = 0.15,
+  v.P = 0.15,
+  # intrinsic growth rate 
+  r.H = 0.04, 
+  r.P = 0.1, 
+  # Utility per capita of individuals of type N
+  mU.PnH = 1.5,
+  mU.HnP = 1,
+  # Utility per capita of individuals of type 1
+  mU.P1H = 0.15,                                  
+  mU.H1P = 0,                                   
+  # basic resources:
+  # population of type N that can be sustained by resources independent of HP relationship
+  U.bHn = 10,                                
+  U.bPn = 20, 
+  # population of type 1 that can be sustained by resources independent of HP relationship
+  U.bH1 = 80,                               
+  U.bP1 = 100,                                 
+  # maximum local area to be used by populations (multiplier or scaling effect)
+  MaxArea = 110,
+  # settings 
+  # simulation flow & data
+  maxIt = 20000,
+  tol = 6,
+  saveTrajectories = TRUE,
+  messages = TRUE, 
+  # plotting
+  plot.preview = FALSE, 
+  plot.sleep = 0.05,
+  plot.save = TRUE,
+  plot.saveEvery = 5,
+  plot.directory = runPlot.dir,
+  plot.fileName = paste0(run.coevo.bleep.name, "-runPlot")
+)
+
+# Generate an animated GIF using the images in plot.directory folder
+animate.trajectory(runPlot.dir, run.coevo.bleep.name)
+
+knitr::include_graphics(paste0(runPlot.dir, run.coevo.bleep.name, "-anim.gif"))
+```
+
+## Coevolution with population "boom"
+
+```{r 1_run.coevo.boom-name, cache=TRUE}
+run.coevo.boom.name <- "coevo.boom"
+```
+
+```{r 1_run.coevo.boom, cache=TRUE, include=FALSE, dependson='run.coevo.boom-name'}
+
+run.coevo.boom <- hpcModel.run(
+  # initial populations
+  iniH = 10,
+  iniP = 10,
+  # number of discrete types
+  n.H = 30,         
+  n.P = 30,        
+  # undirected variation 
+  v.H = 0.15,
+  v.P = 0.15,
+  # intrinsic growth rate 
+  r.H = 0.04, 
+  r.P = 0.1, 
+  # Utility per capita of individuals of type N
+  mU.PnH = 2,
+  mU.HnP = 1,
+  # Utility per capita of individuals of type 1
+  mU.P1H = 0.15,                                  
+  mU.H1P = 0,                                   
+  # basic resources:
+  # population of type N that can be sustained by resources independent of HP relationship
+  U.bHn = 10,                                
+  U.bPn = 20, 
+  # population of type 1 that can be sustained by resources independent of HP relationship
+  U.bH1 = 80,                               
+  U.bP1 = 100,                                 
+  # maximum local area to be used by populations (multiplier or scaling effect)
+  MaxArea = 500,
+  # settings 
+  # simulation flow & data
+  maxIt = 20000,
+  tol = 6,
+  saveTrajectories = TRUE,
+  messages = TRUE, 
+  # plotting
+  plot.preview = FALSE, 
+  plot.sleep = 0.05,
+  plot.save = TRUE,
+  plot.saveEvery = 5,
+  plot.directory = runPlot.dir,
+  plot.fileName = paste0(run.coevo.boom.name, "-runPlot")
+)
+
+# Generate an animated GIF using the images in plot.directory folder
+animate.trajectory(runPlot.dir, run.coevo.boom.name)
+
+knitr::include_graphics(paste0(runPlot.dir, run.coevo.boom.name, "-anim.gif"))
+```
+
+## Coevolution with long population "boom"
+
+```{r 1_run.coevo.long.boom-name, cache=TRUE}
+run.coevo.long.boom.name <- "coevo.long.boom"
+```
+
+```{r 1_run.coevo.long.boom, cache=TRUE, include=FALSE, dependson='run.coevo.long.boom-name'}
+
+run.coevo.long.boom <- hpcModel.run(
+  # initial populations
+  iniH = 10,
+  iniP = 10,
+  # number of discrete types
+  n.H = 30,         
+  n.P = 30,        
+  # undirected variation 
+  v.H = 0.15,
+  v.P = 0.15,
+  # intrinsic growth rate 
+  r.H = 0.04, 
+  r.P = 0.1, 
+  # Utility per capita of individuals of type N
+  mU.PnH = 1,
+  mU.HnP = 1,
+  # Utility per capita of individuals of type 1
+  mU.P1H = 1,                                  
+  mU.H1P = 0,                                   
+  # basic resources:
+  # population of type N that can be sustained by resources independent of HP relationship
+  U.bHn = 10,                                
+  U.bPn = 20, 
+  # population of type 1 that can be sustained by resources independent of HP relationship
+  U.bH1 = 80,                               
+  U.bP1 = 100,                                 
+  # maximum local area to be used by populations (multiplier or scaling effect)
+  MaxArea = 1000,
+  # settings 
+  # simulation flow & data
+  maxIt = 2000, # this is a dangerously long simulation!!!
+  tol = 6,
+  saveTrajectories = TRUE,
+  messages = TRUE, 
+  # plotting
+  plot.preview = FALSE, 
+  plot.sleep = 0.05,
+  plot.save = TRUE,
+  plot.saveEvery = 5,
+  plot.directory = runPlot.dir,
+  plot.fileName = paste0(run.coevo.long.boom.name, "-runPlot")
+)
+
+# Generate an animated GIF using the images in plot.directory folder
+animate.trajectory(runPlot.dir, run.coevo.long.boom.name)
+
+knitr::include_graphics(paste0(runPlot.dir, run.coevo.long.boom.name, "-anim.gif"))
 ```

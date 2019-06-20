@@ -1,0 +1,92 @@
+---
+site: "bookdown::bookdown_site"
+output:
+  bookdown::gitbook: default
+  html_document: default
+output_dir: "docs"
+fontsize: 12pt
+geometry: margin = 1.2in
+header-includes:
+- \usepackage{placeins}
+- \usepackage{fancyhdr}
+- \usepackage{setspace}
+- \usepackage{chngcntr}
+- \usepackage{microtype}
+always_allow_html: yes
+urlcolor: blue
+---
+
+# Human-Plant Coevolution model {-}
+
+Andreas Angourakis & Jonàs Alcaina
+
+`r format(Sys.time(), '%d %B, %Y')`
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, # hide code and messages
+                      cache=TRUE, autodep=TRUE) 
+source("library/hpcModel.run.R")
+source("library/hpcModel.exploration.R")
+source("library/hpcModel.plot.R")
+require(reshape2)
+require(ggplot2)
+require(scales)
+
+run.table <- function(run.result)
+{
+  run.parnames <- names(run.result$PARS)
+  run.parvalues <- c()
+  for (i in 1:length(run.result$PARS))
+  {
+    run.parvalues <- c(run.parvalues, run.result$PARS[[i]])
+  }
+  knitr::kable(cbind(run.parnames, run.parvalues), col.names = c("parameter", "value"))
+}
+
+exp.table <- function(exp.results)
+{
+  exp.parnames <- c()
+  exp.values <- c()
+  for (i in 1:17)
+  {
+    exp.parnames <- c(exp.parnames, names(exp.results)[i])
+    value <- levels(factor(exp.results[[i]]))
+    if (length(value) > 1) 
+    {
+      value <- as.numeric(as.character(value))
+      value <- paste(min(value), "-", max(value), "(sample =", length(value), ")")
+    }
+    exp.values <- c(exp.values, value)
+  }
+  knitr::kable(cbind(exp.parnames, exp.values), col.names = c("parameter", "values"))
+}
+```
+
+**_Parameters_**
+
+ R notation     | Math notation | Description
+ -------------- | ------------- | ---------------------
+ `iniH`, `iniP` | $$ini_{H},\,ini_{P}$$ | initial populations of humans and plants
+ `n.H`, `n.P`   | $$n_{H},\,n_{P}$$ | number of types of humans and plants
+ `v.H`, `v.P`   | $$v_{H},\,v_{P}$$ | level of undirected variation in humans and plants
+ `r.H`, `r.P`   | $$r_{H},\,r_{P}$$ | intrinsic growth rates for human and plant populations
+ `mU.PnH`       | $$\bar{U}_{P_{n}H}$$ | utility per capita **of** type N plants **to** humans 
+ `mU.HnP`       | $$\bar{U}_{H_{n}P}$$ | utility per capita **of** type N humans **to** plants
+ `mU.P1H`       | $$\bar{U}_{P_{1}H}$$ | utility per capita **of** type 1 plants **to** humans
+ `mU.H1P`       | $$\bar{U}_{H_{1}P}$$ | utility per capita **of** type 1 humans **to** plants
+ `U.bH1`       | $$U_{bH_{1}}$$ | utility **of** other resources **to** humans of type 1 (the baseline carrying capacity for humans of type 1, i.e. independent of HP relationship)
+ `U.bP1`       | $$U_{bP_{1}}$$ | utility **of** non-anthropic space **to** type 1 plants (the baseline carrying capacity for plants of type 1, i.e. independent of HP relationship)
+ `U.bHn`       | $$U_{bH_{n}}$$ | utility **of** other resources **to** type N humans
+ `U.bPn`       | $$U_{bP_{n}}$$ | utility **of** non-anthropic space **to** type N plants
+ `MaxArea`      | $$MaxArea$$ | maximum contiguous area to be used by plants (i.e., maximum carrying capacity for plants)
+
+**_Output end-state variables_**
+
+ R notation             | Math notation | Description                                               
+ ---------------------- | ------------- | ---------------------
+ `time`                 | $$t_{coevo}$$ | Iterations past until the end state (*stationary point*)
+ `coevo.H`, `coevo.P`   | $$coevo_{H},\,coevo_{P}$$ | Coevolution coefficients. Correlation between proportion of population per type (`pop.A1` to `pop.An`) and type index (`1` to `n`). Indicate *if* and *how much* the population distribution has changed by the coevolutionary process.
+ `depend.H`, `depend.P` | $$depend_{H},\,depend_{P}$$ | Dependency coefficients. Slope of linear model of the fitness score per type (`fit.A1` to `fit.An`) using type index (`1` to `n`). Indicate *if* and *how much* the overall fitness score of a population is dependent on the other population.
+ `timing.H`, `timing.P` | $$timing_{H},\,timing_{P}$$ | Iterations past until coevolution successfully changes the proportions of population per type; generally, when `pop.1 < pop.n`.
