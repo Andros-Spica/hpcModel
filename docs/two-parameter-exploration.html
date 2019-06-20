@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>3 Two parameter exploration | _main.utf8.md</title>
+  <meta name="description" content="">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="3 Two parameter exploration | _main.utf8.md" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3 Two parameter exploration | _main.utf8.md" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="one-parameter-exploration.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Human-Plant Coevolution model</a></li>
+<li class="chapter" data-level="1" data-path="single-runs.html"><a href="single-runs.html"><i class="fa fa-check"></i><b>1</b> Single runs</a><ul>
+<li class="chapter" data-level="1.1" data-path="single-runs.html"><a href="single-runs.html#fast-coevolution-default"><i class="fa fa-check"></i><b>1.1</b> Fast coevolution (default)</a></li>
+<li class="chapter" data-level="1.2" data-path="single-runs.html"><a href="single-runs.html#no-coevolution"><i class="fa fa-check"></i><b>1.2</b> No coevolution</a></li>
+<li class="chapter" data-level="1.3" data-path="single-runs.html"><a href="single-runs.html#coevolution-with-early-cultivation"><i class="fa fa-check"></i><b>1.3</b> Coevolution with early cultivation</a></li>
+<li class="chapter" data-level="1.4" data-path="single-runs.html"><a href="single-runs.html#coevolution-with-early-domestication"><i class="fa fa-check"></i><b>1.4</b> Coevolution with early domestication</a></li>
+<li class="chapter" data-level="1.5" data-path="single-runs.html"><a href="single-runs.html#cultivation-without-domestication"><i class="fa fa-check"></i><b>1.5</b> Cultivation without domestication</a></li>
+<li class="chapter" data-level="1.6" data-path="single-runs.html"><a href="single-runs.html#coevolution-with-population-bleep"><i class="fa fa-check"></i><b>1.6</b> Coevolution with population “bleep”</a></li>
+<li class="chapter" data-level="1.7" data-path="single-runs.html"><a href="single-runs.html#coevolution-with-population-boom"><i class="fa fa-check"></i><b>1.7</b> Coevolution with population “boom”</a></li>
+<li class="chapter" data-level="1.8" data-path="single-runs.html"><a href="single-runs.html#coevolution-with-long-population-boom"><i class="fa fa-check"></i><b>1.8</b> Coevolution with long population “boom”</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html"><i class="fa fa-check"></i><b>2</b> One parameter exploration</a><ul>
+<li class="chapter" data-level="2.1" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#full-example-tableplot-alternatives"><i class="fa fa-check"></i><b>2.1</b> Full example (table+plot alternatives)</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#utility-of-other-resources-to-humans-of-type-1-baru_bh_1"><i class="fa fa-check"></i><b>2.1.1</b> Utility <strong>of</strong> other resources <strong>to</strong> humans of type 1 (<span class="math inline">\(\bar{U}_{bH_{1}}\)</span>):</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#exploration-on-default-setting-for-each-parameter"><i class="fa fa-check"></i><b>2.2</b> Exploration on ‘default’ setting for each parameter:</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#initial-populations-of-humans-and-plants-init_hinit_p"><i class="fa fa-check"></i><b>2.2.1</b> Initial populations of humans and plants (<span class="math inline">\(init_{H},\,init_{P}\)</span>):</a></li>
+<li class="chapter" data-level="2.2.2" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#number-of-types-of-humans-and-plants-n_hn_p"><i class="fa fa-check"></i><b>2.2.2</b> Number of types of humans and plants (<span class="math inline">\(n_{H},\,n_{P}\)</span>):</a></li>
+<li class="chapter" data-level="2.2.3" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#level-of-undirected-variation-in-humans-and-plants-v_hv_p"><i class="fa fa-check"></i><b>2.2.3</b> level of undirected variation in humans and plants (<span class="math inline">\(v_{H},\,v_{P}\)</span>):</a></li>
+<li class="chapter" data-level="2.2.4" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#intrinsic-growth-rates-for-human-and-plant-populations-r_hr_p"><i class="fa fa-check"></i><b>2.2.4</b> intrinsic growth rates for human and plant populations (<span class="math inline">\(r_{H},\,r_{P}\)</span>):</a></li>
+<li class="chapter" data-level="2.2.5" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#utility-per-capita-of-type-n-plants-to-humans-baru_p_nh"><i class="fa fa-check"></i><b>2.2.5</b> utility per capita <strong>of</strong> type n plants <strong>to</strong> humans (<span class="math inline">\(\bar{U}_{P_{n}H}\)</span>):</a></li>
+<li class="chapter" data-level="2.2.6" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#utility-per-capita-of-type-n-human-to-plants-baru_h_np"><i class="fa fa-check"></i><b>2.2.6</b> utility per capita <strong>of</strong> type n human <strong>to</strong> plants (<span class="math inline">\(\bar{U}_{H_{n}P}\)</span>):</a></li>
+<li class="chapter" data-level="2.2.7" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#utility-per-capita-of-type-1-plants-to-humans-baru_p_1h"><i class="fa fa-check"></i><b>2.2.7</b> utility per capita <strong>of</strong> type 1 plants <strong>to</strong> humans (<span class="math inline">\(\bar{U}_{P_{1}H}\)</span>):</a></li>
+<li class="chapter" data-level="2.2.8" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#utility-per-capita-of-type-1-humans-to-plants-baru_h_1p"><i class="fa fa-check"></i><b>2.2.8</b> utility per capita <strong>of</strong> type 1 humans <strong>to</strong> plants (<span class="math inline">\(\bar{U}_{H_{1}P}\)</span>):</a></li>
+<li class="chapter" data-level="2.2.9" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#utility-of-other-resources-to-humans-of-type-1-baru_bh_1-1"><i class="fa fa-check"></i><b>2.2.9</b> utility <strong>of</strong> other resources <strong>to</strong> humans of type 1 (<span class="math inline">\(\bar{U}_{bH_{1}}\)</span>):</a></li>
+<li class="chapter" data-level="2.2.10" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#utility-of-non-anthropic-space-to-type-1-plants-baru_bp_1"><i class="fa fa-check"></i><b>2.2.10</b> utility <strong>of</strong> non-anthropic space <strong>to</strong> type 1 plants (<span class="math inline">\(\bar{U}_{bP_{1}}\)</span>):</a></li>
+<li class="chapter" data-level="2.2.11" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#utility-of-other-resources-to-type-n-humans-baru_bh_n"><i class="fa fa-check"></i><b>2.2.11</b> utility <strong>of</strong> other resources <strong>to</strong> type n humans (<span class="math inline">\(\bar{U}_{bH_{n}}\)</span>):</a></li>
+<li class="chapter" data-level="2.2.12" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#utility-of-non-anthropic-space-to-type-n-plants-baru_bp_n"><i class="fa fa-check"></i><b>2.2.12</b> utility <strong>of</strong> non-anthropic space <strong>to</strong> type n plants (<span class="math inline">\(\bar{U}_{bP_{n}}\)</span>):</a></li>
+<li class="chapter" data-level="2.2.13" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#maximum-contiguous-area-to-be-used-by-plants-maxarea"><i class="fa fa-check"></i><b>2.2.13</b> maximum contiguous area to be used by plants (<span class="math inline">\(MaxArea\)</span>):</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#bifurcation-plot-with-last-100-time-steps"><i class="fa fa-check"></i><b>2.3</b> Bifurcation plot with last 100 time steps</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="two-parameter-exploration.html"><a href="two-parameter-exploration.html"><i class="fa fa-check"></i><b>3</b> Two parameter exploration</a><ul>
+<li class="chapter" data-level="3.1" data-path="two-parameter-exploration.html"><a href="two-parameter-exploration.html#full-example-tableplot-alternatives-1"><i class="fa fa-check"></i><b>3.1</b> Full example (table+plot alternatives)</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="two-parameter-exploration.html"><a href="two-parameter-exploration.html#utility-per-capita-from-type-n-humans-and-plants-mu.hnp-x-mu.pnh"><i class="fa fa-check"></i><b>3.1.1</b> Utility per capita from type n humans and plants (mU.HnP x mU.PnH):</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="two-parameter-exploration.html"><a href="two-parameter-exploration.html#exploration-on-default-setting-for-directly-related-parameter-pairs"><i class="fa fa-check"></i><b>3.2</b> Exploration on ‘default’ setting for (directly related) parameter pairs:</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="two-parameter-exploration.html"><a href="two-parameter-exploration.html#number-of-types-of-humans-and-plants-n_hvsn_p"><i class="fa fa-check"></i><b>3.2.1</b> Number of types of humans and plants (<span class="math inline">\(n_{H}\,vs\,n_{P}\)</span>):</a></li>
+<li class="chapter" data-level="3.2.2" data-path="two-parameter-exploration.html"><a href="two-parameter-exploration.html#level-of-undirected-variation-in-humans-and-plants-v_hvsv_p"><i class="fa fa-check"></i><b>3.2.2</b> level of undirected variation in humans and plants (<span class="math inline">\(v_{H}\,vs\,v_{P}\)</span>):</a></li>
+<li class="chapter" data-level="3.2.3" data-path="two-parameter-exploration.html"><a href="two-parameter-exploration.html#utility-per-capita-from-type-1-humans-and-plants-mu.h1p-x-mu.p1h"><i class="fa fa-check"></i><b>3.2.3</b> Utility per capita from type 1 humans and plants (mU.H1P x mU.P1H):</a></li>
+<li class="chapter" data-level="3.2.4" data-path="two-parameter-exploration.html"><a href="two-parameter-exploration.html#utility-of-other-resources-to-type-1-humans-and-plants-u.bh1-x-u.bp1"><i class="fa fa-check"></i><b>3.2.4</b> Utility of other resources to type 1 humans and plants (U.bH1 x U.bP1):</a></li>
+<li class="chapter" data-level="3.2.5" data-path="two-parameter-exploration.html"><a href="two-parameter-exploration.html#utility-of-other-resources-to-type-n-humans-and-plants-u.bhn-x-u.bpn"><i class="fa fa-check"></i><b>3.2.5</b> Utility of other resources to type n humans and plants (U.bHn x U.bPn):</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="two-parameter-exploration.html"><a href="two-parameter-exploration.html#exploration-on-default-setting-for-all-pairs-of-mutual-utility-parameters-mu.h1p-x-mu.hnp-x-mu.p1h-x-mu.pnh"><i class="fa fa-check"></i><b>3.3</b> !!!Exploration on ‘default’ setting for all pairs of mutual utility parameters (mU.H1P x mU.HnP x mU.P1H x mU.PnH)</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="two-parameter-exploration" class="section level1">
+<h1><span class="header-section-number">3</span> Two parameter exploration</h1>
+<div id="full-example-tableplot-alternatives-1" class="section level2">
+<h2><span class="header-section-number">3.1</span> Full example (table+plot alternatives)</h2>
+<div id="utility-per-capita-from-type-n-humans-and-plants-mu.hnp-x-mu.pnh" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Utility per capita from type n humans and plants (mU.HnP x mU.PnH):</h3>
+<table>
+<thead>
+<tr class="header">
+<th align="left">parameter</th>
+<th align="left">value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">iniH</td>
+<td align="left">10</td>
+</tr>
+<tr class="even">
+<td align="left">iniP</td>
+<td align="left">10</td>
+</tr>
+<tr class="odd">
+<td align="left">n.H</td>
+<td align="left">30</td>
+</tr>
+<tr class="even">
+<td align="left">n.P</td>
+<td align="left">30</td>
+</tr>
+<tr class="odd">
+<td align="left">v.H</td>
+<td align="left">0.15</td>
+</tr>
+<tr class="even">
+<td align="left">v.P</td>
+<td align="left">0.15</td>
+</tr>
+<tr class="odd">
+<td align="left">r.H</td>
+<td align="left">0.04</td>
+</tr>
+<tr class="even">
+<td align="left">r.P</td>
+<td align="left">0.1</td>
+</tr>
+<tr class="odd">
+<td align="left">mU.PnH</td>
+<td align="left">0 - 2.5 (sample = 15 )</td>
+</tr>
+<tr class="even">
+<td align="left">mU.HnP</td>
+<td align="left">0 - 2.5 (sample = 15 )</td>
+</tr>
+<tr class="odd">
+<td align="left">mU.P1H</td>
+<td align="left">0.15</td>
+</tr>
+<tr class="even">
+<td align="left">mU.H1P</td>
+<td align="left">0</td>
+</tr>
+<tr class="odd">
+<td align="left">U.bHn</td>
+<td align="left">10</td>
+</tr>
+<tr class="even">
+<td align="left">U.bPn</td>
+<td align="left">20</td>
+</tr>
+<tr class="odd">
+<td align="left">U.bH1</td>
+<td align="left">80</td>
+</tr>
+<tr class="even">
+<td align="left">U.bP1</td>
+<td align="left">100</td>
+</tr>
+<tr class="odd">
+<td align="left">MaxArea</td>
+<td align="left">200</td>
+</tr>
+</tbody>
+</table>
+<p><img src="plots/3_twoPar-mU.HnP-mU.PnH_plot.png" width="333" /></p>
+<hr />
+</div>
+</div>
+<div id="exploration-on-default-setting-for-directly-related-parameter-pairs" class="section level2">
+<h2><span class="header-section-number">3.2</span> Exploration on ‘default’ setting for (directly related) parameter pairs:</h2>
+<div id="number-of-types-of-humans-and-plants-n_hvsn_p" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Number of types of humans and plants (<span class="math inline">\(n_{H}\,vs\,n_{P}\)</span>):</h3>
+<p><img src="plots/3_twoPar-n.H-n.P_plot.png" width="333" /></p>
+</div>
+<div id="level-of-undirected-variation-in-humans-and-plants-v_hvsv_p" class="section level3">
+<h3><span class="header-section-number">3.2.2</span> level of undirected variation in humans and plants (<span class="math inline">\(v_{H}\,vs\,v_{P}\)</span>):</h3>
+<p><img src="plots/3_twoPar-v.H-v.P_plot.png" width="333" /></p>
+</div>
+<div id="utility-per-capita-from-type-1-humans-and-plants-mu.h1p-x-mu.p1h" class="section level3">
+<h3><span class="header-section-number">3.2.3</span> Utility per capita from type 1 humans and plants (mU.H1P x mU.P1H):</h3>
+<p><img src="plots/3_twoPar-mU.H1P-mU.P1H_plot.png" width="333" /></p>
+</div>
+<div id="utility-of-other-resources-to-type-1-humans-and-plants-u.bh1-x-u.bp1" class="section level3">
+<h3><span class="header-section-number">3.2.4</span> Utility of other resources to type 1 humans and plants (U.bH1 x U.bP1):</h3>
+<p><img src="plots/3_twoPar-U.bH1-U.bP1_plot.png" width="333" /></p>
+</div>
+<div id="utility-of-other-resources-to-type-n-humans-and-plants-u.bhn-x-u.bpn" class="section level3">
+<h3><span class="header-section-number">3.2.5</span> Utility of other resources to type n humans and plants (U.bHn x U.bPn):</h3>
+<p><img src="plots/3_twoPar-U.bHn-U.bPn_plot.png" width="333" /></p>
+<hr />
+</div>
+</div>
+<div id="exploration-on-default-setting-for-all-pairs-of-mutual-utility-parameters-mu.h1p-x-mu.hnp-x-mu.p1h-x-mu.pnh" class="section level2">
+<h2><span class="header-section-number">3.3</span> !!!Exploration on ‘default’ setting for all pairs of mutual utility parameters (mU.H1P x mU.HnP x mU.P1H x mU.PnH)</h2>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="one-parameter-exploration.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

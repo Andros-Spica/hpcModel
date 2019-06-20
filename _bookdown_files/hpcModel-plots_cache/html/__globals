@@ -1,0 +1,84 @@
+1_setup	opts_chunk	set	source	require	reshape2	ggplot2	scales	purrr	magick	run.table	run.parnames	names	run.result	PARS	run.parvalues	c	i	length	kable	cbind	exp.table	exp.parnames	exp.values	exp.results	value	levels	factor	as.numeric	as.character	paste	min	max
+1_setup_plus	runPlot.dir	plot.trajectory	ggplot	meltedRunData	aes	time	value	variable	plotScale	geom_line	ylab	scale_color_manual	c	theme	element_text	element_blank	unit	animate.trajectory	files	dir	filePath	i	length	paste0	images	map	image_read	image_join	animation	image_animate	image_write	fileName
+1_run1-name	run1.name
+1_run1	run1	hpcModel.run
+1_run1-pars	run.table	run1
+1_run1-plot	hpcModel.plot	run1
+1_run1-ggplot	run1.melted	data.frame	run1	TRAJECTORIES	H	P	is.na	time	nrow	melt	c	plotScale	png	paste0	run1.name	plot.trajectory	dev.off
+1_run1-ggplot-print	include_graphics	paste0	run1.name
+1_run1-frames	run2	hpcModel.run	runPlot.dir	paste0	run1.name	animate.trajectory
+1_run1-animation	include_graphics	paste0	runPlot.dir	run1.name
+setup_2	opts_chunk	set	source	require	reshape2	ggplot2	scales	run.table	run.parnames	names	run.result	PARS	run.parvalues	c	i	length	kable	cbind	exp.table	exp.parnames	exp.values	exp.results	value	levels	factor	as.numeric	as.character	paste	min	max
+setup_2plus	bifurcation.plot.simple	c	paste	seq	ncol	observedVariables	rainbow	plot	parameterValues	col	ylab	xlab	cex	v	points	legend	legendPos	variableNames	bifurcation.plot.pair	ylim	min	result.H	result.P	max	layout	matrix	par	plotScale	parameterLabel	variableLabelH	variableLabelP
+2_U.bH1-values	exp.U.bH1.name	SEQ.U.bH1	seq
+2_U.bH1	exp.U.bH1	hpcModel.exploration	SEQ.U.bH1
+2_U.bH1-table	exp.table	exp.U.bH1
+2_U.bH1-bifplot1	plotScale	png	paste0	exp.U.bH1.name	bifurcation.plot.simple	SEQ.U.bH1	cbind	exp.U.bH1	coevo.H	coevo.P	c	expression	paste	bar	U	dev.off
+2_U.bH1-bifplot1-print	include_graphics	paste0	exp.U.bH1.name
+2_U.bH1-bifplot2	plotScale	png	paste0	exp.U.bH1.name	bifurcation.plot.pair	cbind	SEQ.U.bH1	exp.U.bH1	coevo.H	coevo.P	expression	paste	bar	U	dev.off
+2_U.bH1-bifplot2-print	include_graphics	paste0	exp.U.bH1.name
+2_init-values	exp.init.H.name	exp.init.P.name	SEQ.init.H	SEQ.init.P
+2_init.H	exp.init.H	hpcModel.exploration	SEQ.init.H
+2_init.P	exp.init.P	hpcModel.exploration	SEQ.init.P
+2_init.H-bifplot2	plotScale	png	paste0	exp.init.H.name	bifurcation.plot.pair	cbind	SEQ.init.H	exp.init.H	coevo.H	coevo.P	expression	paste	dev.off
+2_init.P-bifplot2	plotScale	png	paste0	exp.init.P.name	bifurcation.plot.pair	cbind	SEQ.init.P	exp.init.P	coevo.H	coevo.P	expression	paste	dev.off
+2_init.H-bifplot2-print	include_graphics	paste0	exp.init.H.name
+2_init.P-bifplot2-print	include_graphics	paste0	exp.init.P.name
+2_n-values	exp.n.H.name	exp.n.P.name	SEQ.n.H	SEQ.n.P
+2_n.H	exp.n.H	hpcModel.exploration	SEQ.n.H
+2_n.P	exp.n.P	hpcModel.exploration	SEQ.n.P
+2_n.H-bifplot2	plotScale	png	paste0	exp.n.H.name	bifurcation.plot.pair	cbind	SEQ.n.H	exp.n.H	coevo.H	coevo.P	expression	paste	dev.off
+2_n.P-bifplot2	plotScale	png	paste0	exp.n.P.name	bifurcation.plot.pair	cbind	SEQ.n.P	exp.n.P	coevo.H	coevo.P	expression	paste	dev.off
+2_n.H-bifplot2-print	include_graphics	paste0	exp.n.H.name
+2_n.P-bifplot2-print	include_graphics	paste0	exp.n.P.name
+2_v-values	exp.v.H.name	exp.v.P.name	SEQ.v.H	seq	SEQ.v.P
+2_v.H	exp.v.H	hpcModel.exploration	SEQ.v.H
+2_v.P	exp.v.P	hpcModel.exploration	SEQ.v.P
+2_v.H-bifplot2	plotScale	png	paste0	exp.v.H.name	bifurcation.plot.pair	cbind	SEQ.v.H	exp.v.H	coevo.H	coevo.P	expression	paste	dev.off
+2_v.P-bifplot2	plotScale	png	paste0	exp.v.P.name	bifurcation.plot.pair	cbind	SEQ.v.P	exp.v.P	coevo.H	coevo.P	expression	paste	dev.off
+2_v.H-bifplot2-print	include_graphics	paste0	exp.v.H.name
+2_v.P-bifplot2-print	include_graphics	paste0	exp.v.P.name
+2_r-values	exp.r.H.name	exp.r.P.name	SEQ.r.H	seq	SEQ.r.P
+2_r.H	exp.r.H	hpcModel.exploration	SEQ.r.H
+2_r.P	exp.r.P	hpcModel.exploration	SEQ.r.P
+2_r.H-bifplot2	plotScale	png	paste0	exp.r.H.name	bifurcation.plot.pair	cbind	SEQ.r.H	exp.r.H	coevo.H	coevo.P	expression	paste	dev.off
+2_r.P-bifplot2	plotScale	png	paste0	exp.r.P.name	bifurcation.plot.pair	cbind	SEQ.r.P	exp.r.P	coevo.H	coevo.P	expression	paste	dev.off
+2_r.H-bifplot2-print	include_graphics	paste0	exp.r.H.name
+2_r.P-bifplot2-print	include_graphics	paste0	exp.r.P.name
+2_mU.PnH-values	exp.mU.PnH.name	SEQ.mU.PnH	seq
+2_mU.PnH	exp.mU.PnH	hpcModel.exploration	SEQ.mU.PnH
+2_mU.PnH-bifplot2	plotScale	png	paste0	exp.mU.PnH.name	bifurcation.plot.pair	cbind	SEQ.mU.PnH	exp.mU.PnH	coevo.H	coevo.P	expression	paste	bar	dev.off
+2_mU.PnH-bifplot2-print	include_graphics	paste0	exp.mU.PnH.name
+2_mU.HnP-values	exp.mU.HnP.name	SEQ.mU.HnP	seq
+2_mU.HnP	exp.mU.HnP	hpcModel.exploration	SEQ.mU.HnP
+2_mU.HnP-bifplot2	plotScale	png	paste0	exp.mU.HnP.name	bifurcation.plot.pair	cbind	SEQ.mU.HnP	exp.mU.HnP	coevo.H	coevo.P	expression	paste	bar	dev.off
+2_mU.HnP-bifplot2-print	include_graphics	paste0	exp.mU.HnP.name
+2_mU.P1H-values	exp.mU.P1H.name	SEQ.mU.P1H	seq
+2_mU.P1H	exp.mU.P1H	hpcModel.exploration	SEQ.mU.P1H
+2_mU.P1H-bifplot2	plotScale	png	paste0	exp.mU.P1H.name	bifurcation.plot.pair	cbind	SEQ.mU.P1H	exp.mU.P1H	coevo.H	coevo.P	expression	paste	bar	dev.off
+2_mU.P1H-bifplot2-print	include_graphics	paste0	exp.mU.P1H.name
+2_mU.H1P-values	exp.mU.H1P.name	SEQ.mU.H1P	seq
+2_mU.H1P	exp.mU.H1P	hpcModel.exploration	SEQ.mU.H1P
+2_mU.H1P-bifplot2	plotScale	png	paste0	exp.mU.H1P.name	bifurcation.plot.pair	cbind	SEQ.mU.H1P	exp.mU.H1P	coevo.H	coevo.P	expression	paste	bar	dev.off
+2_mU.H1P-bifplot2-print	include_graphics	paste0	exp.mU.H1P.name
+2_U.bH1-bifplot2-print2	include_graphics	paste0	exp.U.bH1.name
+2_U.bP1-values	exp.U.bP1.name	SEQ.U.bP1	seq
+2_U.bP1	exp.U.bP1	hpcModel.exploration	SEQ.U.bP1
+2_U.bP1-bifplot2	plotScale	png	paste0	exp.U.bP1.name	bifurcation.plot.pair	cbind	SEQ.U.bP1	exp.U.bP1	coevo.H	coevo.P	expression	paste	bar	dev.off
+2_U.bP1-bifplot2-print	include_graphics	paste0	exp.U.bP1.name
+2_U.bHn-values	exp.U.bHn.name	SEQ.U.bHn	seq
+2_U.bHn	exp.U.bHn	hpcModel.exploration	SEQ.U.bHn
+2_U.bHn-bifplot2	plotScale	png	paste0	exp.U.bHn.name	bifurcation.plot.pair	cbind	SEQ.U.bHn	exp.U.bHn	coevo.H	coevo.P	expression	paste	bar	dev.off
+2_U.bHn-bifplot2-print	include_graphics	paste0	exp.U.bHn.name
+2_U.bPn-values	exp.U.bPn.name	SEQ.U.bPn	seq
+2_U.bPn	exp.U.bPn	hpcModel.exploration	SEQ.U.bPn
+2_U.bPn-bifplot2	plotScale	png	paste0	exp.U.bPn.name	bifurcation.plot.pair	cbind	SEQ.U.bPn	exp.U.bPn	coevo.H	coevo.P	expression	paste	bar	dev.off
+2_U.bPn-bifplot2-print	include_graphics	paste0	exp.U.bPn.name
+2_maxArea-values	exp.MaxArea.name	SEQ.MaxArea	seq
+2_MaxArea	exp.MaxArea	hpcModel.exploration	SEQ.MaxArea
+2_MaxArea-bifplot2	plotScale	png	paste0	exp.MaxArea.name	bifurcation.plot.pair	cbind	SEQ.MaxArea	exp.MaxArea	coevo.H	coevo.P	expression	paste	bar	dev.off
+2_MaxArea-bifplot2-print	include_graphics	paste0	exp.MaxArea.name
+2_osc-values	exp.osc.name	SEQ.osc	seq
+2_osc	result.H	data.frame	result.P	i	SEQ.osc	exp.osc	hpcModel.run	rbind	TRAJECTORIES	coevo.H	coevo.P
+2_osc-bifplot2	plotScale	png	paste0	exp.osc.name	bifurcation.plot.pair	result.H	result.P	expression	paste	dev.off
+2_osc-bifplot2-print	include_graphics	paste0	exp.osc.name

@@ -1,0 +1,84 @@
+1_setup	exp.table	run.table
+1_setup_plus	animate.trajectory	plot.trajectory	runPlot.dir
+1_run1-name	run1.name
+1_run1	run1
+1_run1-pars	
+1_run1-plot	
+1_run1-ggplot	plotScale	run1.melted
+1_run1-ggplot-print	
+1_run1-frames	run2
+1_run1-animation	
+setup_2	exp.table	run.table
+setup_2plus	bifurcation.plot.pair	bifurcation.plot.simple
+2_U.bH1-values	exp.U.bH1.name	SEQ.U.bH1
+2_U.bH1	exp.U.bH1
+2_U.bH1-table	
+2_U.bH1-bifplot1	plotScale
+2_U.bH1-bifplot1-print	
+2_U.bH1-bifplot2	plotScale
+2_U.bH1-bifplot2-print	
+2_init-values	exp.init.H.name	exp.init.P.name	SEQ.init.H	SEQ.init.P
+2_init.H	exp.init.H
+2_init.P	exp.init.P
+2_init.H-bifplot2	plotScale
+2_init.P-bifplot2	plotScale
+2_init.H-bifplot2-print	
+2_init.P-bifplot2-print	
+2_n-values	exp.n.H.name	exp.n.P.name	SEQ.n.H	SEQ.n.P
+2_n.H	exp.n.H
+2_n.P	exp.n.P
+2_n.H-bifplot2	plotScale
+2_n.P-bifplot2	plotScale
+2_n.H-bifplot2-print	
+2_n.P-bifplot2-print	
+2_v-values	exp.v.H.name	exp.v.P.name	SEQ.v.H	SEQ.v.P
+2_v.H	exp.v.H
+2_v.P	exp.v.P
+2_v.H-bifplot2	plotScale
+2_v.P-bifplot2	plotScale
+2_v.H-bifplot2-print	
+2_v.P-bifplot2-print	
+2_r-values	exp.r.H.name	exp.r.P.name	SEQ.r.H	SEQ.r.P
+2_r.H	exp.r.H
+2_r.P	exp.r.P
+2_r.H-bifplot2	plotScale
+2_r.P-bifplot2	plotScale
+2_r.H-bifplot2-print	
+2_r.P-bifplot2-print	
+2_mU.PnH-values	exp.mU.PnH.name	SEQ.mU.PnH
+2_mU.PnH	exp.mU.PnH
+2_mU.PnH-bifplot2	plotScale
+2_mU.PnH-bifplot2-print	
+2_mU.HnP-values	exp.mU.HnP.name	SEQ.mU.HnP
+2_mU.HnP	exp.mU.HnP
+2_mU.HnP-bifplot2	plotScale
+2_mU.HnP-bifplot2-print	
+2_mU.P1H-values	exp.mU.P1H.name	SEQ.mU.P1H
+2_mU.P1H	exp.mU.P1H
+2_mU.P1H-bifplot2	plotScale
+2_mU.P1H-bifplot2-print	
+2_mU.H1P-values	exp.mU.H1P.name	SEQ.mU.H1P
+2_mU.H1P	exp.mU.H1P
+2_mU.H1P-bifplot2	plotScale
+2_mU.H1P-bifplot2-print	
+2_U.bH1-bifplot2-print2	
+2_U.bP1-values	exp.U.bP1.name	SEQ.U.bP1
+2_U.bP1	exp.U.bP1
+2_U.bP1-bifplot2	plotScale
+2_U.bP1-bifplot2-print	
+2_U.bHn-values	exp.U.bHn.name	SEQ.U.bHn
+2_U.bHn	exp.U.bHn
+2_U.bHn-bifplot2	plotScale
+2_U.bHn-bifplot2-print	
+2_U.bPn-values	exp.U.bPn.name	SEQ.U.bPn
+2_U.bPn	exp.U.bPn
+2_U.bPn-bifplot2	plotScale
+2_U.bPn-bifplot2-print	
+2_maxArea-values	exp.MaxArea.name	SEQ.MaxArea
+2_MaxArea	exp.MaxArea
+2_MaxArea-bifplot2	plotScale
+2_MaxArea-bifplot2-print	
+2_osc-values	exp.osc.name	SEQ.osc
+2_osc	exp.osc	i	result.H	result.P
+2_osc-bifplot2	plotScale
+2_osc-bifplot2-print	
