@@ -112,15 +112,15 @@ bifurcation.plot.pair <- function(result.H, result.P,
 
 ## Full example (table+plot alternatives)
 
-### Utility **of** other resources **to** humans of type 1 ($\bar{U}_{bH_{1}}$):
+### utility per capita **of** type n plants **to** humans ($\bar{U}_{P_{n}H}$):
 
-```{r 2_U.bH1-values, cache=TRUE}
-exp.U.bH1.name <- "U.bH1"
-SEQ.U.bH1 <- seq(5, 400, length.out = 100)
+```{r 2_mU.PnH-values, cache=TRUE}
+exp.mU.PnH.name <- "mU.PnH"
+SEQ.mU.PnH <- seq(0.5, 2.5, length.out = 100)
 ```
 
-```{r 2_U.bH1, cache=TRUE, dependson='2_U.bH1-values', include=FALSE}
-exp.U.bH1 <- hpcModel.exploration(
+```{r 2_mU.PnH, cache=TRUE, dependson='2_mU.PnH-values', include=FALSE}
+exp.mU.PnH <- hpcModel.exploration(
   # initial populations
   iniH = 10,
   iniP = 10,
@@ -134,7 +134,7 @@ exp.U.bH1 <- hpcModel.exploration(
   r.H = 0.05, 
   r.P = 0.1, 
   # Utility per capita of individuals of type N
-  mU.PnH = 1.5,
+  mU.PnH = SEQ.mU.PnH,
   mU.HnP = 1,
   # Utility per capita of individuals of type 1
   mU.P1H = 0.15,                                  
@@ -144,7 +144,7 @@ exp.U.bH1 <- hpcModel.exploration(
   U.bHn = 10,                                
   U.bPn = 20, 
   # population of type 1 that can be sustained by resources independent of HP relationship
-  U.bH1 = SEQ.U.bH1,                               
+  U.bH1 = 80,                               
   U.bP1 = 100,                                
   # maximum local area to be used by populations (multiplier or scaling effect)
   MaxArea = 200, 
@@ -156,20 +156,19 @@ exp.U.bH1 <- hpcModel.exploration(
 )
 ```
 
-```{r 2_U.bH1-table, cache=TRUE, dependson='2_U.bH1'}
-exp.table(exp.U.bH1)
+```{r 2_mU.PnH-table, cache=TRUE, dependson='2_mU.PnH'}
+exp.table(exp.mU.PnH)
 ```
 
-```{r 2_U.bH1-bifplot1, cache=TRUE, dependson='2_U.bH1', include=FALSE}
+```{r 2_mU.PnH-bifplot1, cache=TRUE, dependson='2_mU.PnH', include=FALSE}
 plotScale = 10
 #svg('paste0("plots/2_onePar-", exp1.name, "_ggbifplot.png"), width=plotScale, height=plotScale)
-png(paste0("plots/2_onePar-", exp.U.bH1.name, "_ggbifplot.png"),
+png(paste0("plots/2_onePar-", exp.mU.PnH.name, "_ggbifplot.png"),
     width = 200 * plotScale, height = 100 * plotScale)
-bifurcation.plot.simple(SEQ.U.bH1, 
-                        cbind(exp.U.bH1$coevo.H, exp.U.bH1$coevo.P),
+bifurcation.plot.simple(SEQ.mU.PnH, 
+                        cbind(exp.mU.PnH$coevo.H, exp.mU.PnH$coevo.P),
                         legendPos = c(360, 0),
-                        xlab = expression(paste('Baseline carrying capacity for type 1 humans (',
-                                                bar(U)['bH'[1]], ')')),
+                        xlab = expression(paste('utility per capita of type n plants to humans (', bar('U')['PnH'], ')')),
                         ylab = "coevolution coefficient",
                         variableNames = c("Humans", "Plants"),
                         cex = plotScale
@@ -177,27 +176,27 @@ bifurcation.plot.simple(SEQ.U.bH1,
 dev.off()
 ```
 
-```{r 2_U.bH1-bifplot1-print, echo=FALSE, dependson='2_U.bH1-bifplot1'}
-knitr::include_graphics(paste0("plots/2_onePar-", exp.U.bH1.name, "_ggbifplot.png"))
+```{r 2_mU.PnH-bifplot1-print, echo=FALSE, dependson='2_mU.PnH-bifplot1'}
+knitr::include_graphics(paste0("plots/2_onePar-", exp.mU.PnH.name, "_ggbifplot.png"))
 ```
 
-```{r 2_U.bH1-bifplot2, cache=TRUE, dependson='2_U.bH1-exp1', results='hide'}
+```{r 2_mU.PnH-bifplot2, cache=TRUE, dependson='2_mU.PnH', results='hide'}
 plotScale = 10
 
-#svg(paste0("plots/2_onePar-", exp1.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
-png(paste0("plots/2_onePar-", exp.U.bH1.name, "_bifplot-pair.png"),
+#svg(paste0("plots/2_onePar-", exp.mU.PnH.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
+png(paste0("plots/2_onePar-", exp.mU.PnH.name, "_bifplot-pair.png"),
     width = 400 * plotScale, height = 100 * plotScale)
-bifurcation.plot.pair(cbind(SEQ.U.bH1, exp.U.bH1$coevo.H), 
-                      cbind(SEQ.U.bH1, exp.U.bH1$coevo.P), 
-                      parameterLabel = expression(paste('Baseline carrying capacity for type 1 humans (', bar(U)['bH'[1]], ')')),
+bifurcation.plot.pair(cbind(SEQ.mU.PnH, exp.mU.PnH$coevo.H), 
+                      cbind(SEQ.mU.PnH, exp.mU.PnH$coevo.P), 
+                      parameterLabel = expression(paste('utility per capita of type n plants to humans (', bar('U')['PnH'], ')')),
                       variableLabelH = expression('coevo'['H']),
                       variableLabelP = expression('coevo'['P']),
                       plotScale = plotScale)
 dev.off()
 ```
 
-```{r 2_U.bH1-bifplot2-print, echo=FALSE, dependson='2_U.bH1-bifplot2'}
-knitr::include_graphics(paste0("plots/2_onePar-", exp.U.bH1.name, "_bifplot-pair.png"))
+```{r 2_mU.PnH-bifplot2-print, echo=FALSE, dependson='2_mU.PnH-bifplot2'}
+knitr::include_graphics(paste0("plots/2_onePar-", exp.mU.PnH.name, "_bifplot-pair.png"))
 ```
 
 ---
@@ -698,64 +697,7 @@ knitr::include_graphics(paste0("plots/2_onePar-", exp.r.P.name, "_bifplot-pair.p
 
 ### utility per capita **of** type n plants **to** humans ($\bar{U}_{P_{n}H}$):
 
-```{r 2_mU.PnH-values, cache=TRUE}
-exp.mU.PnH.name <- "mU.PnH"
-SEQ.mU.PnH <- seq(0.5, 2.5, length.out = 100)
-```
-
-```{r 2_mU.PnH, cache=TRUE, dependson='2_mU.PnH-values', include=FALSE}
-exp.mU.PnH <- hpcModel.exploration(
-  # initial populations
-  iniH = 10,
-  iniP = 10,
-  # number of discrete types
-  n.H = 10,         
-  n.P = 10,        
-  # undirected variation 
-  v.H = 0.15,
-  v.P = 0.15,
-  # intrinsic growth rate 
-  r.H = 0.05, 
-  r.P = 0.1, 
-  # Utility per capita of individuals of type N
-  mU.PnH = SEQ.mU.PnH,
-  mU.HnP = 1,
-  # Utility per capita of individuals of type 1
-  mU.P1H = 0.15,                                  
-  mU.H1P = 0.1,                                   
-  # basic resources:
-  # population of type N that can be sustained by resources independent of HP relationship
-  U.bHn = 10,                                
-  U.bPn = 20, 
-  # population of type 1 that can be sustained by resources independent of HP relationship
-  U.bH1 = 80,                               
-  U.bP1 = 100,                                
-  # maximum local area to be used by populations (multiplier or scaling effect)
-  MaxArea = 200, 
-  # settings 
-  # simulation flow & data
-  maxIt = 20000,
-  tol = 6,
-  messages = TRUE
-)
-```
-
-```{r 2_mU.PnH-bifplot2, cache=TRUE, dependson='2_mU.PnH', results='hide'}
-plotScale = 10
-
-#svg(paste0("plots/2_onePar-", exp.mU.PnH.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
-png(paste0("plots/2_onePar-", exp.mU.PnH.name, "_bifplot-pair.png"),
-    width = 400 * plotScale, height = 100 * plotScale)
-bifurcation.plot.pair(cbind(SEQ.mU.PnH, exp.mU.PnH$coevo.H), 
-                      cbind(SEQ.mU.PnH, exp.mU.PnH$coevo.P), 
-                      parameterLabel = expression(paste('utility per capita of type n plants to humans (', bar('U')['PnH'], ')')),
-                      variableLabelH = expression('coevo'['H']),
-                      variableLabelP = expression('coevo'['P']),
-                      plotScale = plotScale)
-dev.off()
-```
-
-```{r 2_mU.PnH-bifplot2-print, echo=FALSE, dependson='2_mU.PnH-bifplot2'}
+```{r 2_mU.PnH-bifplot2-print2, echo=FALSE, dependson='2_mU.PnH-bifplot2'}
 knitr::include_graphics(paste0("plots/2_onePar-", exp.mU.PnH.name, "_bifplot-pair.png"))
 ```
 
@@ -948,13 +890,70 @@ dev.off()
 knitr::include_graphics(paste0("plots/2_onePar-", exp.mU.H1P.name, "_bifplot-pair.png"))
 ```
 
-### utility **of** other resources **to** humans of type 1 ($\bar{U}_{bH_{1}}$):
+### utility **of** other resources **to** humans of type 1 ($U_{bH_{1}}$):
 
-```{r 2_U.bH1-bifplot2-print2, echo=FALSE, dependson='2_U.bH1-bifplot2'}
+```{r 2_U.bH1-values, cache=TRUE}
+exp.U.bH1.name <- "U.bH1"
+SEQ.U.bH1 <- seq(5, 400, length.out = 100)
+```
+
+```{r 2_U.bH1, cache=TRUE, dependson='2_U.bH1-values', include=FALSE}
+exp.U.bH1 <- hpcModel.exploration(
+  # initial populations
+  iniH = 10,
+  iniP = 10,
+  # number of discrete types
+  n.H = 10,         
+  n.P = 10,        
+  # undirected variation 
+  v.H = 0.15,
+  v.P = 0.15,
+  # intrinsic growth rate 
+  r.H = 0.05, 
+  r.P = 0.1, 
+  # Utility per capita of individuals of type N
+  mU.PnH = 1.5,
+  mU.HnP = 1,
+  # Utility per capita of individuals of type 1
+  mU.P1H = 0.15,                                  
+  mU.H1P = 0.1,                                   
+  # basic resources:
+  # population of type N that can be sustained by resources independent of HP relationship
+  U.bHn = 10,                                
+  U.bPn = 20, 
+  # population of type 1 that can be sustained by resources independent of HP relationship
+  U.bH1 = SEQ.U.bH1,                               
+  U.bP1 = 100,                                
+  # maximum local area to be used by populations (multiplier or scaling effect)
+  MaxArea = 200, 
+  # settings 
+  # simulation flow & data
+  maxIt = 20000,
+  tol = 6,
+  messages = TRUE
+)
+```
+
+```{r 2_U.bH1-bifplot2, cache=TRUE, dependson='2_U.bH1-exp1', results='hide'}
+plotScale = 10
+
+#svg(paste0("plots/2_onePar-", exp1.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
+png(paste0("plots/2_onePar-", exp.U.bH1.name, "_bifplot-pair.png"),
+    width = 400 * plotScale, height = 100 * plotScale)
+bifurcation.plot.pair(cbind(SEQ.U.bH1, exp.U.bH1$coevo.H), 
+                      cbind(SEQ.U.bH1, exp.U.bH1$coevo.P), 
+                      parameterLabel = expression(paste('Baseline carrying capacity for type 1 humans (', bar(U)['bH'[1]], ')')),
+                      variableLabelH = expression('coevo'['H']),
+                      variableLabelP = expression('coevo'['P']),
+                      plotScale = plotScale)
+dev.off()
+```
+
+```{r 2_U.bH1-bifplot2-print, echo=FALSE, dependson='2_U.bH1-bifplot2'}
 knitr::include_graphics(paste0("plots/2_onePar-", exp.U.bH1.name, "_bifplot-pair.png"))
 ```
 
-### utility **of** non-anthropic space **to** type 1 plants ($\bar{U}_{bP_{1}}$):
+### utility **of** non-anthropic space **to** type 1 plants ($U_{bP_{1}}$):
 
 ```{r 2_U.bP1-values, cache=TRUE}
 exp.U.bP1.name <- "U.bP1"
@@ -1017,7 +1016,7 @@ dev.off()
 knitr::include_graphics(paste0("plots/2_onePar-", exp.U.bP1.name, "_bifplot-pair.png"))
 ```
 
-### utility **of** other resources **to** type n humans ($\bar{U}_{bH_{n}}$):
+### utility **of** other resources **to** type n humans ($U_{bH_{n}}$):
 
 ```{r 2_U.bHn-values, cache=TRUE}
 exp.U.bHn.name <- "U.bHn"
@@ -1080,7 +1079,7 @@ dev.off()
 knitr::include_graphics(paste0("plots/2_onePar-", exp.U.bHn.name, "_bifplot-pair.png"))
 ```
 
-### utility **of** non-anthropic space **to** type n plants ($\bar{U}_{bP_{n}}$):
+### utility **of** non-anthropic space **to** type n plants ($U_{bP_{n}}$):
 
 ```{r 2_U.bPn-values, cache=TRUE}
 exp.U.bPn.name <- "U.bPn"

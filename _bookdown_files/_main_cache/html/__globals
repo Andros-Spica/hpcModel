@@ -1,4 +1,4 @@
-1_setup	opts_chunk	set	print	getwd	source	require	reshape2	ggplot2	scales	purrr	magick	run.table	run.parnames	names	run.result	PARS	run.parvalues	c	i	length	kable	cbind	exp.table	exp.parnames	exp.values	exp.results	value	levels	factor	as.numeric	as.character	paste	min	max
+1_setup	opts_chunk	set	source	require	reshape2	ggplot2	scales	purrr	magick	run.table	run.parnames	names	run.result	PARS	run.parvalues	c	i	length	kable	cbind	exp.table	exp.parnames	exp.values	exp.results	value	levels	factor	as.numeric	as.character	paste	min	max
 1_setup_plus	runPlot.dir	plot.trajectory	ggplot	meltedRunData	aes	time	value	variable	plotScale	geom_line	ylab	scale_color_manual	c	theme	element_text	element_blank	unit	animate.trajectory	files	paste0	filePath	dir	fileName	images	map	image_read	image_join	animation	image_animate	image_write	delete.frames	unlink
 1_run1-name	run1.name
 1_run1	run1	hpcModel.run
@@ -120,19 +120,19 @@ setup	opts_chunk	set	source	require	reshape2	ggplot2	scales	run.table	run.parnam
 1_run.coevo.coeta-frames	run2	hpcModel.run	runPlot.dir	paste0	run.coevo.coeta.name	animate.trajectory
 1_run.coevo.coeta-animation	include_graphics	paste0	runPlot.dir	run.coevo.coeta.name
 1_run.no.coevo-name	run.no.coevo.name
-1_run.no.coevo	run.no.coevo	hpcModel.run	runPlot.dir	paste0	run.no.coevo.name	animate.trajectory	include_graphics
+1_run.no.coevo	run.no.coevo	hpcModel.run	runPlot.dir	paste0	run.no.coevo.name	animate.trajectory
 1_run.coevo.early.cult-name	run.coevo.early.cult.name
-1_run.coevo.early.cult	run.coevo.early.cult	hpcModel.run	runPlot.dir	paste0	run.coevo.early.cult.name	animate.trajectory	include_graphics
+1_run.coevo.early.cult	run.coevo.early.cult	hpcModel.run	runPlot.dir	paste0	run.coevo.early.cult.name	animate.trajectory
 1_run.coevo.early.dom-name	run.coevo.early.dom.name
-1_run.coevo.early.dom	run.coevo.early.dom	hpcModel.run	runPlot.dir	paste0	run.coevo.early.dom.name	animate.trajectory	include_graphics
+1_run.coevo.early.dom	run.coevo.early.dom	hpcModel.run	runPlot.dir	paste0	run.coevo.early.dom.name	animate.trajectory
 1_run.cult.without.dom-name	run.cult.without.dom.name
-1_run.cult.without.dom	run.cult.without.dom	hpcModel.run	runPlot.dir	paste0	run.cult.without.dom.name	animate.trajectory	include_graphics
+1_run.cult.without.dom	run.cult.without.dom	hpcModel.run	runPlot.dir	paste0	run.cult.without.dom.name	animate.trajectory
 1_run.coevo.bleep-name	run.coevo.bleep.name
-1_run.coevo.bleep	run.coevo.bleep	hpcModel.run	runPlot.dir	paste0	run.coevo.bleep.name	animate.trajectory	include_graphics
+1_run.coevo.bleep	run.coevo.bleep	hpcModel.run	runPlot.dir	paste0	run.coevo.bleep.name	animate.trajectory
 1_run.coevo.boom-name	run.coevo.boom.name
-1_run.coevo.boom	run.coevo.boom	hpcModel.run	runPlot.dir	paste0	run.coevo.boom.name	animate.trajectory	include_graphics
+1_run.coevo.boom	run.coevo.boom	hpcModel.run	runPlot.dir	paste0	run.coevo.boom.name	animate.trajectory
 1_run.coevo.long.boom-name	run.coevo.long.boom.name
-1_run.coevo.long.boom	run.coevo.long.boom	hpcModel.run	runPlot.dir	paste0	run.coevo.long.boom.name	animate.trajectory	include_graphics
+1_run.coevo.long.boom	run.coevo.long.boom	hpcModel.run	runPlot.dir	paste0	run.coevo.long.boom.name	animate.trajectory
 3_mU.HnP_mU.PnH	exp.mU.HnP_mU.PnH	hpcModel.exploration	SEQ.mU.PnH	SEQ.mU.HnP
 3_mU.HnP_mU.PnH-table	exp.table	exp.mU.HnP_mU.PnH
 3_mU.HnP_mU.PnH-plot	plotScale	length	SEQ.mU.HnP	png	paste0	exp.mU.HnP_mU.PnH.name	twoPar.ggplot	exp.mU.HnP_mU.PnH	expression	bar	U	H	P	dev.off
@@ -141,7 +141,7 @@ setup	opts_chunk	set	source	require	reshape2	ggplot2	scales	run.table	run.parnam
 3_n.H_n.P-plot	plotScale	length	SEQ.n.H	png	paste0	exp.n.H_n.P.name	twoPar.ggplot	exp.n.H_n.P	expression	n	H	P	dev.off
 3_n.H_n.P-plot-print	include_graphics	paste0	exp.n.H_n.P.name
 3_v.H_v.P	exp.v.H_v.P	hpcModel.exploration	SEQ.v.H	SEQ.v.P
-3_v.H_v.P-plot	plotScale	length	SEQ.n.H	png	paste0	exp.v.H_v.P.name	twoPar.ggplot	exp.v.H_v.P	expression	v	H	P	dev.off
+3_v.H_v.P-plot	plotScale	length	SEQ.v.H	png	paste0	exp.v.H_v.P.name	twoPar.ggplot	exp.v.H_v.P	expression	v	H	P	dev.off
 3_v.H_v.P-plot-print	include_graphics	paste0	exp.v.H_v.P.name
 3_mU.H1P_mU.P1H	exp.mU.H1P_mU.P1H	hpcModel.exploration	SEQ.mU.P1H	SEQ.mU.H1P
 3_mU.H1P_mU.P1H-plot	plotScale	length	SEQ.mU.H1P	png	paste0	exp.mU.H1P_mU.P1H.name	twoPar.ggplot	exp.mU.H1P_mU.P1H	expression	bar	U	H	P	dev.off
@@ -156,3 +156,31 @@ setup	opts_chunk	set	source	require	reshape2	ggplot2	scales	run.table	run.parnam
 3_full_mU.HP_PH	exp.full_mU.HP_PH	list	parameterPair	nrow	parameterPairs	mU.PnH	mU.HnP	mU.P1H	mU.H1P	parameter	SEQ.mU.PnH	SEQ.mU.HnP	SEQ.mU.P1H	SEQ.mU.H1P	hpcModel.exploration
 3_full_mU.HP_PH-plot	
 3_full_mU.HP_PH-plot-print	
+1_run.no.coevo-animation	include_graphics	paste0	runPlot.dir	run.no.coevo.name
+1_run.coevo.early.cult-animation	include_graphics	paste0	runPlot.dir	run.coevo.early.cult.name
+1_run.coevo.early.dom-animation	include_graphics	paste0	runPlot.dir	run.coevo.early.dom.name
+1_run.cult.without.dom-animation	include_graphics	paste0	runPlot.dir	run.cult.without.dom.name
+1_run.coevo.bleep-animation	include_graphics	paste0	runPlot.dir	run.coevo.bleep.name
+1_run.coevo.boom-animation	include_graphics	paste0	runPlot.dir	run.coevo.boom.name
+1_run.coevo.long.boom-animation	include_graphics	paste0	runPlot.dir	run.coevo.long.boom.name
+3_mU.HnP_mU.PnH-plot-print2	include_graphics	paste0	exp.mU.HnP_mU.PnH.name
+3_mU.H1P_mU.HnP-values	exp.mU.H1P_mU.HnP.name	SEQ.mU.H1P	seq	SEQ.mU.HnP
+3_mU.H1P_mU.HnP	exp.mU.H1P_mU.HnP	hpcModel.exploration	SEQ.mU.HnP	SEQ.mU.H1P
+3_mU.H1P_mU.HnP-plot	plotScale	length	SEQ.mU.H1P	png	paste0	exp.mU.H1P_mU.HnP.name	twoPar.ggplot	exp.mU.H1P_mU.HnP	expression	bar	U	H	P	dev.off
+3_mU.H1P_mU.HnP-plot-print	include_graphics	paste0	exp.mU.H1P_mU.HnP.name
+3_mU.P1H_mU.PnH-values	exp.mU.P1H_mU.PnH.name	SEQ.mU.P1H	seq	SEQ.mU.PnH
+3_mU.P1H_mU.PnH	exp.mU.P1H_mU.PnH	hpcModel.exploration	SEQ.mU.PnH	SEQ.mU.P1H
+3_mU.P1H_mU.PnH-plot	plotScale	length	SEQ.mU.P1H	png	paste0	exp.mU.P1H_mU.PnH.name	twoPar.ggplot	exp.mU.P1H_mU.PnH	expression	bar	U	H	P	dev.off
+3_mU.P1H_mU.PnH-plot-print	include_graphics	paste0	exp.mU.P1H_mU.PnH.name
+3_U.bH1_U.bHn-values	exp.U.bH1_U.bHn.name	SEQ.U.bH1	seq	SEQ.U.bHn
+3_U.bH1_U.bHn	exp.U.bH1_U.bHn	hpcModel.exploration	SEQ.U.bHn	SEQ.U.bH1
+3_U.bH1_U.bHn-plot	plotScale	length	SEQ.U.bHn	png	paste0	exp.U.bH1_U.bHn.name	twoPar.ggplot	exp.U.bH1_U.bHn	expression	U	H	P	dev.off
+3_U.bH1_U.bHn-plot-print	include_graphics	paste0	exp.U.bH1_U.bHn.name
+3_U.bP1_U.bPn-values	exp.U.bP1_U.bPn.name	SEQ.U.bP1	seq	SEQ.U.bPn
+3_U.bP1_U.bPn	exp.U.bP1_U.bPn	hpcModel.exploration	SEQ.U.bPn	SEQ.U.bP1
+3_U.bP1_U.bPn-plot	plotScale	length	SEQ.U.bPn	png	paste0	exp.U.bP1_U.bPn.name	twoPar.ggplot	exp.U.bP1_U.bPn	expression	U	H	P	dev.off
+3_U.bP1_U.bPn-plot-print	include_graphics	paste0	exp.U.bP1_U.bPn.name
+2_mU.PnH-table	exp.table	exp.mU.PnH
+2_mU.PnH-bifplot1	plotScale	png	paste0	exp.mU.PnH.name	bifurcation.plot.simple	SEQ.mU.PnH	cbind	exp.mU.PnH	coevo.H	coevo.P	c	expression	paste	bar	dev.off
+2_mU.PnH-bifplot1-print	include_graphics	paste0	exp.mU.PnH.name
+2_mU.PnH-bifplot2-print2	include_graphics	paste0	exp.mU.PnH.name

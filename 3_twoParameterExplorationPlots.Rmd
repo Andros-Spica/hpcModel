@@ -73,13 +73,13 @@ twoPar.ggplot <- function(twoPar.exp, par1, par2, var1, var2,
                size = plotScale * 1.5) +
     geom_point(aes(size = time), shape = 't', color = 'grey') +
     scale_fill_gradientn(
-      colors = c('red', 'white', 'blue'),
-      values = rescale(c(var1min, 0, var1max)),
+      colors = c('white', 'darkblue'),
+      values = rescale(c(var1min, var1max)),
       limits = c(var1min, var1max)
     ) +
     scale_color_gradientn(
-      colors = c('darkred', 'white', 'darkblue'),
-      values = rescale(c(var2min, 0, var2max)),
+      colors = c('white', 'darkred'),
+      values = rescale(c(var2min, var2max)),
       limits = c(var2min, var2max)
     ) +
     scale_size(range = c(plotScale * 0.5, plotScale * 2)) +
@@ -90,17 +90,17 @@ twoPar.ggplot <- function(twoPar.exp, par1, par2, var1, var2,
     theme_bw() +
     theme(
       panel.background = element_blank(),
-      axis.title = element_text(size = plotScale * 2.5),
+      axis.title = element_text(size = plotScale * 3.5),
       axis.text = element_text(size = plotScale * 2),
-      legend.title = element_text(size = plotScale * 2.5),
+      legend.title = element_text(size = plotScale * 3.5),
       legend.text = element_text(size = plotScale * 2)
     )
 }
 ```
 
-## Full example (table+plot alternatives)
+## Full example
 
-### Utility per capita from type n humans and plants (mU.HnP x mU.PnH):
+### Utility per capita from type n humans and plants ($\bar{U}_{H_{n}P}\,vs\,\bar{U}_{P_{n}H}$):
 
 ```{r 3_mU.HnP_mU.PnH-values, cache=TRUE}
 exp.mU.HnP_mU.PnH.name <- "mU.HnP-mU.PnH"
@@ -175,8 +175,8 @@ knitr::include_graphics(paste0("plots/3_twoPar-", exp.mU.HnP_mU.PnH.name, "_plot
 
 ```{r 3_n.H_n.P-values, cache=TRUE}
 exp.n.H_n.P.name <- "n.H-n.P"
-SEQ.n.H <- seq(5, 40, length.out = 15)
-SEQ.n.P <- seq(5, 40, length.out = 15)
+SEQ.n.H <- seq(3, 42, by = 3)
+SEQ.n.P <- seq(3, 42, by = 3)
 ```
 
 ```{r 3_n.H_n.P, cache=TRUE, dependson='3_n.H_n.P-values', include=FALSE}
@@ -234,7 +234,7 @@ dev.off()
 knitr::include_graphics(paste0("plots/3_twoPar-", exp.n.H_n.P.name, "_plot.png"))
 ```
 
-### level of undirected variation in humans and plants ($v_{H}\,vs\,v_{P}$):
+### Undirected variation in humans and plants ($v_{H}\,vs\,v_{P}$):
 
 ```{r 3_v.H_v.P-values, cache=TRUE}
 exp.v.H_v.P.name <- "v.H-v.P"
@@ -280,7 +280,7 @@ exp.v.H_v.P <- hpcModel.exploration(
 ```
 
 ```{r 3_v.H_v.P-plot, include=FALSE, cache=TRUE, dependson='3_v.H_v.P'}
-plotScale = 100 / length(SEQ.n.H)
+plotScale = 100 / length(SEQ.v.H)
 
 png(paste0("plots/3_twoPar-", exp.v.H_v.P.name, "_plot.png"),
     width = 100 * plotScale, height = 100 * plotScale)
@@ -297,7 +297,7 @@ dev.off()
 knitr::include_graphics(paste0("plots/3_twoPar-", exp.v.H_v.P.name, "_plot.png"))
 ```
 
-### Utility per capita from type 1 humans and plants (mU.H1P x mU.P1H):
+### Utility per capita from type 1 humans and plants ($\bar{U}_{H_{1}P}\,vs\,\bar{U}_{P_{1}H}$):
 
 ```{r 3_mU.H1P_mU.P1H-values, cache=TRUE}
 exp.mU.H1P_mU.P1H.name <- "mU.H1P-mU.P1H"
@@ -360,7 +360,139 @@ dev.off()
 knitr::include_graphics(paste0("plots/3_twoPar-", exp.mU.H1P_mU.P1H.name, "_plot.png"))
 ```
 
-### Utility of other resources to type 1 humans and plants (U.bH1 x U.bP1):
+### Utility per capita from type n humans and plants ($\bar{U}_{H_{n}P}\,vs\,\bar{U}_{P_{n}H}$):
+
+```{r 3_mU.HnP_mU.PnH-plot-print2, echo=FALSE}
+knitr::include_graphics(paste0("plots/3_twoPar-", exp.mU.HnP_mU.PnH.name, "_plot.png"))
+```
+
+### Utility per capita from humans to plants ($\bar{U}_{H_{1}P}\,vs\,\bar{U}_{H_{n}P}$):
+
+```{r 3_mU.H1P_mU.HnP-values, cache=TRUE}
+exp.mU.H1P_mU.HnP.name <- "mU.H1P-mU.HnP"
+SEQ.mU.H1P <- seq(0, 2.5, length.out = 15)
+SEQ.mU.HnP <- seq(0, 2.5, length.out = 15)
+```
+
+```{r 3_mU.H1P_mU.HnP, cache=TRUE, dependson='3_mU.H1P_mU.HnP-values', include=FALSE}
+exp.mU.H1P_mU.HnP <- hpcModel.exploration(
+  # initial populations
+  iniH = 10,
+  iniP = 10,
+  # number of discrete types
+  n.H = 30,         
+  n.P = 30,        
+  # undirected variation 
+  v.H = 0.15,
+  v.P = 0.15,
+  # intrinsic growth rate 
+  r.H = 0.04, 
+  r.P = 0.1, 
+  # Utility per capita of individuals of type N
+  mU.PnH = 1.5,
+  mU.HnP = SEQ.mU.HnP,
+  # Utility per capita of individuals of type 1
+  mU.P1H = 0.15,                                  
+  mU.H1P = SEQ.mU.H1P,                                   
+  # basic resources:
+  # population of type N that can be sustained by resources independent of HP relationship
+  U.bHn = 10,                                
+  U.bPn = 20, 
+  # population of type 1 that can be sustained by resources independent of HP relationship
+  U.bH1 = 80,                               
+  U.bP1 = 100,                                
+  # maximum local area to be used by populations (multiplier or scaling effect)
+  MaxArea = 200, 
+  # settings 
+  # simulation flow & data
+  maxIt = 20000,
+  tol = 6,
+  messages = FALSE
+)
+```
+
+```{r 3_mU.H1P_mU.HnP-plot, include=FALSE, cache=TRUE, dependson='3_mU.H1P_mU.HnP'}
+plotScale = 100 / length(SEQ.mU.H1P)
+
+png(paste0("plots/3_twoPar-", exp.mU.H1P_mU.HnP.name, "_plot.png"),
+    width = 100 * plotScale, height = 100 * plotScale)
+twoPar.ggplot(exp.mU.H1P_mU.HnP, 'mU.H1P', 'mU.HnP', 'coevo.H', 'coevo.P', 
+              xlab = expression(bar(U)['H1P']),
+              ylab = expression(bar(U)['HnP']),
+              var1lab = expression('coevo'[H]),
+              var2lab = expression('coevo'[P]),
+              plotScale = plotScale)
+dev.off()
+```
+
+```{r 3_mU.H1P_mU.HnP-plot-print, echo=FALSE}
+knitr::include_graphics(paste0("plots/3_twoPar-", exp.mU.H1P_mU.HnP.name, "_plot.png"))
+```
+
+### Utility per capita from plants to humans ($\bar{U}_{P_{1}H}\,vs\,\bar{U}_{P_{n}H}$):
+
+```{r 3_mU.P1H_mU.PnH-values, cache=TRUE}
+exp.mU.P1H_mU.PnH.name <- "mU.P1H-mU.PnH"
+SEQ.mU.P1H <- seq(0, 2.5, length.out = 15)
+SEQ.mU.PnH <- seq(0, 2.5, length.out = 15)
+```
+
+```{r 3_mU.P1H_mU.PnH, cache=TRUE, dependson='3_mU.P1H_mU.PnH-values', include=FALSE}
+exp.mU.P1H_mU.PnH <- hpcModel.exploration(
+  # initial populations
+  iniH = 10,
+  iniP = 10,
+  # number of discrete types
+  n.H = 30,         
+  n.P = 30,        
+  # undirected variation 
+  v.H = 0.15,
+  v.P = 0.15,
+  # intrinsic growth rate 
+  r.H = 0.04, 
+  r.P = 0.1, 
+  # Utility per capita of individuals of type N
+  mU.PnH = SEQ.mU.PnH,
+  mU.HnP = 1,
+  # Utility per capita of individuals of type 1
+  mU.P1H = SEQ.mU.P1H,                                  
+  mU.H1P = 0,                                   
+  # basic resources:
+  # population of type N that can be sustained by resources independent of HP relationship
+  U.bHn = 10,                                
+  U.bPn = 20, 
+  # population of type 1 that can be sustained by resources independent of HP relationship
+  U.bH1 = 80,                               
+  U.bP1 = 100,                                
+  # maximum local area to be used by populations (multiplier or scaling effect)
+  MaxArea = 200, 
+  # settings 
+  # simulation flow & data
+  maxIt = 20000,
+  tol = 6,
+  messages = FALSE
+)
+```
+
+```{r 3_mU.P1H_mU.PnH-plot, include=FALSE, cache=TRUE, dependson='3_mU.P1H_mU.PnH'}
+plotScale = 100 / length(SEQ.mU.P1H)
+
+png(paste0("plots/3_twoPar-", exp.mU.P1H_mU.PnH.name, "_plot.png"),
+    width = 100 * plotScale, height = 100 * plotScale)
+twoPar.ggplot(exp.mU.P1H_mU.PnH, 'mU.P1H', 'mU.PnH', 'coevo.H', 'coevo.P', 
+              xlab = expression(bar(U)['P1H']),
+              ylab = expression(bar(U)['PnH']),
+              var1lab = expression('coevo'[H]),
+              var2lab = expression('coevo'[P]),
+              plotScale = plotScale)
+dev.off()
+```
+
+```{r 3_mU.P1H_mU.PnH-plot-print, echo=FALSE}
+knitr::include_graphics(paste0("plots/3_twoPar-", exp.mU.P1H_mU.PnH.name, "_plot.png"))
+```
+
+### Utility of other resources to type 1 humans and plants ($U_{bH_{1}}\,vs\,U_{bP_{1}}$):
 
 ```{r 3_U.bH1_U.bP1-values, cache=TRUE}
 exp.U.bH1_U.bP1.name <- "U.bH1-U.bP1"
@@ -423,7 +555,7 @@ dev.off()
 knitr::include_graphics(paste0("plots/3_twoPar-", exp.U.bH1_U.bP1.name, "_plot.png"))
 ```
 
-### Utility of other resources to type n humans and plants (U.bHn x U.bPn):
+### Utility of other resources to type n humans and plants ($U_{bH_{n}}\,vs\,U_{bP_{n}}$):
 
 ```{r 3_U.bHn_U.bPn-values, cache=TRUE}
 exp.U.bHn_U.bPn.name <- "U.bHn-U.bPn"
@@ -486,90 +618,129 @@ dev.off()
 knitr::include_graphics(paste0("plots/3_twoPar-", exp.U.bHn_U.bPn.name, "_plot.png"))
 ```
 
----
+### Utility of other resources to humans ($U_{bH_{1}}\,vs\,U_{bH_{n}}$):
 
-## !!!Exploration on 'default' setting for all pairs of mutual utility parameters (mU.H1P x mU.HnP x mU.P1H x mU.PnH)
-
-```{r 3_full_mU.HP_PH-values, cache=TRUE, eval=FALSE}
-exp.full_mU.HP_PH.name <- "full-mU.HP-PH"
-SEQ.mU.PnH <- seq(0, 2.5, length.out = 15)
-SEQ.mU.HnP <- seq(0, 2.5, length.out = 15)
-SEQ.mU.P1H <- seq(0, 2.5, length.out = 15)
-SEQ.mU.H1P <- seq(0, 2.5, length.out = 15)
-
-# create 
-exploredParsNames <- c("mU.H1P", "mU.P1H", "mU.HnP", "mU.PnH")
-parameterPairs <- t(combn(unique(c(exploredParsNames, exploredParsNames)), 2))
+```{r 3_U.bH1_U.bHn-values, cache=TRUE}
+exp.U.bH1_U.bHn.name <- "U.bH1-U.bHn"
+SEQ.U.bH1 <- seq(10, 150, length.out = 15)
+SEQ.U.bHn <- seq(10, 150, length.out = 15)
 ```
 
-```{r 3_full_mU.HP_PH, cache=TRUE, dependson='3_full_mU.HP_PH-values', include=FALSE, eval=FALSE}
-exp.full_mU.HP_PH <- list()
-
-for (parameterPair in 1:nrow(parameterPairs))
-{
-  # get the default values
-  mU.PnH = 1.5
-  mU.HnP = 1
-  mU.P1H = 0.15                                 
-  mU.H1P = 0
-  
-  for (parameter in parameterPair[parameterPair,])
-  {
-    if (parameter == "mU.PnH") { mU.H1P = SEQ.mU.PnH; }
-    if (parameter == "mU.HnP") { mU.H1P = SEQ.mU.HnP; }
-    if (parameter == "mU.P1H") { mU.H1P = SEQ.mU.P1H; }
-    if (parameter == "mU.H1P") { mU.H1P = SEQ.mU.H1P; }
-  }
-  
-  hpcModel.exploration(
-    # initial populations
-    iniH = 10,
-    iniP = 10,
-    # number of discrete types
-    n.H = 30,         
-    n.P = 30,        
-    # undirected variation 
-    v.H = 0.15,
-    v.P = 0.15,
-    # intrinsic growth rate 
-    r.H = 0.04, 
-    r.P = 0.1, 
-    # Utility per capita of individuals of type N
-    mU.PnH = mU.PnH,
-    mU.HnP = mU.HnP,
-    # Utility per capita of individuals of type 1
-    mU.P1H = mU.P1H,                                  
-    mU.H1P = mU.H1P,                                   
-    # basic resources:
-    # population of type N that can be sustained by resources independent of HP relationship
-    U.bHn = 10,                                
-    U.bPn = 20, 
-    # population of type 1 that can be sustained by resources independent of HP relationship
-    U.bH1 = 80,                               
-    U.bP1 = 100,                                
-    # maximum local area to be used by populations (multiplier or scaling effect)
-    MaxArea = 200, 
-    # settings 
-    # simulation flow & data
-    maxIt = 20000,
-    tol = 6,
-    messages = FALSE
-  )
-}
-
+```{r 3_U.bH1_U.bHn, cache=TRUE, dependson='3_U.bH1_U.bHn-values', include=FALSE}
+exp.U.bH1_U.bHn <- hpcModel.exploration(
+  # initial populations
+  iniH = 10,
+  iniP = 10,
+  # number of discrete types
+  n.H = 30,         
+  n.P = 30,        
+  # undirected variation 
+  v.H = 0.15,
+  v.P = 0.15,
+  # intrinsic growth rate 
+  r.H = 0.04, 
+  r.P = 0.1, 
+  # Utility per capita of individuals of type N
+  mU.PnH = 1.5,
+  mU.HnP = 1,
+  # Utility per capita of individuals of type 1
+  mU.P1H = 0.15,                                  
+  mU.H1P = 0,                                   
+  # basic resources:
+  # population of type N that can be sustained by resources independent of HP relationship
+  U.bHn = SEQ.U.bHn,                                
+  U.bPn = 20, 
+  # population of type 1 that can be sustained by resources independent of HP relationship
+  U.bH1 = SEQ.U.bH1,                               
+  U.bP1 = 100,                                
+  # maximum local area to be used by populations (multiplier or scaling effect)
+  MaxArea = 200, 
+  # settings 
+  # simulation flow & data
+  maxIt = 20000,
+  tol = 6,
+  messages = FALSE
+)
 ```
 
-```{r 3_full_mU.HP_PH-plot, include=FALSE, cache=TRUE, dependson='3_full_mU.HP_PH'}
-# plotScale = 100 / length(SEQ.U.bHn)
-# 
-# png(paste0("plots/3_twoPar-", exp.U.bHn_U.bPn.name, "_plot.png"),
-#     width = 100 * plotScale, height = 100 * plotScale)
-# 
-# dev.off()
+```{r 3_U.bH1_U.bHn-plot, include=FALSE, cache=TRUE, dependson='3_U.bH1_U.bHn'}
+plotScale = 100 / length(SEQ.U.bHn)
+
+png(paste0("plots/3_twoPar-", exp.U.bH1_U.bHn.name, "_plot.png"),
+    width = 100 * plotScale, height = 100 * plotScale)
+twoPar.ggplot(exp.U.bH1_U.bHn, 'U.bH1', 'U.bHn', 'coevo.H', 'coevo.P', 
+              xlab = expression(U['bH1']),
+              ylab = expression(U['bHn']),
+              var1lab = expression('coevo'[H]),
+              var2lab = expression('coevo'[P]),
+              plotScale = plotScale)
+dev.off()
 ```
 
-```{r 3_full_mU.HP_PH-plot-print, echo=FALSE}
-#knitr::include_graphics(paste0("plots/3_twoPar-", exp.U.bHn_U.bPn.name, "_plot.png"))
+```{r 3_U.bH1_U.bHn-plot-print, echo=FALSE}
+knitr::include_graphics(paste0("plots/3_twoPar-", exp.U.bH1_U.bHn.name, "_plot.png"))
 ```
 
+### Utility of other resources to plants ($U_{bP_{1}}\,vs\,U_{bP_{n}}$):
+
+```{r 3_U.bP1_U.bPn-values, cache=TRUE}
+exp.U.bP1_U.bPn.name <- "U.bP1-U.bPn"
+SEQ.U.bP1 <- seq(10, 150, length.out = 15)
+SEQ.U.bPn <- seq(10, 150, length.out = 15)
+```
+
+```{r 3_U.bP1_U.bPn, cache=TRUE, dependson='3_U.bP1_U.bPn-values', include=FALSE}
+exp.U.bP1_U.bPn <- hpcModel.exploration(
+  # initial populations
+  iniH = 10,
+  iniP = 10,
+  # number of discrete types
+  n.H = 30,         
+  n.P = 30,        
+  # undirected variation 
+  v.H = 0.15,
+  v.P = 0.15,
+  # intrinsic growth rate 
+  r.H = 0.04, 
+  r.P = 0.1, 
+  # Utility per capita of individuals of type N
+  mU.PnH = 1.5,
+  mU.HnP = 1,
+  # Utility per capita of individuals of type 1
+  mU.P1H = 0.15,                                  
+  mU.H1P = 0,                                   
+  # basic resources:
+  # population of type N that can be sustained by resources independent of HP relationship
+  U.bHn = 10,                                
+  U.bPn = SEQ.U.bPn, 
+  # population of type 1 that can be sustained by resources independent of HP relationship
+  U.bH1 = 80,                               
+  U.bP1 = SEQ.U.bP1,                                
+  # maximum local area to be used by populations (multiplier or scaling effect)
+  MaxArea = 200, 
+  # settings 
+  # simulation flow & data
+  maxIt = 20000,
+  tol = 6,
+  messages = FALSE
+)
+```
+
+```{r 3_U.bP1_U.bPn-plot, include=FALSE, cache=TRUE, dependson='3_U.bP1_U.bPn'}
+plotScale = 100 / length(SEQ.U.bPn)
+
+png(paste0("plots/3_twoPar-", exp.U.bP1_U.bPn.name, "_plot.png"),
+    width = 100 * plotScale, height = 100 * plotScale)
+twoPar.ggplot(exp.U.bP1_U.bPn, 'U.bP1', 'U.bPn', 'coevo.H', 'coevo.P', 
+              xlab = expression(U['bP1']),
+              ylab = expression(U['bPn']),
+              var1lab = expression('coevo'[H]),
+              var2lab = expression('coevo'[P]),
+              plotScale = plotScale)
+dev.off()
+```
+
+```{r 3_U.bP1_U.bPn-plot-print, echo=FALSE}
+knitr::include_graphics(paste0("plots/3_twoPar-", exp.U.bP1_U.bPn.name, "_plot.png"))
+```
 

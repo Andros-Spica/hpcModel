@@ -72,14 +72,14 @@ exp.table <- function(exp.results)
  `n.H`, `n.P`   | $$n_{H},\,n_{P}$$ | number of types of humans and plants
  `v.H`, `v.P`   | $$v_{H},\,v_{P}$$ | level of undirected variation in humans and plants
  `r.H`, `r.P`   | $$r_{H},\,r_{P}$$ | intrinsic growth rates for human and plant populations
- `mU.PnH`       | $$\bar{U}_{P_{n}H}$$ | utility per capita **of** type N plants **to** humans 
- `mU.HnP`       | $$\bar{U}_{H_{n}P}$$ | utility per capita **of** type N humans **to** plants
+ `mU.PnH`       | $$\bar{U}_{P_{n}H}$$ | utility per capita **of** type n plants **to** humans 
+ `mU.HnP`       | $$\bar{U}_{H_{n}P}$$ | utility per capita **of** type n humans **to** plants
  `mU.P1H`       | $$\bar{U}_{P_{1}H}$$ | utility per capita **of** type 1 plants **to** humans
  `mU.H1P`       | $$\bar{U}_{H_{1}P}$$ | utility per capita **of** type 1 humans **to** plants
  `U.bH1`       | $$U_{bH_{1}}$$ | utility **of** other resources **to** humans of type 1 (the baseline carrying capacity for humans of type 1, i.e. independent of HP relationship)
  `U.bP1`       | $$U_{bP_{1}}$$ | utility **of** non-anthropic space **to** type 1 plants (the baseline carrying capacity for plants of type 1, i.e. independent of HP relationship)
- `U.bHn`       | $$U_{bH_{n}}$$ | utility **of** other resources **to** type N humans
- `U.bPn`       | $$U_{bP_{n}}$$ | utility **of** non-anthropic space **to** type N plants
+ `U.bHn`       | $$U_{bH_{n}}$$ | utility **of** other resources **to** type n humans
+ `U.bPn`       | $$U_{bP_{n}}$$ | utility **of** non-anthropic space **to** type n plants
  `MaxArea`      | $$MaxArea$$ | maximum contiguous area to be used by plants (i.e., maximum carrying capacity for plants)
 
 **_Output end-state variables_**

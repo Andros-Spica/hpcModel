@@ -1,4 +1,4 @@
-1_setup	exp.table	run.table	Fitness	hpcModel.exploration	hpcModel.plot	hpcModel.run
+1_setup	exp.table	run.table
 1_setup_plus	animate.trajectory	plot.trajectory	runPlot.dir
 1_run1-name	run1.name
 1_run1	run1
@@ -156,3 +156,31 @@ setup	exp.table	run.table
 3_full_mU.HP_PH	
 3_full_mU.HP_PH-plot	
 3_full_mU.HP_PH-plot-print	
+1_run.no.coevo-animation	
+1_run.coevo.early.cult-animation	
+1_run.coevo.early.dom-animation	
+1_run.cult.without.dom-animation	
+1_run.coevo.bleep-animation	
+1_run.coevo.boom-animation	
+1_run.coevo.long.boom-animation	
+3_mU.HnP_mU.PnH-plot-print2	
+3_mU.H1P_mU.HnP-values	exp.mU.H1P_mU.HnP.name	SEQ.mU.H1P	SEQ.mU.HnP
+3_mU.H1P_mU.HnP	exp.mU.H1P_mU.HnP
+3_mU.H1P_mU.HnP-plot	plotScale
+3_mU.H1P_mU.HnP-plot-print	
+3_mU.P1H_mU.PnH-values	exp.mU.P1H_mU.PnH.name	SEQ.mU.P1H	SEQ.mU.PnH
+3_mU.P1H_mU.PnH	exp.mU.P1H_mU.PnH
+3_mU.P1H_mU.PnH-plot	plotScale
+3_mU.P1H_mU.PnH-plot-print	
+3_U.bH1_U.bHn-values	exp.U.bH1_U.bHn.name	SEQ.U.bH1	SEQ.U.bHn
+3_U.bH1_U.bHn	exp.U.bH1_U.bHn
+3_U.bH1_U.bHn-plot	plotScale
+3_U.bH1_U.bHn-plot-print	
+3_U.bP1_U.bPn-values	exp.U.bP1_U.bPn.name	SEQ.U.bP1	SEQ.U.bPn
+3_U.bP1_U.bPn	exp.U.bP1_U.bPn
+3_U.bP1_U.bPn-plot	plotScale
+3_U.bP1_U.bPn-plot-print	
+2_mU.PnH-table	
+2_mU.PnH-bifplot1	plotScale
+2_mU.PnH-bifplot1-print	
+2_mU.PnH-bifplot2-print2	

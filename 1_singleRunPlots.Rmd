@@ -4,7 +4,7 @@
 # this chunk is needed in case you want to compile a separated html/pdf for this exploration 
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, # hide code and messages
                       cache=TRUE, autodep=TRUE) 
-print(getwd())
+
 source("library/hpcModel.run.R")
 source("library/hpcModel.exploration.R")
 source("library/hpcModel.plot.R")
@@ -155,7 +155,7 @@ hpcModel.plot(run.coevo.coeta, scale.override = 1)
 
 Plotting population trajectories with *ggplot*: 
 
-```{r 1_run.coevo.coeta-ggplot, include=FALSE, cache=TRUE, dependson='run.coevo.coeta'}
+```{r 1_run.coevo.coeta-ggplot, warning=FALSE, cache=TRUE, dependson='run.coevo.coeta'}
 run.coevo.coeta.melted <-
   data.frame(H = run.coevo.coeta$TRAJECTORIES$H, 
              P = run.coevo.coeta$TRAJECTORIES$P)[!is.na(run.coevo.coeta$TRAJECTORIES$H), ]
@@ -178,7 +178,7 @@ knitr::include_graphics(paste0("plots/1_singleRun-ggplot-", run.coevo.coeta.name
 
 Animated GIF showing the *sequence of states* throughout the simulation:
 
-```{r 1_run.coevo.coeta-frames, include=FALSE, dependson='1_run.coevo.coeta-name'}
+```{r 1_run.coevo.coeta-frames, warning=FALSE, dependson='1_run.coevo.coeta-name'}
 run2 <- hpcModel.run(
   # initial populations
   iniH = 10,
@@ -283,7 +283,9 @@ run.no.coevo <- hpcModel.run(
 
 # Generate an animated GIF using the images in plot.directory folder
 animate.trajectory(runPlot.dir, run.no.coevo.name)
+```
 
+```{r 1_run.no.coevo-animation, echo=FALSE, dependson='run.no.coevo'}
 knitr::include_graphics(paste0(runPlot.dir, run.no.coevo.name, "-anim.gif"))
 ```
 
@@ -340,7 +342,9 @@ run.coevo.early.cult <- hpcModel.run(
 
 # Generate an animated GIF using the images in plot.directory folder
 animate.trajectory(runPlot.dir, run.coevo.early.cult.name)
+```
 
+```{r 1_run.coevo.early.cult-animation, echo=FALSE, dependson='run.coevo.early.cult'}
 knitr::include_graphics(paste0(runPlot.dir, run.coevo.early.cult.name, "-anim.gif"))
 ```
 
@@ -397,7 +401,9 @@ run.coevo.early.dom <- hpcModel.run(
 
 # Generate an animated GIF using the images in plot.directory folder
 animate.trajectory(runPlot.dir, run.coevo.early.dom.name)
+```
 
+```{r 1_run.coevo.early.dom-animation, echo=FALSE, dependson='run.coevo.early.dom'}
 knitr::include_graphics(paste0(runPlot.dir, run.coevo.early.dom.name, "-anim.gif"))
 ```
 
@@ -454,7 +460,9 @@ run.cult.without.dom <- hpcModel.run(
 
 # Generate an animated GIF using the images in plot.directory folder
 animate.trajectory(runPlot.dir, run.cult.without.dom.name)
+```
 
+```{r 1_run.cult.without.dom-animation, echo=FALSE, dependson='run.cult.without.dom'}
 knitr::include_graphics(paste0(runPlot.dir, run.cult.without.dom.name, "-anim.gif"))
 ```
 
@@ -511,7 +519,9 @@ run.coevo.bleep <- hpcModel.run(
 
 # Generate an animated GIF using the images in plot.directory folder
 animate.trajectory(runPlot.dir, run.coevo.bleep.name)
+```
 
+```{r 1_run.coevo.bleep-animation, echo=FALSE, dependson='run.coevo.bleep'}
 knitr::include_graphics(paste0(runPlot.dir, run.coevo.bleep.name, "-anim.gif"))
 ```
 
@@ -568,7 +578,9 @@ run.coevo.boom <- hpcModel.run(
 
 # Generate an animated GIF using the images in plot.directory folder
 animate.trajectory(runPlot.dir, run.coevo.boom.name)
+```
 
+```{r 1_run.coevo.boom-animation, echo=FALSE, dependson='run.coevo.boom'}
 knitr::include_graphics(paste0(runPlot.dir, run.coevo.boom.name, "-anim.gif"))
 ```
 
@@ -625,6 +637,8 @@ run.coevo.long.boom <- hpcModel.run(
 
 # Generate an animated GIF using the images in plot.directory folder
 animate.trajectory(runPlot.dir, run.coevo.long.boom.name)
+```
 
+```{r 1_run.coevo.long.boom-animation, echo=FALSE, dependson='run.coevo.long.boom'}
 knitr::include_graphics(paste0(runPlot.dir, run.coevo.long.boom.name, "-anim.gif"))
 ```
