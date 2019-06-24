@@ -176,7 +176,7 @@ bifurcation.plot.simple(SEQ.mU.PnH,
 dev.off()
 ```
 
-```{r 2_mU.PnH-bifplot1-print, echo=FALSE, dependson='2_mU.PnH-bifplot1'}
+```{r 2_mU.PnH-bifplot1-print, echo=FALSE, dependson='2_mU.PnH-bifplot1', out.width = '100%'}
 knitr::include_graphics(paste0("plots/2_onePar-", exp.mU.PnH.name, "_ggbifplot.png"))
 ```
 
@@ -195,7 +195,7 @@ bifurcation.plot.pair(cbind(SEQ.mU.PnH, exp.mU.PnH$coevo.H),
 dev.off()
 ```
 
-```{r 2_mU.PnH-bifplot2-print, echo=FALSE, dependson='2_mU.PnH-bifplot2'}
+```{r 2_mU.PnH-bifplot2-print, echo=FALSE, dependson='2_mU.PnH-bifplot2', out.width = '100%'}
 knitr::include_graphics(paste0("plots/2_onePar-", exp.mU.PnH.name, "_bifplot-pair.png"))
 ```
 
@@ -318,11 +318,11 @@ bifurcation.plot.pair(cbind(SEQ.init.P, exp.init.P$coevo.H),
 dev.off()
 ```
 
-```{r 2_init.H-bifplot2-print, echo=FALSE, dependson='2_init.H-bifplot2'}
+```{r 2_init.H-bifplot2-print, echo=FALSE, dependson='2_init.H-bifplot2', out.width = '100%'}
 knitr::include_graphics(paste0("plots/2_onePar-", exp.init.H.name, "_bifplot-pair.png"))
 ```
 
-```{r 2_init.P-bifplot2-print, echo=FALSE, dependson='2_init.P-bifplot2'}
+```{r 2_init.P-bifplot2-print, echo=FALSE, dependson='2_init.P-bifplot2', out.width = '100%'}
 knitr::include_graphics(paste0("plots/2_onePar-", exp.init.P.name, "_bifplot-pair.png"))
 ```
 
@@ -441,11 +441,11 @@ bifurcation.plot.pair(cbind(SEQ.n.P, exp.n.P$coevo.H),
 dev.off()
 ```
 
-```{r 2_n.H-bifplot2-print, echo=FALSE, dependson='2_n.H-bifplot2'}
+```{r 2_n.H-bifplot2-print, echo=FALSE, dependson='2_n.H-bifplot2', out.width = '100%'}
 knitr::include_graphics(paste0("plots/2_onePar-", exp.n.H.name, "_bifplot-pair.png"))
 ```
 
-```{r 2_n.P-bifplot2-print, echo=FALSE, dependson='2_n.P-bifplot2'}
+```{r 2_n.P-bifplot2-print, echo=FALSE, dependson='2_n.P-bifplot2', out.width = '100%'}
 knitr::include_graphics(paste0("plots/2_onePar-", exp.n.P.name, "_bifplot-pair.png"))
 ```
 
@@ -564,11 +564,11 @@ bifurcation.plot.pair(cbind(SEQ.v.P, exp.v.P$coevo.H),
 dev.off()
 ```
 
-```{r 2_v.H-bifplot2-print, echo=FALSE, dependson='2_v.H-bifplot2'}
+```{r 2_v.H-bifplot2-print, echo=FALSE, dependson='2_v.H-bifplot2', out.width = '100%'}
 knitr::include_graphics(paste0("plots/2_onePar-", exp.v.H.name, "_bifplot-pair.png"))
 ```
 
-```{r 2_v.P-bifplot2-print, echo=FALSE, dependson='2_v.P-bifplot2'}
+```{r 2_v.P-bifplot2-print, echo=FALSE, dependson='2_v.P-bifplot2', out.width = '100%'}
 knitr::include_graphics(paste0("plots/2_onePar-", exp.v.P.name, "_bifplot-pair.png"))
 ```
 
@@ -687,17 +687,17 @@ bifurcation.plot.pair(cbind(SEQ.r.P, exp.r.P$coevo.H),
 dev.off()
 ```
 
-```{r 2_r.H-bifplot2-print, echo=FALSE, dependson='2_r.H-bifplot2'}
+```{r 2_r.H-bifplot2-print, echo=FALSE, dependson='2_r.H-bifplot2', out.width = '100%'}
 knitr::include_graphics(paste0("plots/2_onePar-", exp.r.H.name, "_bifplot-pair.png"))
 ```
 
-```{r 2_r.P-bifplot2-print, echo=FALSE, dependson='2_r.P-bifplot2'}
+```{r 2_r.P-bifplot2-print, echo=FALSE, dependson='2_r.P-bifplot2', out.width = '100%'}
 knitr::include_graphics(paste0("plots/2_onePar-", exp.r.P.name, "_bifplot-pair.png"))
 ```
 
 ### utility per capita **of** type n plants **to** humans ($\bar{U}_{P_{n}H}$):
 
-```{r 2_mU.PnH-bifplot2-print2, echo=FALSE, dependson='2_mU.PnH-bifplot2'}
+```{r 2_mU.PnH-bifplot2-print2, echo=FALSE, dependson='2_mU.PnH-bifplot2', out.width = '100%'}
 knitr::include_graphics(paste0("plots/2_onePar-", exp.mU.PnH.name, "_bifplot-pair.png"))
 ```
 
@@ -760,7 +760,7 @@ bifurcation.plot.pair(cbind(SEQ.mU.HnP, exp.mU.HnP$coevo.H),
 dev.off()
 ```
 
-```{r 2_mU.HnP-bifplot2-print, echo=FALSE, dependson='2_mU.HnP-bifplot2'}
+```{r 2_mU.HnP-bifplot2-print, echo=FALSE, dependson='2_mU.HnP-bifplot2', out.width = '100%'}
 knitr::include_graphics(paste0("plots/2_onePar-", exp.mU.HnP.name, "_bifplot-pair.png"))
 ```
 
@@ -823,7 +823,7 @@ bifurcation.plot.pair(cbind(SEQ.mU.P1H, exp.mU.P1H$coevo.H),
 dev.off()
 ```
 
-```{r 2_mU.P1H-bifplot2-print, echo=FALSE, dependson='2_mU.P1H-bifplot2'}
+```{r 2_mU.P1H-bifplot2-print, echo=FALSE, dependson='2_mU.P1H-bifplot2', out.width = '100%'}
 knitr::include_graphics(paste0("plots/2_onePar-", exp.mU.P1H.name, "_bifplot-pair.png"))
 ```
 
@@ -886,7 +886,7 @@ bifurcation.plot.pair(cbind(SEQ.mU.H1P, exp.mU.H1P$coevo.H),
 dev.off()
 ```
 
-```{r 2_mU.H1P-bifplot2-print, echo=FALSE, dependson='2_mU.H1P-bifplot2'}
+```{r 2_mU.H1P-bifplot2-print, echo=FALSE, dependson='2_mU.H1P-bifplot2', out.width = '100%'}
 knitr::include_graphics(paste0("plots/2_onePar-", exp.mU.H1P.name, "_bifplot-pair.png"))
 ```
 
@@ -949,7 +949,7 @@ bifurcation.plot.pair(cbind(SEQ.U.bH1, exp.U.bH1$coevo.H),
 dev.off()
 ```
 
-```{r 2_U.bH1-bifplot2-print, echo=FALSE, dependson='2_U.bH1-bifplot2'}
+```{r 2_U.bH1-bifplot2-print, echo=FALSE, dependson='2_U.bH1-bifplot2', out.width = '100%'}
 knitr::include_graphics(paste0("plots/2_onePar-", exp.U.bH1.name, "_bifplot-pair.png"))
 ```
 
@@ -1012,7 +1012,7 @@ bifurcation.plot.pair(cbind(SEQ.U.bP1, exp.U.bP1$coevo.H),
 dev.off()
 ```
 
-```{r 2_U.bP1-bifplot2-print, echo=FALSE, dependson='2_U.bP1-bifplot2'}
+```{r 2_U.bP1-bifplot2-print, echo=FALSE, dependson='2_U.bP1-bifplot2', out.width = '100%'}
 knitr::include_graphics(paste0("plots/2_onePar-", exp.U.bP1.name, "_bifplot-pair.png"))
 ```
 
@@ -1075,7 +1075,7 @@ bifurcation.plot.pair(cbind(SEQ.U.bHn, exp.U.bHn$coevo.H),
 dev.off()
 ```
 
-```{r 2_U.bHn-bifplot2-print, echo=FALSE, dependson='2_U.bHn-bifplot2'}
+```{r 2_U.bHn-bifplot2-print, echo=FALSE, dependson='2_U.bHn-bifplot2', out.width = '100%'}
 knitr::include_graphics(paste0("plots/2_onePar-", exp.U.bHn.name, "_bifplot-pair.png"))
 ```
 
@@ -1138,7 +1138,7 @@ bifurcation.plot.pair(cbind(SEQ.U.bPn, exp.U.bPn$coevo.H),
 dev.off()
 ```
 
-```{r 2_U.bPn-bifplot2-print, echo=FALSE, dependson='2_U.bPn-bifplot2'}
+```{r 2_U.bPn-bifplot2-print, echo=FALSE, dependson='2_U.bPn-bifplot2', out.width = '100%'}
 knitr::include_graphics(paste0("plots/2_onePar-", exp.U.bPn.name, "_bifplot-pair.png"))
 ```
 
@@ -1201,7 +1201,7 @@ bifurcation.plot.pair(cbind(SEQ.MaxArea, exp.MaxArea$coevo.H),
 dev.off()
 ```
 
-```{r 2_MaxArea-bifplot2-print, echo=FALSE, dependson='2_MaxArea-bifplot2'}
+```{r 2_MaxArea-bifplot2-print, echo=FALSE, dependson='2_MaxArea-bifplot2', out.width = '100%'}
 knitr::include_graphics(paste0("plots/2_onePar-", exp.MaxArea.name, "_bifplot-pair.png"))
 ```
 
@@ -1284,6 +1284,6 @@ bifurcation.plot.pair(result.H, result.P,
 dev.off()
 ```
 
-```{r 2_osc-bifplot2-print, echo=FALSE, dependson='2_osc-bifplot2'}
+```{r 2_osc-bifplot2-print, echo=FALSE, dependson='2_osc-bifplot2', out.width = '100%'}
 knitr::include_graphics(paste0("plots/2_onePar-", exp.osc.name, "_bifplot-pair.png"))
 ```

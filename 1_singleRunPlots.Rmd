@@ -169,16 +169,16 @@ plotScale = 10
 png(paste0("plots/1_singleRun-ggplot-", run.coevo.coeta.name, ".png"), 
     width = 200 * plotScale, height = 100 * plotScale)
 plot.trajectory(run.coevo.coeta.melted, plotScale = plotScale)
-dev.off()
+invisible(dev.off())
 ```
 
-```{r 1_run.coevo.coeta-ggplot-print, echo=FALSE, dependson='run.coevo.coeta-ggplot'}
+```{r 1_run.coevo.coeta-ggplot-print, echo=FALSE, dependson='run.coevo.coeta-ggplot', out.width = '100%'}
 knitr::include_graphics(paste0("plots/1_singleRun-ggplot-", run.coevo.coeta.name, ".png"))
 ```
 
 Animated GIF showing the *sequence of states* throughout the simulation:
 
-```{r 1_run.coevo.coeta-frames, warning=FALSE, dependson='1_run.coevo.coeta-name'}
+```{r 1_run.coevo.coeta-frames, include=FALSE, dependson='1_run.coevo.coeta-name'}
 run2 <- hpcModel.run(
   # initial populations
   iniH = 10,
@@ -226,7 +226,7 @@ run2 <- hpcModel.run(
 animate.trajectory(runPlot.dir, run.coevo.coeta.name)
 ```
 
-```{r 1_run.coevo.coeta-animation, echo=FALSE, dependson='run.coevo.coeta-frames'}
+```{r 1_run.coevo.coeta-animation, eval=!params$ispdf, dependson='run.coevo.coeta-frames'}
 knitr::include_graphics(paste0(runPlot.dir, run.coevo.coeta.name, "-anim.gif"))
 ```
 
@@ -285,8 +285,12 @@ run.no.coevo <- hpcModel.run(
 animate.trajectory(runPlot.dir, run.no.coevo.name)
 ```
 
-```{r 1_run.no.coevo-animation, echo=FALSE, dependson='run.no.coevo'}
+```{r 1_run.no.coevo-animation, eval=!params$ispdf, dependson='run.no.coevo'}
 knitr::include_graphics(paste0(runPlot.dir, run.no.coevo.name, "-anim.gif"))
+```
+
+```{r 1_run.no.coevo-plot, cache=TRUE, eval=params$ispdf, dependson='run.no.coevo', fig.width=8, fig.height=8}
+hpcModel.plot(run.no.coevo, scale.override = 1)
 ```
 
 ## Coevolution with early cultivation
@@ -344,8 +348,12 @@ run.coevo.early.cult <- hpcModel.run(
 animate.trajectory(runPlot.dir, run.coevo.early.cult.name)
 ```
 
-```{r 1_run.coevo.early.cult-animation, echo=FALSE, dependson='run.coevo.early.cult'}
+```{r 1_run.coevo.early.cult-animation, eval=!params$ispdf, dependson='run.coevo.early.cult'}
 knitr::include_graphics(paste0(runPlot.dir, run.coevo.early.cult.name, "-anim.gif"))
+```
+
+```{r 1_run.coevo.early.cult-plot, cache=TRUE, eval=params$ispdf, dependson='run.coevo.early.cult', fig.width=8, fig.height=8}
+hpcModel.plot(run.coevo.early.cult, scale.override = 1)
 ```
 
 ## Coevolution with early domestication
@@ -403,8 +411,12 @@ run.coevo.early.dom <- hpcModel.run(
 animate.trajectory(runPlot.dir, run.coevo.early.dom.name)
 ```
 
-```{r 1_run.coevo.early.dom-animation, echo=FALSE, dependson='run.coevo.early.dom'}
+```{r 1_run.coevo.early.dom-animation, eval=!params$ispdf, dependson='run.coevo.early.dom'}
 knitr::include_graphics(paste0(runPlot.dir, run.coevo.early.dom.name, "-anim.gif"))
+```
+
+```{r 1_run.coevo.early.dom-plot, cache=TRUE, eval=params$ispdf, dependson='run.coevo.early.dom', fig.width=8, fig.height=8}
+hpcModel.plot(run.coevo.early.dom, scale.override = 1)
 ```
 
 ## Cultivation without domestication
@@ -462,8 +474,12 @@ run.cult.without.dom <- hpcModel.run(
 animate.trajectory(runPlot.dir, run.cult.without.dom.name)
 ```
 
-```{r 1_run.cult.without.dom-animation, echo=FALSE, dependson='run.cult.without.dom'}
+```{r 1_run.cult.without.dom-animation, eval=!params$ispdf, dependson='run.cult.without.dom'}
 knitr::include_graphics(paste0(runPlot.dir, run.cult.without.dom.name, "-anim.gif"))
+```
+
+```{r 1_run.cult.without.dom-plot, cache=TRUE, eval=params$ispdf, dependson='run.cult.without.dom', fig.width=8, fig.height=8}
+hpcModel.plot(run.cult.without.dom, scale.override = 1)
 ```
 
 ## Coevolution with population "bleep"
@@ -521,8 +537,12 @@ run.coevo.bleep <- hpcModel.run(
 animate.trajectory(runPlot.dir, run.coevo.bleep.name)
 ```
 
-```{r 1_run.coevo.bleep-animation, echo=FALSE, dependson='run.coevo.bleep'}
+```{r 1_run.coevo.bleep-animation, eval=!params$ispdf, dependson='run.coevo.bleep'}
 knitr::include_graphics(paste0(runPlot.dir, run.coevo.bleep.name, "-anim.gif"))
+```
+
+```{r 1_run.coevo.bleep-plot, cache=TRUE, eval=params$ispdf, dependson='run.coevo.bleep', fig.width=8, fig.height=8}
+hpcModel.plot(run.coevo.bleep, scale.override = 1)
 ```
 
 ## Coevolution with population "boom"
@@ -580,8 +600,12 @@ run.coevo.boom <- hpcModel.run(
 animate.trajectory(runPlot.dir, run.coevo.boom.name)
 ```
 
-```{r 1_run.coevo.boom-animation, echo=FALSE, dependson='run.coevo.boom'}
+```{r 1_run.coevo.boom-animation, eval=!params$ispdf, dependson='run.coevo.boom'}
 knitr::include_graphics(paste0(runPlot.dir, run.coevo.boom.name, "-anim.gif"))
+```
+
+```{r 1_run.coevo.boom-plot, cache=TRUE, eval=params$ispdf, dependson='run.coevo.boom', fig.width=8, fig.height=8}
+hpcModel.plot(run.coevo.boom, scale.override = 1)
 ```
 
 ## Coevolution with long population "boom"
@@ -639,6 +663,10 @@ run.coevo.long.boom <- hpcModel.run(
 animate.trajectory(runPlot.dir, run.coevo.long.boom.name)
 ```
 
-```{r 1_run.coevo.long.boom-animation, echo=FALSE, dependson='run.coevo.long.boom'}
+```{r 1_run.coevo.long.boom-animation, eval=!params$ispdf, dependson='run.coevo.long.boom'}
 knitr::include_graphics(paste0(runPlot.dir, run.coevo.long.boom.name, "-anim.gif"))
+```
+
+```{r 1_run.coevo.long.boom-plot, cache=TRUE, eval=params$ispdf, dependson='run.coevo.long.boom', fig.width=8, fig.height=8}
+hpcModel.plot(run.coevo.long.boom, scale.override = 1)
 ```

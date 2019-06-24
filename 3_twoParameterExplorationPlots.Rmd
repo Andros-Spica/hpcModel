@@ -86,7 +86,13 @@ twoPar.ggplot <- function(twoPar.exp, par1, par2, var1, var2,
     labs(x = xlab,
          y = ylab,
          fill = var1lab,
-         color = var2lab) +
+         color = var2lab,
+         size = expression(t['end'])) +
+    guides(
+      color = guide_colorbar(order = 0),
+      fill = guide_colorbar(order = 1),
+      size = guide_legend(order = 2)
+    ) +
     theme_bw() +
     theme(
       panel.background = element_blank(),
@@ -100,7 +106,7 @@ twoPar.ggplot <- function(twoPar.exp, par1, par2, var1, var2,
 
 ## Full example
 
-### Utility per capita from type n humans and plants ($\bar{U}_{H_{n}P}\,vs\,\bar{U}_{P_{n}H}$):
+### Utility per capita from type n humans and plants ($\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$):
 
 ```{r 3_mU.HnP_mU.PnH-values, cache=TRUE}
 exp.mU.HnP_mU.PnH.name <- "mU.HnP-mU.PnH"
@@ -163,15 +169,15 @@ twoPar.ggplot(exp.mU.HnP_mU.PnH, 'mU.HnP', 'mU.PnH', 'coevo.H', 'coevo.P',
 dev.off()
 ```
 
-```{r 3_mU.HnP_mU.PnH-plot-print, echo=FALSE}
+```{r 3_mU.HnP_mU.PnH-plot-print, echo=FALSE, dependson='3_mU.HnP_mU.PnH-plot', out.width = '100%'}
 knitr::include_graphics(paste0("plots/3_twoPar-", exp.mU.HnP_mU.PnH.name, "_plot.png"))
 ```
 
 ---
 
-## Exploration on 'default' setting for (directly related) parameter pairs:
+## Exploration on 'default' setting for (directly-related) parameter pairs:
 
-### Number of types of humans and plants ($n_{H}\,vs\,n_{P}$):
+### Number of types of humans and plants ($n_{H}$ x $n_{P}$):
 
 ```{r 3_n.H_n.P-values, cache=TRUE}
 exp.n.H_n.P.name <- "n.H-n.P"
@@ -230,11 +236,11 @@ twoPar.ggplot(exp.n.H_n.P, 'n.H', 'n.P', 'coevo.H', 'coevo.P',
 dev.off()
 ```
 
-```{r 3_n.H_n.P-plot-print, echo=FALSE}
+```{r 3_n.H_n.P-plot-print, echo=FALSE, dependson='3_n.H_n.P-plot', out.width = '100%'}
 knitr::include_graphics(paste0("plots/3_twoPar-", exp.n.H_n.P.name, "_plot.png"))
 ```
 
-### Undirected variation in humans and plants ($v_{H}\,vs\,v_{P}$):
+### Undirected variation in humans and plants ($v_{H}$ x $v_{P}$):
 
 ```{r 3_v.H_v.P-values, cache=TRUE}
 exp.v.H_v.P.name <- "v.H-v.P"
@@ -293,11 +299,11 @@ twoPar.ggplot(exp.v.H_v.P, 'v.H', 'v.P', 'coevo.H', 'coevo.P',
 dev.off()
 ```
 
-```{r 3_v.H_v.P-plot-print, echo=FALSE}
+```{r 3_v.H_v.P-plot-print, echo=FALSE, dependson='3_v.H_v.P-plot', out.width = '100%'}
 knitr::include_graphics(paste0("plots/3_twoPar-", exp.v.H_v.P.name, "_plot.png"))
 ```
 
-### Utility per capita from type 1 humans and plants ($\bar{U}_{H_{1}P}\,vs\,\bar{U}_{P_{1}H}$):
+### Utility per capita from type 1 humans and plants ($\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$):
 
 ```{r 3_mU.H1P_mU.P1H-values, cache=TRUE}
 exp.mU.H1P_mU.P1H.name <- "mU.H1P-mU.P1H"
@@ -356,17 +362,17 @@ twoPar.ggplot(exp.mU.H1P_mU.P1H, 'mU.H1P', 'mU.P1H', 'coevo.H', 'coevo.P',
 dev.off()
 ```
 
-```{r 3_mU.H1P_mU.P1H-plot-print, echo=FALSE}
+```{r 3_mU.H1P_mU.P1H-plot-print, echo=FALSE, dependson='3_mU.H1P_mU.P1H-plot', out.width = '100%'}
 knitr::include_graphics(paste0("plots/3_twoPar-", exp.mU.H1P_mU.P1H.name, "_plot.png"))
 ```
 
-### Utility per capita from type n humans and plants ($\bar{U}_{H_{n}P}\,vs\,\bar{U}_{P_{n}H}$):
+### Utility per capita from type n humans and plants ($\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$):
 
-```{r 3_mU.HnP_mU.PnH-plot-print2, echo=FALSE}
+```{r 3_mU.HnP_mU.PnH-plot-print2, echo=FALSE, dependson='3_mU.HnP_mU.PnH-plot', out.width = '100%'}
 knitr::include_graphics(paste0("plots/3_twoPar-", exp.mU.HnP_mU.PnH.name, "_plot.png"))
 ```
 
-### Utility per capita from humans to plants ($\bar{U}_{H_{1}P}\,vs\,\bar{U}_{H_{n}P}$):
+### Utility per capita from humans to plants ($\bar{U}_{H_{1}P}$ x $\bar{U}_{H_{n}P}$):
 
 ```{r 3_mU.H1P_mU.HnP-values, cache=TRUE}
 exp.mU.H1P_mU.HnP.name <- "mU.H1P-mU.HnP"
@@ -425,11 +431,11 @@ twoPar.ggplot(exp.mU.H1P_mU.HnP, 'mU.H1P', 'mU.HnP', 'coevo.H', 'coevo.P',
 dev.off()
 ```
 
-```{r 3_mU.H1P_mU.HnP-plot-print, echo=FALSE}
+```{r 3_mU.H1P_mU.HnP-plot-print, echo=FALSE, dependson='3_mU.H1P_mU.HnP-plot', out.width = '100%'}
 knitr::include_graphics(paste0("plots/3_twoPar-", exp.mU.H1P_mU.HnP.name, "_plot.png"))
 ```
 
-### Utility per capita from plants to humans ($\bar{U}_{P_{1}H}\,vs\,\bar{U}_{P_{n}H}$):
+### Utility per capita from plants to humans ($\bar{U}_{P_{1}H}$ x $\bar{U}_{P_{n}H}$):
 
 ```{r 3_mU.P1H_mU.PnH-values, cache=TRUE}
 exp.mU.P1H_mU.PnH.name <- "mU.P1H-mU.PnH"
@@ -488,16 +494,16 @@ twoPar.ggplot(exp.mU.P1H_mU.PnH, 'mU.P1H', 'mU.PnH', 'coevo.H', 'coevo.P',
 dev.off()
 ```
 
-```{r 3_mU.P1H_mU.PnH-plot-print, echo=FALSE}
+```{r 3_mU.P1H_mU.PnH-plot-print, echo=FALSE, dependson='3_mU.P1H_mU.PnH-plot', out.width = '100%'}
 knitr::include_graphics(paste0("plots/3_twoPar-", exp.mU.P1H_mU.PnH.name, "_plot.png"))
 ```
 
-### Utility of other resources to type 1 humans and plants ($U_{bH_{1}}\,vs\,U_{bP_{1}}$):
+### Utility of other resources to type 1 humans and plants ($U_{bH_{1}}$ x $U_{bP_{1}}$):
 
 ```{r 3_U.bH1_U.bP1-values, cache=TRUE}
 exp.U.bH1_U.bP1.name <- "U.bH1-U.bP1"
-SEQ.U.bH1 <- seq(10, 150, length.out = 15)
-SEQ.U.bP1 <- seq(10, 150, length.out = 15)
+SEQ.U.bH1 <- seq(5, 400, length.out = 15)
+SEQ.U.bP1 <- seq(5, 400, length.out = 15)
 ```
 
 ```{r 3_U.bH1_U.bP1, cache=TRUE, dependson='3_U.bH1_U.bP1-values', include=FALSE}
@@ -551,16 +557,16 @@ twoPar.ggplot(exp.U.bH1_U.bP1, 'U.bH1', 'U.bP1', 'coevo.H', 'coevo.P',
 dev.off()
 ```
 
-```{r 3_U.bH1_U.bP1-plot-print, echo=FALSE}
+```{r 3_U.bH1_U.bP1-plot-print, echo=FALSE, dependson='3_U.bH1_U.bP1-plot', out.width = '100%'}
 knitr::include_graphics(paste0("plots/3_twoPar-", exp.U.bH1_U.bP1.name, "_plot.png"))
 ```
 
-### Utility of other resources to type n humans and plants ($U_{bH_{n}}\,vs\,U_{bP_{n}}$):
+### Utility of other resources to type n humans and plants ($U_{bH_{n}}$ x $U_{bP_{n}}$):
 
 ```{r 3_U.bHn_U.bPn-values, cache=TRUE}
 exp.U.bHn_U.bPn.name <- "U.bHn-U.bPn"
-SEQ.U.bHn <- seq(10, 150, length.out = 15)
-SEQ.U.bPn <- seq(10, 150, length.out = 15)
+SEQ.U.bHn <- seq(5, 400, length.out = 15)
+SEQ.U.bPn <- seq(5, 400, length.out = 15)
 ```
 
 ```{r 3_U.bHn_U.bPn, cache=TRUE, dependson='3_U.bHn_U.bPn-values', include=FALSE}
@@ -614,16 +620,16 @@ twoPar.ggplot(exp.U.bHn_U.bPn, 'U.bHn', 'U.bPn', 'coevo.H', 'coevo.P',
 dev.off()
 ```
 
-```{r 3_U.bHn_U.bPn-plot-print, echo=FALSE}
+```{r 3_U.bHn_U.bPn-plot-print, echo=FALSE, dependson='3_U.bHn_U.bPn-plot', out.width = '100%'}
 knitr::include_graphics(paste0("plots/3_twoPar-", exp.U.bHn_U.bPn.name, "_plot.png"))
 ```
 
-### Utility of other resources to humans ($U_{bH_{1}}\,vs\,U_{bH_{n}}$):
+### Utility of other resources to humans ($U_{bH_{1}}$ x $U_{bH_{n}}$):
 
 ```{r 3_U.bH1_U.bHn-values, cache=TRUE}
 exp.U.bH1_U.bHn.name <- "U.bH1-U.bHn"
-SEQ.U.bH1 <- seq(10, 150, length.out = 15)
-SEQ.U.bHn <- seq(10, 150, length.out = 15)
+SEQ.U.bH1 <- seq(5, 400, length.out = 15)
+SEQ.U.bHn <- seq(5, 400, length.out = 15)
 ```
 
 ```{r 3_U.bH1_U.bHn, cache=TRUE, dependson='3_U.bH1_U.bHn-values', include=FALSE}
@@ -677,16 +683,16 @@ twoPar.ggplot(exp.U.bH1_U.bHn, 'U.bH1', 'U.bHn', 'coevo.H', 'coevo.P',
 dev.off()
 ```
 
-```{r 3_U.bH1_U.bHn-plot-print, echo=FALSE}
+```{r 3_U.bH1_U.bHn-plot-print, echo=FALSE, dependson='3_U.bH1_U.bHn-plot', out.width = '100%'}
 knitr::include_graphics(paste0("plots/3_twoPar-", exp.U.bH1_U.bHn.name, "_plot.png"))
 ```
 
-### Utility of other resources to plants ($U_{bP_{1}}\,vs\,U_{bP_{n}}$):
+### Utility of other resources to plants ($U_{bP_{1}}$ x $U_{bP_{n}}$):
 
 ```{r 3_U.bP1_U.bPn-values, cache=TRUE}
 exp.U.bP1_U.bPn.name <- "U.bP1-U.bPn"
-SEQ.U.bP1 <- seq(10, 150, length.out = 15)
-SEQ.U.bPn <- seq(10, 150, length.out = 15)
+SEQ.U.bP1 <- seq(5, 400, length.out = 15)
+SEQ.U.bPn <- seq(5, 400, length.out = 15)
 ```
 
 ```{r 3_U.bP1_U.bPn, cache=TRUE, dependson='3_U.bP1_U.bPn-values', include=FALSE}
@@ -740,7 +746,7 @@ twoPar.ggplot(exp.U.bP1_U.bPn, 'U.bP1', 'U.bPn', 'coevo.H', 'coevo.P',
 dev.off()
 ```
 
-```{r 3_U.bP1_U.bPn-plot-print, echo=FALSE}
+```{r 3_U.bP1_U.bPn-plot-print, echo=FALSE, dependson='3_U.bP1_U.bPn-plot', out.width = '100%'}
 knitr::include_graphics(paste0("plots/3_twoPar-", exp.U.bP1_U.bPn.name, "_plot.png"))
 ```
 
