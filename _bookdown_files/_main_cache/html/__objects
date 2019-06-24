@@ -184,3 +184,27 @@ setup	exp.table	run.table
 2_mU.PnH-bifplot1	plotScale
 2_mU.PnH-bifplot1-print	
 2_mU.PnH-bifplot2-print2	
+setup_4	exp.table	run.table
+setup_4plus	fourPar.ggplot
+4_mU.HP_mU.PH-values	exp.mU.HP_mU.PH.name	SEQ.mU.H1P	SEQ.mU.HnP	SEQ.mU.P1H	SEQ.mU.PnH
+4_mU.HP_mU.PH	exp.mU.HP_mU.PH
+4_mU.HP_mU.PH-table	
+4_mU.HP_mU.PH-plot	plotScale
+4_mU.HP_mU.PH-plot-print	
+4_U.bH_U.bP-values	exp.U.bH_U.bP.name	SEQ.U.bH1	SEQ.U.bHn	SEQ.U.bP1	SEQ.U.bPn
+4_U.bH_U.bP	exp.U.bH_U.bP
+4_U.bH_U.bP-plot	plotScale
+4_U.bH_U.bP-plot-print	
+4_n_v-values	exp.n_v.name	SEQ.n.H	SEQ.n.P	SEQ.v.H	SEQ.v.P
+4_n_v	exp.n_v
+4_n_v-plot	plotScale
+4_n_v-plot-print	
+1_run.no.coevo-plot	
+1_run.coevo.early.cult-plot	
+1_run.coevo.early.dom-plot	
+1_run.cult.without.dom-plot	
+1_run.coevo.bleep-plot	
+1_run.coevo.boom-plot	
+1_run.coevo.long.boom-plot	
+4_U.bH_U.bP-table	
+4_n_v-table	

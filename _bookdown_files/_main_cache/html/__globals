@@ -84,7 +84,7 @@ setup_2plus	bifurcation.plot.simple	c	paste	seq	ncol	observedVariables	rainbow	p
 2_osc-bifplot2-print	include_graphics	paste0	exp.osc.name
 Um-max-values	SEQ1	seq	SEQ2
 setup_3	opts_chunk	set	source	require	reshape2	ggplot2	scales	run.table	run.parnames	names	run.result	PARS	run.parvalues	c	i	length	kable	cbind	exp.table	exp.parnames	exp.values	exp.results	value	levels	factor	as.numeric	as.character	paste	min	max
-setup_3plus	twoPar.ggplot	is.null	xlab	par1	ylab	par2	var1lab	var1	var2lab	var2	var1min	var1max	var2min	var2max	ggplot	twoPar.exp	aes_string	geom_raster	geom_point	plotScale	aes	time	scale_fill_gradientn	c	rescale	scale_color_gradientn	scale_size	labs	theme_bw	theme	element_blank	element_text
+setup_3plus	twoPar.ggplot	is.null	xlab	par1	ylab	par2	var1lab	var1	var2lab	var2	var1min	var1max	var2min	var2max	ggplot	twoPar.exp	aes_string	geom_raster	geom_point	plotScale	aes	time	scale_fill_gradientn	c	rescale	scale_color_gradientn	scale_size	labs	expression	t	guides	guide_colorbar	guide_legend	theme_bw	theme	element_blank	element_text
 3_mU.HnP_mU.PnH-values	exp.mU.HnP_mU.PnH.name	SEQ.mU.HnP	seq	SEQ.mU.PnH
 2_mU.HnP_mU.PnH	exp.mU.HnP_mU.PnH	hpcModel.exploration	SEQ.mU.PnH	SEQ.mU.HnP
 2_mU.HnP_mU.PnH-table	exp.table	exp.mU.HnP_mU.PnH
@@ -115,7 +115,7 @@ setup	opts_chunk	set	source	require	reshape2	ggplot2	scales	run.table	run.parnam
 1_run.coevo.coeta	run.coevo.coeta	hpcModel.run
 1_run.coevo.coeta-pars	run.table	run.coevo.coeta
 1_run.coevo.coeta-plot	hpcModel.plot	run.coevo.coeta
-1_run.coevo.coeta-ggplot	run.coevo.coeta.melted	data.frame	run.coevo.coeta	TRAJECTORIES	H	P	is.na	time	nrow	melt	c	plotScale	png	paste0	run.coevo.coeta.name	plot.trajectory	dev.off
+1_run.coevo.coeta-ggplot	run.coevo.coeta.melted	data.frame	run.coevo.coeta	TRAJECTORIES	H	P	is.na	time	nrow	melt	c	plotScale	png	paste0	run.coevo.coeta.name	plot.trajectory	invisible	dev.off
 1_run.coevo.coeta-ggplot-print	include_graphics	paste0	run.coevo.coeta.name
 1_run.coevo.coeta-frames	run2	hpcModel.run	runPlot.dir	paste0	run.coevo.coeta.name	animate.trajectory
 1_run.coevo.coeta-animation	include_graphics	paste0	runPlot.dir	run.coevo.coeta.name
@@ -184,3 +184,27 @@ setup	opts_chunk	set	source	require	reshape2	ggplot2	scales	run.table	run.parnam
 2_mU.PnH-bifplot1	plotScale	png	paste0	exp.mU.PnH.name	bifurcation.plot.simple	SEQ.mU.PnH	cbind	exp.mU.PnH	coevo.H	coevo.P	c	expression	paste	bar	dev.off
 2_mU.PnH-bifplot1-print	include_graphics	paste0	exp.mU.PnH.name
 2_mU.PnH-bifplot2-print2	include_graphics	paste0	exp.mU.PnH.name
+setup_4	opts_chunk	set	source	require	reshape2	ggplot2	scales	run.table	run.parnames	names	run.result	PARS	run.parvalues	c	i	length	kable	cbind	exp.table	exp.parnames	exp.values	exp.results	value	levels	factor	as.numeric	as.character	paste	min	max
+setup_4plus	fourPar.ggplot	is.null	xlab	par1	ylab	par2	var1lab	var1	var2lab	var2	var1min	var1max	var2min	var2max	ggplot	twoPar.exp	aes_string	geom_raster	geom_point	plotScale	aes	time	scale_fill_gradientn	c	rescale	scale_color_gradientn	scale_size	labs	expression	t	guides	guide_colorbar	guide_legend	facet_grid	reformulate	par3	par4	label_both	theme_bw	theme	element_rect	element_text	element_blank
+4_mU.HP_mU.PH-values	exp.mU.HP_mU.PH.name	SEQ.mU.HnP	seq	SEQ.mU.PnH	SEQ.mU.H1P	SEQ.mU.P1H
+4_mU.HP_mU.PH	exp.mU.HP_mU.PH	hpcModel.exploration	SEQ.mU.PnH	SEQ.mU.HnP	SEQ.mU.P1H	SEQ.mU.H1P
+4_mU.HP_mU.PH-table	exp.table	exp.mU.HP_mU.PH
+4_mU.HP_mU.PH-plot	plotScale	png	paste0	exp.mU.HP_mU.PH.name	fourPar.ggplot	exp.mU.HP_mU.PH	expression	bar	U	H	P	dev.off
+4_mU.HP_mU.PH-plot-print	include_graphics	paste0	exp.mU.HP_mU.PH.name
+4_U.bH_U.bP-values	exp.U.bH_U.bP.name	SEQ.U.bHn	seq	SEQ.U.bPn	SEQ.U.bH1	SEQ.U.bP1
+4_U.bH_U.bP	exp.U.bH_U.bP	hpcModel.exploration	SEQ.U.bHn	SEQ.U.bPn	SEQ.U.bH1	SEQ.U.bP1
+4_U.bH_U.bP-plot	plotScale	png	paste0	exp.U.bH_U.bP.name	fourPar.ggplot	exp.U.bH_U.bP	expression	U	H	P	dev.off
+4_U.bH_U.bP-plot-print	include_graphics	paste0	exp.U.bH_U.bP.name
+4_n_v-values	exp.n_v.name	SEQ.n.H	seq	SEQ.n.P	SEQ.v.H	SEQ.v.P
+4_n_v	exp.n_v	hpcModel.exploration	SEQ.n.H	SEQ.n.P	SEQ.v.H	SEQ.v.P
+4_n_v-plot	plotScale	png	paste0	exp.n_v.name	fourPar.ggplot	exp.n_v	expression	v	H	P	dev.off
+4_n_v-plot-print	include_graphics	paste0	exp.n_v.name
+1_run.no.coevo-plot	hpcModel.plot	run.no.coevo
+1_run.coevo.early.cult-plot	hpcModel.plot	run.coevo.early.cult
+1_run.coevo.early.dom-plot	hpcModel.plot	run.coevo.early.dom
+1_run.cult.without.dom-plot	hpcModel.plot	run.cult.without.dom
+1_run.coevo.bleep-plot	hpcModel.plot	run.coevo.bleep
+1_run.coevo.boom-plot	hpcModel.plot	run.coevo.boom
+1_run.coevo.long.boom-plot	hpcModel.plot	run.coevo.long.boom
+4_U.bH_U.bP-table	exp.table	exp.U.bH_U.bP
+4_n_v-table	exp.table	exp.n_v

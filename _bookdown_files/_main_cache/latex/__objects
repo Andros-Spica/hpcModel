@@ -1,0 +1,173 @@
+1_setup	exp.table	run.table
+1_setup_plus	animate.trajectory	plot.trajectory	runPlot.dir
+1_run.coevo.coeta-name	run.coevo.coeta.name
+1_run.coevo.coeta	run.coevo.coeta
+1_run.coevo.coeta-pars	
+1_run.coevo.coeta-plot	
+1_run.coevo.coeta-ggplot	plotScale	run.coevo.coeta.melted
+1_run.coevo.coeta-ggplot-print	
+1_run.coevo.coeta-frames	run2
+1_run.coevo.coeta-animation	
+1_run.no.coevo-name	run.no.coevo.name
+1_run.no.coevo	run.no.coevo
+1_run.no.coevo-animation	
+1_run.coevo.early.cult-name	run.coevo.early.cult.name
+1_run.coevo.early.cult	run.coevo.early.cult
+1_run.coevo.early.cult-animation	
+1_run.coevo.early.dom-name	run.coevo.early.dom.name
+1_run.coevo.early.dom	run.coevo.early.dom
+1_run.coevo.early.dom-animation	
+1_run.cult.without.dom-name	run.cult.without.dom.name
+1_run.cult.without.dom	run.cult.without.dom
+1_run.cult.without.dom-animation	
+1_run.coevo.bleep-name	run.coevo.bleep.name
+1_run.coevo.bleep	run.coevo.bleep
+1_run.coevo.bleep-animation	
+1_run.coevo.boom-name	run.coevo.boom.name
+1_run.coevo.boom	run.coevo.boom
+1_run.coevo.boom-animation	
+1_run.coevo.long.boom-name	run.coevo.long.boom.name
+1_run.coevo.long.boom	run.coevo.long.boom
+1_run.coevo.long.boom-animation	
+setup_2	exp.table	run.table
+setup_2plus	bifurcation.plot.pair	bifurcation.plot.simple
+2_mU.PnH-values	exp.mU.PnH.name	SEQ.mU.PnH
+2_mU.PnH	exp.mU.PnH
+2_mU.PnH-table	
+2_mU.PnH-bifplot1	plotScale
+2_mU.PnH-bifplot1-print	
+2_mU.PnH-bifplot2	plotScale
+2_mU.PnH-bifplot2-print	
+2_init-values	exp.init.H.name	exp.init.P.name	SEQ.init.H	SEQ.init.P
+2_init.H	exp.init.H
+2_init.P	exp.init.P
+2_init.H-bifplot2	plotScale
+2_init.P-bifplot2	plotScale
+2_init.H-bifplot2-print	
+2_init.P-bifplot2-print	
+2_n-values	exp.n.H.name	exp.n.P.name	SEQ.n.H	SEQ.n.P
+2_n.H	exp.n.H
+2_n.P	exp.n.P
+2_n.H-bifplot2	plotScale
+2_n.P-bifplot2	plotScale
+2_n.H-bifplot2-print	
+2_n.P-bifplot2-print	
+2_v-values	exp.v.H.name	exp.v.P.name	SEQ.v.H	SEQ.v.P
+2_v.H	exp.v.H
+2_v.P	exp.v.P
+2_v.H-bifplot2	plotScale
+2_v.P-bifplot2	plotScale
+2_v.H-bifplot2-print	
+2_v.P-bifplot2-print	
+2_r-values	exp.r.H.name	exp.r.P.name	SEQ.r.H	SEQ.r.P
+2_r.H	exp.r.H
+2_r.P	exp.r.P
+2_r.H-bifplot2	plotScale
+2_r.P-bifplot2	plotScale
+2_r.H-bifplot2-print	
+2_r.P-bifplot2-print	
+2_mU.PnH-bifplot2-print2	
+2_mU.HnP-values	exp.mU.HnP.name	SEQ.mU.HnP
+2_mU.HnP	exp.mU.HnP
+2_mU.HnP-bifplot2	plotScale
+2_mU.HnP-bifplot2-print	
+2_mU.P1H-values	exp.mU.P1H.name	SEQ.mU.P1H
+2_mU.P1H	exp.mU.P1H
+2_mU.P1H-bifplot2	plotScale
+2_mU.P1H-bifplot2-print	
+2_mU.H1P-values	exp.mU.H1P.name	SEQ.mU.H1P
+2_mU.H1P	exp.mU.H1P
+2_mU.H1P-bifplot2	plotScale
+2_mU.H1P-bifplot2-print	
+2_U.bH1-values	exp.U.bH1.name	SEQ.U.bH1
+2_U.bH1	exp.U.bH1
+2_U.bH1-bifplot2	plotScale
+2_U.bH1-bifplot2-print	
+2_U.bP1-values	exp.U.bP1.name	SEQ.U.bP1
+2_U.bP1	exp.U.bP1
+2_U.bP1-bifplot2	plotScale
+2_U.bP1-bifplot2-print	
+2_U.bHn-values	exp.U.bHn.name	SEQ.U.bHn
+2_U.bHn	exp.U.bHn
+2_U.bHn-bifplot2	plotScale
+2_U.bHn-bifplot2-print	
+2_U.bPn-values	exp.U.bPn.name	SEQ.U.bPn
+2_U.bPn	exp.U.bPn
+2_U.bPn-bifplot2	plotScale
+2_U.bPn-bifplot2-print	
+2_maxArea-values	exp.MaxArea.name	SEQ.MaxArea
+2_MaxArea	exp.MaxArea
+2_MaxArea-bifplot2	plotScale
+2_MaxArea-bifplot2-print	
+2_osc-values	exp.osc.name	SEQ.osc
+2_osc	exp.osc	i	result.H	result.P
+2_osc-bifplot2	plotScale
+2_osc-bifplot2-print	
+setup_3	exp.table	run.table
+setup_3plus	twoPar.ggplot
+3_mU.HnP_mU.PnH-values	exp.mU.HnP_mU.PnH.name	SEQ.mU.HnP	SEQ.mU.PnH
+3_mU.HnP_mU.PnH	exp.mU.HnP_mU.PnH
+3_mU.HnP_mU.PnH-table	
+3_mU.HnP_mU.PnH-plot	plotScale
+3_mU.HnP_mU.PnH-plot-print	
+3_n.H_n.P-values	exp.n.H_n.P.name	SEQ.n.H	SEQ.n.P
+3_n.H_n.P	exp.n.H_n.P
+3_n.H_n.P-plot	plotScale
+3_n.H_n.P-plot-print	
+3_v.H_v.P-values	exp.v.H_v.P.name	SEQ.v.H	SEQ.v.P
+3_v.H_v.P	exp.v.H_v.P
+3_v.H_v.P-plot	plotScale
+3_v.H_v.P-plot-print	
+3_mU.H1P_mU.P1H-values	exp.mU.H1P_mU.P1H.name	SEQ.mU.H1P	SEQ.mU.P1H
+3_mU.H1P_mU.P1H	exp.mU.H1P_mU.P1H
+3_mU.H1P_mU.P1H-plot	plotScale
+3_mU.H1P_mU.P1H-plot-print	
+3_mU.HnP_mU.PnH-plot-print2	
+3_mU.H1P_mU.HnP-values	exp.mU.H1P_mU.HnP.name	SEQ.mU.H1P	SEQ.mU.HnP
+3_mU.H1P_mU.HnP	exp.mU.H1P_mU.HnP
+3_mU.H1P_mU.HnP-plot	plotScale
+3_mU.H1P_mU.HnP-plot-print	
+3_mU.P1H_mU.PnH-values	exp.mU.P1H_mU.PnH.name	SEQ.mU.P1H	SEQ.mU.PnH
+3_mU.P1H_mU.PnH	exp.mU.P1H_mU.PnH
+3_mU.P1H_mU.PnH-plot	plotScale
+3_mU.P1H_mU.PnH-plot-print	
+3_U.bH1_U.bP1-values	exp.U.bH1_U.bP1.name	SEQ.U.bH1	SEQ.U.bP1
+3_U.bH1_U.bP1	exp.U.bH1_U.bP1
+3_U.bH1_U.bP1-plot	plotScale
+3_U.bH1_U.bP1-plot-print	
+3_U.bHn_U.bPn-values	exp.U.bHn_U.bPn.name	SEQ.U.bHn	SEQ.U.bPn
+3_U.bHn_U.bPn	exp.U.bHn_U.bPn
+3_U.bHn_U.bPn-plot	plotScale
+3_U.bHn_U.bPn-plot-print	
+3_U.bH1_U.bHn-values	exp.U.bH1_U.bHn.name	SEQ.U.bH1	SEQ.U.bHn
+3_U.bH1_U.bHn	exp.U.bH1_U.bHn
+3_U.bH1_U.bHn-plot	plotScale
+3_U.bH1_U.bHn-plot-print	
+3_U.bP1_U.bPn-values	exp.U.bP1_U.bPn.name	SEQ.U.bP1	SEQ.U.bPn
+3_U.bP1_U.bPn	exp.U.bP1_U.bPn
+3_U.bP1_U.bPn-plot	plotScale
+3_U.bP1_U.bPn-plot-print	
+setup_4	exp.table	run.table
+setup_4plus	fourPar.ggplot
+4_mU.HP_mU.PH-values	exp.mU.HP_mU.PH.name	SEQ.mU.H1P	SEQ.mU.HnP	SEQ.mU.P1H	SEQ.mU.PnH
+4_mU.HP_mU.PH	exp.mU.HP_mU.PH
+4_mU.HP_mU.PH-table	
+4_mU.HP_mU.PH-plot	plotScale
+4_mU.HP_mU.PH-plot-print	
+4_U.bH_U.bP-values	exp.U.bH_U.bP.name	SEQ.U.bH1	SEQ.U.bHn	SEQ.U.bP1	SEQ.U.bPn
+4_U.bH_U.bP	exp.U.bH_U.bP
+4_U.bH_U.bP-plot	plotScale
+4_U.bH_U.bP-plot-print	
+4_n_v-values	exp.n_v.name	SEQ.n.H	SEQ.n.P	SEQ.v.H	SEQ.v.P
+4_n_v	exp.n_v
+4_n_v-plot	plotScale
+4_n_v-plot-print	
+1_run.no.coevo-plot	
+1_run.coevo.early.cult-plot	
+1_run.coevo.early.dom-plot	
+1_run.cult.without.dom-plot	
+1_run.coevo.bleep-plot	
+1_run.coevo.boom-plot	
+1_run.coevo.long.boom-plot	
+4_U.bH_U.bP-table	
+4_n_v-table	
