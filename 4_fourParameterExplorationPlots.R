@@ -1,3 +1,4 @@
+# Four parameter exploration
 
 source("library/hpcModel.run.R")
 source("library/hpcModel.exploration.R")
@@ -6,331 +7,259 @@ require(reshape2)
 require(ggplot2)
 require(scales)
 
-########################################################################################
-### exploration of four parameters
-
-# ======================================================================================
-### (1) Um - max
-# ======================================================================================
-
-# Um.ph, Um.hp
-SEQ1 <- seq(0.5, 1.5, length.out = 5)
-# max.h, max.p
-SEQ2 <- seq(50, 300, length.out = 5)
-
-exp1 <- hpcModel.exploration(
-  # growth rate
-  r.h = 0.15,
-  r.p = 0.15,
-  # basic resources
-  max.h = SEQ2,
-  max.p = SEQ2,
-  # utility
-  Um.ph = SEQ1,
-  Um.hp = SEQ1,
-  # number of types
-  n.h = 10,
-  n.p = 10,
-  # undirected variation
-  v.h = 0.15,
-  v.p = 0.15,
-  # initial conditions
-  iniH = 10,
-  iniP = 10,
-  # proportion of mean utility
-  Ump.ph = 10,
-  Ump.hp = 10,
-  # proportion of mean utility
-  Kmp.h = 10,
-  Kmp.p = 10,
-  # maximum local area to be used by populations (multiplier or scaling effect)
-  MaxArea = 200,
-  # settings 
-  # simulation flow & data
-  maxIt = 20000,
-  tol = 6,
-  saveTrajectories = FALSE,
-  messages = TRUE
+fourPar.ggplot <- function(twoPar.exp, par1, par2, par3, par4, var1, var2, 
+                           xlab = NULL, ylab = NULL, var1lab = NULL, var2lab = NULL,
+                           plotScale = 1)
+{
+  if (is.null(xlab)) {
+    xlab = par1
+  }
+  if (is.null(ylab)) {
+    ylab = par2
+  }
+  if (is.null(var1lab)) {
+    var1lab = var1
+  }
+  if (is.null(var2lab)) {
+    var2lab = var2
+  }
   
-)
+  var1min = -1#min(twoPar.exp[,var1])
+  var1max = 1#max(twoPar.exp[,var1])
+  var2min = -1#min(twoPar.exp[,var2])
+  var2max = 1#max(twoPar.exp[,var2])
+  
+  ggplot(twoPar.exp, aes_string(x = par1, y = par2)) +
+    geom_raster(aes_string(fill = var1)) +
+    geom_point(aes_string(color = var2),
+               shape = 15,
+               size = plotScale * 0.8) +
+    geom_point(aes(size = time), shape = 't', color = 'grey') +
+    scale_fill_gradientn(
+      colors = c('white', 'darkblue'),
+      values = rescale(c(var1min, var1max)),
+      limits = c(var1min, var1max)
+    ) +
+    scale_color_gradientn(
+      colors = c('white', 'darkred'),
+      values = rescale(c(var2min, var2max)),
+      limits = c(var2min, var2max)
+    ) +
+    scale_size(range = c(plotScale * 0.5, plotScale * 2)) +
+    labs(x = xlab,
+         y = ylab,
+         fill = var1lab,
+         color = var2lab) +
+    facet_grid(
+      reformulate(par3, par4), 
+      scales='free', 
+      as.table = FALSE,
+      labeller = label_both#label_wrap_gen(multi_line=FALSE)
+    ) +
+    theme_bw() +
+    theme(
+      strip.background = element_rect(fill = NA, colour = NA), 
+      strip.text = element_text(size = plotScale * 1.5),
+      panel.grid.minor =  element_blank(),
+      panel.background = element_blank(),
+      axis.title = element_text(size = plotScale * 3),
+      axis.text = element_text(size = plotScale * 1.5),
+      legend.title = element_text(size = plotScale * 3.5),
+      legend.text = element_text(size = plotScale * 2)
+    )
+}
 
-g1 <- ggplot(exp1, aes(x = max.h, y = max.p)) +
-  geom_raster(aes(fill = LM.h)) +
-  geom_point(aes(color = LM.p), shape = 15, size = 2.5) + # 1.75
-  #geom_point(aes(size = time), shape = 't') +
-  scale_fill_gradientn(
-    colors = c('red', 'white', 'blue'),
-    values = rescale(c(min(exp1$LM.h), 0, max(exp1$LM.h))),
-    limits = c(min(exp1$LM.h), max(exp1$LM.h))
-  ) +
-  scale_color_gradientn(
-    colors = c('red', 'white', 'blue', 'darkblue'),
-    values = rescale(c(min(exp1$LM.p), 0, 1, max(exp1$LM.p))),
-    limits = c(min(exp1$LM.p), max(exp1$LM.p))
-  ) +
-  theme_bw() + # + theme(legend.position="none")
-  theme(strip.background = element_rect(fill = NA, colour = NA),
-        panel.grid.minor =  element_blank()) +
-  facet_wrap(
-    vars(paste('Um.ph = ', Um.ph), paste('Um.hp = ', Um.hp)),
-    as.table = FALSE,
-    scales = 'free',
-    ncol = 5,
-    labeller = label_wrap_gen(multi_line = FALSE)
-  )
+## Full example
 
-svg('plots/4_Um-max-plot.svg',
-    width = 10,
-    height = 10)
-g1
-dev.off()
-png('plots/4_Um-max-plot.png',
-    width = 1000,
-    height = 1000)
-g1
-dev.off()
+### Utility per capita between humans and plants ($\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$ x $\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$):
 
+exp.mU.HP_mU.PH.name <- "mU.HP-mU.PH"
+SEQ.mU.HnP <- seq(0, 2.5, length.out = 5)
+SEQ.mU.PnH <- seq(0, 2.5, length.out = 5)
+SEQ.mU.H1P <- seq(0, 2.5, length.out = 5)
+SEQ.mU.P1H <- seq(0, 2.5, length.out = 5)
 
-# ======================================================================================
-### (2) Um - Ump
-# ======================================================================================
-
-# Um.ph, Um.hp
-SEQ3 <- seq(0.5, 1.5, length.out = 5)
-# max.h, max.p
-SEQ4 <- seq(1, 10, length.out = 10)
-
-exp2 <- hpcModel.exploration(
-  # growth rate
-  r.h = 0.15,
-  r.p = 0.15,
-  # basic resources:
-  # population of type 1 that can be sustained by resources independent of HP relationship
-  max.h = 100,
-  max.p = 100,
-  # Utility of individuals of type N
-  Um.ph = SEQ3,
-  Um.hp = SEQ3,
-  # number of types
-  n.h = 10,
-  n.p = 10,
-  # undirected variation
-  v.h = 0.15,
-  v.p = 0.15,
+exp.mU.HP_mU.PH <- hpcModel.exploration(
   # initial populations
   iniH = 10,
   iniP = 10,
-  # proportion of mean utility:
-  # How less utility has type 1 individuals in relation to type N
-  Ump.ph = SEQ4,
-  Ump.hp = SEQ4,
-  # How less population of type N can be sustained by resources
-  # # independent of HP relationship in relation to type 1
-  Kmp.h = 10,
-  Kmp.p = 10,
+  # number of discrete types
+  n.H = 30,         
+  n.P = 30,        
+  # undirected variation 
+  v.H = 0.15,
+  v.P = 0.15,
+  # intrinsic growth rate 
+  r.H = 0.04, 
+  r.P = 0.1, 
+  # Utility per capita of individuals of type N
+  mU.PnH = SEQ.mU.PnH,
+  mU.HnP = SEQ.mU.HnP,
+  # Utility per capita of individuals of type 1
+  mU.P1H = SEQ.mU.P1H,                                  
+  mU.H1P = SEQ.mU.H1P,                                   
+  # basic resources:
+  # population of type N that can be sustained by resources independent of HP relationship
+  U.bHn = 10,                                
+  U.bPn = 20, 
+  # population of type 1 that can be sustained by resources independent of HP relationship
+  U.bH1 = 80,                               
+  U.bP1 = 100,                                
   # maximum local area to be used by populations (multiplier or scaling effect)
-  MaxArea = 200,
+  MaxArea = 200, 
   # settings 
   # simulation flow & data
   maxIt = 20000,
   tol = 6,
-  saveTrajectories = FALSE,
-  messages = TRUE
+  messages = FALSE
 )
 
-g2 <- ggplot(exp2, aes(x = Ump.ph, y = Ump.hp)) +
-  geom_raster(aes(fill = LM.h)) +
-  geom_point(aes(color = LM.p), shape = 15, size = 2.5) + # 1.75
-  #geom_point(aes(size = time), shape = 't') +
-  scale_fill_gradientn(
-    colors = c('red', 'white', 'blue'),
-    values = rescale(c(min(exp2$LM.h), 0, max(exp2$LM.h))),
-    limits = c(min(exp2$LM.h), max(exp2$LM.h))
-  ) +
-  scale_color_gradientn(
-    colors = c('red', 'white', 'blue', 'darkblue'),
-    values = rescale(c(min(exp2$LM.p), 0, 1, max(exp2$LM.p))),
-    limits = c(min(exp2$LM.p), max(exp2$LM.p))
-  ) +
-  theme_bw() + # + theme(legend.position="none")
-  theme(strip.background = element_rect(fill = NA, colour = NA),
-        panel.grid.minor =  element_blank()) +
-  facet_wrap(
-    vars(paste('Um.ph = ', Um.ph), paste('Um.hp = ', Um.hp)),
-    as.table = FALSE,
-    scales = 'free',
-    ncol = 5,
-    labeller = label_wrap_gen(multi_line = FALSE)
-  )
+plotScale = 10#100 / length(SEQ.U.bPn)
 
-png('plots/4_Um-Ump-plot.png',
-    width = 1000,
-    height = 1000)
-g2
+png(paste0("plots/4_fourPar-", exp.mU.HP_mU.PH.name, "_plot.png"),
+    width = 100 * plotScale, height = 100 * plotScale)
+fourPar.ggplot(exp.mU.HP_mU.PH, 'mU.P1H', 'mU.H1P', 'mU.PnH', 'mU.HnP', 'coevo.H', 'coevo.P', 
+               xlab = expression(bar(U)['P1H']),
+               ylab = expression(bar(U)['H1P']),
+               var1lab = expression('coevo'[H]),
+               var2lab = expression('coevo'[P]),
+               plotScale = plotScale)
 dev.off()
 
+# **_Interpretation_**:  
+#   - Higher values of all four parameters facilitate coevolution; under the 'default' setting, a value around 1 is enough for all four parameters (intermediate values in this exploration).  
+# - Coevolution is still possible if any single one of these parameters equal zero (bottom-left corners). Under this type of conditions, agriculture (blue) appears more probable than domestication (red), and the latter is strongly dependent on a non-null $\bar{U}_{H_{n}P}$.  
+# - As a summary of possible end-states:  
+#   - *'Fast' coevolution* (red square in blue tile, small *t*): most cases when values are greater than 0.625.  
+# - *Domestication without cultivation* (red square in whitish tile): most cases when $\bar{U}_{H_{n}P} > 0.625$, $\bar{U}_{H_{1}P} => 0.625$, $\bar{U}_{P_{n}H} = 0$, and $\bar{U}_{P_{1}H} < 2.5$.  
+# - *Cultivation without domestication* (whitish square in blue tile): most cases when $\bar{U}_{H_{n}P} = 0$.
 
-# ======================================================================================
-### (3) Ump - max
-# ======================================================================================
+### Utility from other resources to humans and plants ($U_{bH_{1}}$ x $U_{bP_{1}}$ x $U_{bH_{n}}$ x $U_{bP_{n}}$):
 
-# Um.ph, Um.hp
-SEQ5 <- seq(1, 10, length.out = 5)
-# max.h, max.p
-SEQ6 <- seq(50, 300, length.out = 10)
+# For this experiment, consider that the default setting includes $MaxArea=200$ (i.e. the maximum for the plant population).
 
-exp3 <- hpcModel.exploration(
-  # growth rate
-  r.h = 0.15,
-  r.p = 0.15,
-  # basic resources:
-  # population of type 1 that can be sustained by resources independent of HP relationship
-  max.h = SEQ6,
-  max.p = SEQ6,
-  # Utility of individuals of type N
-  Um.ph = 1,
-  Um.hp = 1,
-  # number of types
-  n.h = 10,
-  n.p = 10,
-  # undirected variation
-  v.h = 0.15,
-  v.p = 0.15,
+exp.U.bH_U.bP.name <- "U.bH-U.bP"
+SEQ.U.bHn <- seq(5, 300, length.out = 5)
+SEQ.U.bPn <- seq(5, 300, length.out = 5)
+SEQ.U.bH1 <- seq(5, 300, length.out = 5)
+SEQ.U.bP1 <- seq(5, 300, length.out = 5)
+
+exp.U.bH_U.bP <- hpcModel.exploration(
   # initial populations
   iniH = 10,
   iniP = 10,
-  # proportion of mean utility:
-  # How less utility has type 1 individuals in relation to type N
-  Ump.ph = SEQ5,
-  Ump.hp = SEQ5,
-  # How less population of type N can be sustained by resources
-  # # independent of HP relationship in relation to type 1
-  Kmp.h = 10,
-  Kmp.p = 10,
+  # number of discrete types
+  n.H = 30,         
+  n.P = 30,        
+  # undirected variation 
+  v.H = 0.15,
+  v.P = 0.15,
+  # intrinsic growth rate 
+  r.H = 0.04, 
+  r.P = 0.1, 
+  # Utility per capita of individuals of type N
+  mU.PnH = 1.5,
+  mU.HnP = 1,
+  # Utility per capita of individuals of type 1
+  mU.P1H = 0.15,                                  
+  mU.H1P = 0,                                   
+  # basic resources:
+  # population of type N that can be sustained by resources independent of HP relationship
+  U.bHn = SEQ.U.bHn,                                
+  U.bPn = SEQ.U.bPn, 
+  # population of type 1 that can be sustained by resources independent of HP relationship
+  U.bH1 = SEQ.U.bH1,                               
+  U.bP1 = SEQ.U.bP1,                                
   # maximum local area to be used by populations (multiplier or scaling effect)
-  MaxArea = 200,
+  MaxArea = 200, 
   # settings 
   # simulation flow & data
   maxIt = 20000,
   tol = 6,
-  saveTrajectories = FALSE,
-  messages = TRUE
+  messages = FALSE
 )
 
-g3 <- ggplot(exp3, aes(x = max.h, y = max.p)) +
-  geom_raster(aes(fill = LM.h)) +
-  geom_point(aes(color = LM.p), shape = 15, size = 2.5) + # 1.75
-  #geom_point(aes(size = time), shape = 't') +
-  scale_fill_gradientn(
-    colors = c('red', 'white', 'blue'),
-    values = rescale(c(min(exp3$LM.h), 0, max(exp3$LM.h))),
-    limits = c(min(exp3$LM.h), max(exp3$LM.h))
-  ) +
-  scale_color_gradientn(
-    colors = c('red', 'white', 'blue', 'darkblue'),
-    values = rescale(c(min(exp3$LM.p), 0, 1, max(exp3$LM.p))),
-    limits = c(min(exp3$LM.p), max(exp3$LM.p))
-  ) +
-  theme_bw() + # + theme(legend.position="none")
-  theme(strip.background = element_rect(fill = NA, colour = NA),
-        panel.grid.minor =  element_blank()) +
-  facet_wrap(
-    vars(paste(
-      'Ump.ph = ', ifelse(Ump.ph == 10, 'z10', Ump.ph)
-    ),
-    paste(
-      'Ump.hp = ', ifelse(Ump.hp == 10, 'z10', Ump.hp)
-    )),
-    as.table = FALSE,
-    scales = 'free',
-    ncol = 5,
-    labeller = label_wrap_gen(multi_line = FALSE),
-    drop = F
-  )
+plotScale = 10#100 / length(SEQ.U.bPn)
 
-png('plots/4_Ump-max-plot.png',
-    width = 1000,
-    height = 1000)
-g3
+png(paste0("plots/4_fourPar-", exp.U.bH_U.bP.name, "_plot.png"),
+    width = 100 * plotScale, height = 100 * plotScale)
+fourPar.ggplot(exp.U.bH_U.bP, 'U.bP1', 'U.bH1', 'U.bPn', 'U.bHn', 'coevo.H', 'coevo.P', 
+               xlab = expression(U['bP1']),
+               ylab = expression(U['bH1']),
+               var1lab = expression('coevo'[H]),
+               var2lab = expression('coevo'[P]),
+               plotScale = plotScale)
 dev.off()
 
+# **_Interpretation_**:  
+#   - Lower values of all four parameters facilitate coevolution; under the 'default' setting and for all four parameters, values higher than $MaxArea$ impede coevolution. The human parameters ($U_{bH_{1}}$, $U_{bH_{n}}$), together regulating the scale of the subsistence alternatives for humans, are significantly more important; their relationship (if one is greater than the other) seems to be less important as long as their combined sum is small enough.  
+# - Coevolution is likely to occur when $U_{bH_{1}} = 0$, unless $U_{bP_{1}}$ is too small.  
+# - As a summary of possible end-states:  
+#   - *'Fast' coevolution* (red square in blue tile, small *t*): most cases when $U_{bH_{1}}$ and $U_{bH_{n}}$ are less than 100 (half of $MaxArea$).  
+# - *Domestication without cultivation* (red square in whitish tile): most cases when $U_{bP_{n}} = 0$, $U_{bP_{1}} = 0$ (i.e. there is no carrying capacity for plants beyond the anthropic space) and $U_{bH_{1}} > 100$ (i.e. humans get plenty other resources when -still- not engaged in agriculture).  
+# - *Cultivation without domestication* (whitish square in blue tile): *no cases visible*.
 
-# ======================================================================================
-### (4) Kmp - max
-# ======================================================================================
 
-# Um.ph, Um.hp
-SEQ7 <- seq(1, 10, length.out = 5)
-# max.h, max.p
-SEQ8 <- seq(50, 300, length.out = 10)
+### Number of types and undirected variation of humans and plants ($n_{H}$ x $n_{P}$ x $v_{H}$ x $v_{P}$):
 
-exp4 <- hpcModel.exploration(
-  # growth rate
-  r.h = 0.15,
-  r.p = 0.15,
-  # basic resources
-  max.h = SEQ8,
-  max.p = SEQ8,
-  # utility
-  Um.ph = 1,
-  Um.hp = 1,
-  # number of types
-  n.h = 10,
-  n.p = 10,
-  # undirected variation
-  v.h = 0.15,
-  v.p = 0.15,
-  # initial conditions
+exp.n_v.name <- "n-v"
+SEQ.n.H <- seq(5, 45, by = 10)
+SEQ.n.P <- seq(5, 45, by = 10)
+SEQ.v.H <- seq(0.05, 0.25, length.out = 5)
+SEQ.v.P <- seq(0.05, 0.25, length.out = 5)
+
+exp.n_v <- hpcModel.exploration(
+  # initial populations
   iniH = 10,
   iniP = 10,
-  # proportion of mean utility
-  Ump.ph = 10,
-  Ump.hp = 10,
-  # proportion of mean utility
-  Kmp.h = SEQ7,
-  Kmp.p = SEQ7,
+  # number of discrete types
+  n.H = SEQ.n.H,         
+  n.P = SEQ.n.P,        
+  # undirected variation 
+  v.H = SEQ.v.H,
+  v.P = SEQ.v.P,
+  # intrinsic growth rate 
+  r.H = 0.04, 
+  r.P = 0.1, 
+  # Utility per capita of individuals of type N
+  mU.PnH = 1.5,
+  mU.HnP = 1,
+  # Utility per capita of individuals of type 1
+  mU.P1H = 0.15,                                  
+  mU.H1P = 0,                                   
+  # basic resources:
+  # population of type N that can be sustained by resources independent of HP relationship
+  U.bHn = 10,                                
+  U.bPn = 20, 
+  # population of type 1 that can be sustained by resources independent of HP relationship
+  U.bH1 = 80,                               
+  U.bP1 = 100,                                
   # maximum local area to be used by populations (multiplier or scaling effect)
-  MaxArea = 200,
+  MaxArea = 200, 
   # settings 
   # simulation flow & data
   maxIt = 20000,
   tol = 6,
-  saveTrajectories = FALSE,
-  messages = TRUE
+  messages = FALSE
 )
 
-g4 <- ggplot(exp4, aes(x = max.h, y = max.p)) +
-  geom_raster(aes(fill = LM.h)) +
-  geom_point(aes(color = LM.p), shape = 15, size = 2.5) + # 1.75
-  #geom_point(aes(size = time), shape = 't') +
-  scale_fill_gradientn(
-    colors = c('red', 'white', 'blue'),
-    values = rescale(c(min(exp4$LM.h), 0, max(exp4$LM.h))),
-    limits = c(min(exp4$LM.h), max(exp4$LM.h))
-  ) +
-  scale_color_gradientn(
-    colors = c('red', 'white', 'blue', 'darkblue'),
-    values = rescale(c(min(exp4$LM.p), 0, 1, max(exp4$LM.p))),
-    limits = c(min(exp4$LM.p), max(exp4$LM.p))
-  ) +
-  theme_bw() + # + theme(legend.position="none")
-  theme(strip.background = element_rect(fill = NA, colour = NA),
-        panel.grid.minor =  element_blank()) +
-  facet_wrap(
-    vars(paste('Kmp.h = ', ifelse(
-      Kmp.h == 10, 'z10', Kmp.h
-    )),
-    paste('Kmp.p = ', ifelse(
-      Kmp.p == 10, 'z10', Kmp.p
-    ))),
-    as.table = FALSE,
-    scales = 'free',
-    ncol = 5,
-    labeller = label_wrap_gen(multi_line = FALSE)
-  )
+plotScale = 10#100 / length(SEQ.U.bPn)
 
-png('plots/4_Kmp-max-plot.png',
-    width = 1000,
-    height = 1000)
-g4
+png(paste0("plots/4_fourPar-", exp.n_v.name, "_plot.png"),
+    width = 100 * plotScale, height = 100 * plotScale)
+fourPar.ggplot(exp.n_v, 'v.H', 'v.P', 'n.H', 'n.P', 'coevo.H', 'coevo.P', 
+               xlab = expression(v['H']),
+               ylab = expression(v['P']),
+               var1lab = expression('coevo'[H]),
+               var2lab = expression('coevo'[P]),
+               plotScale = plotScale)
 dev.off()
+
+# **_Interpretation_**:  
+#   - Higher values of all four parameters facilitate coevolution.  
+# - As a summary of possible end-states:  
+#   - *'Fast' coevolution* (red square in blue tile, small *t*): most cases when the numbers of types ($n_{H}$, $n_{P}$) are greater than **15** and values of undirected variation ($v_{H}$, $v_{P}$) higher than **0.15**.  
+# - *'Semi-coevolution'* (redish square in blueish tile): cases when $n_{H}>=15$, $n_{P}>=15$, $v_{H}<=0.1$ and $v_{P}<=0.1$.  
+# - *'Semi-domestication' without cultivation* (redish square in whitish tile): cases when $n_{H}=5$, $n_{P}>=15$ and $v_{P}<=0.1$.  
+# - *'Semi-cultivation' without domestication* (whitish square in blue tile): cases when $n_{H}>=15$, $n_{P}=5$ and $v_{H}<=0.1$.
+
