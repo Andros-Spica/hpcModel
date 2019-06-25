@@ -5,6 +5,13 @@ Fitness <- function(i, U.BA, K.A)
   ((length(i) - i)*(K.A - U.BA) + i*U.BA) / K.A
 }
 
+# coevolution coefficients:
+# between -1, i.e. all pop in type 1, 
+# and 1, i.e. all pop in type n
+coevo.coef <- function(populationProportions, typesIndexes)
+{
+  sum(populationProportions * (typesIndexes - 1)) / max(typesIndexes - 1) * 2 - 1
+}
 
 hpcModel.run <- function(
   # initial populations
@@ -158,8 +165,8 @@ hpcModel.run <- function(
     dH[t] <- H[t+1] - H[t]
     dP[t] <- P[t+1] - P[t]
     # slope of the population distribution among types (degree of coevolution)
-    coevo.H[t] <- cor(pop.H[t,], types.H)
-    coevo.P[t] <- cor(pop.P[t,], types.P)
+    coevo.H[t] <- coevo.coef(pop.H[t,], types.H)
+    coevo.P[t] <- coevo.coef(pop.P[t,], types.P)
     # slope of the fitness function (degree of dependency)
     try(depend.H[t] <- lm(fit.H[t,] ~ types.H)$coefficients[2])
     try(depend.P[t] <- lm(fit.P[t,] ~ types.P)$coefficients[2])
