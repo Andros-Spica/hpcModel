@@ -12,7 +12,8 @@ bookdown::render_book("index.Rmd",
                       envir = parent.frame(), clean_envir = !interactive(), 
                       output_dir = "docs", 
                       new_session = NA, preview = FALSE, 
-                      encoding = "UTF-8", config_file = "_bookdown.yml")
+                      encoding = "UTF-8", config_file = "_bookdown.yml",
+                      params = list(ispdf = FALSE))
 
 # It is posible to obtain the pdf version using the following code OR 
 # by accessing the save>pdf option in the html gitbook version generated above.
@@ -29,7 +30,8 @@ bookdown::render_book("index.Rmd",
                       envir = parent.frame(), clean_envir = !interactive(),
                       output_dir = "pdf",
                       new_session = NA, preview = FALSE,
-                      encoding = "UTF-8", config_file = "_bookdown.yml")
+                      encoding = "UTF-8", config_file = "_bookdown.yml",
+                      params = list(ispdf = TRUE))
 
 # to preview a single chapter
 
