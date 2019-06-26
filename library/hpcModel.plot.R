@@ -7,9 +7,13 @@ hpcModel.plot <-
     TRAJ <- RESULTS$TRAJECTORIES
     TYPES <- RESULTS$TYPES
     t <- RESULTS$END$time
+    timing.H <- RESULTS$END$timing.H
+    timing.P <- RESULTS$END$timing.P
     
     scaleMultiplier = (dev.size('px')[1] / 480)
     if (!is.null(scale.override)) { scaleMultiplier = scale.override }
+    
+    time.axis.limit <- c(0, t + ceiling(t * 0.4))
     
     ### set plot positions
     layout(matrix(
@@ -41,7 +45,7 @@ hpcModel.plot <-
       ylim = c(0, max(
         c(TRAJ$H, TRAJ$P, TRAJ$K.H, TRAJ$K.P), na.rm = T
       )),
-      xlim = c(0, t + ceiling(t * 0.35)),
+      xlim = time.axis.limit,
       xlab = '',
       ylab = 'populations'
     )
@@ -55,6 +59,11 @@ hpcModel.plot <-
            type = 'l',
            col = 'darkred',
            lty = 2)
+    
+    if (timing.H != 0)
+    { abline(v = timing.H, col = 'cyan', lty = 2) }
+    if (timing.P != 0)
+    { abline(v = timing.P, col = 'pink', lty = 2) }
     
     # legend
     legend(
@@ -73,7 +82,7 @@ hpcModel.plot <-
       TRAJ$dH,
       type = 'l',
       col = 'blue',
-      xlim = c(0, t + ceiling(t * 0.35)),
+      xlim = time.axis.limit,
       xlab = '',
       ylab = 'growth',
       ylim = c(min(c(
@@ -83,7 +92,13 @@ hpcModel.plot <-
       ), na.rm = T))
     )
     points(TRAJ$dP, type = 'l', col = 'red')
+    
     abline(h = 0, lty = 2)
+    
+    if (timing.H != 0)
+    { abline(v = timing.H, col = 'cyan', lty = 2) }
+    if (timing.P != 0)
+    { abline(v = timing.P, col = 'pink', lty = 2) }
     
     # legend
     legend(
@@ -100,7 +115,7 @@ hpcModel.plot <-
       TRAJ$U.PH,
       type = 'l',
       col = 'blue',
-      xlim = c(0, t + ceiling(t * 0.35)),
+      xlim = time.axis.limit,
       ylim = c(0, max(
         c(TRAJ$U.PH, TRAJ$U.HP, TRAJ$U.bH, TRAJ$U.bP), na.rm = T
       )),
@@ -117,14 +132,19 @@ hpcModel.plot <-
            col = 'darkred',
            lty = 2)
     
+    if (timing.H != 0)
+    { abline(v = timing.H, col = 'cyan', lty = 2) }
+    if (timing.P != 0)
+    { abline(v = timing.P, col = 'pink', lty = 2) }
+    
     # legend
     legend(
       'right',
       legend = c(
-        "Plants to Humans\n(U.PH)",
-        "Humans to Plants\n(U.HP))",
-        "Other to Humans\n(U.bH)",
-        "Other to Plants\n(U.bP)"
+        "Plants to Humans (U.PH)",
+        "Humans to Plants (U.HP))",
+        "Other to Humans (U.bH)",
+        "Other to Plants (U.bP)"
       ),
       col = c('blue', 'red', 'darkblue', 'darkred'),
       lty = c(1, 1, 2, 2),
@@ -136,7 +156,7 @@ hpcModel.plot <-
       TRAJ$coevo.H,
       type = 'l',
       col = 'blue',
-      xlim = c(0, t + ceiling(t * 0.35)),
+      xlim = time.axis.limit,
       xlab = 't',
       ylab = 'coevolution\nand dependency',
       ylim = c(min(c(
@@ -148,7 +168,13 @@ hpcModel.plot <-
     points(TRAJ$coevo.P, type = 'l', col = 'red')
     points(TRAJ$depend.H, type = 'l', lty = 2, col = 'darkblue')
     points(TRAJ$depend.P, type = 'l', lty = 2, col = 'darkred')
+    
     abline(h = 0, lty = 2)
+    
+    if (timing.H != 0)
+    { abline(v = timing.H, col = 'cyan', lty = 2) }
+    if (timing.P != 0)
+    { abline(v = timing.P, col = 'pink', lty = 2) }
     
     # legend
     legend(

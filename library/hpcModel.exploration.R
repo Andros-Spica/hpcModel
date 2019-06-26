@@ -28,8 +28,9 @@ hpcModel.exploration <- function(
   MaxArea = 200, 
   # settings 
   # simulation flow & data
-  maxIt = 20000,
+  maxIt = 5000,
   tol = 6,
+  timing.threshold = 0.5,
   messages = TRUE
 )
 {
@@ -90,8 +91,9 @@ hpcModel.exploration <- function(
                                       U.bPn = U.bPn.i,
                                       MaxArea = MaxArea.i,
                                       # fixed settings
-                                      maxIt=maxIt,
-                                      tol=tol,
+                                      maxIt = maxIt,
+                                      tol = tol,
+                                      timing.threshold = timing.threshold,
                                       saveTrajectories = FALSE,
                                       messages = messages,
                                       plot.preview = FALSE, 

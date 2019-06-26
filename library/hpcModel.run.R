@@ -43,8 +43,9 @@ hpcModel.run <- function(
   MaxArea = 200, 
   # settings 
   # simulation flow & data
-  maxIt = 20000,
+  maxIt = 5000,
   tol = 6,
+  timing.threshold = 0.5,
   saveTrajectories = FALSE,
   messages = TRUE, 
   # plotting
@@ -77,7 +78,9 @@ hpcModel.run <- function(
     U.bP1 = U.bP1,                                
     MaxArea = MaxArea,
     maxIt = maxIt, 
-    tol = tol)
+    tol = tol,
+    timing.threshold = timing.threshold
+    )
   
   ### declare fixed vectors of utility anb basic resources ===========================
   # utility
@@ -174,7 +177,12 @@ hpcModel.run <- function(
     ### running plot --------------------------------------------------------------------
     if(plot.preview || plot.save) 
     {
-        RESULTS$END <- list(time = t)
+        RESULTS$END <- list(
+          time = t, 
+          timing.H = timing.H, 
+          timing.P = timing.P
+          )
+        
         RESULTS$TRAJECTORIES <- data.frame(
             H = H, P = P, 
             U.PH = U.PH,
@@ -188,7 +196,9 @@ hpcModel.run <- function(
             coevo.H = coevo.H,
             coevo.P = coevo.P,
             depend.H = depend.H,
-            depend.P = depend.P)
+            depend.P = depend.P
+            )
+        
         RESULTS$TYPES$pop.H <- pop.H
         RESULTS$TYPES$pop.P <- pop.P 
         RESULTS$TYPES$fit.H <- fit.H
@@ -215,12 +225,20 @@ hpcModel.run <- function(
     # break loop & check evolution -------------------------------------------------
     if (t > 2) 
     {
-      # evolution (store the time step of change) 
-      if (timing.H == 0) {timing.H <- ifelse(pop.H[t-1,1] > pop.H[t-1,n.H], 0, t)}
-      if (timing.P == 0) {timing.P <- ifelse(pop.P[t-1,1] > pop.P[t-1,n.P], 0, t)}
+      # store the time step of change
+      if (timing.H == 0 && coevo.H[t] > timing.threshold) 
+      {timing.H <- t}
+      
+      if (timing.P == 0 && coevo.P[t] > timing.threshold)
+      {timing.P <- t}
+      
       # break loop (reltol method: from optim)
-      evolution.stopped <- (abs(coevo.H[t-2] - coevo.H[t-1]) < 10^-tol & abs(coevo.P[t-2] - coevo.P[t-1]) < 10^-tol)
+      evolution.stopped.H <- abs(coevo.H[t-2] - coevo.H[t-1]) < 10^-tol
+      evolution.stopped.P <- abs(coevo.P[t-2] - coevo.P[t-1]) < 10^-tol
+      evolution.stopped <- (evolution.stopped.H & evolution.stopped.P)
+      
       populations.stable <- (abs(H[t-2] - H[t-1]) < 10^-tol & abs(P[t-2] - P[t-1]) < 10^-tol)
+      
       if (evolution.stopped && populations.stable) {break}
     }
   }
@@ -230,13 +248,14 @@ hpcModel.run <- function(
   # build results list -----------------------------------------------------------------
   
   RESULTS$END <- list(
+    time = t,
     timing.H = timing.H, 
     timing.P = timing.P, 
     coevo.H = coevo.H[t], 
     coevo.P = coevo.P[t], 
     depend.H = depend.H[t], 
-    depend.P = depend.P[t], 
-    time = t)
+    depend.P = depend.P[t]
+    )
   
   if (saveTrajectories)
   {
