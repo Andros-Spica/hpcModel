@@ -71,6 +71,8 @@
 <li class="chapter" data-level="1.6" data-path="single-runs.html"><a href="single-runs.html#coevolution-with-population-bleep"><i class="fa fa-check"></i><b>1.6</b> Coevolution with population “bleep”</a></li>
 <li class="chapter" data-level="1.7" data-path="single-runs.html"><a href="single-runs.html#coevolution-with-population-boom"><i class="fa fa-check"></i><b>1.7</b> Coevolution with population “boom”</a></li>
 <li class="chapter" data-level="1.8" data-path="single-runs.html"><a href="single-runs.html#coevolution-with-long-population-boom"><i class="fa fa-check"></i><b>1.8</b> Coevolution with long population “boom”</a></li>
+<li class="chapter" data-level="1.9" data-path="single-runs.html"><a href="single-runs.html#semi-coevolution-stationary-point"><i class="fa fa-check"></i><b>1.9</b> Semi-coevolution (stationary point)</a></li>
+<li class="chapter" data-level="1.10" data-path="single-runs.html"><a href="single-runs.html#semi-coevolution-oscillations"><i class="fa fa-check"></i><b>1.10</b> Semi-coevolution (oscillations)</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html"><i class="fa fa-check"></i><b>2</b> One parameter exploration</a><ul>
 <li class="chapter" data-level="2.1" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#full-example-tableplot-alternatives"><i class="fa fa-check"></i><b>2.1</b> Full example (table+plot alternatives)</a><ul>
@@ -91,7 +93,7 @@
 <li class="chapter" data-level="2.2.12" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#utility-of-non-anthropic-space-to-type-n-plants-u_bp_n"><i class="fa fa-check"></i><b>2.2.12</b> utility <strong>of</strong> non-anthropic space <strong>to</strong> type n plants (<span class="math inline">\(U_{bP_{n}}\)</span>):</a></li>
 <li class="chapter" data-level="2.2.13" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#maximum-contiguous-area-to-be-used-by-plants-maxarea"><i class="fa fa-check"></i><b>2.2.13</b> maximum contiguous area to be used by plants (<span class="math inline">\(MaxArea\)</span>):</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#bifurcation-plot-with-last-100-time-steps"><i class="fa fa-check"></i><b>2.3</b> Bifurcation plot with last 100 time steps</a></li>
+<li class="chapter" data-level="2.3" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#oscilations"><i class="fa fa-check"></i><b>2.3</b> Oscilations</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="two-parameter-exploration.html"><a href="two-parameter-exploration.html"><i class="fa fa-check"></i><b>3</b> Two parameter exploration</a><ul>
 <li class="chapter" data-level="3.1" data-path="two-parameter-exploration.html"><a href="two-parameter-exploration.html#full-example"><i class="fa fa-check"></i><b>3.1</b> Full example</a><ul>
@@ -215,11 +217,15 @@
 </tr>
 <tr class="even">
 <td align="left">maxIt</td>
-<td align="left">20000</td>
+<td align="left">5000</td>
 </tr>
 <tr class="odd">
 <td align="left">tol</td>
 <td align="left">6</td>
+</tr>
+<tr class="even">
+<td align="left">timing.threshold</td>
+<td align="left">0.5</td>
 </tr>
 </tbody>
 </table>
@@ -230,7 +236,7 @@
 <thead>
 <tr class="header">
 <th>Abbreviation</th>
-<th>Description</th>
+<th>Value</th>
 </tr>
 </thead>
 <tbody>
@@ -240,11 +246,11 @@
 </tr>
 <tr class="even">
 <td><code>coevo.H</code></td>
-<td>0.4923502</td>
+<td>0.6922901</td>
 </tr>
 <tr class="odd">
 <td><code>coevo.P</code></td>
-<td>0.4276287</td>
+<td>0.7687119</td>
 </tr>
 <tr class="even">
 <td><code>depend.H</code></td>
@@ -256,11 +262,11 @@
 </tr>
 <tr class="even">
 <td><code>timing.H</code></td>
-<td>224</td>
+<td>236</td>
 </tr>
 <tr class="odd">
 <td><code>timing.P</code></td>
-<td>239</td>
+<td>252</td>
 </tr>
 </tbody>
 </table>
@@ -296,6 +302,105 @@
 <div id="coevolution-with-long-population-boom" class="section level2">
 <h2><span class="header-section-number">1.8</span> Coevolution with long population “boom”</h2>
 <p><img src="plots/runPlot/coevo.long.boom-anim.gif" /><!-- --></p>
+</div>
+<div id="semi-coevolution-stationary-point" class="section level2">
+<h2><span class="header-section-number">1.9</span> Semi-coevolution (stationary point)</h2>
+<p><img src="plots/runPlot/semicoevo-anim.gif" /><!-- --></p>
+</div>
+<div id="semi-coevolution-oscillations" class="section level2">
+<h2><span class="header-section-number">1.10</span> Semi-coevolution (oscillations)</h2>
+<p><em>Parameter setting</em>:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">parameter</th>
+<th align="left">values</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">iniH</td>
+<td align="left">10</td>
+</tr>
+<tr class="even">
+<td align="left">iniP</td>
+<td align="left">10</td>
+</tr>
+<tr class="odd">
+<td align="left">n.H</td>
+<td align="left">30</td>
+</tr>
+<tr class="even">
+<td align="left">n.P</td>
+<td align="left">30</td>
+</tr>
+<tr class="odd">
+<td align="left">v.H</td>
+<td align="left">0.15</td>
+</tr>
+<tr class="even">
+<td align="left">v.P</td>
+<td align="left">0.15</td>
+</tr>
+<tr class="odd">
+<td align="left">r.H</td>
+<td align="left">0.04</td>
+</tr>
+<tr class="even">
+<td align="left">r.P</td>
+<td align="left">0.1</td>
+</tr>
+<tr class="odd">
+<td align="left">mU.PnH</td>
+<td align="left">0.5</td>
+</tr>
+<tr class="even">
+<td align="left">mU.HnP</td>
+<td align="left">0.9</td>
+</tr>
+<tr class="odd">
+<td align="left">mU.P1H</td>
+<td align="left">0.5</td>
+</tr>
+<tr class="even">
+<td align="left">mU.H1P</td>
+<td align="left">0</td>
+</tr>
+<tr class="odd">
+<td align="left">U.bHn</td>
+<td align="left">20</td>
+</tr>
+<tr class="even">
+<td align="left">U.bPn</td>
+<td align="left">20</td>
+</tr>
+<tr class="odd">
+<td align="left">U.bH1</td>
+<td align="left">100</td>
+</tr>
+<tr class="even">
+<td align="left">U.bP1</td>
+<td align="left">100</td>
+</tr>
+<tr class="odd">
+<td align="left">MaxArea</td>
+<td align="left">200</td>
+</tr>
+<tr class="even">
+<td align="left">maxIt</td>
+<td align="left">2000</td>
+</tr>
+<tr class="odd">
+<td align="left">tol</td>
+<td align="left">6</td>
+</tr>
+<tr class="even">
+<td align="left">timing.threshold</td>
+<td align="left">0.5</td>
+</tr>
+</tbody>
+</table>
+<p><img src="plots/runPlot/semicoevo.osc-anim.gif" /><!-- --></p>
 
 </div>
 </div>

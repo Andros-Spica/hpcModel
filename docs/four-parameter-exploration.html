@@ -71,6 +71,8 @@
 <li class="chapter" data-level="1.6" data-path="single-runs.html"><a href="single-runs.html#coevolution-with-population-bleep"><i class="fa fa-check"></i><b>1.6</b> Coevolution with population “bleep”</a></li>
 <li class="chapter" data-level="1.7" data-path="single-runs.html"><a href="single-runs.html#coevolution-with-population-boom"><i class="fa fa-check"></i><b>1.7</b> Coevolution with population “boom”</a></li>
 <li class="chapter" data-level="1.8" data-path="single-runs.html"><a href="single-runs.html#coevolution-with-long-population-boom"><i class="fa fa-check"></i><b>1.8</b> Coevolution with long population “boom”</a></li>
+<li class="chapter" data-level="1.9" data-path="single-runs.html"><a href="single-runs.html#semi-coevolution-stationary-point"><i class="fa fa-check"></i><b>1.9</b> Semi-coevolution (stationary point)</a></li>
+<li class="chapter" data-level="1.10" data-path="single-runs.html"><a href="single-runs.html#semi-coevolution-oscillations"><i class="fa fa-check"></i><b>1.10</b> Semi-coevolution (oscillations)</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html"><i class="fa fa-check"></i><b>2</b> One parameter exploration</a><ul>
 <li class="chapter" data-level="2.1" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#full-example-tableplot-alternatives"><i class="fa fa-check"></i><b>2.1</b> Full example (table+plot alternatives)</a><ul>
@@ -91,7 +93,7 @@
 <li class="chapter" data-level="2.2.12" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#utility-of-non-anthropic-space-to-type-n-plants-u_bp_n"><i class="fa fa-check"></i><b>2.2.12</b> utility <strong>of</strong> non-anthropic space <strong>to</strong> type n plants (<span class="math inline">\(U_{bP_{n}}\)</span>):</a></li>
 <li class="chapter" data-level="2.2.13" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#maximum-contiguous-area-to-be-used-by-plants-maxarea"><i class="fa fa-check"></i><b>2.2.13</b> maximum contiguous area to be used by plants (<span class="math inline">\(MaxArea\)</span>):</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#bifurcation-plot-with-last-100-time-steps"><i class="fa fa-check"></i><b>2.3</b> Bifurcation plot with last 100 time steps</a></li>
+<li class="chapter" data-level="2.3" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html#oscilations"><i class="fa fa-check"></i><b>2.3</b> Oscilations</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="two-parameter-exploration.html"><a href="two-parameter-exploration.html"><i class="fa fa-check"></i><b>3</b> Two parameter exploration</a><ul>
 <li class="chapter" data-level="3.1" data-path="two-parameter-exploration.html"><a href="two-parameter-exploration.html#full-example"><i class="fa fa-check"></i><b>3.1</b> Full example</a><ul>
@@ -216,12 +218,12 @@
 </table>
 <p><img src="plots/4_fourPar-mU.HP-mU.PH_plot.png" width="100%" /></p>
 <p><strong><em>Interpretation</em></strong>:<br />
-- Higher values of all four parameters facilitate coevolution; under the ‘default’ setting, a value around 1 is enough for all four parameters (intermediate values in this exploration).<br />
-- Coevolution is still possible if any single one of these parameters equal zero (bottom-left corners). Under this type of conditions, agriculture (blue) appears more probable than domestication (red), and the latter is strongly dependent on a non-null <span class="math inline">\(\bar{U}_{H_{n}P}\)</span>.<br />
-- As a summary of possible end-states:<br />
-- <em>‘Fast’ coevolution</em> (red square in blue tile, small <em>t</em>): most cases when values are greater than 0.625.<br />
-- <em>Domestication without cultivation</em> (red square in whitish tile): most cases when <span class="math inline">\(\bar{U}_{H_{n}P} &gt; 0.625\)</span>, <span class="math inline">\(\bar{U}_{H_{1}P} =&gt; 0.625\)</span>, <span class="math inline">\(\bar{U}_{P_{n}H} = 0\)</span>, and <span class="math inline">\(\bar{U}_{P_{1}H} &lt; 2.5\)</span>.<br />
-- <em>Cultivation without domestication</em> (whitish square in blue tile): most cases when <span class="math inline">\(\bar{U}_{H_{n}P} = 0\)</span>.</p>
+* Higher values of all four parameters facilitate coevolution; under the ‘default’ setting, a value around 1 is enough for all four parameters (intermediate values in this exploration).<br />
+* Coevolution is still possible if any single one of these parameters equal zero (bottom-left corners). Under this type of conditions, agriculture (blue) appears more probable than domestication (red), and the latter is strongly dependent on a non-null <span class="math inline">\(\bar{U}_{H_{n}P}\)</span>.<br />
+* As a summary of possible end-states:<br />
++ <em>‘Fast’ coevolution</em> (red square in blue tile, small <em>t</em>): most cases when values are greater than 0.625.<br />
++ <em>Domestication without cultivation</em> (red square in whitish tile): most cases when <span class="math inline">\(\bar{U}_{H_{n}P}&gt;0.625\)</span>, <span class="math inline">\(\bar{U}_{H_{1}P}\geq 0.625\)</span>, <span class="math inline">\(\bar{U}_{P_{n}H}=0\)</span>, and <span class="math inline">\(\bar{U}_{P_{1}H}&lt;2.5\)</span>.<br />
++ <em>Cultivation without domestication</em> (whitish square in blue tile): most cases when <span class="math inline">\(\bar{U}_{H_{n}P} = 0\)</span>.</p>
 </div>
 <div id="utility-from-other-resources-to-humans-and-plants-u_bh_1-x-u_bp_1-x-u_bh_n-x-u_bp_n" class="section level2">
 <h2><span class="header-section-number">4.2</span> Utility from other resources to humans and plants (<span class="math inline">\(U_{bH_{1}}\)</span> x <span class="math inline">\(U_{bP_{1}}\)</span> x <span class="math inline">\(U_{bH_{n}}\)</span> x <span class="math inline">\(U_{bP_{n}}\)</span>):</h2>
@@ -306,12 +308,12 @@
 </table>
 <p><img src="plots/4_fourPar-U.bH-U.bP_plot.png" width="100%" /></p>
 <p><strong><em>Interpretation</em></strong>:<br />
-- Lower values of all four parameters facilitate coevolution; under the ‘default’ setting and for all four parameters, values higher than <span class="math inline">\(MaxArea\)</span> impede coevolution. The human parameters (<span class="math inline">\(U_{bH_{1}}\)</span>, <span class="math inline">\(U_{bH_{n}}\)</span>), together regulating the scale of the subsistence alternatives for humans, are significantly more important; their relationship (if one is greater than the other) seems to be less important as long as their combined sum is small enough.<br />
-- Coevolution is likely to occur when <span class="math inline">\(U_{bH_{1}} = 0\)</span>, unless <span class="math inline">\(U_{bP_{1}}\)</span> is too small.<br />
-- As a summary of possible end-states:<br />
-- <em>‘Fast’ coevolution</em> (red square in blue tile, small <em>t</em>): most cases when <span class="math inline">\(U_{bH_{1}}\)</span> and <span class="math inline">\(U_{bH_{n}}\)</span> are less than 100 (half of <span class="math inline">\(MaxArea\)</span>).<br />
-- <em>Domestication without cultivation</em> (red square in whitish tile): most cases when <span class="math inline">\(U_{bP_{n}} = 0\)</span>, <span class="math inline">\(U_{bP_{1}} = 0\)</span> (i.e. there is no carrying capacity for plants beyond the anthropic space) and <span class="math inline">\(U_{bH_{1}} &gt; 100\)</span> (i.e. humans get plenty other resources when -still- not engaged in agriculture).<br />
-- <em>Cultivation without domestication</em> (whitish square in blue tile): <em>no cases visible</em>.</p>
+- Lower values of all four parameters facilitate coevolution; under the ‘default’ setting and for all four parameters, values higher than <span class="math inline">\(MaxArea\)</span> (here, 200) impede coevolution. The human parameters (<span class="math inline">\(U_{bH_{1}}\)</span>, <span class="math inline">\(U_{bH_{n}}\)</span>), together regulating the scale of the subsistence alternatives for humans, are significantly more important; their relationship (if one is greater than the other) seems to be less important as long as their combined sum is small enough.<br />
+* Coevolution is likely to occur when <span class="math inline">\(U_{bH_{1}}=5\)</span>, unless <span class="math inline">\(U_{bH_{1}}\)</span> is too big and <span class="math inline">\(U_{bP_{1}}\)</span> is too small.<br />
+* As a summary of possible end-states:<br />
++ <em>‘Fast’ coevolution</em> (red square in blue tile, small <em>t</em>): most cases when <span class="math inline">\(U_{bH_{1}}\)</span> and <span class="math inline">\(U_{bH_{n}}&lt;152.5\)</span>.<br />
++ <em>Domestication without cultivation</em> (red square in whitish tile): most cases when <span class="math inline">\(U_{bP_{n}}=5\)</span>, <span class="math inline">\(U_{bP_{1}}=5\)</span> (i.e. there is very little carrying capacity for plants beyond the anthropic space) and <span class="math inline">\(U_{bH_{1}}&gt;5\)</span> (i.e. humans get enough of other resources when -still- not engaged in agriculture).<br />
++ <em>Cultivation without domestication</em> (whitish square in blue tile): <em>no cases are visible under these conditions</em>.</p>
 </div>
 <div id="number-of-types-and-undirected-variation-of-humans-and-plants-n_h-x-n_p-x-v_h-x-v_p" class="section level2">
 <h2><span class="header-section-number">4.3</span> Number of types and undirected variation of humans and plants (<span class="math inline">\(n_{H}\)</span> x <span class="math inline">\(n_{P}\)</span> x <span class="math inline">\(v_{H}\)</span> x <span class="math inline">\(v_{P}\)</span>):</h2>
@@ -395,12 +397,11 @@
 </table>
 <p><img src="plots/4_fourPar-n-v_plot.png" width="100%" /></p>
 <p><strong><em>Interpretation</em></strong>:<br />
-- Higher values of all four parameters facilitate coevolution.<br />
-- As a summary of possible end-states:<br />
-- <em>‘Fast’ coevolution</em> (red square in blue tile, small <em>t</em>): most cases when the numbers of types (<span class="math inline">\(n_{H}\)</span>, <span class="math inline">\(n_{P}\)</span>) are greater than <strong>15</strong> and values of undirected variation (<span class="math inline">\(v_{H}\)</span>, <span class="math inline">\(v_{P}\)</span>) higher than <strong>0.15</strong>.<br />
-- <em>‘Semi-coevolution’</em> (redish square in blueish tile): cases when <span class="math inline">\(n_{H}&gt;=15\)</span>, <span class="math inline">\(n_{P}&gt;=15\)</span>, <span class="math inline">\(v_{H}&lt;=0.1\)</span> and <span class="math inline">\(v_{P}&lt;=0.1\)</span>.<br />
-- <em>‘Semi-domestication’ without cultivation</em> (redish square in whitish tile): cases when <span class="math inline">\(n_{H}=5\)</span>, <span class="math inline">\(n_{P}&gt;=15\)</span> and <span class="math inline">\(v_{P}&lt;=0.1\)</span>.<br />
-- <em>‘Semi-cultivation’ without domestication</em> (whitish square in blue tile): cases when <span class="math inline">\(n_{H}&gt;=15\)</span>, <span class="math inline">\(n_{P}=5\)</span> and <span class="math inline">\(v_{H}&lt;=0.1\)</span>.</p>
+* Higher values of all four parameters facilitate coevolution. Undirected variation has a stronger effect than number of types.
+* As a summary of possible end-states:<br />
++ <em>‘Fast’ coevolution</em> (red square in blue tile, small <em>t</em>): most cases when the numbers of types (<span class="math inline">\(n_{H}\)</span>, <span class="math inline">\(n_{P}\)</span>) are greater than <strong>15</strong> and values of undirected variation (<span class="math inline">\(v_{H}\)</span>, <span class="math inline">\(v_{P}\)</span>) higher than <strong>0.15</strong>.<br />
++ <em>‘Semi-domestication’ without cultivation</em> (redish square in whitish tile): cases when <span class="math inline">\(v_{P}\geq 0.15\)</span>.<br />
++ <em>‘Semi-cultivation’ without domestication</em> (whitish square in blue tile): cases when <span class="math inline">\(v_{H}\geq 0.15\)</span>.</p>
 
 </div>
 </div>
