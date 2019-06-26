@@ -14,6 +14,54 @@ require(randomForest)   # RF
 require(party)          # classification / regression tree
 require(parallel)       # use parallelization, it takes 8 min aprox
 
+
+run.LHC.experiment <- function(experimentSettings, cluster)
+{
+  parLapply(cluster, 1:nrow(experimentSettings),
+            function(experimentIndex) {
+              RESULTS <- hpcModel.run(
+                iniH = 10,
+                iniP = 10,
+                n.H = experimentSettings[experimentIndex, 1],         
+                n.P = experimentSettings[experimentIndex, 2],        
+                v.H = experimentSettings[experimentIndex, 3],
+                v.P = experimentSettings[experimentIndex, 4],
+                r.H = 0.04, 
+                r.P = 0.1, 
+                mU.PnH = experimentSettings[experimentIndex, 5],
+                mU.HnP = experimentSettings[experimentIndex, 6],
+                mU.P1H = experimentSettings[experimentIndex, 7],                                  
+                mU.H1P = experimentSettings[experimentIndex, 8],                                   
+                U.bHn = experimentSettings[experimentIndex, 9],                                
+                U.bPn = experimentSettings[experimentIndex, 10], 
+                U.bH1 = experimentSettings[experimentIndex, 11],                               
+                U.bP1 = experimentSettings[experimentIndex, 12],
+                MaxArea = 200,
+                maxIt = 5000,
+                tol = 6,
+                saveTrajectories = FALSE,
+                messages = FALSE
+              )
+              return(as.data.frame(RESULTS$END))
+            })
+}
+
+collapsed.ggplot <- function(results, parameterName, variableName1, variableName2)
+{
+  ggplot(results, aes_string(x = parameterName)) +
+    stat_smooth(aes_string(y = variableName1),
+                alpha = 0.5,
+                level = 0.9999999,
+                colour = 'blue') +
+    geom_point(aes_string(y = variableName1), size = 0.05, colour = 'blue') +
+    stat_smooth(aes_string(y = variableName2),
+                alpha = 0.5,
+                level = 0.9999999,
+                colour = 'red') +
+    geom_point(aes_string(y = variableName2), size = 0.05, colour = 'red')
+}
+
+
 ### generate LHS design (strauss method, with 0.2 radious interaction)
 # it takes 45 min aprox
 if (FALSE)
@@ -24,19 +72,25 @@ if (FALSE)
     'strauss',
     seed = 777,
     factor.names = list(
-      max.h = c(50, 300),
-      max.p = c(50, 300),
-      Um.ph = c(0.5, 1.5),
-      Um.hp = c(0.5, 1.5),
-      Ump.ph = c(1, 10),
-      Ump.hp = c(1, 10),
-      Kmp.h = c(1, 10),
-      Kmp.p = c(1, 10)
+      n.H = c(3, 50),         
+      n.P = c(3, 50),        
+      v.H = c(0.1, 0.3),
+      v.P = c(0.1, 0.3),
+      mU.PnH = c(0, 3),
+      mU.HnP = c(0, 3),
+      mU.P1H = c(0, 3),                                  
+      mU.H1P = c(0, 3),                                   
+      U.bHn = c(0, 300),                                
+      U.bPn = c(0, 300), 
+      U.bH1 = c(0, 300),                               
+      U.bP1 = c(0, 300)
     ),
     digits = 2,
     RND = 0.2
   )
 }
+
+#---
 
 # load
 load('LHS.RData')
@@ -44,38 +98,27 @@ load('LHS.RData')
 # build PARS
 PARS <- as.data.frame(LHS)
 
+# Create versions of PARS depending on assumptions
+# # mU.PnH > mU.P1H (mutualistic plant types give more utility)
+
+# # mU.HnP > mU.H1P (mutualistic human types give more utility)
+
+# # mU.PnH > mU.P1H AND mU.HnP > mU.H1P (mutualistic types give more utility)
+
+# # U.bP1 > U.bPn (non-mutualistic plant types obtain more utility from other resources)
+
+# # U.bH1 > U.bHn (non-mutualistic human types obtain more utility from other resources)
+
+# # mU.PnH > mU.P1H AND mU.HnP > mU.H1P (non-mutualistic types obtain more utility from other resources)
+
+#---
+
 # build cluster
 cl <- makeCluster(6)
 clusterExport(cl, list('hpcModel.run', 'Fitness', 'PARS'), envir = environment())
 
 # loop
-ret <- parLapply(cl, 1:nrow(PARS),
-                 function(p) {
-                   RESULTS <- hpcModel.run(
-                     r.h = 0.15,
-                     r.p = 0.15,
-                     max.h = PARS[p, 1],
-                     max.p = PARS[p, 2],
-                     Um.ph = PARS[p, 3],
-                     Um.hp = PARS[p, 4],
-                     n.h = 10,
-                     n.p = 10,
-                     v.h = 0.15,
-                     v.p = 0.15,
-                     iniH = 10,
-                     iniP = 10,
-                     Ump.ph = PARS[p, 5],
-                     Ump.hp = PARS[p, 6],
-                     Kmp.h = PARS[p, 7],
-                     Kmp.p = PARS[p, 8],
-                     MaxArea = 200,
-                     maxIt = 20000,
-                     tol = 6,
-                     saveTrajectories = FALSE,
-                     messages = FALSE
-                   )
-                   return(as.data.frame(RESULTS$END))
-                 })
+ret <- run.LHC.experiment(PARS, cl)
 
 # stop cluster and clean
 stopCluster(cl)
@@ -89,45 +132,33 @@ ret <- do.call('rbind', ret)
 RES <- cbind(PARS, ret)
 
 # eliminate the non-finished runs
-RES <- RES[RES$time != 19999, ]
+#RES <- RES[RES$time != 19999, ]
 
 # load
 load('RES.RData')
 
 # colapsed plots
-g5.1 <-
-  ggplot(RES, aes(x = max.h)) +
-  stat_smooth(aes(y = LM.h),
-              alpha = 0.5,
-              level = 0.9999999,
-              colour = 'blue') +
-  geom_point(aes(y = LM.h), size = 0.05, colour = 'blue') +
-  stat_smooth(aes(y = LM.p),
-              alpha = 0.5,
-              level = 0.9999999,
-              colour = 'red') +
-  geom_point(aes(y = LM.p), size = 0.05, colour = 'red')
 
 #svg('plots/5_collapsed.svg', width=10, height=10)
-png("plots/5_collapsed.png")
-g5.1
+png("plots/5_collapsed-ggplot.png")
+collapsed.ggplot(RES, 'mU.HnP', 'coevo.H', 'coevo.P')
 dev.off()
 
 # Random Forest
 RF.1 <-
   randomForest(
-    LM.p ~ max.h + max.p + Um.ph + Um.hp + Ump.ph + Ump.hp + Kmp.h + Kmp.p,
+    coevo.H ~ n.H + n.P + v.H + v.P + mU.HnP + mU.H1P + mU.PnH + mU.P1H + U.bP1 + U.bPn + U.bH1 + U.bHn,
     data = RES,
     mtry = 5,
     ntree = 1000,
     importance = T
   )
-acc <- mean((predict(RF.1, RES[, 1:8]) - RES$LM.h) ^ 2)
+acc <- mean((predict(RF.1, RES[, 1:12]) - RES$coevo.H) ^ 2)
 
 # plot
 
 #svg('plots/5_randomForest1.svg', width=10, height=10)
-png("plots/5_randomForest1.png")
+png("plots/5_randomForest-coevo.H.png")
 layout(matrix(1:2, ncol = 2))
 importance(RF.1)
 varImpPlot(RF.1)
@@ -138,6 +169,7 @@ dev.off()
 
 # aux vector
 # check evolution and put set 0 = no co-evolution, 1 = only cultivation, 2 = only domestication, 3 = both
+# ******* ADAPT !!!!!! ********
 aux <- apply(RES, 1, function(x) {
   if (x[9] != 0 & x[10] != 0) {
     return(3)
@@ -155,21 +187,21 @@ aux <- apply(RES, 1, function(x) {
 aux <- factor(aux)
 
 ### random forest
-RF.2 <- randomForest(RES[, 1:8],
+RF.2 <- randomForest(RES[, 1:12],
                    aux,
                    mtry = 3,
                    ntree = 500,
                    importance = T)
 
 #svg('plots/5_randomForest2.svg', width=10, height=10)
-png("plots/5_randomForest2.png")
+png("plots/5_randomForest-split-end-states.png")
 layout(matrix(1:2, ncol = 2))
 importance(RF.2)
 varImpPlot(RF.2)
 dev.off()
 
 # stats
-table(predict(RF.2, RES[, 1:8]), aux) # perfect fit
+table(predict(RF.2, RES[, 1:12]), aux) # perfect fit
 
 
 ### manual tuning ----------------------------------------------------------------------
@@ -199,22 +231,22 @@ AUX <- parSapply(cl, 1:nrow(Grid), function(p) {
     X <- do.call(rbind, RES.spl[-i])
     RF.h <-
       randomForest(
-        LM.h ~ max.h + max.p + Um.ph + Um.hp + Ump.ph + Ump.hp + Kmp.h + Kmp.p,
+        coevo.H ~ n.H + n.P + v.H + v.P + mU.HnP + mU.H1P + mU.PnH + mU.P1H + U.bP1 + U.bPn + U.bH1 + U.bHn,
         data = X,
         mtry = Grid[p, 1],
         ntree = Grid[p, 2]
       )
     RF.p <-
       randomForest(
-        LM.p ~ max.h + max.p + Um.ph + Um.hp + Ump.ph + Ump.hp + Kmp.h + Kmp.p,
+        coevo.H ~ n.H + n.P + v.H + v.P + mU.HnP + mU.H1P + mU.PnH + mU.P1H + U.bP1 + U.bPn + U.bH1 + U.bHn,
         data = X,
         mtry = Grid[p, 1],
         ntree = Grid[p, 2]
       )
     acc.h <-
-      mean((predict(RF.h, RES.spl[[i]][, 1:8]) - RES.spl[[i]]$LM.h) ^ 2)
+      mean((predict(RF.h, RES.spl[[i]][, 1:12]) - RES.spl[[i]]$coevo.h) ^ 2)
     acc.p <-
-      mean((predict(RF.p, RES.spl[[i]][, 1:8]) - RES.spl[[i]]$LM.p) ^ 2)
+      mean((predict(RF.p, RES.spl[[i]][, 1:12]) - RES.spl[[i]]$coevo.p) ^ 2)
     aux[i] <- acc.h + acc.p
   }
   return(mean(aux))
@@ -229,6 +261,7 @@ gc()
 # --------------------------------------------------------------------------------------
 
 ### timing plots
+### ****** NEEDS TO ADAPT !!!!! ********
 
 p1 <- ggplot(RES, aes(x = max.h)) +
   stat_smooth(aes(y = time),
@@ -272,7 +305,7 @@ p8 <- ggplot(RES, aes(x = Kmp.p)) +
               colour = 'blue')
 
 #svg('plots/5_randomForest3.svg', width=10, height=10)
-png("plots/5_randomForest3.png")
+png("plots/5_timingPlots.png")
 grid.arrange(p1, p2, p3, p4, p5, p6, p7, p8, ncol = 2)
 dev.off()
 
