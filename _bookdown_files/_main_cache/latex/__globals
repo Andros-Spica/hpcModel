@@ -1,173 +1,204 @@
-1_setup	opts_chunk	set	source	require	reshape2	ggplot2	scales	purrr	magick	run.table	run.parnames	names	run.result	PARS	run.parvalues	c	i	length	kable	cbind	exp.table	exp.parnames	exp.values	exp.results	value	levels	factor	as.numeric	as.character	paste	min	max
+setup	opts_chunk	set	source	require	reshape2	ggplot2	scales	purrr	magick	run.table	run.parnames	names	run.result	PARS	run.parvalues	c	i	length	kable	cbind	exp.table	exp.parnames	exp.values	exp.results	value	levels	factor	as.numeric	as.character	paste	min	max	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	saveTrajectories.default	messages.default
+1_setup	opts_chunk	set	x	source	require	reshape2	ggplot2	scales	purrr	magick
 1_setup_plus	runPlot.dir	plot.trajectory	ggplot	meltedRunData	aes	time	value	variable	plotScale	geom_line	ylab	scale_color_manual	c	theme	element_text	element_blank	unit	animate.trajectory	files	paste0	filePath	dir	fileName	images	map	image_read	image_join	animation	image_animate	image_write	delete.frames	unlink
 1_run.coevo.coeta-name	run.coevo.coeta.name
-1_run.coevo.coeta	run.coevo.coeta	hpcModel.run
+1_run.coevo.coeta	run.coevo.coeta	hpcModel.run	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	saveTrajectories.default	messages.default
 1_run.coevo.coeta-pars	run.table	run.coevo.coeta
 1_run.coevo.coeta-plot	hpcModel.plot	run.coevo.coeta
 1_run.coevo.coeta-ggplot	run.coevo.coeta.melted	data.frame	run.coevo.coeta	TRAJECTORIES	H	P	is.na	time	nrow	melt	c	plotScale	png	paste0	run.coevo.coeta.name	plot.trajectory	invisible	dev.off
 1_run.coevo.coeta-ggplot-print	include_graphics	paste0	run.coevo.coeta.name
-1_run.coevo.coeta-frames	run2	hpcModel.run	runPlot.dir	paste0	run.coevo.coeta.name	animate.trajectory
+1_run.coevo.coeta-frames	run.coevo.coeta2	hpcModel.run	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	saveTrajectories.default	messages.default	runPlot.dir	paste0	run.coevo.coeta.name	animate.trajectory
 1_run.coevo.coeta-animation	include_graphics	paste0	runPlot.dir	run.coevo.coeta.name
 1_run.no.coevo-name	run.no.coevo.name
-1_run.no.coevo	run.no.coevo	hpcModel.run	runPlot.dir	paste0	run.no.coevo.name	animate.trajectory
+1_run.no.coevo	run.no.coevo	hpcModel.run	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	saveTrajectories.default	messages.default	runPlot.dir	paste0	run.no.coevo.name	animate.trajectory
 1_run.no.coevo-animation	include_graphics	paste0	runPlot.dir	run.no.coevo.name
+1_run.no.coevo-plot	hpcModel.plot	run.no.coevo
 1_run.coevo.early.cult-name	run.coevo.early.cult.name
-1_run.coevo.early.cult	run.coevo.early.cult	hpcModel.run	runPlot.dir	paste0	run.coevo.early.cult.name	animate.trajectory
+1_run.coevo.early.cult	run.coevo.early.cult	hpcModel.run	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.HnP.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	saveTrajectories.default	messages.default	runPlot.dir	paste0	run.coevo.early.cult.name	animate.trajectory
 1_run.coevo.early.cult-animation	include_graphics	paste0	runPlot.dir	run.coevo.early.cult.name
+1_run.coevo.early.cult-plot	hpcModel.plot	run.coevo.early.cult
 1_run.coevo.early.dom-name	run.coevo.early.dom.name
-1_run.coevo.early.dom	run.coevo.early.dom	hpcModel.run	runPlot.dir	paste0	run.coevo.early.dom.name	animate.trajectory
+1_run.coevo.early.dom	run.coevo.early.dom	hpcModel.run	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.HnP.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	saveTrajectories.default	messages.default	runPlot.dir	paste0	run.coevo.early.dom.name	animate.trajectory
 1_run.coevo.early.dom-animation	include_graphics	paste0	runPlot.dir	run.coevo.early.dom.name
+1_run.coevo.early.dom-plot	hpcModel.plot	run.coevo.early.dom
 1_run.cult.without.dom-name	run.cult.without.dom.name
-1_run.cult.without.dom	run.cult.without.dom	hpcModel.run	runPlot.dir	paste0	run.cult.without.dom.name	animate.trajectory
+1_run.cult.without.dom	run.cult.without.dom	hpcModel.run	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	saveTrajectories.default	messages.default	runPlot.dir	paste0	run.cult.without.dom.name	animate.trajectory
 1_run.cult.without.dom-animation	include_graphics	paste0	runPlot.dir	run.cult.without.dom.name
+1_run.cult.without.dom-plot	hpcModel.plot	run.cult.without.dom
 1_run.coevo.bleep-name	run.coevo.bleep.name
-1_run.coevo.bleep	run.coevo.bleep	hpcModel.run	runPlot.dir	paste0	run.coevo.bleep.name	animate.trajectory
+1_run.coevo.bleep	run.coevo.bleep	hpcModel.run	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	maxIt.default	tol.default	timing.threshold.default	saveTrajectories.default	messages.default	runPlot.dir	paste0	run.coevo.bleep.name	animate.trajectory
 1_run.coevo.bleep-animation	include_graphics	paste0	runPlot.dir	run.coevo.bleep.name
+1_run.coevo.bleep-plot	hpcModel.plot	run.coevo.bleep
 1_run.coevo.boom-name	run.coevo.boom.name
-1_run.coevo.boom	run.coevo.boom	hpcModel.run	runPlot.dir	paste0	run.coevo.boom.name	animate.trajectory
+1_run.coevo.boom	run.coevo.boom	hpcModel.run	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	maxIt.default	tol.default	timing.threshold.default	saveTrajectories.default	messages.default	runPlot.dir	paste0	run.coevo.boom.name	animate.trajectory
 1_run.coevo.boom-animation	include_graphics	paste0	runPlot.dir	run.coevo.boom.name
+1_run.coevo.boom-plot	hpcModel.plot	run.coevo.boom
 1_run.coevo.long.boom-name	run.coevo.long.boom.name
-1_run.coevo.long.boom	run.coevo.long.boom	hpcModel.run	runPlot.dir	paste0	run.coevo.long.boom.name	animate.trajectory
+1_run.coevo.long.boom	run.coevo.long.boom	hpcModel.run	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.HnP.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	tol.default	timing.threshold.default	saveTrajectories.default	messages.default	runPlot.dir	paste0	run.coevo.long.boom.name	animate.trajectory
 1_run.coevo.long.boom-animation	include_graphics	paste0	runPlot.dir	run.coevo.long.boom.name
+1_run.coevo.long.boom-plot	hpcModel.plot	run.coevo.long.boom
+1_run.semicoevo-name	run.semicoevo.name
+1_run.semicoevo	run.semicoevo	hpcModel.run	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.HnP.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	saveTrajectories.default	messages.default	runPlot.dir	paste0	run.semicoevo.name	animate.trajectory
+1_run.semicoevo-animation	include_graphics	paste0	runPlot.dir	run.semicoevo.name
+1_run.semicoevo-plot	hpcModel.plot	run.semicoevo
+1_run.semicoevo.osc-name	run.semicoevo.osc.name
+1_run.semicoevo.osc-frames	run.semicoevo.osc	hpcModel.run	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.H1P.default	U.bPn.default	U.bP1.default	MaxArea.default	tol.default	timing.threshold.default	saveTrajectories.default	messages.default	runPlot.dir	paste0	run.semicoevo.osc.name	animate.trajectory
+1_run.semicoevo.osc-animation	include_graphics	paste0	runPlot.dir	run.semicoevo.osc.name
+1_run.semicoevo.osc-plot	hpcModel.plot	run.semicoevo.osc
 setup_2	opts_chunk	set	source	require	reshape2	ggplot2	scales	run.table	run.parnames	names	run.result	PARS	run.parvalues	c	i	length	kable	cbind	exp.table	exp.parnames	exp.values	exp.results	value	levels	factor	as.numeric	as.character	paste	min	max
-setup_2plus	bifurcation.plot.simple	c	paste	seq	ncol	observedVariables	rainbow	plot	parameterValues	col	ylab	xlab	cex	v	points	legend	legendPos	variableNames	bifurcation.plot.pair	ylim	layout	matrix	par	plotScale	result.H	parameterLabel	variableLabelH	result.P	variableLabelP
+setup_2plus	bifurcation.plot.simple	c	paste	seq	ncol	observedVariables	rainbow	par	plot	parameterValues	col	min	max	ylab	xlab	cex	v	points	legend	legendPos	variableNames	bifurcation.plot.pair	ylim	layout	matrix	plotScale	result.H	parameterLabel	variableLabelH	type	result.P	variableLabelP
 2_mU.PnH-values	exp.mU.PnH.name	SEQ.mU.PnH	seq
-2_mU.PnH	exp.mU.PnH	hpcModel.exploration	SEQ.mU.PnH
+2_mU.PnH	exp.mU.PnH	hpcModel.exploration	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	SEQ.mU.PnH	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	messages.default
 2_mU.PnH-table	exp.table	exp.mU.PnH
 2_mU.PnH-bifplot1	plotScale	png	paste0	exp.mU.PnH.name	bifurcation.plot.simple	SEQ.mU.PnH	cbind	exp.mU.PnH	coevo.H	coevo.P	c	expression	paste	bar	dev.off
 2_mU.PnH-bifplot1-print	include_graphics	paste0	exp.mU.PnH.name
 2_mU.PnH-bifplot2	plotScale	png	paste0	exp.mU.PnH.name	bifurcation.plot.pair	cbind	SEQ.mU.PnH	exp.mU.PnH	coevo.H	coevo.P	expression	paste	bar	dev.off
 2_mU.PnH-bifplot2-print	include_graphics	paste0	exp.mU.PnH.name
 2_init-values	exp.init.H.name	exp.init.P.name	SEQ.init.H	SEQ.init.P
-2_init.H	exp.init.H	hpcModel.exploration	SEQ.init.H
-2_init.P	exp.init.P	hpcModel.exploration	SEQ.init.P
+2_init.H	exp.init.H	hpcModel.exploration	SEQ.init.H	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	messages.default
+2_init.P	exp.init.P	hpcModel.exploration	iniH.default	SEQ.init.P	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	messages.default
 2_init.H-bifplot2	plotScale	png	paste0	exp.init.H.name	bifurcation.plot.pair	cbind	SEQ.init.H	exp.init.H	coevo.H	coevo.P	expression	paste	dev.off
 2_init.P-bifplot2	plotScale	png	paste0	exp.init.P.name	bifurcation.plot.pair	cbind	SEQ.init.P	exp.init.P	coevo.H	coevo.P	expression	paste	dev.off
 2_init.H-bifplot2-print	include_graphics	paste0	exp.init.H.name
 2_init.P-bifplot2-print	include_graphics	paste0	exp.init.P.name
 2_n-values	exp.n.H.name	exp.n.P.name	SEQ.n.H	SEQ.n.P
-2_n.H	exp.n.H	hpcModel.exploration	SEQ.n.H
-2_n.P	exp.n.P	hpcModel.exploration	SEQ.n.P
+2_n.H	exp.n.H	hpcModel.exploration	iniH.default	iniP.default	SEQ.n.H	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	messages.default
+2_n.P	exp.n.P	hpcModel.exploration	iniH.default	iniP.default	n.H.default	SEQ.n.P	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	messages.default
 2_n.H-bifplot2	plotScale	png	paste0	exp.n.H.name	bifurcation.plot.pair	cbind	SEQ.n.H	exp.n.H	coevo.H	coevo.P	expression	paste	dev.off
 2_n.P-bifplot2	plotScale	png	paste0	exp.n.P.name	bifurcation.plot.pair	cbind	SEQ.n.P	exp.n.P	coevo.H	coevo.P	expression	paste	dev.off
 2_n.H-bifplot2-print	include_graphics	paste0	exp.n.H.name
 2_n.P-bifplot2-print	include_graphics	paste0	exp.n.P.name
 2_v-values	exp.v.H.name	exp.v.P.name	SEQ.v.H	seq	SEQ.v.P
-2_v.H	exp.v.H	hpcModel.exploration	SEQ.v.H
-2_v.P	exp.v.P	hpcModel.exploration	SEQ.v.P
+2_v.H	exp.v.H	hpcModel.exploration	iniH.default	iniP.default	n.H.default	n.P.default	SEQ.v.H	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	messages.default
+2_v.P	exp.v.P	hpcModel.exploration	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	SEQ.v.P	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	messages.default
 2_v.H-bifplot2	plotScale	png	paste0	exp.v.H.name	bifurcation.plot.pair	cbind	SEQ.v.H	exp.v.H	coevo.H	coevo.P	expression	paste	dev.off
 2_v.P-bifplot2	plotScale	png	paste0	exp.v.P.name	bifurcation.plot.pair	cbind	SEQ.v.P	exp.v.P	coevo.H	coevo.P	expression	paste	dev.off
 2_v.H-bifplot2-print	include_graphics	paste0	exp.v.H.name
 2_v.P-bifplot2-print	include_graphics	paste0	exp.v.P.name
 2_r-values	exp.r.H.name	exp.r.P.name	SEQ.r.H	seq	SEQ.r.P
-2_r.H	exp.r.H	hpcModel.exploration	SEQ.r.H
-2_r.P	exp.r.P	hpcModel.exploration	SEQ.r.P
+2_r.H	exp.r.H	hpcModel.exploration	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	SEQ.r.H	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	messages.default
+2_r.P	exp.r.P	hpcModel.exploration	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	SEQ.r.P	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	messages.default
 2_r.H-bifplot2	plotScale	png	paste0	exp.r.H.name	bifurcation.plot.pair	cbind	SEQ.r.H	exp.r.H	coevo.H	coevo.P	expression	paste	dev.off
 2_r.P-bifplot2	plotScale	png	paste0	exp.r.P.name	bifurcation.plot.pair	cbind	SEQ.r.P	exp.r.P	coevo.H	coevo.P	expression	paste	dev.off
 2_r.H-bifplot2-print	include_graphics	paste0	exp.r.H.name
 2_r.P-bifplot2-print	include_graphics	paste0	exp.r.P.name
 2_mU.PnH-bifplot2-print2	include_graphics	paste0	exp.mU.PnH.name
 2_mU.HnP-values	exp.mU.HnP.name	SEQ.mU.HnP	seq
-2_mU.HnP	exp.mU.HnP	hpcModel.exploration	SEQ.mU.HnP
+2_mU.HnP	exp.mU.HnP	hpcModel.exploration	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	SEQ.mU.HnP	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	messages.default
 2_mU.HnP-bifplot2	plotScale	png	paste0	exp.mU.HnP.name	bifurcation.plot.pair	cbind	SEQ.mU.HnP	exp.mU.HnP	coevo.H	coevo.P	expression	paste	bar	dev.off
 2_mU.HnP-bifplot2-print	include_graphics	paste0	exp.mU.HnP.name
 2_mU.P1H-values	exp.mU.P1H.name	SEQ.mU.P1H	seq
-2_mU.P1H	exp.mU.P1H	hpcModel.exploration	SEQ.mU.P1H
+2_mU.P1H	exp.mU.P1H	hpcModel.exploration	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	SEQ.mU.P1H	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	messages.default
 2_mU.P1H-bifplot2	plotScale	png	paste0	exp.mU.P1H.name	bifurcation.plot.pair	cbind	SEQ.mU.P1H	exp.mU.P1H	coevo.H	coevo.P	expression	paste	bar	dev.off
 2_mU.P1H-bifplot2-print	include_graphics	paste0	exp.mU.P1H.name
 2_mU.H1P-values	exp.mU.H1P.name	SEQ.mU.H1P	seq
-2_mU.H1P	exp.mU.H1P	hpcModel.exploration	SEQ.mU.H1P
+2_mU.H1P	exp.mU.H1P	hpcModel.exploration	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	SEQ.mU.H1P	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	messages.default
 2_mU.H1P-bifplot2	plotScale	png	paste0	exp.mU.H1P.name	bifurcation.plot.pair	cbind	SEQ.mU.H1P	exp.mU.H1P	coevo.H	coevo.P	expression	paste	bar	dev.off
 2_mU.H1P-bifplot2-print	include_graphics	paste0	exp.mU.H1P.name
 2_U.bH1-values	exp.U.bH1.name	SEQ.U.bH1	seq
-2_U.bH1	exp.U.bH1	hpcModel.exploration	SEQ.U.bH1
+2_U.bH1	exp.U.bH1	hpcModel.exploration	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	SEQ.U.bH1	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	messages.default
 2_U.bH1-bifplot2	plotScale	png	paste0	exp.U.bH1.name	bifurcation.plot.pair	cbind	SEQ.U.bH1	exp.U.bH1	coevo.H	coevo.P	expression	paste	bar	U	dev.off
 2_U.bH1-bifplot2-print	include_graphics	paste0	exp.U.bH1.name
 2_U.bP1-values	exp.U.bP1.name	SEQ.U.bP1	seq
-2_U.bP1	exp.U.bP1	hpcModel.exploration	SEQ.U.bP1
+2_U.bP1	exp.U.bP1	hpcModel.exploration	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	SEQ.U.bP1	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	messages.default
 2_U.bP1-bifplot2	plotScale	png	paste0	exp.U.bP1.name	bifurcation.plot.pair	cbind	SEQ.U.bP1	exp.U.bP1	coevo.H	coevo.P	expression	paste	bar	dev.off
 2_U.bP1-bifplot2-print	include_graphics	paste0	exp.U.bP1.name
 2_U.bHn-values	exp.U.bHn.name	SEQ.U.bHn	seq
-2_U.bHn	exp.U.bHn	hpcModel.exploration	SEQ.U.bHn
+2_U.bHn	exp.U.bHn	hpcModel.exploration	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	SEQ.U.bHn	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	messages.default
 2_U.bHn-bifplot2	plotScale	png	paste0	exp.U.bHn.name	bifurcation.plot.pair	cbind	SEQ.U.bHn	exp.U.bHn	coevo.H	coevo.P	expression	paste	bar	dev.off
 2_U.bHn-bifplot2-print	include_graphics	paste0	exp.U.bHn.name
 2_U.bPn-values	exp.U.bPn.name	SEQ.U.bPn	seq
-2_U.bPn	exp.U.bPn	hpcModel.exploration	SEQ.U.bPn
+2_U.bPn	exp.U.bPn	hpcModel.exploration	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	SEQ.U.bPn	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	messages.default
 2_U.bPn-bifplot2	plotScale	png	paste0	exp.U.bPn.name	bifurcation.plot.pair	cbind	SEQ.U.bPn	exp.U.bPn	coevo.H	coevo.P	expression	paste	bar	dev.off
 2_U.bPn-bifplot2-print	include_graphics	paste0	exp.U.bPn.name
 2_maxArea-values	exp.MaxArea.name	SEQ.MaxArea	seq
-2_MaxArea	exp.MaxArea	hpcModel.exploration	SEQ.MaxArea
+2_MaxArea	exp.MaxArea	hpcModel.exploration	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	SEQ.MaxArea	maxIt.default	tol.default	timing.threshold.default	messages.default
 2_MaxArea-bifplot2	plotScale	png	paste0	exp.MaxArea.name	bifurcation.plot.pair	cbind	SEQ.MaxArea	exp.MaxArea	coevo.H	coevo.P	expression	dev.off
 2_MaxArea-bifplot2-print	include_graphics	paste0	exp.MaxArea.name
-2_osc-values	exp.osc.name	SEQ.osc	seq
+2_osc-values	exp.mU.HnP.osc.name	exp.mU.PnH.osc.name	SEQ.mU.HnP.osc	seq	SEQ.mU.PnH.osc	iniH.osc	iniH.default	iniP.osc	iniP.default	n.H.osc	n.H.default	n.P.osc	n.P.default	v.H.osc	v.H.default	v.P.osc	v.P.default	r.H.osc	r.H.default	r.P.osc	r.P.default	mU.PnH.osc	mU.HnP.osc	mU.P1H.osc	mU.H1P.osc	mU.H1P.default	U.bHn.osc	U.bPn.osc	U.bPn.default	U.bH1.osc	U.bP1.osc	U.bP1.default	MaxArea.osc	MaxArea.default	maxIt.osc	tol.osc
 2_osc	result.H	data.frame	result.P	i	SEQ.osc	exp.osc	hpcModel.run	rbind	TRAJECTORIES	coevo.H	coevo.P
 2_osc-bifplot2	plotScale	png	paste0	exp.osc.name	bifurcation.plot.pair	result.H	result.P	expression	paste	dev.off
 2_osc-bifplot2-print	include_graphics	paste0	exp.osc.name
 setup_3	opts_chunk	set	source	require	reshape2	ggplot2	scales	run.table	run.parnames	names	run.result	PARS	run.parvalues	c	i	length	kable	cbind	exp.table	exp.parnames	exp.values	exp.results	value	levels	factor	as.numeric	as.character	paste	min	max
 setup_3plus	twoPar.ggplot	is.null	xlab	par1	ylab	par2	var1lab	var1	var2lab	var2	var1min	var1max	var2min	var2max	ggplot	twoPar.exp	aes_string	geom_raster	geom_point	plotScale	aes	time	scale_fill_gradientn	c	rescale	scale_color_gradientn	scale_size	labs	expression	t	guides	guide_colorbar	guide_legend	theme_bw	theme	element_blank	element_text
 3_mU.HnP_mU.PnH-values	exp.mU.HnP_mU.PnH.name	SEQ.mU.HnP	seq	SEQ.mU.PnH
-3_mU.HnP_mU.PnH	exp.mU.HnP_mU.PnH	hpcModel.exploration	SEQ.mU.PnH	SEQ.mU.HnP
+3_mU.HnP_mU.PnH	exp.mU.HnP_mU.PnH	hpcModel.exploration	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	SEQ.mU.PnH	SEQ.mU.HnP	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default
 3_mU.HnP_mU.PnH-table	exp.table	exp.mU.HnP_mU.PnH
 3_mU.HnP_mU.PnH-plot	plotScale	length	SEQ.mU.HnP	png	paste0	exp.mU.HnP_mU.PnH.name	twoPar.ggplot	exp.mU.HnP_mU.PnH	expression	bar	U	H	P	dev.off
 3_mU.HnP_mU.PnH-plot-print	include_graphics	paste0	exp.mU.HnP_mU.PnH.name
 3_n.H_n.P-values	exp.n.H_n.P.name	SEQ.n.H	seq	SEQ.n.P
-3_n.H_n.P	exp.n.H_n.P	hpcModel.exploration	SEQ.n.H	SEQ.n.P
+3_n.H_n.P	exp.n.H_n.P	hpcModel.exploration	iniH.default	iniP.default	SEQ.n.H	SEQ.n.P	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default
 3_n.H_n.P-plot	plotScale	length	SEQ.n.H	png	paste0	exp.n.H_n.P.name	twoPar.ggplot	exp.n.H_n.P	expression	n	H	P	dev.off
 3_n.H_n.P-plot-print	include_graphics	paste0	exp.n.H_n.P.name
 3_v.H_v.P-values	exp.v.H_v.P.name	SEQ.v.H	seq	SEQ.v.P
-3_v.H_v.P	exp.v.H_v.P	hpcModel.exploration	SEQ.v.H	SEQ.v.P
+3_v.H_v.P	exp.v.H_v.P	hpcModel.exploration	iniH.default	iniP.default	n.H.default	n.P.default	SEQ.v.H	SEQ.v.P	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default
 3_v.H_v.P-plot	plotScale	length	SEQ.v.H	png	paste0	exp.v.H_v.P.name	twoPar.ggplot	exp.v.H_v.P	expression	v	H	P	dev.off
 3_v.H_v.P-plot-print	include_graphics	paste0	exp.v.H_v.P.name
 3_mU.H1P_mU.P1H-values	exp.mU.H1P_mU.P1H.name	SEQ.mU.H1P	seq	SEQ.mU.P1H
-3_mU.H1P_mU.P1H	exp.mU.H1P_mU.P1H	hpcModel.exploration	SEQ.mU.P1H	SEQ.mU.H1P
+3_mU.H1P_mU.P1H	exp.mU.H1P_mU.P1H	hpcModel.exploration	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	SEQ.mU.P1H	SEQ.mU.H1P	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default
 3_mU.H1P_mU.P1H-plot	plotScale	length	SEQ.mU.H1P	png	paste0	exp.mU.H1P_mU.P1H.name	twoPar.ggplot	exp.mU.H1P_mU.P1H	expression	bar	U	H	P	dev.off
 3_mU.H1P_mU.P1H-plot-print	include_graphics	paste0	exp.mU.H1P_mU.P1H.name
 3_mU.HnP_mU.PnH-plot-print2	include_graphics	paste0	exp.mU.HnP_mU.PnH.name
 3_mU.H1P_mU.HnP-values	exp.mU.H1P_mU.HnP.name	SEQ.mU.H1P	seq	SEQ.mU.HnP
-3_mU.H1P_mU.HnP	exp.mU.H1P_mU.HnP	hpcModel.exploration	SEQ.mU.HnP	SEQ.mU.H1P
+3_mU.H1P_mU.HnP	exp.mU.H1P_mU.HnP	hpcModel.exploration	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	SEQ.mU.HnP	mU.P1H.default	SEQ.mU.H1P	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default
 3_mU.H1P_mU.HnP-plot	plotScale	length	SEQ.mU.H1P	png	paste0	exp.mU.H1P_mU.HnP.name	twoPar.ggplot	exp.mU.H1P_mU.HnP	expression	bar	U	H	P	dev.off
 3_mU.H1P_mU.HnP-plot-print	include_graphics	paste0	exp.mU.H1P_mU.HnP.name
 3_mU.P1H_mU.PnH-values	exp.mU.P1H_mU.PnH.name	SEQ.mU.P1H	seq	SEQ.mU.PnH
-3_mU.P1H_mU.PnH	exp.mU.P1H_mU.PnH	hpcModel.exploration	SEQ.mU.PnH	SEQ.mU.P1H
+3_mU.P1H_mU.PnH	exp.mU.P1H_mU.PnH	hpcModel.exploration	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	SEQ.mU.PnH	mU.HnP.default	SEQ.mU.P1H	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default
 3_mU.P1H_mU.PnH-plot	plotScale	length	SEQ.mU.P1H	png	paste0	exp.mU.P1H_mU.PnH.name	twoPar.ggplot	exp.mU.P1H_mU.PnH	expression	bar	U	H	P	dev.off
 3_mU.P1H_mU.PnH-plot-print	include_graphics	paste0	exp.mU.P1H_mU.PnH.name
 3_U.bH1_U.bP1-values	exp.U.bH1_U.bP1.name	SEQ.U.bH1	seq	SEQ.U.bP1
-3_U.bH1_U.bP1	exp.U.bH1_U.bP1	hpcModel.exploration	SEQ.U.bH1	SEQ.U.bP1
+3_U.bH1_U.bP1	exp.U.bH1_U.bP1	hpcModel.exploration	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	SEQ.U.bH1	SEQ.U.bP1	MaxArea.default	maxIt.default	tol.default	timing.threshold.default
 3_U.bH1_U.bP1-plot	plotScale	length	SEQ.U.bH1	png	paste0	exp.U.bH1_U.bP1.name	twoPar.ggplot	exp.U.bH1_U.bP1	expression	U	H	P	dev.off
 3_U.bH1_U.bP1-plot-print	include_graphics	paste0	exp.U.bH1_U.bP1.name
 3_U.bHn_U.bPn-values	exp.U.bHn_U.bPn.name	SEQ.U.bHn	seq	SEQ.U.bPn
-3_U.bHn_U.bPn	exp.U.bHn_U.bPn	hpcModel.exploration	SEQ.U.bHn	SEQ.U.bPn
+3_U.bHn_U.bPn	exp.U.bHn_U.bPn	hpcModel.exploration	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	SEQ.U.bHn	SEQ.U.bPn	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default
 3_U.bHn_U.bPn-plot	plotScale	length	SEQ.U.bHn	png	paste0	exp.U.bHn_U.bPn.name	twoPar.ggplot	exp.U.bHn_U.bPn	expression	U	H	P	dev.off
 3_U.bHn_U.bPn-plot-print	include_graphics	paste0	exp.U.bHn_U.bPn.name
 3_U.bH1_U.bHn-values	exp.U.bH1_U.bHn.name	SEQ.U.bH1	seq	SEQ.U.bHn
-3_U.bH1_U.bHn	exp.U.bH1_U.bHn	hpcModel.exploration	SEQ.U.bHn	SEQ.U.bH1
+3_U.bH1_U.bHn	exp.U.bH1_U.bHn	hpcModel.exploration	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	SEQ.U.bHn	U.bPn.default	SEQ.U.bH1	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default
 3_U.bH1_U.bHn-plot	plotScale	length	SEQ.U.bHn	png	paste0	exp.U.bH1_U.bHn.name	twoPar.ggplot	exp.U.bH1_U.bHn	expression	U	H	P	dev.off
 3_U.bH1_U.bHn-plot-print	include_graphics	paste0	exp.U.bH1_U.bHn.name
 3_U.bP1_U.bPn-values	exp.U.bP1_U.bPn.name	SEQ.U.bP1	seq	SEQ.U.bPn
-3_U.bP1_U.bPn	exp.U.bP1_U.bPn	hpcModel.exploration	SEQ.U.bPn	SEQ.U.bP1
+3_U.bP1_U.bPn	exp.U.bP1_U.bPn	hpcModel.exploration	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	SEQ.U.bPn	U.bH1.default	SEQ.U.bP1	MaxArea.default	maxIt.default	tol.default	timing.threshold.default
 3_U.bP1_U.bPn-plot	plotScale	length	SEQ.U.bPn	png	paste0	exp.U.bP1_U.bPn.name	twoPar.ggplot	exp.U.bP1_U.bPn	expression	U	H	P	dev.off
 3_U.bP1_U.bPn-plot-print	include_graphics	paste0	exp.U.bP1_U.bPn.name
 setup_4	opts_chunk	set	source	require	reshape2	ggplot2	scales	run.table	run.parnames	names	run.result	PARS	run.parvalues	c	i	length	kable	cbind	exp.table	exp.parnames	exp.values	exp.results	value	levels	factor	as.numeric	as.character	paste	min	max
 setup_4plus	fourPar.ggplot	is.null	xlab	par1	ylab	par2	var1lab	var1	var2lab	var2	var1min	var1max	var2min	var2max	ggplot	twoPar.exp	aes_string	geom_raster	geom_point	plotScale	aes	time	scale_fill_gradientn	c	rescale	scale_color_gradientn	scale_size	labs	expression	t	guides	guide_colorbar	guide_legend	facet_grid	reformulate	par3	par4	label_both	theme_bw	theme	element_rect	element_text	element_blank
 4_mU.HP_mU.PH-values	exp.mU.HP_mU.PH.name	SEQ.mU.HnP	seq	SEQ.mU.PnH	SEQ.mU.H1P	SEQ.mU.P1H
-4_mU.HP_mU.PH	exp.mU.HP_mU.PH	hpcModel.exploration	SEQ.mU.PnH	SEQ.mU.HnP	SEQ.mU.P1H	SEQ.mU.H1P
+4_mU.HP_mU.PH	exp.mU.HP_mU.PH	hpcModel.exploration	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	SEQ.mU.PnH	SEQ.mU.HnP	SEQ.mU.P1H	SEQ.mU.H1P	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default
 4_mU.HP_mU.PH-table	exp.table	exp.mU.HP_mU.PH
 4_mU.HP_mU.PH-plot	plotScale	png	paste0	exp.mU.HP_mU.PH.name	fourPar.ggplot	exp.mU.HP_mU.PH	expression	bar	U	H	P	dev.off
 4_mU.HP_mU.PH-plot-print	include_graphics	paste0	exp.mU.HP_mU.PH.name
 4_U.bH_U.bP-values	exp.U.bH_U.bP.name	SEQ.U.bHn	seq	SEQ.U.bPn	SEQ.U.bH1	SEQ.U.bP1
-4_U.bH_U.bP	exp.U.bH_U.bP	hpcModel.exploration	SEQ.U.bHn	SEQ.U.bPn	SEQ.U.bH1	SEQ.U.bP1
+4_U.bH_U.bP	exp.U.bH_U.bP	hpcModel.exploration	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	SEQ.U.bHn	SEQ.U.bPn	SEQ.U.bH1	SEQ.U.bP1	MaxArea.default	maxIt.default	tol.default	timing.threshold.default
+4_U.bH_U.bP-table	exp.table	exp.U.bH_U.bP
 4_U.bH_U.bP-plot	plotScale	png	paste0	exp.U.bH_U.bP.name	fourPar.ggplot	exp.U.bH_U.bP	expression	U	H	P	dev.off
 4_U.bH_U.bP-plot-print	include_graphics	paste0	exp.U.bH_U.bP.name
 4_n_v-values	exp.n_v.name	SEQ.n.H	seq	SEQ.n.P	SEQ.v.H	SEQ.v.P
-4_n_v	exp.n_v	hpcModel.exploration	SEQ.n.H	SEQ.n.P	SEQ.v.H	SEQ.v.P
+4_n_v	exp.n_v	hpcModel.exploration	iniH.default	iniP.default	SEQ.n.H	SEQ.n.P	SEQ.v.H	SEQ.v.P	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default
+4_n_v-table	exp.table	exp.n_v
 4_n_v-plot	plotScale	png	paste0	exp.n_v.name	fourPar.ggplot	exp.n_v	expression	v	H	P	dev.off
 4_n_v-plot-print	include_graphics	paste0	exp.n_v.name
-1_run.no.coevo-plot	hpcModel.plot	run.no.coevo
-1_run.coevo.early.cult-plot	hpcModel.plot	run.coevo.early.cult
-1_run.coevo.early.dom-plot	hpcModel.plot	run.coevo.early.dom
-1_run.cult.without.dom-plot	hpcModel.plot	run.cult.without.dom
-1_run.coevo.bleep-plot	hpcModel.plot	run.coevo.bleep
-1_run.coevo.boom-plot	hpcModel.plot	run.coevo.boom
-1_run.coevo.long.boom-plot	hpcModel.plot	run.coevo.long.boom
-4_U.bH_U.bP-table	exp.table	exp.U.bH_U.bP
-4_n_v-table	exp.table	exp.n_v
+2_setup	opts_chunk	set	source	require	reshape2	ggplot2	scales	purrr	magick
+2_mU.HnP.osc	result.mU.HnP.H	data.frame	result.mU.HnP.P	i	SEQ.mU.HnP.osc	temp	hpcModel.run	iniH.osc	iniP.osc	n.H.osc	n.P.osc	v.H.osc	v.P.osc	r.H.osc	r.P.osc	mU.PnH.osc	mU.P1H.osc	mU.H1P.osc	U.bHn.osc	U.bPn.osc	U.bH1.osc	U.bP1.osc	MaxArea.osc	maxIt.osc	tol.osc	timing.threshold.default	saveTrajectories.default	messages.default	rbind	TRAJECTORIES	coevo.H	coevo.P
+2_mU.HnP.osc-bifplot2	plotScale	png	paste0	exp.mU.HnP.osc.name	bifurcation.plot.pair	result.mU.HnP.H	result.mU.HnP.P	expression	paste	bar	dev.off
+2_mU.PnH.osc	result.mU.PnH.H	data.frame	result.mU.PnH.P	i	SEQ.mU.PnH.osc	temp	hpcModel.run	iniH.osc	iniP.osc	n.H.osc	n.P.osc	v.H.osc	v.P.osc	r.H.osc	r.P.osc	mU.HnP.osc	mU.P1H.osc	mU.H1P.osc	U.bHn.osc	U.bPn.osc	U.bH1.osc	U.bP1.osc	MaxArea.osc	maxIt.osc	tol.osc	timing.threshold.default	saveTrajectories.default	messages.default	rbind	TRAJECTORIES	coevo.H	coevo.P
+2_mU.PnH.osc-bifplot2	plotScale	png	paste0	exp.mU.PnH.osc.name	bifurcation.plot.pair	result.mU.PnH.H	result.mU.PnH.P	expression	paste	bar	dev.off
+2_mU.HnP.osc-bifplot2-print	include_graphics	paste0	exp.mU.HnP.osc.name
+2_mU.PnH.osc-bifplot2-print	include_graphics	paste0	exp.mU.PnH.osc.name
+3_setup	opts_chunk	set	source	require	reshape2	ggplot2	scales	purrr	magick
+1_table-functions	run.table	run.parnames	names	run.result	PARS	run.parvalues	c	i	length	kable	cbind	exp.table	exp.parnames	exp.values	exp.results	value	levels	factor	as.numeric	as.character	paste	min	max
+1_default-values	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	saveTrajectories.default	messages.default
+1_plot-functions	runPlot.dir	plot.trajectory	ggplot	meltedRunData	aes	time	value	variable	plotScale	geom_line	ylab	scale_color_manual	c	theme	element_text	element_blank	unit	animate.trajectory	files	paste0	filePath	dir	fileName	images	map	image_read	image_join	animation	image_animate	image_write	delete.frames	unlink
+1_semicoevo.osc-pars	run.table	run.semicoevo.osc
+2_table-functions	run.table	run.parnames	names	run.result	PARS	run.parvalues	c	i	length	kable	cbind	exp.table	exp.parnames	exp.values	exp.results	value	levels	factor	as.numeric	as.character	paste	min	max
+2_default-values	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	saveTrajectories.default	messages.default
+2_plot-functions	bifurcation.plot.simple	c	paste	seq	ncol	observedVariables	rainbow	par	plot	parameterValues	col	min	max	ylab	xlab	cex	v	points	legend	legendPos	variableNames	bifurcation.plot.pair	ylim	layout	matrix	plotScale	result.H	parameterLabel	variableLabelH	type	result.P	variableLabelP
+3_table-functions	run.table	run.parnames	names	run.result	PARS	run.parvalues	c	i	length	kable	cbind	exp.table	exp.parnames	exp.values	exp.results	value	levels	factor	as.numeric	as.character	paste	min	max
+3_default-values	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	saveTrajectories.default	messages.default
+3_plot-functions	twoPar.ggplot	is.null	xlab	par1	ylab	par2	var1lab	var1	var2lab	var2	var1min	var1max	var2min	var2max	ggplot	twoPar.exp	aes_string	geom_raster	geom_point	plotScale	aes	time	scale_fill_gradientn	c	rescale	scale_color_gradientn	scale_size	labs	expression	t	guides	guide_colorbar	guide_legend	theme_bw	theme	element_blank	element_text
+4_setup	opts_chunk	set	source	require	reshape2	ggplot2	scales
+4_table-functions	run.table	run.parnames	names	run.result	PARS	run.parvalues	c	i	length	kable	cbind	exp.table	exp.parnames	exp.values	exp.results	value	levels	factor	as.numeric	as.character	paste	min	max
+4_default-values	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	saveTrajectories.default	messages.default
+4_plot-functions	fourPar.ggplot	is.null	xlab	par1	ylab	par2	var1lab	var1	var2lab	var2	var1min	var1max	var2min	var2max	ggplot	twoPar.exp	aes_string	geom_raster	geom_point	plotScale	aes	time	scale_fill_gradientn	c	rescale	scale_color_gradientn	scale_size	labs	expression	t	guides	guide_colorbar	guide_legend	facet_grid	reformulate	par3	par4	label_both	theme_bw	theme	element_rect	element_text	element_blank

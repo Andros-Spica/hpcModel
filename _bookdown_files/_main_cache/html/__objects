@@ -1,22 +1,59 @@
-1_setup	exp.table	run.table
+setup	exp.table	iniH.default	iniP.default	MaxArea.default	maxIt.default	messages.default	mU.H1P.default	mU.HnP.default	mU.P1H.default	mU.PnH.default	n.H.default	n.P.default	r.H.default	r.P.default	run.table	saveTrajectories.default	timing.threshold.default	tol.default	U.bH1.default	U.bHn.default	U.bP1.default	U.bPn.default	v.H.default	v.P.default
+1_setup	
 1_setup_plus	animate.trajectory	plot.trajectory	runPlot.dir
-1_run1-name	run1.name
-1_run1	run1
-1_run1-pars	
-1_run1-plot	
-1_run1-ggplot	plotScale	run1.melted
-1_run1-ggplot-print	
-1_run1-frames	run2
-1_run1-animation	
-setup_2	exp.table	run.table
+1_run.coevo.coeta-name	run.coevo.coeta.name
+1_run.coevo.coeta	run.coevo.coeta
+1_run.coevo.coeta-pars	
+1_run.coevo.coeta-plot	
+1_run.coevo.coeta-ggplot	plotScale	run.coevo.coeta.melted
+1_run.coevo.coeta-ggplot-print	
+1_run.coevo.coeta-frames	run.coevo.coeta2
+1_run.coevo.coeta-animation	
+1_run.no.coevo-name	run.no.coevo.name
+1_run.no.coevo	run.no.coevo
+1_run.no.coevo-animation	
+1_run.no.coevo-plot	
+1_run.coevo.early.cult-name	run.coevo.early.cult.name
+1_run.coevo.early.cult	run.coevo.early.cult
+1_run.coevo.early.cult-animation	
+1_run.coevo.early.cult-plot	
+1_run.coevo.early.dom-name	run.coevo.early.dom.name
+1_run.coevo.early.dom	run.coevo.early.dom
+1_run.coevo.early.dom-animation	
+1_run.coevo.early.dom-plot	
+1_run.cult.without.dom-name	run.cult.without.dom.name
+1_run.cult.without.dom	run.cult.without.dom
+1_run.cult.without.dom-animation	
+1_run.cult.without.dom-plot	
+1_run.coevo.bleep-name	run.coevo.bleep.name
+1_run.coevo.bleep	run.coevo.bleep
+1_run.coevo.bleep-animation	
+1_run.coevo.bleep-plot	
+1_run.coevo.boom-name	run.coevo.boom.name
+1_run.coevo.boom	run.coevo.boom
+1_run.coevo.boom-animation	
+1_run.coevo.boom-plot	
+1_run.coevo.long.boom-name	run.coevo.long.boom.name
+1_run.coevo.long.boom	run.coevo.long.boom
+1_run.coevo.long.boom-animation	
+1_run.coevo.long.boom-plot	
+1_run.semicoevo-name	run.semicoevo.name
+1_run.semicoevo	run.semicoevo
+1_run.semicoevo-animation	
+1_run.semicoevo-plot	
+1_run.semicoevo.osc-name	run.semicoevo.osc.name
+1_run.semicoevo.osc-frames	run.semicoevo.osc
+1_run.semicoevo.osc-animation	
+1_run.semicoevo.osc-plot	
+2_setup	
 setup_2plus	bifurcation.plot.pair	bifurcation.plot.simple
-2_U.bH1-values	exp.U.bH1.name	SEQ.U.bH1
-2_U.bH1	exp.U.bH1
-2_U.bH1-table	
-2_U.bH1-bifplot1	plotScale
-2_U.bH1-bifplot1-print	
-2_U.bH1-bifplot2	plotScale
-2_U.bH1-bifplot2-print	
+2_mU.PnH-values	exp.mU.PnH.name	SEQ.mU.PnH
+2_mU.PnH	exp.mU.PnH
+2_mU.PnH-table	
+2_mU.PnH-bifplot1	plotScale
+2_mU.PnH-bifplot1-print	
+2_mU.PnH-bifplot2	plotScale
+2_mU.PnH-bifplot2-print	
 2_init-values	exp.init.H.name	exp.init.P.name	SEQ.init.H	SEQ.init.P
 2_init.H	exp.init.H
 2_init.P	exp.init.P
@@ -45,10 +82,7 @@ setup_2plus	bifurcation.plot.pair	bifurcation.plot.simple
 2_r.P-bifplot2	plotScale
 2_r.H-bifplot2-print	
 2_r.P-bifplot2-print	
-2_mU.PnH-values	exp.mU.PnH.name	SEQ.mU.PnH
-2_mU.PnH	exp.mU.PnH
-2_mU.PnH-bifplot2	plotScale
-2_mU.PnH-bifplot2-print	
+2_mU.PnH-bifplot2-print2	
 2_mU.HnP-values	exp.mU.HnP.name	SEQ.mU.HnP
 2_mU.HnP	exp.mU.HnP
 2_mU.HnP-bifplot2	plotScale
@@ -61,7 +95,10 @@ setup_2plus	bifurcation.plot.pair	bifurcation.plot.simple
 2_mU.H1P	exp.mU.H1P
 2_mU.H1P-bifplot2	plotScale
 2_mU.H1P-bifplot2-print	
-2_U.bH1-bifplot2-print2	
+2_U.bH1-values	exp.U.bH1.name	SEQ.U.bH1
+2_U.bH1	exp.U.bH1
+2_U.bH1-bifplot2	plotScale
+2_U.bH1-bifplot2-print	
 2_U.bP1-values	exp.U.bP1.name	SEQ.U.bP1
 2_U.bP1	exp.U.bP1
 2_U.bP1-bifplot2	plotScale
@@ -78,91 +115,32 @@ setup_2plus	bifurcation.plot.pair	bifurcation.plot.simple
 2_MaxArea	exp.MaxArea
 2_MaxArea-bifplot2	plotScale
 2_MaxArea-bifplot2-print	
-2_osc-values	exp.osc.name	SEQ.osc
-2_osc	exp.osc	i	result.H	result.P
-2_osc-bifplot2	plotScale
-2_osc-bifplot2-print	
-Um-max-values	SEQ1	SEQ2
-setup_3	exp.table	run.table
+2_osc-values	exp.mU.HnP.osc.name	exp.mU.PnH.osc.name	iniH.osc	iniP.osc	MaxArea.osc	maxIt.osc	mU.H1P.osc	mU.HnP.osc	mU.P1H.osc	mU.PnH.osc	n.H.osc	n.P.osc	r.H.osc	r.P.osc	SEQ.mU.HnP.osc	SEQ.mU.PnH.osc	tol.osc	U.bH1.osc	U.bHn.osc	U.bP1.osc	U.bPn.osc	v.H.osc	v.P.osc
+2_mU.HnP.osc	i	result.mU.HnP.H	result.mU.HnP.P	temp
+2_mU.HnP.osc-bifplot2	plotScale
+2_mU.PnH.osc	i	result.mU.PnH.H	result.mU.PnH.P	temp
+2_mU.PnH.osc-bifplot2	plotScale
+2_mU.HnP.osc-bifplot2-print	
+2_mU.PnH.osc-bifplot2-print	
+3_setup	
 setup_3plus	twoPar.ggplot
 3_mU.HnP_mU.PnH-values	exp.mU.HnP_mU.PnH.name	SEQ.mU.HnP	SEQ.mU.PnH
-2_mU.HnP_mU.PnH	exp.mU.HnP_mU.PnH
-2_mU.HnP_mU.PnH-table	
-2_mU.HnP_mU.PnH-plot	plotScale
-2_mU.HnP_mU.PnH-plot-print	
-setup	exp.table	run.table
-3_mU.H1P_mU.P1H-values	exp.mU.H1P_mU.P1H.name	SEQ.mU.H1P	SEQ.mU.P1H
-2_mU.H1P_mU.P1H	exp.mU.H1P_mU.P1H
-2_mU.H1P_mU.P1H-plot	plotScale
-2_mU.H1P_mU.P1H-plot-print	
-3_U.bH1_U.bP1-values	exp.U.bH1_U.bP1.name	SEQ.U.bH1	SEQ.U.bP1
-2_U.bH1_U.bP1	exp.U.bH1_U.bP1
-2_U.bH1_U.bP1-plot	plotScale
-2_U.bH1_U.bP1-plot-print	
-3_U.bHn_U.bPn-values	exp.U.bHn_U.bPn.name	SEQ.U.bHn	SEQ.U.bPn
-2_U.bHn_U.bPn	exp.U.bHn_U.bPn
-2_U.bHn_U.bPn-plot	plotScale
-2_U.bHn_U.bPn-plot-print	
-3_n.H_n.P-values	exp.n.H_n.P.name	SEQ.n.H	SEQ.n.P
-2_n.H_n.P	exp.n.H_n.P
-2_n.H_n.P-plot	plotScale
-2_n.H_n.P-plot-print	
-3_v.H_v.P-values	exp.v.H_v.P.name	SEQ.v.H	SEQ.v.P
-2_v.H_v.P	exp.v.H_v.P
-2_v.H_v.P-plot	plotScale
-2_v.H_v.P-plot-print	
-1_run.coevo.coeta-name	run.coevo.coeta.name
-1_run.coevo.coeta	run.coevo.coeta
-1_run.coevo.coeta-pars	
-1_run.coevo.coeta-plot	
-1_run.coevo.coeta-ggplot	plotScale	run.coevo.coeta.melted
-1_run.coevo.coeta-ggplot-print	
-1_run.coevo.coeta-frames	run2
-1_run.coevo.coeta-animation	
-1_run.no.coevo-name	run.no.coevo.name
-1_run.no.coevo	run.no.coevo
-1_run.coevo.early.cult-name	run.coevo.early.cult.name
-1_run.coevo.early.cult	run.coevo.early.cult
-1_run.coevo.early.dom-name	run.coevo.early.dom.name
-1_run.coevo.early.dom	run.coevo.early.dom
-1_run.cult.without.dom-name	run.cult.without.dom.name
-1_run.cult.without.dom	run.cult.without.dom
-1_run.coevo.bleep-name	run.coevo.bleep.name
-1_run.coevo.bleep	run.coevo.bleep
-1_run.coevo.boom-name	run.coevo.boom.name
-1_run.coevo.boom	run.coevo.boom
-1_run.coevo.long.boom-name	run.coevo.long.boom.name
-1_run.coevo.long.boom	run.coevo.long.boom
 3_mU.HnP_mU.PnH	exp.mU.HnP_mU.PnH
 3_mU.HnP_mU.PnH-table	
 3_mU.HnP_mU.PnH-plot	plotScale
 3_mU.HnP_mU.PnH-plot-print	
+3_n.H_n.P-values	exp.n.H_n.P.name	SEQ.n.H	SEQ.n.P
 3_n.H_n.P	exp.n.H_n.P
 3_n.H_n.P-plot	plotScale
 3_n.H_n.P-plot-print	
+3_v.H_v.P-values	exp.v.H_v.P.name	SEQ.v.H	SEQ.v.P
 3_v.H_v.P	exp.v.H_v.P
 3_v.H_v.P-plot	plotScale
 3_v.H_v.P-plot-print	
+3_mU.H1P_mU.P1H-values	exp.mU.H1P_mU.P1H.name	SEQ.mU.H1P	SEQ.mU.P1H
 3_mU.H1P_mU.P1H	exp.mU.H1P_mU.P1H
 3_mU.H1P_mU.P1H-plot	plotScale
 3_mU.H1P_mU.P1H-plot-print	
-3_U.bH1_U.bP1	exp.U.bH1_U.bP1
-3_U.bH1_U.bP1-plot	plotScale
-3_U.bH1_U.bP1-plot-print	
-3_U.bHn_U.bPn	exp.U.bHn_U.bPn
-3_U.bHn_U.bPn-plot	plotScale
-3_U.bHn_U.bPn-plot-print	
-3_full_mU.HP_PH-values	
-3_full_mU.HP_PH	
-3_full_mU.HP_PH-plot	
-3_full_mU.HP_PH-plot-print	
-1_run.no.coevo-animation	
-1_run.coevo.early.cult-animation	
-1_run.coevo.early.dom-animation	
-1_run.cult.without.dom-animation	
-1_run.coevo.bleep-animation	
-1_run.coevo.boom-animation	
-1_run.coevo.long.boom-animation	
 3_mU.HnP_mU.PnH-plot-print2	
 3_mU.H1P_mU.HnP-values	exp.mU.H1P_mU.HnP.name	SEQ.mU.H1P	SEQ.mU.HnP
 3_mU.H1P_mU.HnP	exp.mU.H1P_mU.HnP
@@ -172,6 +150,14 @@ setup	exp.table	run.table
 3_mU.P1H_mU.PnH	exp.mU.P1H_mU.PnH
 3_mU.P1H_mU.PnH-plot	plotScale
 3_mU.P1H_mU.PnH-plot-print	
+3_U.bH1_U.bP1-values	exp.U.bH1_U.bP1.name	SEQ.U.bH1	SEQ.U.bP1
+3_U.bH1_U.bP1	exp.U.bH1_U.bP1
+3_U.bH1_U.bP1-plot	plotScale
+3_U.bH1_U.bP1-plot-print	
+3_U.bHn_U.bPn-values	exp.U.bHn_U.bPn.name	SEQ.U.bHn	SEQ.U.bPn
+3_U.bHn_U.bPn	exp.U.bHn_U.bPn
+3_U.bHn_U.bPn-plot	plotScale
+3_U.bHn_U.bPn-plot-print	
 3_U.bH1_U.bHn-values	exp.U.bH1_U.bHn.name	SEQ.U.bH1	SEQ.U.bHn
 3_U.bH1_U.bHn	exp.U.bH1_U.bHn
 3_U.bH1_U.bHn-plot	plotScale
@@ -180,10 +166,6 @@ setup	exp.table	run.table
 3_U.bP1_U.bPn	exp.U.bP1_U.bPn
 3_U.bP1_U.bPn-plot	plotScale
 3_U.bP1_U.bPn-plot-print	
-2_mU.PnH-table	
-2_mU.PnH-bifplot1	plotScale
-2_mU.PnH-bifplot1-print	
-2_mU.PnH-bifplot2-print2	
 setup_4	exp.table	run.table
 setup_4plus	fourPar.ggplot
 4_mU.HP_mU.PH-values	exp.mU.HP_mU.PH.name	SEQ.mU.H1P	SEQ.mU.HnP	SEQ.mU.P1H	SEQ.mU.PnH
@@ -193,18 +175,25 @@ setup_4plus	fourPar.ggplot
 4_mU.HP_mU.PH-plot-print	
 4_U.bH_U.bP-values	exp.U.bH_U.bP.name	SEQ.U.bH1	SEQ.U.bHn	SEQ.U.bP1	SEQ.U.bPn
 4_U.bH_U.bP	exp.U.bH_U.bP
+4_U.bH_U.bP-table	
 4_U.bH_U.bP-plot	plotScale
 4_U.bH_U.bP-plot-print	
 4_n_v-values	exp.n_v.name	SEQ.n.H	SEQ.n.P	SEQ.v.H	SEQ.v.P
 4_n_v	exp.n_v
+4_n_v-table	
 4_n_v-plot	plotScale
 4_n_v-plot-print	
-1_run.no.coevo-plot	
-1_run.coevo.early.cult-plot	
-1_run.coevo.early.dom-plot	
-1_run.cult.without.dom-plot	
-1_run.coevo.bleep-plot	
-1_run.coevo.boom-plot	
-1_run.coevo.long.boom-plot	
-4_U.bH_U.bP-table	
-4_n_v-table	
+1_table-functions	exp.table	run.table
+1_default-values	iniH.default	iniP.default	MaxArea.default	maxIt.default	messages.default	mU.H1P.default	mU.HnP.default	mU.P1H.default	mU.PnH.default	n.H.default	n.P.default	r.H.default	r.P.default	saveTrajectories.default	timing.threshold.default	tol.default	U.bH1.default	U.bHn.default	U.bP1.default	U.bPn.default	v.H.default	v.P.default
+1_plot-functions	animate.trajectory	plot.trajectory	runPlot.dir
+1_semicoevo.osc-pars	
+2_table-functions	exp.table	run.table
+2_default-values	iniH.default	iniP.default	MaxArea.default	maxIt.default	messages.default	mU.H1P.default	mU.HnP.default	mU.P1H.default	mU.PnH.default	n.H.default	n.P.default	r.H.default	r.P.default	saveTrajectories.default	timing.threshold.default	tol.default	U.bH1.default	U.bHn.default	U.bP1.default	U.bPn.default	v.H.default	v.P.default
+2_plot-functions	bifurcation.plot.pair	bifurcation.plot.simple
+3_table-functions	exp.table	run.table
+3_default-values	iniH.default	iniP.default	MaxArea.default	maxIt.default	messages.default	mU.H1P.default	mU.HnP.default	mU.P1H.default	mU.PnH.default	n.H.default	n.P.default	r.H.default	r.P.default	saveTrajectories.default	timing.threshold.default	tol.default	U.bH1.default	U.bHn.default	U.bP1.default	U.bPn.default	v.H.default	v.P.default
+3_plot-functions	twoPar.ggplot
+4_setup	
+4_table-functions	exp.table	run.table
+4_default-values	iniH.default	iniP.default	MaxArea.default	maxIt.default	messages.default	mU.H1P.default	mU.HnP.default	mU.P1H.default	mU.PnH.default	n.H.default	n.P.default	r.H.default	r.P.default	saveTrajectories.default	timing.threshold.default	tol.default	U.bH1.default	U.bHn.default	U.bP1.default	U.bPn.default	v.H.default	v.P.default
+4_plot-functions	fourPar.ggplot
