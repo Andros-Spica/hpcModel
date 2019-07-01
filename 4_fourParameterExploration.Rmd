@@ -24,11 +24,11 @@ run.table <- function(run.result)
   knitr::kable(cbind(run.parnames, run.parvalues), col.names = c("parameter", "values"))
 }
 
-exp.table <- function(exp.results)
+exp.table <- function(exp.results, numberOfParameters = 17)
 {
   exp.parnames <- c()
   exp.values <- c()
-  for (i in 1:17)
+  for (i in 1:numberOfParameters)
   {
     exp.parnames <- c(exp.parnames, names(exp.results)[i])
     value <- levels(factor(exp.results[[i]]))
@@ -153,7 +153,7 @@ fourPar.ggplot <- function(twoPar.exp, par1, par2, par3, par4, var1, var2,
 }
 ```
 
-## Utility per capita between humans and plants ($\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$ x $\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$):
+## Utility per capita between humans and plants ($\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$ x $\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$)
 
 ```{r 4_mU.HP_mU.PH-values, cache=TRUE}
 exp.mU.HP_mU.PH.name <- "mU.HP-mU.PH"
@@ -219,7 +219,7 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.mU.HP_mU.PH.name, "_plot.
     + *Domestication without cultivation* (red square in whitish tile): most cases when $\bar{U}_{H_{n}P}>0.625$, $\bar{U}_{H_{1}P}\geq 0.625$, $\bar{U}_{P_{n}H}=0$, and $\bar{U}_{P_{1}H}<2.5$.  
     + *Cultivation without domestication* (whitish square in blue tile): most cases when $\bar{U}_{H_{n}P} = 0$.
 
-## Utility from other resources to humans and plants ($U_{bH_{1}}$ x $U_{bP_{1}}$ x $U_{bH_{n}}$ x $U_{bP_{n}}$):
+## Utility from other resources to humans and plants ($U_{bH_{1}}$ x $U_{bP_{1}}$ x $U_{bH_{n}}$ x $U_{bP_{n}}$)
 
 For this experiment, consider that the default setting includes $MaxArea=200$ (i.e. the maximum for the plant population).
 
@@ -288,7 +288,7 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bH_U.bP.name, "_plot.pn
     + *Cultivation without domestication* (whitish square in blue tile): *no cases are visible under these conditions*.
 
 
-## Number of types and undirected variation of humans and plants ($n_{H}$ x $n_{P}$ x $v_{H}$ x $v_{P}$):
+## Number of types and undirected variation of humans and plants ($n_{H}$ x $n_{P}$ x $v_{H}$ x $v_{P}$)
 
 ```{r 4_n_v-values, cache=TRUE}
 exp.n_v.name <- "n-v"

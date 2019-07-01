@@ -12,9 +12,6 @@ source("library/hpcModel.plot.R")
 require(reshape2)
 require(ggplot2)
 require(scales)
-# for creating animates GIF
-require(purrr)
-require(magick)
 ```
 
 ```{r 3_table-functions}
@@ -29,11 +26,11 @@ run.table <- function(run.result)
   knitr::kable(cbind(run.parnames, run.parvalues), col.names = c("parameter", "values"))
 }
 
-exp.table <- function(exp.results)
+exp.table <- function(exp.results, numberOfParameters = 17)
 {
   exp.parnames <- c()
   exp.values <- c()
-  for (i in 1:17)
+  for (i in 1:numberOfParameters)
   {
     exp.parnames <- c(exp.parnames, names(exp.results)[i])
     value <- levels(factor(exp.results[[i]]))

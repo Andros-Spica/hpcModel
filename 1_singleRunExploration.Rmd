@@ -12,9 +12,7 @@ source("library/hpcModel.plot.R")
 require(reshape2)
 require(ggplot2)
 require(scales)
-# for creating animates GIF
-require(purrr)
-require(magick)
+
 ```
 
 ```{r 1_table-functions}
@@ -29,11 +27,11 @@ run.table <- function(run.result)
   knitr::kable(cbind(run.parnames, run.parvalues), col.names = c("parameter", "values"))
 }
 
-exp.table <- function(exp.results)
+exp.table <- function(exp.results, numberOfParameters = 17)
 {
   exp.parnames <- c()
   exp.values <- c()
-  for (i in 1:17)
+  for (i in 1:numberOfParameters)
   {
     exp.parnames <- c(exp.parnames, names(exp.results)[i])
     value <- levels(factor(exp.results[[i]]))
@@ -88,6 +86,11 @@ messages.default = TRUE
 
 ```{r 1_plot-functions, include=FALSE}
 # this chunk is specific for this exploration 
+
+# for creating animates GIF
+require(purrr)
+require(magick)
+
 runPlot.dir <- "plots/runPlot/" # directory holding animation files
 
 plot.trajectory <- function(meltedRunData, plotScale = 1)
