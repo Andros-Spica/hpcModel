@@ -89,6 +89,7 @@ if (FALSE)
     RND = 0.2
   )
 }
+save(LHS, file = "LHS.RData")
 
 #---
 
