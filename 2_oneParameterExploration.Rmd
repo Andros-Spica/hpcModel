@@ -163,7 +163,7 @@ exp.mU.PnH.name <- "mU.PnH"
 SEQ.mU.PnH <- seq(0.5, 2.5, length.out = 100)
 ```
 
-```{r 2_mU.PnH, cache=TRUE, dependson=c('2_setup', '2_default-values', '2_mU.PnH-values'), include=FALSE}
+```{r 2_mU.PnH, cache=TRUE, dependson=c('2_default-values', '2_mU.PnH-values'), include=FALSE}
 exp.mU.PnH <- hpcModel.exploration(
   iniH = iniH.default,
   iniP = iniP.default,
@@ -245,7 +245,7 @@ SEQ.init.H <- 5:100
 SEQ.init.P <- 5:100
 ```
 
-```{r 2_init.H, cache=TRUE, dependson=c('2_setup', '2_default-values', '2_init-values'), include=FALSE}
+```{r 2_init.H, cache=TRUE, dependson=c('2_default-values', '2_init-values'), include=FALSE}
 exp.init.H <- hpcModel.exploration(
   iniH = SEQ.init.H, ###
   iniP = iniP.default,
@@ -271,7 +271,7 @@ exp.init.H <- hpcModel.exploration(
 )
 ```
 
-```{r 2_init.P, cache=TRUE, dependson=c('2_setup', '2_default-values', '2_init-values'), include=FALSE}
+```{r 2_init.P, cache=TRUE, dependson=c('2_default-values', '2_init-values'), include=FALSE}
 exp.init.P <- hpcModel.exploration(
   iniH = iniH.default,
   iniP = SEQ.init.P, ###
@@ -346,7 +346,7 @@ SEQ.n.H <- 5:40
 SEQ.n.P <- 5:40
 ```
 
-```{r 2_n.H, cache=TRUE, dependson=c('2_setup', '2_default-values','2_n-values'), include=FALSE}
+```{r 2_n.H, cache=TRUE, dependson=c('2_default-values','2_n-values'), include=FALSE}
 exp.n.H <- hpcModel.exploration(
   iniH = iniH.default,
   iniP = iniP.default,
@@ -372,7 +372,7 @@ exp.n.H <- hpcModel.exploration(
 )
 ```
 
-```{r 2_n.P, cache=TRUE, dependson=c('2_setup', '2_default-values', '2_n-values'), include=FALSE}
+```{r 2_n.P, cache=TRUE, dependson=c('2_default-values', '2_n-values'), include=FALSE}
 exp.n.P <- hpcModel.exploration(
   iniH = iniH.default,
   iniP = iniP.default,
@@ -447,7 +447,7 @@ SEQ.v.H <- seq(0.05, 0.25, length.out = 100)
 SEQ.v.P <- seq(0.05, 0.25, length.out = 100)
 ```
 
-```{r 2_v.H, cache=TRUE, dependson=c('2_setup', '2_default-values', '2_v-values'), include=FALSE}
+```{r 2_v.H, cache=TRUE, dependson=c('2_default-values', '2_v-values'), include=FALSE}
 exp.v.H <- hpcModel.exploration(
   iniH = iniH.default,
   iniP = iniP.default,
@@ -473,7 +473,7 @@ exp.v.H <- hpcModel.exploration(
 )
 ```
 
-```{r 2_v.P, cache=TRUE, dependson=c('2_setup', '2_default-values', '2_v-values'), include=FALSE}
+```{r 2_v.P, cache=TRUE, dependson=c('2_default-values', '2_v-values'), include=FALSE}
 exp.v.P <- hpcModel.exploration(
   iniH = iniH.default,
   iniP = iniP.default,
@@ -548,7 +548,7 @@ SEQ.r.H <- seq(0.01, 0.25, length.out = 100)
 SEQ.r.P <- seq(0.01, 0.25, length.out = 100)
 ```
 
-```{r 2_r.H, cache=TRUE, dependson=c('2_setup', '2_default-values', '2_r-values'), include=FALSE}
+```{r 2_r.H, cache=TRUE, dependson=c('2_default-values', '2_r-values'), include=FALSE}
 exp.r.H <- hpcModel.exploration(
   iniH = iniH.default,
   iniP = iniP.default,
@@ -574,7 +574,7 @@ exp.r.H <- hpcModel.exploration(
 )
 ```
 
-```{r 2_r.P, cache=TRUE, dependson=c('2_setup', '2_default-values', '2_r-values'), include=FALSE}
+```{r 2_r.P, cache=TRUE, dependson=c('2_default-values', '2_r-values'), include=FALSE}
 exp.r.P <- hpcModel.exploration(
   iniH = iniH.default,
   iniP = iniP.default,
@@ -653,7 +653,7 @@ exp.mU.HnP.name <- "mU.HnP"
 SEQ.mU.HnP <- seq(0, 1.5, length.out = 100)
 ```
 
-```{r 2_mU.HnP, cache=TRUE, dependson=c('2_setup', '2_default-values', '2_mU.HnP-values'), include=FALSE}
+```{r 2_mU.HnP, cache=TRUE, dependson=c('2_default-values', '2_mU.HnP-values'), include=FALSE}
 exp.mU.HnP <- hpcModel.exploration(
   iniH = iniH.default,
   iniP = iniP.default,
@@ -705,7 +705,7 @@ exp.mU.P1H.name <- "mU.P1H"
 SEQ.mU.P1H <- seq(0, 0.5, length.out = 100)
 ```
 
-```{r 2_mU.P1H, cache=TRUE, dependson=c('2_setup', '2_default-values', '2_mU.P1H-values'), include=FALSE}
+```{r 2_mU.P1H, cache=TRUE, dependson=c('2_default-values', '2_mU.P1H-values'), include=FALSE}
 exp.mU.P1H <- hpcModel.exploration(
   iniH = iniH.default,
   iniP = iniP.default,
@@ -757,7 +757,7 @@ exp.mU.H1P.name <- "mU.H1P"
 SEQ.mU.H1P <- seq(0, 2, length.out = 100)
 ```
 
-```{r 2_mU.H1P, cache=TRUE, dependson=c('2_setup', '2_default-values', '2_mU.H1P-values'), include=FALSE}
+```{r 2_mU.H1P, cache=TRUE, dependson=c('2_default-values', '2_mU.H1P-values'), include=FALSE}
 exp.mU.H1P <- hpcModel.exploration(
   iniH = iniH.default,
   iniP = iniP.default,
@@ -809,7 +809,7 @@ exp.U.bH1.name <- "U.bH1"
 SEQ.U.bH1 <- seq(5, 400, length.out = 100)
 ```
 
-```{r 2_U.bH1, cache=TRUE, dependson=c('2_setup', '2_default-values', '2_U.bH1-values'), include=FALSE}
+```{r 2_U.bH1, cache=TRUE, dependson=c('2_default-values', '2_U.bH1-values'), include=FALSE}
 exp.U.bH1 <- hpcModel.exploration(
   iniH = iniH.default,
   iniP = iniP.default,
@@ -861,7 +861,7 @@ exp.U.bP1.name <- "U.bP1"
 SEQ.U.bP1 <- seq(5, 400, length.out = 100)
 ```
 
-```{r 2_U.bP1, cache=TRUE, dependson=c('2_setup', '2_default-values', '2_U.bP1-values'), include=FALSE}
+```{r 2_U.bP1, cache=TRUE, dependson=c('2_default-values', '2_U.bP1-values'), include=FALSE}
 exp.U.bP1 <- hpcModel.exploration(
   iniH = iniH.default,
   iniP = iniP.default,
@@ -913,7 +913,7 @@ exp.U.bHn.name <- "U.bHn"
 SEQ.U.bHn <- seq(5, 400, length.out = 100)
 ```
 
-```{r 2_U.bHn, cache=TRUE, dependson=c('2_setup', '2_default-values', '2_U.bHn-values'), include=FALSE}
+```{r 2_U.bHn, cache=TRUE, dependson=c('2_default-values', '2_U.bHn-values'), include=FALSE}
 exp.U.bHn <- hpcModel.exploration(
   iniH = iniH.default,
   iniP = iniP.default,
@@ -965,7 +965,7 @@ exp.U.bPn.name <- "U.bPn"
 SEQ.U.bPn <- seq(5, 400, length.out = 100)
 ```
 
-```{r 2_U.bPn, cache=TRUE, dependson=c('2_setup', '2_default-values', '2_U.bPn-values'), include=FALSE}
+```{r 2_U.bPn, cache=TRUE, dependson=c('2_default-values', '2_U.bPn-values'), include=FALSE}
 exp.U.bPn <- hpcModel.exploration(
   iniH = iniH.default,
   iniP = iniP.default,
@@ -1017,7 +1017,7 @@ exp.MaxArea.name <- "MaxArea"
 SEQ.MaxArea <- seq(5, 400, length.out = 100)
 ```
 
-```{r 2_MaxArea, cache=TRUE, dependson=c('2_setup', '2_default-values', '2_MaxArea-values'), include=FALSE}
+```{r 2_MaxArea, cache=TRUE, dependson=c('2_default-values', '2_MaxArea-values'), include=FALSE}
 exp.MaxArea <- hpcModel.exploration(
   iniH = iniH.default,
   iniP = iniP.default,

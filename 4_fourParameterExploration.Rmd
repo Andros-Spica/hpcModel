@@ -163,7 +163,7 @@ SEQ.mU.H1P <- seq(0, 2.5, length.out = 5)
 SEQ.mU.P1H <- seq(0, 2.5, length.out = 5)
 ```
 
-```{r 4_mU.HP_mU.PH, cache=TRUE, dependson=c('4_setup','4_default-values','4_mU.HP_mU.PH-values'), results = 'hide'}
+```{r 4_mU.HP_mU.PH, cache=TRUE, dependson=c('4_default-values','4_mU.HP_mU.PH-values'), results = 'hide'}
 exp.mU.HP_mU.PH <- hpcModel.exploration(
   iniH = iniH.default,
   iniP = iniP.default,
@@ -231,7 +231,7 @@ SEQ.U.bH1 <- seq(5, 300, length.out = 5)
 SEQ.U.bP1 <- seq(5, 300, length.out = 5)
 ```
 
-```{r 4_U.bH_U.bP, cache=TRUE, dependson=c('4_setup','4_default-values','4_U.bH_U.bP-values'), results = 'hide'}
+```{r 4_U.bH_U.bP, cache=TRUE, dependson=c('4_default-values','4_U.bH_U.bP-values'), results = 'hide'}
 exp.U.bH_U.bP <- hpcModel.exploration(
   iniH = iniH.default,
   iniP = iniP.default,
@@ -298,7 +298,7 @@ SEQ.v.H <- seq(0.05, 0.25, length.out = 5)
 SEQ.v.P <- seq(0.05, 0.25, length.out = 5)
 ```
 
-```{r 4_n_v, cache=TRUE, dependson=c('4_setup','4_default-values','4_n_v-values'), results = 'hide'}
+```{r 4_n_v, cache=TRUE, dependson=c('4_default-values','4_n_v-values'), results = 'hide'}
 exp.n_v <- hpcModel.exploration(
   iniH = iniH.default,
   iniP = iniP.default,

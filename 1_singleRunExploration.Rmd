@@ -130,7 +130,7 @@ animate.trajectory <- function(filePath, fileName, delete.frames = TRUE)
 run.coevo.coeta.name <- "coevo.coeta"
 ```
 
-```{r 1_run.coevo.coeta, cache=TRUE, include=FALSE, dependson=c('1_setup', '1_default-values', 'run.coevo.coeta-name')}
+```{r 1_run.coevo.coeta, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.coevo.coeta-name')}
 
 run.coevo.coeta <- hpcModel.run(
   iniH = iniH.default,
@@ -210,7 +210,7 @@ knitr::include_graphics(paste0("plots/1_singleRun-ggplot-", run.coevo.coeta.name
 
 Animated GIF showing the *sequence of states* throughout the simulation:
 
-```{r 1_run.coevo.coeta-frames, include=FALSE, dependson=c('1_setup', '1_default-values', '1_run.coevo.coeta-name')}
+```{r 1_run.coevo.coeta-frames, include=FALSE, dependson=c('1_default-values', '1_run.coevo.coeta-name')}
 run.coevo.coeta2 <- hpcModel.run(
   iniH = iniH.default,
   iniP = iniP.default,
@@ -257,7 +257,7 @@ knitr::include_graphics(paste0(runPlot.dir, run.coevo.coeta.name, "-anim.gif"))
 run.no.coevo.name <- "no.coevo"
 ```
 
-```{r 1_run.no.coevo, cache=TRUE, include=FALSE, dependson=c('1_setup', '1_default-values', 'run.no.coevo-name')}
+```{r 1_run.no.coevo, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.no.coevo-name')}
 
 run.no.coevo <- hpcModel.run(
   iniH = iniH.default,
@@ -309,7 +309,7 @@ hpcModel.plot(run.no.coevo, scale.override = 1)
 run.coevo.early.cult.name <- "coevo.early.cult"
 ```
 
-```{r 1_run.coevo.early.cult, cache=TRUE, include=FALSE, dependson=c('1_setup', '1_default-values', 'run.coevo.early.cult-name')}
+```{r 1_run.coevo.early.cult, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.coevo.early.cult-name')}
 
 run.coevo.early.cult <- hpcModel.run(
   iniH = iniH.default,
@@ -361,7 +361,7 @@ hpcModel.plot(run.coevo.early.cult, scale.override = 1)
 run.coevo.early.dom.name <- "coevo.early.dom"
 ```
 
-```{r 1_run.coevo.early.dom, cache=TRUE, include=FALSE, dependson=c('1_setup', '1_default-values', 'run.coevo.early.dom-name')}
+```{r 1_run.coevo.early.dom, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.coevo.early.dom-name')}
 
 run.coevo.early.dom <- hpcModel.run(
   iniH = iniH.default,
@@ -413,7 +413,7 @@ hpcModel.plot(run.coevo.early.dom, scale.override = 1)
 run.cult.without.dom.name <- "cult.without.dom"
 ```
 
-```{r 1_run.cult.without.dom, cache=TRUE, include=FALSE, dependson=c('1_setup', '1_default-values', 'run.cult.without.dom-name')}
+```{r 1_run.cult.without.dom, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.cult.without.dom-name')}
 
 run.cult.without.dom <- hpcModel.run(
   iniH = iniH.default,
@@ -465,7 +465,7 @@ hpcModel.plot(run.cult.without.dom, scale.override = 1)
 run.coevo.bleep.name <- "coevo.bleep"
 ```
 
-```{r 1_run.coevo.bleep, cache=TRUE, include=FALSE, dependson=c('1_setup', '1_default-values', 'run.coevo.bleep-name')}
+```{r 1_run.coevo.bleep, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.coevo.bleep-name')}
 
 run.coevo.bleep <- hpcModel.run(
   iniH = iniH.default,
@@ -517,7 +517,7 @@ hpcModel.plot(run.coevo.bleep, scale.override = 1)
 run.coevo.boom.name <- "coevo.boom"
 ```
 
-```{r 1_run.coevo.boom, cache=TRUE, include=FALSE, dependson=c('1_setup', '1_default-values', 'run.coevo.boom-name')}
+```{r 1_run.coevo.boom, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.coevo.boom-name')}
 
 run.coevo.boom <- hpcModel.run(
   iniH = iniH.default,
@@ -569,7 +569,7 @@ hpcModel.plot(run.coevo.boom, scale.override = 1)
 run.coevo.long.boom.name <- "coevo.long.boom"
 ```
 
-```{r 1_run.coevo.long.boom, cache=TRUE, include=FALSE, dependson=c('1_setup', '1_default-values', 'run.coevo.long.boom-name')}
+```{r 1_run.coevo.long.boom, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.coevo.long.boom-name')}
 
 run.coevo.long.boom <- hpcModel.run(
   iniH = iniH.default,
@@ -621,7 +621,7 @@ hpcModel.plot(run.coevo.long.boom, scale.override = 1)
 run.semicoevo.name <- "semicoevo"
 ```
 
-```{r 1_run.semicoevo, cache=TRUE, include=FALSE, dependson=c('1_setup', '1_default-values', 'run.semicoevo-name')}
+```{r 1_run.semicoevo, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.semicoevo-name')}
 
 run.semicoevo <- hpcModel.run(
   iniH = iniH.default,
@@ -673,7 +673,7 @@ hpcModel.plot(run.semicoevo, scale.override = 1)
 run.semicoevo.osc.name <- "semicoevo.osc"
 ```
 
-```{r 1_run.semicoevo.osc-frames, include=FALSE, dependson=c('1_setup', '1_default-values', '1_run.semicoevo.osc-name')}
+```{r 1_run.semicoevo.osc-frames, include=FALSE, dependson=c('1_default-values', '1_run.semicoevo.osc-name')}
 run.semicoevo.osc <- hpcModel.run(
   iniH = iniH.default,
   iniP = iniP.default,

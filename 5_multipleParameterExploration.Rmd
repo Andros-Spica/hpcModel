@@ -297,7 +297,7 @@ plotScale = 10
 png("plots/5_multiplePar-LHC_pairs-plot.png",
     width = 100 * plotScale, height = 100 * plotScale)
 pairs(LHS, pch='·')
-dev.off()
+invisible(dev.off())
 ```
 
 ```{r 5_LHC-pairs-plot-print, dependson='5_LHC-pairs-plot', out.width = '100%'}
