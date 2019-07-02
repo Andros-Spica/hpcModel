@@ -202,3 +202,70 @@ setup_4plus	fourPar.ggplot
 4_table-functions	exp.table	run.table
 4_default-values	iniH.default	iniP.default	MaxArea.default	maxIt.default	messages.default	mU.H1P.default	mU.HnP.default	mU.P1H.default	mU.PnH.default	n.H.default	n.P.default	r.H.default	r.P.default	saveTrajectories.default	timing.threshold.default	tol.default	U.bH1.default	U.bHn.default	U.bP1.default	U.bPn.default	v.H.default	v.P.default
 4_plot-functions	fourPar.ggplot
+5_setup	
+5_table-functions	exp.table	run.table
+5_default-values	iniH.default	iniP.default	MaxArea.default	maxIt.default	messages.default	mU.H1P.default	mU.HnP.default	mU.P1H.default	mU.PnH.default	n.H.default	n.P.default	r.H.default	r.P.default	saveTrajectories.default	timing.threshold.default	tol.default	U.bH1.default	U.bHn.default	U.bP1.default	U.bPn.default	v.H.default	v.P.default
+5_setup_plus	outputVariables	run.LHC.experiment
+5_plot-functions	collapsed.ggplot	parameter.x.scenario.ggplot
+5_LHC-values	LHC.parameter.names	LHC.parameter.ranges
+5_LHC	LHS
+5_LHC-load	PARS
+5_LHC-table	
+5_LHC-pairs-plot	plotScale
+5_LHC-pairs-plot-print	
+5_run-experiments	exp.LHC
+5_run-experiments-load	
+5_overview-collapsed-plot	overview.variable.name	plotScale
+5_overview-collapsed-plot-print	
+5_rf-coevo.H	acc.coevo.H	RF.coevo.H
+5_rf-coevo.P	acc.coevo.P	RF.coevo.P
+5_rf-coevo-plots	
+5_rf-coevo.H-plot-print	
+5_rf-coevo.P-plot-print	
+5_rf-depend.H	acc.depend.H	RF.depend.H
+5_rf-depend.P	acc.depend.P	RF.depend.P
+5_rf-depend-plots	
+5_rf-depend.H-plot-print	
+5_rf-depend.P-plot-print	
+5_rf-timing.H	acc.timing.H	RF.timing.H
+5_rf-timing.P	acc.timing.P	RF.timing.P
+5_rf-timing-plots	
+5_rf-timing.H-plot-print	
+5_rf-timing.P-plot-print	
+5_split-scenarios	exp.LHC_bothImprove	exp.LHC_bothLessBase	exp.LHC_humanImprove	exp.LHC_humanLessBase	exp.LHC_plantImprove	exp.LHC_plantLessBase
+5_scenarios-humanImprove-coevo-plots	plotScale
+5_scenarios-humanImprove-coevo-plot-print	
+5_scenarios-humanImprove-depend-plots	plotScale
+5_scenarios-humanImprove-depend-plot-print	
+5_scenarios-humanImprove-timing-plots	plotScale
+5_scenarios-humanImprove-timing-plot-print	
+5_scenarios-plantImprove-coevo-plots	plotScale
+5_scenarios-plantImprove-coevo-plot-print	
+5_scenarios-plantImprove-depend-plots	plotScale
+5_scenarios-plantImprove-depend-plot-print	
+5_scenarios-plantImprove-timing-plots	plotScale
+5_scenarios-plantImprove-timing-plot-print	
+5_scenarios-bothImprove-coevo-plots	plotScale
+5_scenarios-bothImprove-coevo-plot-print	
+5_scenarios-bothImprove-depend-plots	plotScale
+5_scenarios-bothImprove-depend-plot-print	
+5_scenarios-bothImprove-timing-plots	plotScale
+5_scenarios-bothImprove-timing-plot-print	
+5_scenarios-humanLessBase-coevo-plots	plotScale
+5_scenarios-humanLessBase-coevo-plot-print	
+5_scenarios-humanLessBase-depend-plots	plotScale
+5_scenarios-humanLessBase-depend-plot-print	
+5_scenarios-humanLessBase-timing-plots	plotScale
+5_scenarios-humanLessBase-timing-plot-print	
+5_scenarios-plantLessBase-coevo-plots	plotScale
+5_scenarios-plantLessBase-coevo-plot-print	
+5_scenarios-plantLessBase-depend-plots	plotScale
+5_scenarios-plantLessBase-depend-plot-print	
+5_scenarios-plantLessBase-timing-plots	plotScale
+5_scenarios-plantLessBase-timing-plot-print	
+5_scenarios-bothLessBase-coevo-plots	plotScale
+5_scenarios-bothLessBase-coevo-plot-print	
+5_scenarios-bothLessBase-depend-plots	plotScale
+5_scenarios-bothLessBase-depend-plot-print	
+5_scenarios-bothLessBase-timing-plots	plotScale
+5_scenarios-bothLessBase-timing-plot-print	

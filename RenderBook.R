@@ -3,16 +3,9 @@
 # create the nojeckyll file (once, if docs/ is empty)
 #file.create('docs/.nojekyll')
 
-# Go to 'index.Rmd' and make sure that 'params: ispdf: FALSE' 
-# at the end of the YAML header
-
 bookdown::render_book("index.Rmd", 
-                      output_format = bookdown::gitbook(),
-                      clean = TRUE, 
-                      envir = parent.frame(), clean_envir = !interactive(), 
+                      output_format = 'bookdown::gitbook',
                       output_dir = "docs", 
-                      new_session = NA, preview = FALSE, 
-                      encoding = "UTF-8", config_file = "_bookdown.yml",
                       params = list(ispdf = FALSE))
 
 # It is posible to obtain the pdf version using the following code OR 
@@ -21,18 +14,11 @@ bookdown::render_book("index.Rmd",
 # if MikTex is installed: 
 # devtools::install_github('yihui/tinytex')
 
-# Go to 'index.Rmd' and make sure that 'params: ispdf: TRUE' 
-# at the end of the YAML header
-
 bookdown::render_book("index.Rmd",
-                      output_format = bookdown::pdf_book(),
-                      clean = TRUE,
-                      envir = parent.frame(), clean_envir = !interactive(),
+                      output_format = 'bookdown::pdf_book',
                       output_dir = "pdf",
-                      new_session = NA, preview = FALSE,
-                      encoding = "UTF-8", config_file = "_bookdown.yml",
                       params = list(ispdf = TRUE))
 
 # to preview a single chapter
 
-bookdown::preview_chapter("5_randomForest.Rmd")
+bookdown::preview_chapter("1_singleRunExploration.Rmd")

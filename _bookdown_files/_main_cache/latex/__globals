@@ -180,25 +180,92 @@ setup_4plus	fourPar.ggplot	is.null	xlab	par1	ylab	par2	var1lab	var1	var2lab	var2
 4_n_v-table	exp.table	exp.n_v
 4_n_v-plot	plotScale	png	paste0	exp.n_v.name	fourPar.ggplot	exp.n_v	expression	v	H	P	dev.off
 4_n_v-plot-print	include_graphics	paste0	exp.n_v.name
-2_setup	opts_chunk	set	source	require	reshape2	ggplot2	scales	purrr	magick
+2_setup	opts_chunk	set	source	require	reshape2	ggplot2	scales
 2_mU.HnP.osc	result.mU.HnP.H	data.frame	result.mU.HnP.P	i	SEQ.mU.HnP.osc	temp	hpcModel.run	iniH.osc	iniP.osc	n.H.osc	n.P.osc	v.H.osc	v.P.osc	r.H.osc	r.P.osc	mU.PnH.osc	mU.P1H.osc	mU.H1P.osc	U.bHn.osc	U.bPn.osc	U.bH1.osc	U.bP1.osc	MaxArea.osc	maxIt.osc	tol.osc	timing.threshold.default	saveTrajectories.default	messages.default	rbind	TRAJECTORIES	coevo.H	coevo.P
 2_mU.HnP.osc-bifplot2	plotScale	png	paste0	exp.mU.HnP.osc.name	bifurcation.plot.pair	result.mU.HnP.H	result.mU.HnP.P	expression	paste	bar	dev.off
 2_mU.PnH.osc	result.mU.PnH.H	data.frame	result.mU.PnH.P	i	SEQ.mU.PnH.osc	temp	hpcModel.run	iniH.osc	iniP.osc	n.H.osc	n.P.osc	v.H.osc	v.P.osc	r.H.osc	r.P.osc	mU.HnP.osc	mU.P1H.osc	mU.H1P.osc	U.bHn.osc	U.bPn.osc	U.bH1.osc	U.bP1.osc	MaxArea.osc	maxIt.osc	tol.osc	timing.threshold.default	saveTrajectories.default	messages.default	rbind	TRAJECTORIES	coevo.H	coevo.P
 2_mU.PnH.osc-bifplot2	plotScale	png	paste0	exp.mU.PnH.osc.name	bifurcation.plot.pair	result.mU.PnH.H	result.mU.PnH.P	expression	paste	bar	dev.off
 2_mU.HnP.osc-bifplot2-print	include_graphics	paste0	exp.mU.HnP.osc.name
 2_mU.PnH.osc-bifplot2-print	include_graphics	paste0	exp.mU.PnH.osc.name
-3_setup	opts_chunk	set	source	require	reshape2	ggplot2	scales	purrr	magick
-1_table-functions	run.table	run.parnames	names	run.result	PARS	run.parvalues	c	i	length	kable	cbind	exp.table	exp.parnames	exp.values	exp.results	value	levels	factor	as.numeric	as.character	paste	min	max
+3_setup	opts_chunk	set	source	require	reshape2	ggplot2	scales
+1_table-functions	run.table	run.parnames	names	run.result	PARS	run.parvalues	c	i	length	kable	cbind	exp.table	exp.parnames	exp.values	numberOfParameters	exp.results	value	levels	factor	as.numeric	as.character	paste	min	max
 1_default-values	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	saveTrajectories.default	messages.default
-1_plot-functions	runPlot.dir	plot.trajectory	ggplot	meltedRunData	aes	time	value	variable	plotScale	geom_line	ylab	scale_color_manual	c	theme	element_text	element_blank	unit	animate.trajectory	files	paste0	filePath	dir	fileName	images	map	image_read	image_join	animation	image_animate	image_write	delete.frames	unlink
+1_plot-functions	require	purrr	magick	runPlot.dir	plot.trajectory	ggplot	meltedRunData	aes	time	value	variable	plotScale	geom_line	ylab	scale_color_manual	c	theme	element_text	element_blank	unit	animate.trajectory	files	paste0	filePath	dir	fileName	images	map	image_read	image_join	animation	image_animate	image_write	delete.frames	unlink
 1_semicoevo.osc-pars	run.table	run.semicoevo.osc
-2_table-functions	run.table	run.parnames	names	run.result	PARS	run.parvalues	c	i	length	kable	cbind	exp.table	exp.parnames	exp.values	exp.results	value	levels	factor	as.numeric	as.character	paste	min	max
+2_table-functions	run.table	run.parnames	names	run.result	PARS	run.parvalues	c	i	length	kable	cbind	exp.table	exp.parnames	exp.values	numberOfParameters	exp.results	value	levels	factor	as.numeric	as.character	paste	min	max
 2_default-values	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	saveTrajectories.default	messages.default
 2_plot-functions	bifurcation.plot.simple	c	paste	seq	ncol	observedVariables	rainbow	par	plot	parameterValues	col	min	max	ylab	xlab	cex	v	points	legend	legendPos	variableNames	bifurcation.plot.pair	ylim	layout	matrix	plotScale	result.H	parameterLabel	variableLabelH	type	result.P	variableLabelP
-3_table-functions	run.table	run.parnames	names	run.result	PARS	run.parvalues	c	i	length	kable	cbind	exp.table	exp.parnames	exp.values	exp.results	value	levels	factor	as.numeric	as.character	paste	min	max
+3_table-functions	run.table	run.parnames	names	run.result	PARS	run.parvalues	c	i	length	kable	cbind	exp.table	exp.parnames	exp.values	numberOfParameters	exp.results	value	levels	factor	as.numeric	as.character	paste	min	max
 3_default-values	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	saveTrajectories.default	messages.default
 3_plot-functions	twoPar.ggplot	is.null	xlab	par1	ylab	par2	var1lab	var1	var2lab	var2	var1min	var1max	var2min	var2max	ggplot	twoPar.exp	aes_string	geom_raster	geom_point	plotScale	aes	time	scale_fill_gradientn	c	rescale	scale_color_gradientn	scale_size	labs	expression	t	guides	guide_colorbar	guide_legend	theme_bw	theme	element_blank	element_text
 4_setup	opts_chunk	set	source	require	reshape2	ggplot2	scales
-4_table-functions	run.table	run.parnames	names	run.result	PARS	run.parvalues	c	i	length	kable	cbind	exp.table	exp.parnames	exp.values	exp.results	value	levels	factor	as.numeric	as.character	paste	min	max
+4_table-functions	run.table	run.parnames	names	run.result	PARS	run.parvalues	c	i	length	kable	cbind	exp.table	exp.parnames	exp.values	numberOfParameters	exp.results	value	levels	factor	as.numeric	as.character	paste	min	max
 4_default-values	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	saveTrajectories.default	messages.default
 4_plot-functions	fourPar.ggplot	is.null	xlab	par1	ylab	par2	var1lab	var1	var2lab	var2	var1min	var1max	var2min	var2max	ggplot	twoPar.exp	aes_string	geom_raster	geom_point	plotScale	aes	time	scale_fill_gradientn	c	rescale	scale_color_gradientn	scale_size	labs	expression	t	guides	guide_colorbar	guide_legend	facet_grid	reformulate	par3	par4	label_both	theme_bw	theme	element_rect	element_text	element_blank
+5_setup	opts_chunk	set	source	require	reshape2	ggplot2	scales
+5_table-functions	run.table	run.parnames	names	run.result	PARS	run.parvalues	c	i	length	kable	cbind	exp.table	exp.parnames	exp.values	numberOfParameters	exp.results	value	levels	factor	as.numeric	as.character	paste	min	max
+5_default-values	iniH.default	iniP.default	n.H.default	n.P.default	v.H.default	v.P.default	r.H.default	r.P.default	mU.PnH.default	mU.HnP.default	mU.P1H.default	mU.H1P.default	U.bHn.default	U.bPn.default	U.bH1.default	U.bP1.default	MaxArea.default	maxIt.default	tol.default	timing.threshold.default	saveTrajectories.default	messages.default
+5_setup_plus	require	DoE.wrapper	randomForest	party	parallel	outputVariables	list	run.LHC.experiment	parLapply	cluster	nrow	experimentSettings	RESULTS	hpcModel.run	iniH.default	iniP.default	experimentIndex	r.H.default	r.P.default	MaxArea.default	return	as.data.frame	END
+5_plot-functions	collapsed.ggplot	ggplot	results	aes_string	parameterName	stat_smooth	variableName1	geom_point	variableName2	scale_colour_manual	c	labs	ylab	theme_bw	theme	element_text	plotScale	parameter.x.scenario.ggplot	temp	cbind	scenarioSplitter	melt	names	ncol	parameterNames	aes	parValue	obsVar1	geom_smooth	obsVar2	facet_grid	scenario	parameter	label_parsed	scale_color_manual	guides	guide_legend	list	element_rect	element_blank
+5_LHC-values	LHC.parameter.names	c	LHC.parameter.ranges	list
+5_LHC	file.exists	LHS	lhs.design	LHC.parameter.ranges	c	save
+5_LHC-load	load	PARS	as.data.frame	LHS
+5_LHC-table	exp.table	PARS
+5_LHC-pairs-plot	plotScale	png	pairs	LHS	invisible	dev.off
+5_LHC-pairs-plot-print	include_graphics
+5_run-experiments	file.exists	cl	makeCluster	clusterExport	list	environment	exp.LHC	run.LHC.experiment	PARS	stopCluster	rm	gc	do.call	cbind	save
+5_run-experiments-load	load
+5_overview-collapsed-plot	overview.variable.name	plotScale	png	paste0	collapsed.ggplot	exp.LHC	dev.off
+5_overview-collapsed-plot-print	include_graphics	paste0	overview.variable.name
+5_rf-coevo.H	RF.coevo.H	randomForest	coevo.H	n.H	n.P	v.H	v.P	mU.HnP	mU.H1P	mU.PnH	mU.P1H	U.bP1	U.bPn	U.bH1	U.bHn	exp.LHC	T	acc.coevo.H	mean	predict
+5_rf-coevo.P	RF.coevo.P	randomForest	coevo.P	n.H	n.P	v.H	v.P	mU.HnP	mU.H1P	mU.PnH	mU.P1H	U.bP1	U.bPn	U.bH1	U.bHn	exp.LHC	T	acc.coevo.P	mean	predict
+5_rf-coevo-plots	png	varImpPlot	RF.coevo.H	dev.off	RF.coevo.P
+5_rf-coevo.H-plot-print	include_graphics	paste0
+5_rf-coevo.P-plot-print	include_graphics	paste0
+5_rf-depend.H	RF.depend.H	randomForest	depend.H	n.H	n.P	v.H	v.P	mU.HnP	mU.H1P	mU.PnH	mU.P1H	U.bP1	U.bPn	U.bH1	U.bHn	exp.LHC	T	acc.depend.H	mean	predict
+5_rf-depend.P	RF.depend.P	randomForest	depend.P	n.H	n.P	v.H	v.P	mU.HnP	mU.H1P	mU.PnH	mU.P1H	U.bP1	U.bPn	U.bH1	U.bHn	exp.LHC	T	acc.depend.P	mean	predict
+5_rf-depend-plots	png	varImpPlot	RF.depend.H	dev.off	RF.depend.P
+5_rf-depend.H-plot-print	include_graphics	paste0
+5_rf-depend.P-plot-print	include_graphics	paste0
+5_rf-timing.H	RF.timing.H	randomForest	timing.H	n.H	n.P	v.H	v.P	mU.HnP	mU.H1P	mU.PnH	mU.P1H	U.bP1	U.bPn	U.bH1	U.bHn	exp.LHC	T	acc.timing.H	mean	predict
+5_rf-timing.P	RF.timing.P	randomForest	timing.P	n.H	n.P	v.H	v.P	mU.HnP	mU.H1P	mU.PnH	mU.P1H	U.bP1	U.bPn	U.bH1	U.bHn	exp.LHC	T	acc.timing.P	mean	predict
+5_rf-timing-plots	png	varImpPlot	RF.timing.H	dev.off	RF.timing.P
+5_rf-timing.H-plot-print	include_graphics	paste0
+5_rf-timing.P-plot-print	include_graphics	paste0
+5_split-scenarios	exp.LHC_plantImprove	factor	as.character	exp.LHC	mU.PnH	mU.P1H	c	exp.LHC_humanImprove	mU.HnP	mU.H1P	exp.LHC_bothImprove	exp.LHC_plantLessBase	U.bP1	U.bPn	exp.LHC_humanLessBase	U.bH1	U.bHn	exp.LHC_bothLessBase
+5_scenarios-humanImprove-coevo-plots	plotScale	png	parameter.x.scenario.ggplot	exp.LHC	LHC.parameter.names	exp.LHC_humanImprove	dev.off
+5_scenarios-humanImprove-coevo-plot-print	include_graphics
+5_scenarios-humanImprove-depend-plots	plotScale	png	parameter.x.scenario.ggplot	exp.LHC	LHC.parameter.names	exp.LHC_humanImprove	dev.off
+5_scenarios-humanImprove-depend-plot-print	include_graphics
+5_scenarios-humanImprove-timing-plots	plotScale	png	parameter.x.scenario.ggplot	exp.LHC	LHC.parameter.names	exp.LHC_humanImprove	dev.off
+5_scenarios-humanImprove-timing-plot-print	include_graphics
+5_scenarios-plantImprove-coevo-plots	plotScale	png	parameter.x.scenario.ggplot	exp.LHC	LHC.parameter.names	exp.LHC_plantImprove	dev.off
+5_scenarios-plantImprove-coevo-plot-print	include_graphics
+5_scenarios-plantImprove-depend-plots	plotScale	png	parameter.x.scenario.ggplot	exp.LHC	LHC.parameter.names	exp.LHC_plantImprove	dev.off
+5_scenarios-plantImprove-depend-plot-print	include_graphics
+5_scenarios-plantImprove-timing-plots	plotScale	png	parameter.x.scenario.ggplot	exp.LHC	LHC.parameter.names	exp.LHC_plantImprove	dev.off
+5_scenarios-plantImprove-timing-plot-print	include_graphics
+5_scenarios-bothImprove-coevo-plots	plotScale	png	parameter.x.scenario.ggplot	exp.LHC	LHC.parameter.names	exp.LHC_bothImprove	dev.off
+5_scenarios-bothImprove-coevo-plot-print	include_graphics
+5_scenarios-bothImprove-depend-plots	plotScale	png	parameter.x.scenario.ggplot	exp.LHC	LHC.parameter.names	exp.LHC_bothImprove	dev.off
+5_scenarios-bothImprove-depend-plot-print	include_graphics
+5_scenarios-bothImprove-timing-plots	plotScale	png	parameter.x.scenario.ggplot	exp.LHC	LHC.parameter.names	exp.LHC_bothImprove	dev.off
+5_scenarios-bothImprove-timing-plot-print	include_graphics
+5_scenarios-humanLessBase-coevo-plots	plotScale	png	parameter.x.scenario.ggplot	exp.LHC	LHC.parameter.names	exp.LHC_humanLessBase	dev.off
+5_scenarios-humanLessBase-coevo-plot-print	include_graphics
+5_scenarios-humanLessBase-depend-plots	plotScale	png	parameter.x.scenario.ggplot	exp.LHC	LHC.parameter.names	exp.LHC_humanLessBase	dev.off
+5_scenarios-humanLessBase-depend-plot-print	include_graphics
+5_scenarios-humanLessBase-timing-plots	plotScale	png	parameter.x.scenario.ggplot	exp.LHC	LHC.parameter.names	exp.LHC_humanLessBase	dev.off
+5_scenarios-humanLessBase-timing-plot-print	include_graphics
+5_scenarios-plantLessBase-coevo-plots	plotScale	png	parameter.x.scenario.ggplot	exp.LHC	LHC.parameter.names	exp.LHC_plantLessBase	dev.off
+5_scenarios-plantLessBase-coevo-plot-print	include_graphics
+5_scenarios-plantLessBase-depend-plots	plotScale	png	parameter.x.scenario.ggplot	exp.LHC	LHC.parameter.names	exp.LHC_plantLessBase	dev.off
+5_scenarios-plantLessBase-depend-plot-print	include_graphics
+5_scenarios-plantLessBase-timing-plots	plotScale	png	parameter.x.scenario.ggplot	exp.LHC	LHC.parameter.names	exp.LHC_plantLessBase	dev.off
+5_scenarios-plantLessBase-timing-plot-print	include_graphics
+5_scenarios-bothLessBase-coevo-plots	plotScale	png	parameter.x.scenario.ggplot	exp.LHC	LHC.parameter.names	exp.LHC_bothLessBase	dev.off
+5_scenarios-bothLessBase-coevo-plot-print	include_graphics
+5_scenarios-bothLessBase-depend-plots	plotScale	png	parameter.x.scenario.ggplot	exp.LHC	LHC.parameter.names	exp.LHC_bothLessBase	dev.off
+5_scenarios-bothLessBase-depend-plot-print	include_graphics
+5_scenarios-bothLessBase-timing-plots	plotScale	png	parameter.x.scenario.ggplot	exp.LHC	LHC.parameter.names	exp.LHC_bothLessBase	dev.off
+5_scenarios-bothLessBase-timing-plot-print	include_graphics

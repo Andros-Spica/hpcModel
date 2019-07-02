@@ -1,3 +1,9 @@
+---
+site: bookdown::bookdown_site
+output:
+  bookdown::gitbook: default
+---
+
 # Two parameter exploration
 
 ```{r 3_setup, include=FALSE}

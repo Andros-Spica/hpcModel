@@ -1,0 +1,36 @@
+bookdown::gitbook:
+  lib_dir: assets
+  split_by: section
+  css: style.css
+  config:
+    toc:
+      collapse: subsection
+      scroll_highlight: yes
+      before: |
+        <li><a href="...">Human-Plant model - documentation and exploration</a></li>
+        <li><a href="...">Andreas Angourakis & Jonàs Alcaina</a></li>
+      after: |
+        <li><a href="https://github.com/rstudio/bookdown">Proudly published with bookdown</a></li>
+    toolbar:
+      position: fixed
+      edit : null
+      download: ["pdf"]
+      search: yes
+      fontsettings:
+        theme: white
+        family: sans
+        size: 2
+      sharing:
+        facebook: yes
+        twitter: yes
+        google: no
+        linkedin: no
+        weibo: no
+        instapaper: no
+        vk: no
+bookdown::pdf_book:
+  includes:
+    in_header: preamble.tex
+    before_body: title.sty
+  latex_engine: xelatex
+  keep_tex: yes
