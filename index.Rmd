@@ -1,9 +1,12 @@
 ---
+title: "Human-Plant Coevolution (HPC) model<br>General exploration and parameter sensitivity analysis"
+authors: "Andreas Angourakis & Jonàs Alcaina"
+date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 description: "The Human-Plant Coevolution (HPC) model represents the dynamics of coevolution between a human and a plant population. The model consists of an ecological positive feedback system (mutualism), which can be reinforced by positive evolutionary feedback (coevolution). The model is the result of wiring together relatively simple simulation models of population ecology and evolution, through a computational implementation in R."
 url: 'https://andros-spica.github.io/hpcModel/'
 github-repo: Andros-Spica/hpcModel
-cover-image: images/hpcModel-logo.png
+cover-image: images/hpcModel-logo_v2.png
 documentclass: book
 always_allow_html: yes
 urlcolor: blue
@@ -11,9 +14,17 @@ params:
   ispdf: TRUE
 ---
 
-# Model overview
+# _______ { - }
+
+```{r cover-logo, echo=FALSE, eval=!params$ispdf, out.width = '100%'}
+knitr::include_graphics("images/hpcModel-logo_v2.png")
+```
+
+# Model overview { - }
 
 The Human-Plant Coevolution (HPC) model represents the dynamics of coevolution between a human and a plant population. The model consists of an ecological positive feedback system (mutualism), which can be reinforced by positive evolutionary feedback (coevolution). The model is the result of wiring together relatively simple simulation models of population ecology and evolution, through a computational implementation in R.
+
+\newpage
 
 **_Parameters_**
 
@@ -32,6 +43,8 @@ The Human-Plant Coevolution (HPC) model represents the dynamics of coevolution b
  `U.bHn`       | $U_{bH_{n}}$ | utility **of** other resources **to** type n humans  
  `U.bPn`       | $U_{bP_{n}}$ | utility **of** non-anthropic space **to** type n plants  
  `MaxArea`      | $MaxArea$ | maximum contiguous area to be used by plants (i.e., maximum carrying capacity for plants)  
+
+\newpage
 
 **_Output end-state variables_**
 

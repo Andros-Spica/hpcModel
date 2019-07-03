@@ -130,6 +130,8 @@ animate.trajectory <- function(filePath, fileName, delete.frames = TRUE)
 }
 ```
 
+\newpage
+
 ## Fast coevolution (default)
 
 ```{r 1_run.coevo.coeta-name, cache=TRUE}
@@ -169,15 +171,11 @@ run.coevo.coeta <- hpcModel.run(
 
 *Parameter setting*:
 
-```{r 1_run.coevo.coeta-pars, cache=TRUE, dependson=c('1_table-functions', 'run.coevo.coeta')}
+```{r 1_run.coevo.coeta-pars, cache=TRUE, dependson=c('1_table-functions', 'run.coevo.coeta'), fig.align='center'}
 run.table(run.coevo.coeta)
 ```
 
-Plotting the *end state*, i.e. both populations become stationary:
-
-```{r 1_run.coevo.coeta-plot, cache=TRUE, dependson='run.coevo.coeta', fig.width=8, fig.height=8}
-hpcModel.plot(run.coevo.coeta, scale.override = 1)
-```
+\vspace{1cm}
 
 *Output end-state variables* at the end state:
 
@@ -190,6 +188,16 @@ hpcModel.plot(run.coevo.coeta, scale.override = 1)
  `depend.P`   | `r run.coevo.coeta$END$depend.P`
  `timing.H`   | `r run.coevo.coeta$END$timing.H`
  `timing.P`   | `r run.coevo.coeta$END$timing.P`
+
+\newpage
+
+Plotting the *end state*, i.e. both populations become stationary:
+
+```{r 1_run.coevo.coeta-plot, cache=TRUE, dependson='run.coevo.coeta', fig.width=8, fig.height=8}
+hpcModel.plot(run.coevo.coeta, scale.override = 1)
+```
+
+\newpage
 
 Plotting population trajectories with *ggplot*: 
 
@@ -214,7 +222,9 @@ invisible(dev.off())
 knitr::include_graphics(paste0("plots/1_singleRun-ggplot-", run.coevo.coeta.name, ".png"))
 ```
 
-Animated GIF showing the *sequence of states* throughout the simulation:
+\newpage
+
+Animated GIF showing the *sequence of states* throughout the simulation (only on the html version):
 
 ```{r 1_run.coevo.coeta-frames, include=FALSE, dependson=c('1_default-values', '1_run.coevo.coeta-name')}
 run.coevo.coeta2 <- hpcModel.run(
@@ -256,6 +266,8 @@ animate.trajectory(runPlot.dir, run.coevo.coeta.name)
 ```{r 1_run.coevo.coeta-animation, eval=!params$ispdf, dependson='run.coevo.coeta-frames'}
 knitr::include_graphics(paste0(runPlot.dir, run.coevo.coeta.name, "-anim.gif"))
 ```
+
+\newpage
 
 ## No coevolution
 
@@ -309,6 +321,8 @@ knitr::include_graphics(paste0(runPlot.dir, run.no.coevo.name, "-anim.gif"))
 hpcModel.plot(run.no.coevo, scale.override = 1)
 ```
 
+\newpage
+
 ## Coevolution with early cultivation
 
 ```{r 1_run.coevo.early.cult-name, cache=TRUE}
@@ -360,6 +374,8 @@ knitr::include_graphics(paste0(runPlot.dir, run.coevo.early.cult.name, "-anim.gi
 ```{r 1_run.coevo.early.cult-plot, cache=TRUE, eval=params$ispdf, dependson='run.coevo.early.cult', fig.width=8, fig.height=8}
 hpcModel.plot(run.coevo.early.cult, scale.override = 1)
 ```
+
+\newpage
 
 ## Coevolution with early domestication
 
@@ -413,6 +429,8 @@ knitr::include_graphics(paste0(runPlot.dir, run.coevo.early.dom.name, "-anim.gif
 hpcModel.plot(run.coevo.early.dom, scale.override = 1)
 ```
 
+\newpage
+
 ## Cultivation without domestication
 
 ```{r 1_run.cult.without.dom-name, cache=TRUE}
@@ -464,6 +482,8 @@ knitr::include_graphics(paste0(runPlot.dir, run.cult.without.dom.name, "-anim.gi
 ```{r 1_run.cult.without.dom-plot, cache=TRUE, eval=params$ispdf, dependson='run.cult.without.dom', fig.width=8, fig.height=8}
 hpcModel.plot(run.cult.without.dom, scale.override = 1)
 ```
+
+\newpage
 
 ## Coevolution with population "bleep"
 
@@ -517,6 +537,8 @@ knitr::include_graphics(paste0(runPlot.dir, run.coevo.bleep.name, "-anim.gif"))
 hpcModel.plot(run.coevo.bleep, scale.override = 1)
 ```
 
+\newpage
+
 ## Coevolution with population "boom"
 
 ```{r 1_run.coevo.boom-name, cache=TRUE}
@@ -568,6 +590,8 @@ knitr::include_graphics(paste0(runPlot.dir, run.coevo.boom.name, "-anim.gif"))
 ```{r 1_run.coevo.boom-plot, cache=TRUE, eval=params$ispdf, dependson='run.coevo.boom', fig.width=8, fig.height=8}
 hpcModel.plot(run.coevo.boom, scale.override = 1)
 ```
+
+\newpage
 
 ## Coevolution with long population "boom"
 
@@ -621,6 +645,8 @@ knitr::include_graphics(paste0(runPlot.dir, run.coevo.long.boom.name, "-anim.gif
 hpcModel.plot(run.coevo.long.boom, scale.override = 1)
 ```
 
+\newpage
+
 ## Semi-coevolution (stationary point)
 
 ```{r 1_run.semicoevo-name, cache=TRUE}
@@ -673,6 +699,8 @@ knitr::include_graphics(paste0(runPlot.dir, run.semicoevo.name, "-anim.gif"))
 hpcModel.plot(run.semicoevo, scale.override = 1)
 ```
 
+\newpage
+
 ## Semi-coevolution (oscillations)
 
 ```{r 1_run.semicoevo.osc-name, cache=TRUE}
@@ -721,6 +749,8 @@ animate.trajectory(runPlot.dir, run.semicoevo.osc.name)
 ```{r 1_semicoevo.osc-pars, cache=TRUE, dependson=c('1_table-functions', 'run.semicoevo.osc')}
 run.table(run.semicoevo.osc)
 ```
+
+\newpage
 
 ```{r 1_run.semicoevo.osc-animation, eval=!params$ispdf, dependson='run.semicoevo.osc'}
 knitr::include_graphics(paste0(runPlot.dir, run.semicoevo.osc.name, "-anim.gif"))

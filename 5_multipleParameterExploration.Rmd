@@ -225,7 +225,23 @@ parameter.x.scenario.ggplot <- function(results,
       legend.text = element_text(size = plotScale * 2)
       )
 }
+
+varImpPlot2 <- function(rf, cex = 1)
+{
+  imp <- importance(rf)
+  imp <- imp[nrow(imp):1, ] # invert row order for plotting top-downwards
+  
+  # assuming order to be: n & v, mU, and U.b
+  parColors <- c(rep("blue", 4), rep("green", 4), rep("red", 4))
+  dotchart(imp, 
+           color = parColors,
+           cex = cex,
+           main = rf$terms[[2]],
+           pch = 19)
+}
 ```
+
+\newpage
 
 ## Sampling parameter values with Latin Hypercube Sampling (LHC)
 
@@ -297,6 +313,8 @@ PARS <- as.data.frame(LHS)
 exp.table(PARS, numberOfParameters = 12)
 ```
 
+\newpage
+
 ```{r 5_LHC-pairs-plot, cache=TRUE, dependson='5_LHC-load'}
 plotScale = 10
 
@@ -309,6 +327,8 @@ invisible(dev.off())
 ```{r 5_LHC-pairs-plot-print, dependson='5_LHC-pairs-plot', out.width = '100%'}
 knitr::include_graphics("plots/5_multiplePar-LHC_pairs-plot.png")
 ```
+
+\newpage
 
 ## Experiment overview
 
@@ -352,7 +372,7 @@ if(!file.exists('exp.LHC.RData')) # you must delete "exp.LHC.RData" to create a 
 load('exp.LHC.RData')
 ```
 
-```{r 5_overview-collapsed-plot, include=FALSE}
+```{r 5_overview-collapsed-plot, include=FALSE, cache=TRUE}
 overview.variable.name = 'coevo'
 plotScale = 10
 
@@ -369,6 +389,8 @@ dev.off()
 ```{r 5_overview-collapsed-plot-print, dependson='5_overview-collapsed-plot', out.width = '100%'}
 knitr::include_graphics(paste0("plots/5_multiplePar-", overview.variable.name, "_collapsed-ggplot.png"))
 ```
+
+\newpage
 
 ### Random forest
 
@@ -400,24 +422,22 @@ acc.coevo.P <- mean((predict(RF.coevo.P, exp.LHC[, 1:12]) - exp.LHC$coevo.P) ^ 2
 #importance(RF.coevo.P)
 ```
 
-```{r 5_rf-coevo-plots, include=FALSE}
-#svg('plots/5_randomForest1.svg', width=10, height=10)
-png("plots/5_multiplePar-rf-coevo.H.png")
-varImpPlot(RF.coevo.H)
+```{r 5_rf-coevo-plots, include=FALSE, cache=TRUE}
+plotScale = 2
+
+png("plots/5_multiplePar-rf-coevo.png", width = 640 * plotScale, height = 320 * plotScale)
+par(mar = c(3,1,3,1), cex.lab = plotScale * 0.5)
+layout(matrix(c(1,2), ncol = 2))
+varImpPlot2(RF.coevo.H, cex = plotScale * 0.8)
+varImpPlot2(RF.coevo.P, cex = plotScale * 0.8)
 dev.off()
-
-png("plots/5_multiplePar-rf-coevo.P.png")
-varImpPlot(RF.coevo.P)
-dev.off()
 ```
 
-```{r 5_rf-coevo.H-plot-print, dependson='5_rf-coevo-plots', out.width = '100%'}
-knitr::include_graphics(paste0("plots/5_multiplePar-rf-coevo.H.png"))
+```{r 5_rf-coevo-plot-print, dependson='5_rf-coevo-plots', out.width = '100%'}
+knitr::include_graphics(paste0("plots/5_multiplePar-rf-coevo.png"))
 ```
 
-```{r 5_rf-coevo.P-plot-print, dependson='5_rf-coevo-plots', out.width = '100%'}
-knitr::include_graphics(paste0("plots/5_multiplePar-rf-coevo.P.png"))
-```
+\newpage
 
 **_Dependency coefficients_**
 
@@ -447,23 +467,19 @@ acc.depend.P <- mean((predict(RF.depend.P, exp.LHC[, 1:12]) - exp.LHC$depend.P) 
 #importance(RF.depend.P)
 ```
 
-```{r 5_rf-depend-plots, include=FALSE}
-#svg('plots/5_randomForest1.svg', width=10, height=10)
-png("plots/5_multiplePar-rf-depend.H.png")
-varImpPlot(RF.depend.H)
-dev.off()
+```{r 5_rf-depend-plots, include=FALSE, cache=TRUE}
+plotScale = 2
 
-png("plots/5_multiplePar-rf-depend.P.png")
-varImpPlot(RF.depend.P)
+png("plots/5_multiplePar-rf-depend.png", width = 640 * plotScale, height = 320 * plotScale)
+par(mar = c(3,1,3,1), cex.lab = plotScale * 0.5)
+layout(matrix(c(1,2), ncol = 2))
+varImpPlot2(RF.depend.H, cex = plotScale * 0.8)
+varImpPlot2(RF.depend.P, cex = plotScale * 0.8)
 dev.off()
 ```
 
 ```{r 5_rf-depend.H-plot-print, dependson='5_rf-depend-plots', out.width = '100%'}
-knitr::include_graphics(paste0("plots/5_multiplePar-rf-depend.H.png"))
-```
-
-```{r 5_rf-depend.P-plot-print, dependson='5_rf-depend-plots', out.width = '100%'}
-knitr::include_graphics(paste0("plots/5_multiplePar-rf-depend.P.png"))
+knitr::include_graphics(paste0("plots/5_multiplePar-rf-depend.png"))
 ```
 
 **_Timings_**
@@ -494,28 +510,26 @@ acc.timing.P <- mean((predict(RF.timing.P, exp.LHC[, 1:12]) - exp.LHC$timing.P) 
 #importance(RF.timing.P)
 ```
 
-```{r 5_rf-timing-plots, include=FALSE}
-#svg('plots/5_randomForest1.svg', width=10, height=10)
-png("plots/5_multiplePar-rf-timing.H.png")
-varImpPlot(RF.timing.H)
-dev.off()
+```{r 5_rf-timing-plots, include=FALSE, cache=TRUE}
+plotScale = 2
 
-png("plots/5_multiplePar-rf-timing.P.png")
-varImpPlot(RF.timing.P)
+png("plots/5_multiplePar-rf-timing.png", width = 640 * plotScale, height = 320 * plotScale)
+par(mar = c(3,1,3,1), cex.lab = plotScale * 0.5)
+layout(matrix(c(1,2), ncol = 2))
+varImpPlot2(RF.timing.H, cex = plotScale * 0.8)
+varImpPlot2(RF.timing.P, cex = plotScale * 0.8)
 dev.off()
 ```
 
 ```{r 5_rf-timing.H-plot-print, dependson='5_rf-timing-plots', out.width = '100%'}
-knitr::include_graphics(paste0("plots/5_multiplePar-rf-timing.H.png"))
+knitr::include_graphics(paste0("plots/5_multiplePar-rf-timing.png"))
 ```
 
-```{r 5_rf-timing.P-plot-print, dependson='5_rf-timing-plots', out.width = '100%'}
-knitr::include_graphics(paste0("plots/5_multiplePar-rf-timing.P.png"))
-```
+\newpage
 
 ## Scenarios
 
-```{r 5_split-scenarios, include=FALSE, dependson='5_run-experiments-load'}
+```{r 5_split-scenarios, include=FALSE, cache=TRUE, dependson='5_run-experiments-load'}
 # exp.LHC.scenarios.names <- c(
 #   'plantImprove', 'humanImprove', 'bothImprove',
 #   'plantLessBase', 'humanLessBase', 'bothLessBase'
@@ -563,7 +577,7 @@ exp.LHC_bothLessBase <- factor(as.character(exp.LHC$U.bP1 > exp.LHC$U.bPn & exp.
 
 **_Coevolution coefficients_**
 
-```{r 5_scenarios-humanImprove-coevo-plots, include=FALSE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+```{r 5_scenarios-humanImprove-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
 
 plotScale = 10
 
@@ -587,7 +601,7 @@ knitr::include_graphics("plots/5_multiplePar-coevo-humanImprove-ggplot.png")
 
 **_Dependency coefficients_**
 
-```{r 5_scenarios-humanImprove-depend-plots, include=FALSE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+```{r 5_scenarios-humanImprove-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
 
 plotScale = 10
 
@@ -611,7 +625,7 @@ knitr::include_graphics("plots/5_multiplePar-depend-humanImprove-ggplot.png")
 
 **_Timings_**
 
-```{r 5_scenarios-humanImprove-timing-plots, include=FALSE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+```{r 5_scenarios-humanImprove-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
 
 plotScale = 10
 
@@ -633,11 +647,13 @@ dev.off()
 knitr::include_graphics("plots/5_multiplePar-timing-humanImprove-ggplot.png")
 ```
 
+\newpage
+
 ### Mutualistic plant type gives more utility ($\bar{U}_{P_{n}H}> \bar{U}_{P_{1}H}$)
 
 **_Coevolution coefficients_**
 
-```{r 5_scenarios-plantImprove-coevo-plots, include=FALSE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+```{r 5_scenarios-plantImprove-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
 
 plotScale = 10
 
@@ -661,7 +677,7 @@ knitr::include_graphics("plots/5_multiplePar-coevo-plantImprove-ggplot.png")
 
 **_Dependency coefficients_**
 
-```{r 5_scenarios-plantImprove-depend-plots, include=FALSE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+```{r 5_scenarios-plantImprove-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
 
 plotScale = 10
 
@@ -685,7 +701,7 @@ knitr::include_graphics("plots/5_multiplePar-depend-plantImprove-ggplot.png")
 
 **_Timings_**
 
-```{r 5_scenarios-plantImprove-timing-plots, include=FALSE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+```{r 5_scenarios-plantImprove-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
 
 plotScale = 10
 
@@ -707,11 +723,13 @@ dev.off()
 knitr::include_graphics("plots/5_multiplePar-timing-plantImprove-ggplot.png")
 ```
 
+\newpage
+
 ### Mutualistic types (human and plant) give more utility ($\bar{U}_{H_{n}P}> \bar{U}_{H_{1}P}$ AND $\bar{U}_{P_{n}H}> \bar{U}_{P_{1}H}$)
 
 **_Coevolution coefficients_**
 
-```{r 5_scenarios-bothImprove-coevo-plots, include=FALSE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+```{r 5_scenarios-bothImprove-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
 
 plotScale = 10
 
@@ -735,7 +753,7 @@ knitr::include_graphics("plots/5_multiplePar-coevo-bothImprove-ggplot.png")
 
 **_Dependency coefficients_**
 
-```{r 5_scenarios-bothImprove-depend-plots, include=FALSE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+```{r 5_scenarios-bothImprove-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
 
 plotScale = 10
 
@@ -759,7 +777,7 @@ knitr::include_graphics("plots/5_multiplePar-depend-bothImprove-ggplot.png")
 
 **_Timings_**
 
-```{r 5_scenarios-bothImprove-timing-plots, include=FALSE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+```{r 5_scenarios-bothImprove-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
 
 plotScale = 10
 
@@ -781,11 +799,13 @@ dev.off()
 knitr::include_graphics("plots/5_multiplePar-timing-bothImprove-ggplot.png")
 ```
 
+\newpage
+
 ### Mutualistic human type gets less utility from other resources ($U_{bH_{1}}>U_{bH_{n}}$)
 
 **_Coevolution coefficients_**
 
-```{r 5_scenarios-humanLessBase-coevo-plots, include=FALSE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+```{r 5_scenarios-humanLessBase-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
 
 plotScale = 10
 
@@ -809,7 +829,7 @@ knitr::include_graphics("plots/5_multiplePar-coevo-humanLessBase-ggplot.png")
 
 **_Dependency coefficients_**
 
-```{r 5_scenarios-humanLessBase-depend-plots, include=FALSE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+```{r 5_scenarios-humanLessBase-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
 
 plotScale = 10
 
@@ -833,7 +853,7 @@ knitr::include_graphics("plots/5_multiplePar-depend-humanLessBase-ggplot.png")
 
 **_Timings_**
 
-```{r 5_scenarios-humanLessBase-timing-plots, include=FALSE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+```{r 5_scenarios-humanLessBase-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
 
 plotScale = 10
 
@@ -855,11 +875,13 @@ dev.off()
 knitr::include_graphics("plots/5_multiplePar-timing-humanLessBase-ggplot.png")
 ```
 
+\newpage
+
 ### Mutualistic plant type gets less utility from other resources ($U_{bP_{1}}>U_{bP_{n}}$)
 
 **_Coevolution coefficients_**
 
-```{r 5_scenarios-plantLessBase-coevo-plots, include=FALSE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+```{r 5_scenarios-plantLessBase-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
 
 plotScale = 10
 
@@ -883,7 +905,7 @@ knitr::include_graphics("plots/5_multiplePar-coevo-plantLessBase-ggplot.png")
 
 **_Dependency coefficients_**
 
-```{r 5_scenarios-plantLessBase-depend-plots, include=FALSE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+```{r 5_scenarios-plantLessBase-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
 
 plotScale = 10
 
@@ -907,7 +929,7 @@ knitr::include_graphics("plots/5_multiplePar-depend-plantLessBase-ggplot.png")
 
 **_Timings_**
 
-```{r 5_scenarios-plantLessBase-timing-plots, include=FALSE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+```{r 5_scenarios-plantLessBase-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
 
 plotScale = 10
 
@@ -929,11 +951,13 @@ dev.off()
 knitr::include_graphics("plots/5_multiplePar-timing-plantLessBase-ggplot.png")
 ```
 
+\newpage
+
 ### Mutualistic types (human and plant) get less utility from other resources ($U_{bH_{1}}>U_{bH_{n}}$ AND $U_{bP_{1}}>U_{bP_{n}}$)
 
 **_Coevolution coefficients_**
 
-```{r 5_scenarios-bothLessBase-coevo-plots, include=FALSE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+```{r 5_scenarios-bothLessBase-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
 
 plotScale = 10
 
@@ -957,7 +981,7 @@ knitr::include_graphics("plots/5_multiplePar-coevo-bothLessBase-ggplot.png")
 
 **_Dependency coefficients_**
 
-```{r 5_scenarios-bothLessBase-depend-plots, include=FALSE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+```{r 5_scenarios-bothLessBase-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
 
 plotScale = 10
 
@@ -981,7 +1005,7 @@ knitr::include_graphics("plots/5_multiplePar-depend-bothLessBase-ggplot.png")
 
 **_Timings_**
 
-```{r 5_scenarios-bothLessBase-timing-plots, include=FALSE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+```{r 5_scenarios-bothLessBase-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
 
 plotScale = 10
 

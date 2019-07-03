@@ -160,6 +160,8 @@ bifurcation.plot.pair <- function(result.H, result.P,
 }
 ```
 
+\newpage
+
 ## Full example (table+plot alternatives)
 
 ### utility per capita **of** type n plants **to** humans ($\bar{U}_{P_{n}H}$):
@@ -238,7 +240,7 @@ dev.off()
 knitr::include_graphics(paste0("plots/2_onePar-", exp.mU.PnH.name, "_bifplot-pair.png"))
 ```
 
----
+\newpage
 
 ## Exploration on 'default' setting for each parameter:
 
