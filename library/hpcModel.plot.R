@@ -79,19 +79,19 @@ hpcModel.plot <-
     
     ### 2. Increments (delta)
     plot(
-      TRAJ$dH,
+      TRAJ$d.H,
       type = 'l',
       col = 'blue',
       xlim = time.axis.limit,
       xlab = '',
       ylab = 'growth',
       ylim = c(min(c(
-        TRAJ$dH, TRAJ$dP
+        TRAJ$d.H, TRAJ$d.P
       ), na.rm = T), max(c(
-        TRAJ$dH, TRAJ$dP
+        TRAJ$d.H, TRAJ$d.P
       ), na.rm = T))
     )
-    points(TRAJ$dP, type = 'l', col = 'red')
+    points(TRAJ$d.P, type = 'l', col = 'red')
     
     abline(h = 0, lty = 2)
     
@@ -103,8 +103,8 @@ hpcModel.plot <-
     # legend
     legend(
       'right',
-      legend = c("Plants (dP)",
-                 "Humans (dH))"),
+      legend = c("Plants (d.P)",
+                 "Humans (d.H))"),
       lty = c(1, 1),
       col = c('red', 'blue'),
       cex = scaleMultiplier * 0.8
@@ -204,14 +204,14 @@ hpcModel.plot <-
     par(mar = c(2, 3, 1.5, 0.3))
     
     plot(
-      TYPES$fit.H[t,],
+      TYPES$fitness.H[t,],
       col = 'blue',
       type = 'b',
       main = 'fitness humans',
       cex = scaleMultiplier
     )
     plot(
-      TYPES$fit.P[t,],
+      TYPES$fitness.P[t,],
       col = 'red',
       type = 'b',
       main = 'fitness plants',

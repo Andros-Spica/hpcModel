@@ -108,8 +108,8 @@ hpcModel.run <- function(
   U.PH <- rep(NA, maxIt)
   U.HP <- rep(NA, maxIt)
   # fitness of every type
-  fit.H <- matrix(NA, maxIt, n.H)
-  fit.P <- matrix(NA, maxIt, n.P)
+  fitness.H <- matrix(NA, maxIt, n.H)
+  fitness.P <- matrix(NA, maxIt, n.P)
   # population proportions of every type
   pop.H <- matrix(NA, maxIt, n.H)
   pop.P <- matrix(NA, maxIt, n.P)
@@ -118,8 +118,8 @@ hpcModel.run <- function(
   pop.P[1,] <- c(1, rep(0, n.P-1))
   ### stats (cumulative) -------------------------------------------------------------
   # increment
-  dH <- rep(NA, maxIt)
-  dP <- rep(NA, maxIt)
+  d.H <- rep(NA, maxIt)
+  d.P <- rep(NA, maxIt)
   # fitness slope
   types.H <- 1:n.H
   types.P <- 1:n.P
@@ -149,30 +149,30 @@ hpcModel.run <- function(
     K.P[t] <- min(sum(U.HP[t], U.bP[t]), MaxArea)
     ### update population types ----------------------------------------------------
     # set fitness
-    fit.H[t,] <- Fitness(1:n.H, U.PH[t], K.H[t])
-    fit.P[t,] <- Fitness(1:n.P, U.HP[t], K.P[t])
+    fitness.H[t,] <- Fitness(1:n.H, U.PH[t], K.H[t])
+    fitness.P[t,] <- Fitness(1:n.P, U.HP[t], K.P[t])
     # set undirected variation 
     pop.H[t,] <- pop.H[t,] + v.H * ((1/n.H) - pop.H[t,])
     pop.P[t,] <- pop.P[t,] + v.P * ((1/n.P) - pop.P[t,])
     # replicator dynamics
-    pop.H[t+1,] <- fit.H[t,] * pop.H[t,] / sum(fit.H[t,] * pop.H[t,])
-    pop.P[t+1,] <- fit.P[t,] * pop.P[t,] / sum(fit.P[t,] * pop.P[t,])
+    pop.H[t+1,] <- fitness.H[t,] * pop.H[t,] / sum(fitness.H[t,] * pop.H[t,])
+    pop.P[t+1,] <- fitness.P[t,] * pop.P[t,] / sum(fitness.P[t,] * pop.P[t,])
     # alternative replicator dynamics [generates chaotic regime]
-    # pop.H[t+1,] <- pop.H[t,] + 0.1 * (pop.H[t,] * (fit.H - sum(fit.H * pop.H[t,])))
-    # pop.P[t+1,] <- pop.P[t,] + 0.1 * (pop.P[t,] * (fit.P - sum(fit.P * pop.P[t,])))
+    # pop.H[t+1,] <- pop.H[t,] + 0.1 * (pop.H[t,] * (fitness.H - sum(fitness.H * pop.H[t,])))
+    # pop.P[t+1,] <- pop.P[t,] + 0.1 * (pop.P[t,] * (fitness.P - sum(fitness.P * pop.P[t,])))
     ### update populations --------------------------------------------------------- 
     H[t+1] <- (1 + r.H) * H[t] - r.H * (H[t]^2 / K.H[t])
     P[t+1] <- (1 + r.P) * P[t] - r.P * (P[t]^2 / K.P[t])
     ### update stats ---------------------------------------------------------------
     # increments (delta)
-    dH[t] <- H[t+1] - H[t]
-    dP[t] <- P[t+1] - P[t]
+    d.H[t] <- H[t+1] - H[t]
+    d.P[t] <- P[t+1] - P[t]
     # slope of the population distribution among types (degree of coevolution)
     coevo.H[t] <- coevo.coef(pop.H[t,], types.H)
     coevo.P[t] <- coevo.coef(pop.P[t,], types.P)
     # slope of the fitness function (degree of dependency)
-    try(depend.H[t] <- lm(fit.H[t,] ~ types.H)$coefficients[2])
-    try(depend.P[t] <- lm(fit.P[t,] ~ types.P)$coefficients[2])
+    try(depend.H[t] <- lm(fitness.H[t,] ~ types.H)$coefficients[2])
+    try(depend.P[t] <- lm(fitness.P[t,] ~ types.P)$coefficients[2])
 
     ### running plot --------------------------------------------------------------------
     if(plot.preview || plot.save) 
@@ -191,8 +191,8 @@ hpcModel.run <- function(
             U.bP = U.bP,
             K.H = K.H,
             K.P = K.P,
-            dH = dH,
-            dP = dP,
+            d.H = d.H,
+            d.P = d.P,
             coevo.H = coevo.H,
             coevo.P = coevo.P,
             depend.H = depend.H,
@@ -201,8 +201,8 @@ hpcModel.run <- function(
         
         RESULTS$TYPES$pop.H <- pop.H
         RESULTS$TYPES$pop.P <- pop.P 
-        RESULTS$TYPES$fit.H <- fit.H
-        RESULTS$TYPES$fit.P <- fit.P
+        RESULTS$TYPES$fitness.H <- fitness.H
+        RESULTS$TYPES$fitness.P <- fitness.P
         
         if (plot.preview)
         {
@@ -268,16 +268,16 @@ hpcModel.run <- function(
       U.bP = U.bP,
       K.H = K.H,
       K.P = K.P,
-      dH = dH,
-      dP = dP,
+      d.H = d.H,
+      d.P = d.P,
       coevo.H = coevo.H, 
       coevo.P = coevo.P,
       depend.H = depend.H,
       depend.P = depend.P)
     RESULTS$TYPES$pop.H <- pop.H
     RESULTS$TYPES$pop.P <- pop.P 
-    RESULTS$TYPES$fit.H <- fit.H
-    RESULTS$TYPES$fit.P <- fit.P
+    RESULTS$TYPES$fitness.H <- fitness.H
+    RESULTS$TYPES$fitness.P <- fitness.P
   }
   
   if (messages) { cat('done.\n') }
