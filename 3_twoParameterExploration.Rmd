@@ -18,10 +18,11 @@ source("library/hpcModel.plot.R")
 require(reshape2)
 require(ggplot2)
 require(scales)
+require(kableExtra)
 ```
 
 ```{r 3_table-functions}
-run.table <- function(run.result)
+run.table <- function(run.result, caption = NULL, output = "html")
 {
   run.parnames <- names(run.result$PARS)
   run.parvalues <- c()
@@ -29,10 +30,13 @@ run.table <- function(run.result)
   {
     run.parvalues <- c(run.parvalues, run.result$PARS[[i]])
   }
-  knitr::kable(cbind(run.parnames, run.parvalues), col.names = c("parameter", "values"))
+  knitr::kable(cbind(run.parnames, run.parvalues), output,
+               col.names = c("parameter", "values"),
+               caption = caption) %>%
+    kable_styling(latex_options = "hold_position")
 }
 
-exp.table <- function(exp.results, numberOfParameters = 17)
+exp.table <- function(exp.results, caption = NULL, numberOfParameters = 17, output = "html")
 {
   exp.parnames <- c()
   exp.values <- c()
@@ -47,7 +51,10 @@ exp.table <- function(exp.results, numberOfParameters = 17)
     }
     exp.values <- c(exp.values, value)
   }
-  knitr::kable(cbind(exp.parnames, exp.values), col.names = c("parameter", "value"))
+  kable(cbind(exp.parnames, exp.values), output,
+               col.names = c("parameter", "value"),
+               caption = caption) %>%
+    kable_styling(latex_options = "hold_position")
 }
 ```
 
@@ -192,8 +199,12 @@ exp.mU.HnP_mU.PnH <- hpcModel.exploration(
 )
 ```
 
-```{r 3_mU.HnP_mU.PnH-table, cache=TRUE, dependson=c('3_table-functions','3_mU.HnP_mU.PnH')}
-exp.table(exp.mU.HnP_mU.PnH)
+```{r 3mUHnPmUPnHtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('3_table-functions','3_mU.HnP_mU.PnH')}
+exp.table(exp.mU.HnP_mU.PnH, caption = 'Parameter setting')
+```
+
+```{r 3mUHnPmUPnHtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('3_table-functions','3_mU.HnP_mU.PnH')}
+exp.table(exp.mU.HnP_mU.PnH, caption = 'Parameter setting', output = 'latex')
 ```
 
 \newpage

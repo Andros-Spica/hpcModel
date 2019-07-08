@@ -24,7 +24,7 @@
 
 
 
-<meta name="date" content="2019-07-03">
+<meta name="date" content="2019-07-08">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -47,6 +47,7 @@
 
 
 
+<script src="assets/kePrint-0.0.1/kePrint.js"></script>
 
 
 
@@ -164,6 +165,7 @@ Andreas Angourakis & Jonàs Alcaina
 
 <p><strong><em>Parameters</em></strong></p>
 <table>
+<caption>Parameters</caption>
 <colgroup>
 <col width="29%" />
 <col width="27%" />
@@ -180,73 +182,141 @@ Andreas Angourakis & Jonàs Alcaina
 <tr class="odd">
 <td><code>iniH</code>, <code>iniP</code></td>
 <td><span class="math inline">\(ini_{H},\,ini_{P}\)</span></td>
-<td>initial populations of humans and plants</td>
+<td><strong>initial populations of humans and plants</strong></td>
 </tr>
 <tr class="even">
 <td><code>n.H</code>, <code>n.P</code></td>
 <td><span class="math inline">\(n_{H},\,n_{P}\)</span></td>
-<td>number of types of humans and plants</td>
+<td><strong>number of types of humans and plants</strong>. The number of phenotypic variants of each population that relate to human-plant coevolution. Types are arbitrarily ordered from type <span class="math inline">\(1\)</span> (<em>less</em> mutualistic) to type <span class="math inline">\(n\)</span> (<em>more</em> mutualistic).</td>
 </tr>
 <tr class="odd">
 <td><code>v.H</code>, <code>v.P</code></td>
 <td><span class="math inline">\(v_{H},\,v_{P}\)</span></td>
-<td>level of undirected variation in humans and plants</td>
+<td><strong>level of undirected variation in humans and plants</strong>. For any value greater than zero, these parameters regulate how even is the distribution of a population among its types.</td>
 </tr>
 <tr class="even">
 <td><code>r.H</code>, <code>r.P</code></td>
 <td><span class="math inline">\(r_{H},\,r_{P}\)</span></td>
-<td>intrinsic growth rates for human and plant populations</td>
+<td><strong>intrinsic growth rates for human and plant populations</strong>. The maximum rate at which a population grows when there are no external constraints.</td>
 </tr>
 <tr class="odd">
 <td><code>mU.PnH</code></td>
 <td><span class="math inline">\(\bar{U}_{P_{n}H}\)</span></td>
-<td>utility per capita <strong>of</strong> type n plants <strong>to</strong> humans</td>
+<td>utility per capita of <strong>type</strong> <span class="math inline">\(n\)</span> <strong>plants</strong> to <strong>humans</strong></td>
 </tr>
 <tr class="even">
 <td><code>mU.HnP</code></td>
 <td><span class="math inline">\(\bar{U}_{H_{n}P}\)</span></td>
-<td>utility per capita <strong>of</strong> type n humans <strong>to</strong> plants</td>
+<td>utility per capita of <strong>type</strong> <span class="math inline">\(n\)</span> <strong>humans</strong> to <strong>plants</strong></td>
 </tr>
 <tr class="odd">
 <td><code>mU.P1H</code></td>
 <td><span class="math inline">\(\bar{U}_{P_{1}H}\)</span></td>
-<td>utility per capita <strong>of</strong> type 1 plants <strong>to</strong> humans</td>
+<td>utility per capita of <strong>type</strong> <span class="math inline">\(1\)</span> <strong>plants</strong> to <strong>humans</strong></td>
 </tr>
 <tr class="even">
 <td><code>mU.H1P</code></td>
 <td><span class="math inline">\(\bar{U}_{H_{1}P}\)</span></td>
-<td>utility per capita <strong>of</strong> type 1 humans <strong>to</strong> plants</td>
+<td>utility per capita of <strong>type</strong> <span class="math inline">\(1\)</span> <strong>humans</strong> to <strong>plants</strong></td>
 </tr>
 <tr class="odd">
 <td><code>U.bH1</code></td>
 <td><span class="math inline">\(U_{bH_{1}}\)</span></td>
-<td>utility <strong>of</strong> other resources <strong>to</strong> humans of type 1 (the baseline carrying capacity for humans of type 1, i.e. independent of HP relationship)</td>
+<td>utility of <strong>other resources</strong> to <strong>type</strong> <span class="math inline">\(1\)</span> <strong>humans</strong> or the baseline carrying capacity for humans of type <span class="math inline">\(1\)</span>; i.e. that independent of plants.</td>
 </tr>
 <tr class="even">
 <td><code>U.bP1</code></td>
 <td><span class="math inline">\(U_{bP_{1}}\)</span></td>
-<td>utility <strong>of</strong> non-anthropic space <strong>to</strong> type 1 plants (the baseline carrying capacity for plants of type 1, i.e. independent of HP relationship)</td>
+<td>utility of <strong>other resources</strong> to <strong>type</strong> <span class="math inline">\(1\)</span> <strong>plants</strong> or the baseline carrying capacity for plants of type <span class="math inline">\(1\)</span>; i.e. that independent of humans. (non-anthropic space)</td>
 </tr>
 <tr class="odd">
 <td><code>U.bHn</code></td>
 <td><span class="math inline">\(U_{bH_{n}}\)</span></td>
-<td>utility <strong>of</strong> other resources <strong>to</strong> type n humans</td>
+<td>utility of <strong>other resources</strong> to <strong>type</strong> <span class="math inline">\(n\)</span> <strong>humans</strong> or the baseline carrying capacity for humans of type <span class="math inline">\(n\)</span>, i.e. that independent of plants</td>
 </tr>
 <tr class="even">
 <td><code>U.bPn</code></td>
 <td><span class="math inline">\(U_{bP_{n}}\)</span></td>
-<td>utility <strong>of</strong> non-anthropic space <strong>to</strong> type n plants</td>
+<td>utility of <strong>other resources</strong> to <strong>type</strong> <span class="math inline">\(n\)</span> <strong>plants</strong> or the baseline carrying capacity for plants of type <span class="math inline">\(n\)</span>; i.e. that independent of humans.</td>
 </tr>
 <tr class="odd">
 <td><code>MaxArea</code></td>
 <td><span class="math inline">\(MaxArea\)</span></td>
-<td>maximum contiguous area to be used by plants (i.e., maximum carrying capacity for plants)</td>
+<td><strong>Maximum contiguous area to be used by plants</strong>. It is used as the maximum carrying capacity for plants.</td>
 </tr>
 </tbody>
 </table>
 
-<p><strong><em>Output end-state variables</em></strong></p>
 <table>
+<caption>Variables</caption>
+<colgroup>
+<col width="39%" />
+<col width="23%" />
+<col width="37%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>R notation</th>
+<th>Math notation</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>H</code>, <code>P</code></td>
+<td><span class="math inline">\(H[t],\,P[t]\)</span></td>
+<td><strong>Human and plant populations</strong> at time <span class="math inline">\(t\)</span>. Population units are abstract, arbitrarily defined units that can express individuals, working hours, households, etc. (humans), and sprouts, certain amount of biomass, soil surface, etc. (plants)</td>
+</tr>
+<tr class="even">
+<td><code>K.H</code>, <code>K.P</code></td>
+<td><span class="math inline">\(K_{H}[t],\,K_{P}[t]\)</span></td>
+<td><strong>Carrying capacity</strong> to human and plant populations or maximum population at time <span class="math inline">\(t\)</span>, expressed in population units</td>
+</tr>
+<tr class="odd">
+<td><code>U.HP</code>, <code>U.PH</code></td>
+<td><span class="math inline">\(U_{HP}[t],\,U_{PH}[t]\)</span></td>
+<td><strong>Utility of one population to the other</strong> or the total contribution of a population to the maximum population at time <span class="math inline">\(t\)</span>, expressed in population units</td>
+</tr>
+<tr class="even">
+<td><code>U.bH</code>, <code>U.bP</code></td>
+<td><span class="math inline">\(U_{bH}[t],\,U_{bP}[t]\)</span></td>
+<td><strong>Utility of other resources to a population</strong> at time <span class="math inline">\(t\)</span>, expressed in population units (baseline carrying capacity)</td>
+</tr>
+<tr class="odd">
+<td><code>types.H</code>, <code>types.P</code></td>
+<td><span class="math inline">\(types_{H},\,types_{P}\)</span></td>
+<td>Population types, arbitrarily ordered from <span class="math inline">\(1\)</span> to <span class="math inline">\(n\)</span> (vector or array).</td>
+</tr>
+<tr class="even">
+<td><code>pop.H</code>, <code>pop.P</code></td>
+<td><span class="math inline">\(pop_{H_{i}}[t],\,pop_{P_{i}}[t]\)</span></td>
+<td><strong>Proportion of a population</strong> belonging to type <span class="math inline">\(i\)</span> at time <span class="math inline">\(t\)</span> (vector or array).</td>
+</tr>
+<tr class="odd">
+<td><code>mU.HP.per.type</code>, <code>mU.PH.per.type</code></td>
+<td><span class="math inline">\(\bar{U}_{H_{i}P},\,\bar{U}_{P_{i}H}\)</span></td>
+<td><strong>Utility per capita</strong> of type <span class="math inline">\(i\)</span> individuals of one population to the other (vector or array).</td>
+</tr>
+<tr class="even">
+<td><code>U.bH.per.type</code>, <code>U.bP.per.type</code></td>
+<td><span class="math inline">\(U_{bH_{i}},\,U_{bP_{i}}\)</span></td>
+<td><strong>Utility of other resources</strong> to type <span class="math inline">\(i\)</span> individuals of a population (vector or array).</td>
+</tr>
+<tr class="odd">
+<td><code>fitness.H</code>, <code>fitness.P</code></td>
+<td><span class="math inline">\(fitness_{H_{i}}[t],\,fitness_{P_{i}}[t]\)</span></td>
+<td><strong>Fitness score</strong> of type <span class="math inline">\(i\)</span> individuals of a population at time <span class="math inline">\(t\)</span> (vector or array).</td>
+</tr>
+<tr class="even">
+<td><code>d.H</code>, <code>d.P</code></td>
+<td><span class="math inline">\(\Delta H[t],\,\Delta P[t]\)</span></td>
+<td><strong>Population change</strong> (<em>delta</em>) at time <span class="math inline">\(t\)</span> in respect to time <span class="math inline">\(t -1\)</span> (vector or array).</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<caption>Variables (output only)</caption>
 <colgroup>
 <col width="39%" />
 <col width="23%" />
@@ -263,22 +333,22 @@ Andreas Angourakis & Jonàs Alcaina
 <tr class="odd">
 <td><code>time</code></td>
 <td><span class="math inline">\(t_{end}\)</span></td>
-<td>Iterations past until the end state (<em>stationary point</em>)</td>
+<td><strong>Iterations past</strong> until the <strong>end state</strong> (<em>stationary point</em>)</td>
 </tr>
 <tr class="even">
 <td><code>coevo.H</code>, <code>coevo.P</code></td>
 <td><span class="math inline">\(coevo_{H},\,coevo_{P}\)</span></td>
-<td>Coevolution coefficients. A coefficient representing the distribution of the proportions of population per type (<span class="math inline">\(pop_{A_1}\)</span> to <span class="math inline">\(pop_{A_n}\)</span>) weighted by type index (<span class="math inline">\(1\)</span> to <span class="math inline">\(n\)</span>). Each indicates <em>if</em> and <em>how much</em> the population distribution has been modified by the coevolutionary process. Their values range between -1, the entire population is of type 1, and 1, the entire population is of type n.</td>
+<td><strong>Coevolution coefficients</strong>. A coefficient representing the distribution of the proportions of population per type (<span class="math inline">\(pop_{A_1}\)</span> to <span class="math inline">\(pop_{A_n}\)</span>) weighted by type index (<span class="math inline">\(1\)</span> to <span class="math inline">\(n\)</span>). Each indicates <em>if</em> and <em>how much</em> the population distribution has been modified by the coevolutionary process. Their values range between -1, the entire population is of type 1, and 1, the entire population is of type n.</td>
 </tr>
 <tr class="odd">
 <td><code>depend.H</code>, <code>depend.P</code></td>
 <td><span class="math inline">\(depend_{H},\,depend_{P}\)</span></td>
-<td>Dependency coefficients. Slope of linear model of the fitness score per type (<span class="math inline">\(fitness_{A_1}\)</span> to <span class="math inline">\(fit_{A_n}\)</span>) using type index (<span class="math inline">\(1\)</span> to <span class="math inline">\(n\)</span>). Indicate <em>if</em> and <em>how much</em> the overall fitness score of a population is dependent on the other population.</td>
+<td><strong>Dependency coefficients</strong>. Slope of linear model of the fitness score per type (<span class="math inline">\(fitness_{A_1}\)</span> to <span class="math inline">\(fit_{A_n}\)</span>) using type index (<span class="math inline">\(1\)</span> to <span class="math inline">\(n\)</span>). Indicate <em>if</em> and <em>how much</em> the overall fitness score of a population is dependent on the other population.</td>
 </tr>
 <tr class="even">
 <td><code>timing.H</code>, <code>timing.P</code></td>
 <td><span class="math inline">\(timing_{H},\,timing_{P}\)</span></td>
-<td>Iterations past until coevolution successfully changes the proportions of population per type; generally, when <span class="math inline">\(pop_1\gg pop_n\)</span> or, more specifically, <span class="math inline">\(coevo&gt;timing.threshold\)</span>.</td>
+<td><strong>Iterations past</strong> until <strong>coevolution</strong> successfully changes the proportions of population per type; generally, when <span class="math inline">\(pop_1\gg pop_n\)</span> or, more specifically, <span class="math inline">\(coevo&gt;timing.threshold\)</span>.</td>
 </tr>
 </tbody>
 </table>

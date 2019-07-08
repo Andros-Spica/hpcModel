@@ -16,10 +16,11 @@ source("library/hpcModel.plot.R")
 require(reshape2)
 require(ggplot2)
 require(scales)
+require(kableExtra)
 ```
 
 ```{r 4_table-functions}
-run.table <- function(run.result)
+run.table <- function(run.result, caption = NULL, output = "html")
 {
   run.parnames <- names(run.result$PARS)
   run.parvalues <- c()
@@ -27,10 +28,13 @@ run.table <- function(run.result)
   {
     run.parvalues <- c(run.parvalues, run.result$PARS[[i]])
   }
-  knitr::kable(cbind(run.parnames, run.parvalues), col.names = c("parameter", "values"))
+  knitr::kable(cbind(run.parnames, run.parvalues), output,
+               col.names = c("parameter", "values"),
+               caption = caption) %>%
+    kable_styling(latex_options = "hold_position")
 }
 
-exp.table <- function(exp.results, numberOfParameters = 17)
+exp.table <- function(exp.results, caption = NULL, numberOfParameters = 17, output = "html")
 {
   exp.parnames <- c()
   exp.values <- c()
@@ -45,7 +49,10 @@ exp.table <- function(exp.results, numberOfParameters = 17)
     }
     exp.values <- c(exp.values, value)
   }
-  knitr::kable(cbind(exp.parnames, exp.values), col.names = c("parameter", "value"))
+  kable(cbind(exp.parnames, exp.values), output,
+               col.names = c("parameter", "value"),
+               caption = caption) %>%
+    kable_styling(latex_options = "hold_position")
 }
 ```
 
@@ -197,8 +204,12 @@ exp.mU.HP_mU.PH <- hpcModel.exploration(
 )
 ```
 
-```{r 4_mU.HP_mU.PH-table, cache=TRUE, dependson=c('4_table-functions','4_mU.HP_mU.PH')}
-exp.table(exp.mU.HP_mU.PH)
+```{r 4mUHPmUPHtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_mU.HP_mU.PH')}
+exp.table(exp.mU.HP_mU.PH, caption = 'Parameter setting')
+```
+
+```{r 4mUHPmUPHtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_mU.HP_mU.PH')}
+exp.table(exp.mU.HP_mU.PH, caption = 'Parameter setting', output = "latex")
 ```
 
 \newpage
@@ -269,8 +280,11 @@ exp.U.bH_U.bP <- hpcModel.exploration(
 )
 ```
 
-```{r 4_U.bH_U.bP-table, cache=TRUE, dependson=c('4_table-functions','4_U.bH_U.bP')}
-exp.table(exp.U.bH_U.bP)
+```{r 4UbHUbPtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bH_U.bP')}
+exp.table(exp.U.bH_U.bP, caption = 'Parameter setting')
+```
+```{r 4UbHUbPtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bH_U.bP')}
+exp.table(exp.U.bH_U.bP, caption = 'Parameter setting', output = "latex")
 ```
 
 \newpage
@@ -339,8 +353,11 @@ exp.n_v <- hpcModel.exploration(
 )
 ```
 
-```{r 4_n_v-table, cache=TRUE, dependson=c('4_table-functions','4_n_v')}
-exp.table(exp.n_v)
+```{r 4nvtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_n_v')}
+exp.table(exp.n_v, caption = 'Parameter setting')
+```
+```{r 4nvtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_n_v')}
+exp.table(exp.n_v, caption = 'Parameter setting', output = "latex")
 ```
 
 \newpage

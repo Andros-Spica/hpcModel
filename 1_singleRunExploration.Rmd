@@ -18,11 +18,11 @@ source("library/hpcModel.plot.R")
 require(reshape2)
 require(ggplot2)
 require(scales)
-
+require(kableExtra)
 ```
 
 ```{r 1_table-functions}
-run.table <- function(run.result)
+run.table <- function(run.result, caption = NULL, output = "html")
 {
   run.parnames <- names(run.result$PARS)
   run.parvalues <- c()
@@ -30,10 +30,13 @@ run.table <- function(run.result)
   {
     run.parvalues <- c(run.parvalues, run.result$PARS[[i]])
   }
-  knitr::kable(cbind(run.parnames, run.parvalues), col.names = c("parameter", "values"))
+  knitr::kable(cbind(run.parnames, run.parvalues), output,
+               col.names = c("parameter", "values"),
+               caption = caption) %>%
+    kable_styling(latex_options = "hold_position")
 }
 
-exp.table <- function(exp.results, numberOfParameters = 17)
+exp.table <- function(exp.results, caption = NULL, numberOfParameters = 17, output = "html")
 {
   exp.parnames <- c()
   exp.values <- c()
@@ -48,7 +51,10 @@ exp.table <- function(exp.results, numberOfParameters = 17)
     }
     exp.values <- c(exp.values, value)
   }
-  knitr::kable(cbind(exp.parnames, exp.values), col.names = c("parameter", "value"))
+  kable(cbind(exp.parnames, exp.values), output,
+               col.names = c("parameter", "value"),
+               caption = caption) %>%
+    kable_styling(latex_options = "hold_position")
 }
 ```
 
@@ -169,15 +175,15 @@ run.coevo.coeta <- hpcModel.run(
 )
 ```
 
-*Parameter setting*:
+```{r 1runcoevocoetaparshtml, eval=!params$ispdf, cache=TRUE, dependson=c('1_table-functions', 'run.coevo.coeta'), fig.align='center', results='asis'}
+run.table(run.coevo.coeta, caption = 'Parameter setting')
+```
 
-```{r 1_run.coevo.coeta-pars, cache=TRUE, dependson=c('1_table-functions', 'run.coevo.coeta'), fig.align='center'}
-run.table(run.coevo.coeta)
+```{r 1runcoevocoetaparspdf, eval=params$ispdf, cache=TRUE, dependson=c('1_table-functions', 'run.coevo.coeta'), fig.align='center', results='asis'}
+run.table(run.coevo.coeta, caption = 'Parameter setting', output = "latex")
 ```
 
 \vspace{1cm}
-
-*Output end-state variables* at the end state:
 
  Abbreviation | Value                                                            
  ------------ | ---------------------
@@ -189,17 +195,15 @@ run.table(run.coevo.coeta)
  `timing.H`   | `r run.coevo.coeta$END$timing.H`
  `timing.P`   | `r run.coevo.coeta$END$timing.P`
 
+Table: Output variables (values at end state)
+
 \newpage
 
-Plotting the *end state*, i.e. both populations become stationary:
-
-```{r 1_run.coevo.coeta-plot, cache=TRUE, dependson='run.coevo.coeta', fig.width=8, fig.height=8}
+```{r 1runcoevocoetaplot, cache=TRUE, dependson='run.coevo.coeta', fig.width=8, fig.height=8, fig.cap='Plotting the end state, i.e. both populations become stationary'}
 hpcModel.plot(run.coevo.coeta, scale.override = 1)
 ```
 
 \newpage
-
-Plotting population trajectories with *ggplot*: 
 
 ```{r 1_run.coevo.coeta-ggplot, warning=FALSE, cache=TRUE, dependson=c('1_plot-functions', 'run.coevo.coeta')}
 run.coevo.coeta.melted <-
@@ -218,13 +222,11 @@ plot.trajectory(run.coevo.coeta.melted, plotScale = plotScale)
 invisible(dev.off())
 ```
 
-```{r 1_run.coevo.coeta-ggplot-print, echo=FALSE, dependson='run.coevo.coeta-ggplot', out.width = '100%'}
+```{r 1runcoevocoetaggplotprint, echo=FALSE, dependson='run.coevo.coeta-ggplot', out.width = '100%', fig.cap='Plotting population trajectories with ggplot2'}
 knitr::include_graphics(paste0("plots/1_singleRun-ggplot-", run.coevo.coeta.name, ".png"))
 ```
 
 \newpage
-
-Animated GIF showing the *sequence of states* throughout the simulation (only on the html version):
 
 ```{r 1_run.coevo.coeta-frames, include=FALSE, dependson=c('1_default-values', '1_run.coevo.coeta-name')}
 run.coevo.coeta2 <- hpcModel.run(
@@ -263,7 +265,7 @@ run.coevo.coeta2 <- hpcModel.run(
 animate.trajectory(runPlot.dir, run.coevo.coeta.name)
 ```
 
-```{r 1_run.coevo.coeta-animation, eval=!params$ispdf, dependson='run.coevo.coeta-frames'}
+```{r 1runcoevocoetaanimation, eval=!params$ispdf, dependson='run.coevo.coeta-frames', fig.cap='Animated GIF showing the sequence of states throughout the simulation (only on the html version)'}
 knitr::include_graphics(paste0(runPlot.dir, run.coevo.coeta.name, "-anim.gif"))
 ```
 
@@ -744,10 +746,12 @@ run.semicoevo.osc <- hpcModel.run(
 animate.trajectory(runPlot.dir, run.semicoevo.osc.name)
 ```
 
-*Parameter setting*:
+```{r 1semicoevooscparshtml, eval=!params$ispdf, cache=TRUE, dependson=c('1_table-functions', 'run.semicoevo.osc')}
+run.table(run.semicoevo.osc, caption = 'Parameter setting')
+```
 
-```{r 1_semicoevo.osc-pars, cache=TRUE, dependson=c('1_table-functions', 'run.semicoevo.osc')}
-run.table(run.semicoevo.osc)
+```{r 1semicoevooscparspdf, eval=params$ispdf, cache=TRUE, dependson=c('1_table-functions', 'run.semicoevo.osc')}
+run.table(run.semicoevo.osc, caption = 'Parameter setting', output = "latex")
 ```
 
 \newpage

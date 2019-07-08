@@ -85,8 +85,9 @@
     \preauthor{}\postauthor{}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2019-07-03}
+    \date{2019-07-08}
 
+\usepackage{placeins}
 \usepackage{booktabs}
 \usepackage{amsthm}
 \makeatletter
@@ -144,6 +145,17 @@ The Human-Plant Coevolution (HPC) model represents the dynamics of coevolution b
 \textbf{\emph{Parameters}}
 
 \begin{longtable}[]{@{}lll@{}}
+\caption{Parameters}\tabularnewline
+\toprule
+\begin{minipage}[b]{0.27\columnwidth}\raggedright
+R notation\strut
+\end{minipage} & \begin{minipage}[b]{0.25\columnwidth}\raggedright
+Math notation\strut
+\end{minipage} & \begin{minipage}[b]{0.40\columnwidth}\raggedright
+Description\strut
+\end{minipage}\tabularnewline
+\midrule
+\endfirsthead
 \toprule
 \begin{minipage}[b]{0.27\columnwidth}\raggedright
 R notation\strut
@@ -159,100 +171,206 @@ Description\strut
 \end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
 \(ini_{H},\,ini_{P}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
-initial populations of humans and plants\strut
+\textbf{initial populations of humans and plants}\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.27\columnwidth}\raggedright
 \texttt{n.H}, \texttt{n.P}\strut
 \end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
 \(n_{H},\,n_{P}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
-number of types of humans and plants\strut
+\textbf{number of types of humans and plants}. The number of phenotypic variants of each population that relate to human-plant coevolution. Types are arbitrarily ordered from type \(1\) (\emph{less} mutualistic) to type \(n\) (\emph{more} mutualistic).\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.27\columnwidth}\raggedright
 \texttt{v.H}, \texttt{v.P}\strut
 \end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
 \(v_{H},\,v_{P}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
-level of undirected variation in humans and plants\strut
+\textbf{level of undirected variation in humans and plants}. For any value greater than zero, these parameters regulate how even is the distribution of a population among its types.\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.27\columnwidth}\raggedright
 \texttt{r.H}, \texttt{r.P}\strut
 \end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
 \(r_{H},\,r_{P}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
-intrinsic growth rates for human and plant populations\strut
+\textbf{intrinsic growth rates for human and plant populations}. The maximum rate at which a population grows when there are no external constraints.\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.27\columnwidth}\raggedright
 \texttt{mU.PnH}\strut
 \end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
 \(\bar{U}_{P_{n}H}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
-utility per capita \textbf{of} type n plants \textbf{to} humans\strut
+utility per capita of \textbf{type} \(n\) \textbf{plants} to \textbf{humans}\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.27\columnwidth}\raggedright
 \texttt{mU.HnP}\strut
 \end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
 \(\bar{U}_{H_{n}P}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
-utility per capita \textbf{of} type n humans \textbf{to} plants\strut
+utility per capita of \textbf{type} \(n\) \textbf{humans} to \textbf{plants}\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.27\columnwidth}\raggedright
 \texttt{mU.P1H}\strut
 \end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
 \(\bar{U}_{P_{1}H}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
-utility per capita \textbf{of} type 1 plants \textbf{to} humans\strut
+utility per capita of \textbf{type} \(1\) \textbf{plants} to \textbf{humans}\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.27\columnwidth}\raggedright
 \texttt{mU.H1P}\strut
 \end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
 \(\bar{U}_{H_{1}P}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
-utility per capita \textbf{of} type 1 humans \textbf{to} plants\strut
+utility per capita of \textbf{type} \(1\) \textbf{humans} to \textbf{plants}\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.27\columnwidth}\raggedright
 \texttt{U.bH1}\strut
 \end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
 \(U_{bH_{1}}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
-utility \textbf{of} other resources \textbf{to} humans of type 1 (the baseline carrying capacity for humans of type 1, i.e.~independent of HP relationship)\strut
+utility of \textbf{other resources} to \textbf{type} \(1\) \textbf{humans} or the baseline carrying capacity for humans of type \(1\); i.e.~that independent of plants.\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.27\columnwidth}\raggedright
 \texttt{U.bP1}\strut
 \end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
 \(U_{bP_{1}}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
-utility \textbf{of} non-anthropic space \textbf{to} type 1 plants (the baseline carrying capacity for plants of type 1, i.e.~independent of HP relationship)\strut
+utility of \textbf{other resources} to \textbf{type} \(1\) \textbf{plants} or the baseline carrying capacity for plants of type \(1\); i.e.~that independent of humans. (non-anthropic space)\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.27\columnwidth}\raggedright
 \texttt{U.bHn}\strut
 \end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
 \(U_{bH_{n}}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
-utility \textbf{of} other resources \textbf{to} type n humans\strut
+utility of \textbf{other resources} to \textbf{type} \(n\) \textbf{humans} or the baseline carrying capacity for humans of type \(n\), i.e.~that independent of plants\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.27\columnwidth}\raggedright
 \texttt{U.bPn}\strut
 \end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
 \(U_{bP_{n}}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
-utility \textbf{of} non-anthropic space \textbf{to} type n plants\strut
+utility of \textbf{other resources} to \textbf{type} \(n\) \textbf{plants} or the baseline carrying capacity for plants of type \(n\); i.e.~that independent of humans.\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.27\columnwidth}\raggedright
 \texttt{MaxArea}\strut
 \end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
 \(MaxArea\)\strut
 \end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
-maximum contiguous area to be used by plants (i.e., maximum carrying capacity for plants)\strut
+\textbf{Maximum contiguous area to be used by plants}. It is used as the maximum carrying capacity for plants.\strut
 \end{minipage}\tabularnewline
 \bottomrule
 \end{longtable}
 
 \newpage
 
-\textbf{\emph{Output end-state variables}}
+\begin{longtable}[]{@{}lll@{}}
+\caption{Variables}\tabularnewline
+\toprule
+\begin{minipage}[b]{0.36\columnwidth}\raggedright
+R notation\strut
+\end{minipage} & \begin{minipage}[b]{0.21\columnwidth}\raggedright
+Math notation\strut
+\end{minipage} & \begin{minipage}[b]{0.34\columnwidth}\raggedright
+Description\strut
+\end{minipage}\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+\begin{minipage}[b]{0.36\columnwidth}\raggedright
+R notation\strut
+\end{minipage} & \begin{minipage}[b]{0.21\columnwidth}\raggedright
+Math notation\strut
+\end{minipage} & \begin{minipage}[b]{0.34\columnwidth}\raggedright
+Description\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.36\columnwidth}\raggedright
+\texttt{H}, \texttt{P}\strut
+\end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
+\(H[t],\,P[t]\)\strut
+\end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
+\textbf{Human and plant populations} at time \(t\). Population units are abstract, arbitrarily defined units that can express individuals, working hours, households, etc. (humans), and sprouts, certain amount of biomass, soil surface, etc. (plants)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.36\columnwidth}\raggedright
+\texttt{K.H}, \texttt{K.P}\strut
+\end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
+\(K_{H}[t],\,K_{P}[t]\)\strut
+\end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
+\textbf{Carrying capacity} to human and plant populations or maximum population at time \(t\), expressed in population units\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.36\columnwidth}\raggedright
+\texttt{U.HP}, \texttt{U.PH}\strut
+\end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
+\(U_{HP}[t],\,U_{PH}[t]\)\strut
+\end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
+\textbf{Utility of one population to the other} or the total contribution of a population to the maximum population at time \(t\), expressed in population units\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.36\columnwidth}\raggedright
+\texttt{U.bH}, \texttt{U.bP}\strut
+\end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
+\(U_{bH}[t],\,U_{bP}[t]\)\strut
+\end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
+\textbf{Utility of other resources to a population} at time \(t\), expressed in population units (baseline carrying capacity)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.36\columnwidth}\raggedright
+\texttt{types.H}, \texttt{types.P}\strut
+\end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
+\(types_{H},\,types_{P}\)\strut
+\end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
+Population types, arbitrarily ordered from \(1\) to \(n\) (vector or array).\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.36\columnwidth}\raggedright
+\texttt{pop.H}, \texttt{pop.P}\strut
+\end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
+\(pop_{H_{i}}[t],\,pop_{P_{i}}[t]\)\strut
+\end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
+\textbf{Proportion of a population} belonging to type \(i\) at time \(t\) (vector or array).\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.36\columnwidth}\raggedright
+\texttt{mU.HP.per.type}, \texttt{mU.PH.per.type}\strut
+\end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
+\(\bar{U}_{H_{i}P},\,\bar{U}_{P_{i}H}\)\strut
+\end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
+\textbf{Utility per capita} of type \(i\) individuals of one population to the other (vector or array).\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.36\columnwidth}\raggedright
+\texttt{U.bH.per.type}, \texttt{U.bP.per.type}\strut
+\end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
+\(U_{bH_{i}},\,U_{bP_{i}}\)\strut
+\end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
+\textbf{Utility of other resources} to type \(i\) individuals of a population (vector or array).\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.36\columnwidth}\raggedright
+\texttt{fitness.H}, \texttt{fitness.P}\strut
+\end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
+\(fitness_{H_{i}}[t],\,fitness_{P_{i}}[t]\)\strut
+\end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
+\textbf{Fitness score} of type \(i\) individuals of a population at time \(t\) (vector or array).\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.36\columnwidth}\raggedright
+\texttt{d.H}, \texttt{d.P}\strut
+\end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
+\(\Delta H[t],\,\Delta P[t]\)\strut
+\end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
+\textbf{Population change} (\emph{delta}) at time \(t\) in respect to time \(t -1\) (vector or array).\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\newpage
 
 \begin{longtable}[]{@{}lll@{}}
+\caption{Variables (output only)}\tabularnewline
+\toprule
+\begin{minipage}[b]{0.36\columnwidth}\raggedright
+R notation\strut
+\end{minipage} & \begin{minipage}[b]{0.21\columnwidth}\raggedright
+Math notation\strut
+\end{minipage} & \begin{minipage}[b]{0.34\columnwidth}\raggedright
+Description\strut
+\end{minipage}\tabularnewline
+\midrule
+\endfirsthead
 \toprule
 \begin{minipage}[b]{0.36\columnwidth}\raggedright
 R notation\strut
@@ -268,28 +386,28 @@ Description\strut
 \end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
 \(t_{end}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
-Iterations past until the end state (\emph{stationary point})\strut
+\textbf{Iterations past} until the \textbf{end state} (\emph{stationary point})\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.36\columnwidth}\raggedright
 \texttt{coevo.H}, \texttt{coevo.P}\strut
 \end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
 \(coevo_{H},\,coevo_{P}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
-Coevolution coefficients. A coefficient representing the distribution of the proportions of population per type (\(pop_{A_1}\) to \(pop_{A_n}\)) weighted by type index (\(1\) to \(n\)). Each indicates \emph{if} and \emph{how much} the population distribution has been modified by the coevolutionary process. Their values range between -1, the entire population is of type 1, and 1, the entire population is of type n.\strut
+\textbf{Coevolution coefficients}. A coefficient representing the distribution of the proportions of population per type (\(pop_{A_1}\) to \(pop_{A_n}\)) weighted by type index (\(1\) to \(n\)). Each indicates \emph{if} and \emph{how much} the population distribution has been modified by the coevolutionary process. Their values range between -1, the entire population is of type 1, and 1, the entire population is of type n.\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.36\columnwidth}\raggedright
 \texttt{depend.H}, \texttt{depend.P}\strut
 \end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
 \(depend_{H},\,depend_{P}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
-Dependency coefficients. Slope of linear model of the fitness score per type (\(fitness_{A_1}\) to \(fit_{A_n}\)) using type index (\(1\) to \(n\)). Indicate \emph{if} and \emph{how much} the overall fitness score of a population is dependent on the other population.\strut
+\textbf{Dependency coefficients}. Slope of linear model of the fitness score per type (\(fitness_{A_1}\) to \(fit_{A_n}\)) using type index (\(1\) to \(n\)). Indicate \emph{if} and \emph{how much} the overall fitness score of a population is dependent on the other population.\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.36\columnwidth}\raggedright
 \texttt{timing.H}, \texttt{timing.P}\strut
 \end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
 \(timing_{H},\,timing_{P}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
-Iterations past until coevolution successfully changes the proportions of population per type; generally, when \(pop_1\gg pop_n\) or, more specifically, \(coevo>timing.threshold\).\strut
+\textbf{Iterations past} until \textbf{coevolution} successfully changes the proportions of population per type; generally, when \(pop_1\gg pop_n\) or, more specifically, \(coevo>timing.threshold\).\strut
 \end{minipage}\tabularnewline
 \bottomrule
 \end{longtable}
@@ -302,8 +420,10 @@ Iterations past until coevolution successfully changes the proportions of popula
 \hypertarget{fast-coevolution-default}{%
 \section{Fast coevolution (default)}\label{fast-coevolution-default}}
 
-\emph{Parameter setting}:
+\begin{table}[!h]
 
+\caption{\label{tab:1runcoevocoetaparspdf}Parameter setting}
+\centering
 \begin{tabular}{l|l}
 \hline
 parameter & values\\
@@ -349,12 +469,16 @@ tol & 6\\
 timing.threshold & 0.5\\
 \hline
 \end{tabular}
+\end{table}
 
 \vspace{1cm}
 
-\emph{Output end-state variables} at the end state:
-
 \begin{longtable}[]{@{}ll@{}}
+\caption{Output variables (values at end state)}\tabularnewline
+\toprule
+Abbreviation & Value\tabularnewline
+\midrule
+\endfirsthead
 \toprule
 Abbreviation & Value\tabularnewline
 \midrule
@@ -371,19 +495,19 @@ Abbreviation & Value\tabularnewline
 
 \newpage
 
-Plotting the \emph{end state}, i.e.~both populations become stationary:
-
-\includegraphics{hpcModel-exploration_files/figure-latex/1_run.coevo.coeta-plot-1.pdf}
-
-\newpage
-
-Plotting population trajectories with \emph{ggplot}:
-
-\includegraphics[width=1\linewidth]{plots/1_singleRun-ggplot-coevo.coeta}
+\begin{figure}
+\centering
+\includegraphics{hpcModel-exploration_files/figure-latex/1runcoevocoetaplot-1.pdf}
+\caption{\label{fig:1runcoevocoetaplot}Plotting the end state, i.e.~both populations become stationary}
+\end{figure}
 
 \newpage
 
-Animated GIF showing the \emph{sequence of states} throughout the simulation (only on the html version):
+\begin{figure}
+\includegraphics[width=1\linewidth]{plots/1_singleRun-ggplot-coevo.coeta} \caption{Plotting population trajectories with ggplot2}\label{fig:1runcoevocoetaggplotprint}
+\end{figure}
+
+\newpage
 
 \newpage
 
@@ -446,8 +570,10 @@ Animated GIF showing the \emph{sequence of states} throughout the simulation (on
 \hypertarget{semi-coevolution-oscillations}{%
 \section{Semi-coevolution (oscillations)}\label{semi-coevolution-oscillations}}
 
-\emph{Parameter setting}:
+\begin{table}[!h]
 
+\caption{\label{tab:1semicoevooscparspdf}Parameter setting}
+\centering
 \begin{tabular}{l|l}
 \hline
 parameter & values\\
@@ -493,6 +619,7 @@ tol & 6\\
 timing.threshold & 0.5\\
 \hline
 \end{tabular}
+\end{table}
 
 \newpage
 
@@ -509,6 +636,10 @@ timing.threshold & 0.5\\
 \hypertarget{utility-per-capita-of-type-n-plants-to-humans-baru_p_nh}{%
 \subsection{\texorpdfstring{utility per capita \textbf{of} type n plants \textbf{to} humans (\(\bar{U}_{P_{n}H}\)):}{utility per capita of type n plants to humans (\textbackslash{}bar\{U\}\_\{P\_\{n\}H\}):}}\label{utility-per-capita-of-type-n-plants-to-humans-baru_p_nh}}
 
+\begin{table}[!h]
+
+\caption{\label{tab:2mUPnHtablepdf}Parameter setting}
+\centering
 \begin{tabular}{l|l}
 \hline
 parameter & value\\
@@ -548,8 +679,11 @@ U.bP1 & 100\\
 MaxArea & 200\\
 \hline
 \end{tabular}
+\end{table}
 
-\includegraphics[width=1\linewidth]{plots/2_onePar-mU.PnH_ggbifplot}
+\begin{figure}
+\includegraphics[width=1\linewidth]{plots/2_onePar-mU.PnH_ggbifplot} \caption{Bifurcation plot (ggplot2)}\label{fig:2mUPnHbifplot1print}
+\end{figure}
 
 \includegraphics[width=1\linewidth]{plots/2_onePar-mU.PnH_bifplot-pair}
 
@@ -653,6 +787,10 @@ Bifurcation plot with last 100 time steps (of 1000) to capture oscillations or `
 \hypertarget{utility-per-capita-from-type-n-humans-and-plants-baru_h_np-x-baru_p_nh}{%
 \subsection{\texorpdfstring{Utility per capita from type n humans and plants (\(\bar{U}_{H_{n}P}\) x \(\bar{U}_{P_{n}H}\)):}{Utility per capita from type n humans and plants (\textbackslash{}bar\{U\}\_\{H\_\{n\}P\} x \textbackslash{}bar\{U\}\_\{P\_\{n\}H\}):}}\label{utility-per-capita-from-type-n-humans-and-plants-baru_h_np-x-baru_p_nh}}
 
+\begin{table}[!h]
+
+\caption{\label{tab:3mUHnPmUPnHtablepdf}Parameter setting}
+\centering
 \begin{tabular}{l|l}
 \hline
 parameter & value\\
@@ -692,6 +830,7 @@ U.bP1 & 100\\
 MaxArea & 200\\
 \hline
 \end{tabular}
+\end{table}
 
 \newpage
 
@@ -778,6 +917,10 @@ MaxArea & 200\\
 \hypertarget{utility-per-capita-between-humans-and-plants-baru_h_1p-x-baru_p_1h-x-baru_h_np-x-baru_p_nh}{%
 \section{\texorpdfstring{Utility per capita between humans and plants (\(\bar{U}_{H_{1}P}\) x \(\bar{U}_{P_{1}H}\) x \(\bar{U}_{H_{n}P}\) x \(\bar{U}_{P_{n}H}\))}{Utility per capita between humans and plants (\textbackslash{}bar\{U\}\_\{H\_\{1\}P\} x \textbackslash{}bar\{U\}\_\{P\_\{1\}H\} x \textbackslash{}bar\{U\}\_\{H\_\{n\}P\} x \textbackslash{}bar\{U\}\_\{P\_\{n\}H\})}}\label{utility-per-capita-between-humans-and-plants-baru_h_1p-x-baru_p_1h-x-baru_h_np-x-baru_p_nh}}
 
+\begin{table}[!h]
+
+\caption{\label{tab:4mUHPmUPHtablepdf}Parameter setting}
+\centering
 \begin{tabular}{l|l}
 \hline
 parameter & value\\
@@ -817,6 +960,7 @@ U.bP1 & 100\\
 MaxArea & 200\\
 \hline
 \end{tabular}
+\end{table}
 
 \newpage
 
@@ -837,6 +981,10 @@ MaxArea & 200\\
 
 For this experiment, consider that the default setting includes \(MaxArea=200\) (i.e.~the maximum for the plant population).
 
+\begin{table}[!h]
+
+\caption{\label{tab:4UbHUbPtablepdf}Parameter setting}
+\centering
 \begin{tabular}{l|l}
 \hline
 parameter & value\\
@@ -876,6 +1024,7 @@ U.bP1 & 5 - 300 (sample = 5 )\\
 MaxArea & 200\\
 \hline
 \end{tabular}
+\end{table}
 
 \newpage
 
@@ -894,6 +1043,10 @@ MaxArea & 200\\
 \hypertarget{number-of-types-and-undirected-variation-of-humans-and-plants-n_h-x-n_p-x-v_h-x-v_p}{%
 \section{\texorpdfstring{Number of types and undirected variation of humans and plants (\(n_{H}\) x \(n_{P}\) x \(v_{H}\) x \(v_{P}\))}{Number of types and undirected variation of humans and plants (n\_\{H\} x n\_\{P\} x v\_\{H\} x v\_\{P\})}}\label{number-of-types-and-undirected-variation-of-humans-and-plants-n_h-x-n_p-x-v_h-x-v_p}}
 
+\begin{table}[!h]
+
+\caption{\label{tab:4nvtablepdf}Parameter setting}
+\centering
 \begin{tabular}{l|l}
 \hline
 parameter & value\\
@@ -933,6 +1086,7 @@ U.bP1 & 100\\
 MaxArea & 200\\
 \hline
 \end{tabular}
+\end{table}
 
 \newpage
 
@@ -953,9 +1107,12 @@ MaxArea & 200\\
 \hypertarget{sampling-parameter-values-with-latin-hypercube-sampling-lhc}{%
 \section{Sampling parameter values with Latin Hypercube Sampling (LHC)}\label{sampling-parameter-values-with-latin-hypercube-sampling-lhc}}
 
-\textbf{\emph{Ranges of parameter exploration}}
-
 \begin{longtable}[]{@{}ll@{}}
+\caption{Ranges of parameter exploration}\tabularnewline
+\toprule
+\textbf{parameter} & \textbf{value}\tabularnewline
+\midrule
+\endfirsthead
 \toprule
 \textbf{parameter} & \textbf{value}\tabularnewline
 \midrule
@@ -969,8 +1126,10 @@ MaxArea & 200\\
 \bottomrule
 \end{longtable}
 
-\textbf{\emph{ACTUAL parameter values}}
+\begin{table}[!h]
 
+\caption{\label{tab:5LHCtablepdf}ACTUAL parameter values}
+\centering
 \begin{tabular}{l|l}
 \hline
 parameter & value\\
@@ -1000,6 +1159,7 @@ U.bH1 & 0.028 - 299.9987 (sample = 9978 )\\
 U.bP1 & 0.0336 - 299.991 (sample = 9987 )\\
 \hline
 \end{tabular}
+\end{table}
 
 \newpage
 

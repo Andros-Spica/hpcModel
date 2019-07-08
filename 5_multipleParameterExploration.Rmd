@@ -18,13 +18,13 @@ source("library/hpcModel.plot.R")
 require(reshape2)
 require(ggplot2)
 require(scales)
-
+require(kableExtra)
 ```
 
 ```{r 5_table-functions}
 # this chunk is specific for this exploration 
 # (table functions here are different from previous explorations)
-run.table <- function(run.result)
+run.table <- function(run.result, caption = NULL, output = "html")
 {
   run.parnames <- names(run.result$PARS)
   run.parvalues <- c()
@@ -32,10 +32,13 @@ run.table <- function(run.result)
   {
     run.parvalues <- c(run.parvalues, run.result$PARS[[i]])
   }
-  knitr::kable(cbind(run.parnames, run.parvalues), col.names = c("parameter", "values"))
+  knitr::kable(cbind(run.parnames, run.parvalues), output,
+               col.names = c("parameter", "values"),
+               caption = caption) %>%
+    kable_styling(latex_options = "hold_position")
 }
 
-exp.table <- function(exp.results, numberOfParameters = 17)
+exp.table <- function(exp.results, numberOfParameters = 17, caption = NULL, output = "html")
 {
   exp.parnames <- c()
   exp.values <- c()
@@ -50,7 +53,10 @@ exp.table <- function(exp.results, numberOfParameters = 17)
     }
     exp.values <- c(exp.values, value)
   }
-  knitr::kable(cbind(exp.parnames, exp.values), col.names = c("parameter", "value"))
+  knitr::kable(cbind(exp.parnames, exp.values), output,
+               col.names = c("parameter", "value"),
+               caption = caption) %>%
+    kable_styling(latex_options = "hold_position")
 }
 ```
 
@@ -268,8 +274,6 @@ LHC.parameter.ranges <- list(
 )
 ```
 
-**_Ranges of parameter exploration_**
-
 **parameter**       | **value**
  ------------------ | ----------------------------------
  `n.H`, `n.P`       | [`r LHC.parameter.ranges$n.H[1]`, `r LHC.parameter.ranges$n.H[2]`], [`r LHC.parameter.ranges$n.P[1]`, `r LHC.parameter.ranges$n.P[2]`]
@@ -278,6 +282,8 @@ LHC.parameter.ranges <- list(
  `mU.P1H`, `mU.H1P` | [`r LHC.parameter.ranges$mU.P1H[1]`, `r LHC.parameter.ranges$mU.P1H[2]`], [`r LHC.parameter.ranges$mU.H1P[1]`, `r LHC.parameter.ranges$mU.H1P[2]`]
  `U.bH1`, `U.bP1`   | [`r LHC.parameter.ranges$U.bH1[1]`, `r LHC.parameter.ranges$U.bH1[2]`], [`r LHC.parameter.ranges$U.bP1[1]`, `r LHC.parameter.ranges$U.bP1[2]`]
  `U.bHn`, `U.bPn`   | [`r LHC.parameter.ranges$U.bHn[1]`, `r LHC.parameter.ranges$U.bHn[2]`], [`r LHC.parameter.ranges$U.bPn[1]`, `r LHC.parameter.ranges$U.bPn[2]`]
+
+Table: Ranges of parameter exploration
 
 ```{r 5_LHC, include=FALSE}
 ### generate LHS design (strauss method, with 0.2 radious interaction)
@@ -307,10 +313,11 @@ load('LHS.RData')
 PARS <- as.data.frame(LHS)
 ```
 
-**_ACTUAL parameter values_**
-
-```{r 5_LHC-table, cache=TRUE, dependson=c('5_table-functions','5_LHC-load')}
-exp.table(PARS, numberOfParameters = 12)
+```{r 5LHCtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_LHC-load')}
+exp.table(PARS, numberOfParameters = 12, caption = 'ACTUAL parameter values')
+```
+```{r 5LHCtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_LHC-load')}
+exp.table(PARS, numberOfParameters = 12, caption = 'ACTUAL parameter values', output = "latex")
 ```
 
 \newpage

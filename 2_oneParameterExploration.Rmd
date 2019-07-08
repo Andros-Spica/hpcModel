@@ -18,11 +18,11 @@ source("library/hpcModel.plot.R")
 require(reshape2)
 require(ggplot2)
 require(scales)
-
+require(kableExtra)
 ```
 
 ```{r 2_table-functions}
-run.table <- function(run.result)
+run.table <- function(run.result, caption = NULL, output = "html")
 {
   run.parnames <- names(run.result$PARS)
   run.parvalues <- c()
@@ -30,10 +30,13 @@ run.table <- function(run.result)
   {
     run.parvalues <- c(run.parvalues, run.result$PARS[[i]])
   }
-  knitr::kable(cbind(run.parnames, run.parvalues), col.names = c("parameter", "values"))
+  knitr::kable(cbind(run.parnames, run.parvalues), output,
+               col.names = c("parameter", "values"),
+               caption = caption) %>%
+    kable_styling(latex_options = "hold_position")
 }
 
-exp.table <- function(exp.results, numberOfParameters = 17)
+exp.table <- function(exp.results, caption = NULL, numberOfParameters = 17, output = "html")
 {
   exp.parnames <- c()
   exp.values <- c()
@@ -48,7 +51,10 @@ exp.table <- function(exp.results, numberOfParameters = 17)
     }
     exp.values <- c(exp.values, value)
   }
-  knitr::kable(cbind(exp.parnames, exp.values), col.names = c("parameter", "value"))
+  kable(cbind(exp.parnames, exp.values), output,
+               col.names = c("parameter", "value"),
+               caption = caption) %>%
+    kable_styling(latex_options = "hold_position")
 }
 ```
 
@@ -197,8 +203,12 @@ exp.mU.PnH <- hpcModel.exploration(
 )
 ```
 
-```{r 2_mU.PnH-table, cache=TRUE, dependson=c('2_table-functions', '2_mU.PnH')}
-exp.table(exp.mU.PnH)
+```{r 2mUPnHtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('2_table-functions', '2_mU.PnH')}
+exp.table(exp.mU.PnH, caption = 'Parameter setting')
+```
+
+```{r 2mUPnHtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('2_table-functions', '2_mU.PnH')}
+exp.table(exp.mU.PnH, caption = 'Parameter setting', output = "latex")
 ```
 
 ```{r 2_mU.PnH-bifplot1, cache=TRUE, dependson=c('2_plot-functions', '2_mU.PnH'), include=FALSE}
@@ -217,7 +227,7 @@ bifurcation.plot.simple(SEQ.mU.PnH,
 dev.off()
 ```
 
-```{r 2_mU.PnH-bifplot1-print, echo=FALSE, dependson='2_mU.PnH-bifplot1', out.width = '100%'}
+```{r 2mUPnHbifplot1print, echo=FALSE, dependson='2_mU.PnH-bifplot1', out.width = '100%', fig.cap='Bifurcation plot (ggplot2)'}
 knitr::include_graphics(paste0("plots/2_onePar-", exp.mU.PnH.name, "_ggbifplot.png"))
 ```
 
