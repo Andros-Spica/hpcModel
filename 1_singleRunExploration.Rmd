@@ -705,12 +705,12 @@ hpcModel.plot(run.semicoevo, scale.override = 1)
 
 ## Semi-coevolution (oscillations)
 
-```{r 1_run.semicoevo.osc-name, cache=TRUE}
-run.semicoevo.osc.name <- "semicoevo.osc"
+```{r 1_run.semicoevo.osc1-name, cache=TRUE}
+run.semicoevo.osc1.name <- "semicoevo.osc1"
 ```
 
-```{r 1_run.semicoevo.osc-frames, include=FALSE, dependson=c('1_default-values', '1_run.semicoevo.osc-name')}
-run.semicoevo.osc <- hpcModel.run(
+```{r 1_run.semicoevo.osc1-frames, include=FALSE, dependson=c('1_default-values', '1_run.semicoevo.osc1-name')}
+run.semicoevo.osc1 <- hpcModel.run(
   iniH = iniH.default,
   iniP = iniP.default,
   n.H = n.H.default,#10,         
@@ -739,27 +739,66 @@ run.semicoevo.osc <- hpcModel.run(
   plot.save = TRUE,
   plot.saveEvery = 5,
   plot.directory = runPlot.dir,
-  plot.fileName = paste0(run.semicoevo.osc.name, "-runPlot")
+  plot.fileName = paste0(run.semicoevo.osc1.name, "-runPlot")
 )
 
 # Generate an animated GIF using the images in plot.directory folder
-animate.trajectory(runPlot.dir, run.semicoevo.osc.name)
+animate.trajectory(runPlot.dir, run.semicoevo.osc1.name)
 ```
 
-```{r 1semicoevooscparshtml, eval=!params$ispdf, cache=TRUE, dependson=c('1_table-functions', 'run.semicoevo.osc')}
-run.table(run.semicoevo.osc, caption = 'Parameter setting')
+```{r 1_run.semicoevo.osc1-animation, eval=!params$ispdf, dependson='run.semicoevo.osc1'}
+knitr::include_graphics(paste0(runPlot.dir, run.semicoevo.osc1.name, "-anim.gif"))
 ```
 
-```{r 1semicoevooscparspdf, eval=params$ispdf, cache=TRUE, dependson=c('1_table-functions', 'run.semicoevo.osc')}
-run.table(run.semicoevo.osc, caption = 'Parameter setting', output = "latex")
+```{r 1_run.semicoevo.osc1-plot, cache=TRUE, eval=params$ispdf, dependson='run.semicoevo.osc1', fig.width=8, fig.height=8}
+hpcModel.plot(run.semicoevo.osc1, scale.override = 1)
 ```
 
-\newpage
-
-```{r 1_run.semicoevo.osc-animation, eval=!params$ispdf, dependson='run.semicoevo.osc'}
-knitr::include_graphics(paste0(runPlot.dir, run.semicoevo.osc.name, "-anim.gif"))
+```{r 1_run.semicoevo.osc2-name, cache=TRUE}
+run.semicoevo.osc2.name <- "semicoevo.osc2"
 ```
 
-```{r 1_run.semicoevo.osc-plot, cache=TRUE, eval=params$ispdf, dependson='run.semicoevo.osc', fig.width=8, fig.height=8}
-hpcModel.plot(run.semicoevo.osc, scale.override = 1)
+```{r 1_run.semicoevo.osc2-frames, include=FALSE, dependson=c('1_default-values', '1_run.semicoevo.osc2-name')}
+run.semicoevo.osc2 <- hpcModel.run(
+  iniH = iniH.default,
+  iniP = iniP.default,
+  n.H = 10,         
+  n.P = 10,        
+  v.H = v.H.default,
+  v.P = v.P.default, 
+  r.H = 0.15,
+  r.P = 0.15, 
+  mU.PnH = 1,
+  mU.HnP = 0.5, # utility type n humans is the same than type 1
+  mU.P1H = 0.2,
+  mU.H1P = 0.5,
+  U.bHn = 10,
+  U.bPn = 10, 
+  U.bH1 = 100,
+  U.bP1 = 100,
+  MaxArea = MaxArea.default, 
+  maxIt = 2000, # limit iterations
+  tol = tol.default,
+  timing.threshold = timing.threshold.default,
+  saveTrajectories = saveTrajectories.default,
+  messages = messages.default, 
+  # plotting
+  plot.preview = FALSE, 
+  plot.sleep = 0.05,
+  plot.save = TRUE,
+  plot.saveEvery = 5,
+  plot.directory = runPlot.dir,
+  plot.fileName = paste0(run.semicoevo.osc2.name, "-runPlot")
+)
+
+# Generate an animated GIF using the images in plot.directory folder
+animate.trajectory(runPlot.dir, run.semicoevo.osc2.name)
+```
+
+```{r 1_run.semicoevo.osc2-animation, eval=!params$ispdf, dependson='run.semicoevo.osc2'}
+knitr::include_graphics(paste0(runPlot.dir, run.semicoevo.osc2.name, "-anim.gif"))
+```
+
+```{r 1_run.semicoevo.osc2-plot, cache=TRUE, eval=params$ispdf, dependson='run.semicoevo.osc2', fig.width=8, fig.height=8}
+hpcModel.plot(run.semicoevo.osc2, scale.override = 1)
 ```

@@ -49,7 +49,13 @@ fourPar.ggplot <- function(twoPar.exp, par1, par2, par3, par4, var1, var2,
     labs(x = xlab,
          y = ylab,
          fill = var1lab,
-         color = var2lab) +
+         color = var2lab,
+         size = expression(t['end'])) +
+    guides(
+      color = guide_colorbar(order = 0),
+      fill = guide_colorbar(order = 1),
+      size = guide_legend(order = 2)
+    ) +
     facet_grid(
       reformulate(par3, par4), 
       scales='free', 
@@ -69,6 +75,42 @@ fourPar.ggplot <- function(twoPar.exp, par1, par2, par3, par4, var1, var2,
     )
 }
 
+# this is the 'default' parameter setting (end state is 'fast coevolution'):
+# initial populations
+iniH.default = 10
+iniP.default = 10
+# number of discrete types
+n.H.default = 30
+n.P.default = 30    
+# undirected variation 
+v.H.default = 0.15
+v.P.default = 0.15
+# intrinsic growth rate 
+r.H.default = 0.04
+r.P.default = 0.1
+# Utility per capita of individuals of type N
+mU.PnH.default = 1.5
+mU.HnP.default = 1
+# Utility per capita of individuals of type 1
+mU.P1H.default = 0.15                           
+mU.H1P.default = 0                               
+# basic resources:
+# population of type N that can be sustained by resources independent of HP relationship
+U.bHn.default = 10                               
+U.bPn.default = 20
+# population of type 1 that can be sustained by resources independent of HP relationship
+U.bH1.default = 80                               
+U.bP1.default = 100                                 
+# maximum local area to be used by populations (multiplier or scaling effect)
+MaxArea.default = 200
+# settings 
+# simulation flow & data
+maxIt.default = 5000
+tol.default = 6
+timing.threshold.default = 0.5
+saveTrajectories.default = TRUE
+messages.default = TRUE
+
 ## Full example
 
 ### Utility per capita between humans and plants ($\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$ x $\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$):
@@ -80,37 +122,26 @@ SEQ.mU.H1P <- seq(0, 2.5, length.out = 5)
 SEQ.mU.P1H <- seq(0, 2.5, length.out = 5)
 
 exp.mU.HP_mU.PH <- hpcModel.exploration(
-  # initial populations
-  iniH = 10,
-  iniP = 10,
-  # number of discrete types
-  n.H = 30,         
-  n.P = 30,        
-  # undirected variation 
-  v.H = 0.15,
-  v.P = 0.15,
-  # intrinsic growth rate 
-  r.H = 0.04, 
-  r.P = 0.1, 
-  # Utility per capita of individuals of type N
-  mU.PnH = SEQ.mU.PnH,
-  mU.HnP = SEQ.mU.HnP,
-  # Utility per capita of individuals of type 1
-  mU.P1H = SEQ.mU.P1H,                                  
-  mU.H1P = SEQ.mU.H1P,                                   
-  # basic resources:
-  # population of type N that can be sustained by resources independent of HP relationship
-  U.bHn = 10,                                
-  U.bPn = 20, 
-  # population of type 1 that can be sustained by resources independent of HP relationship
-  U.bH1 = 80,                               
-  U.bP1 = 100,                                
-  # maximum local area to be used by populations (multiplier or scaling effect)
-  MaxArea = 200, 
-  # settings 
-  # simulation flow & data
-  maxIt = 20000,
-  tol = 6,
+  iniH = iniH.default,
+  iniP = iniP.default,
+  n.H = n.H.default,         
+  n.P = n.P.default,        
+  v.H = v.H.default,
+  v.P = v.P.default,
+  r.H = r.H.default, 
+  r.P = r.P.default, 
+  mU.PnH = SEQ.mU.PnH, ###
+  mU.HnP = SEQ.mU.HnP, ###
+  mU.P1H = SEQ.mU.P1H, ###
+  mU.H1P = SEQ.mU.H1P, ###
+  U.bHn = U.bHn.default,                                
+  U.bPn = U.bPn.default, 
+  U.bH1 = U.bH1.default,                               
+  U.bP1 = U.bP1.default,                                 
+  MaxArea = MaxArea.default,
+  maxIt = maxIt.default,
+  tol = tol.default,
+  timing.threshold = timing.threshold.default,
   messages = FALSE
 )
 
@@ -145,37 +176,26 @@ SEQ.U.bH1 <- seq(5, 300, length.out = 5)
 SEQ.U.bP1 <- seq(5, 300, length.out = 5)
 
 exp.U.bH_U.bP <- hpcModel.exploration(
-  # initial populations
-  iniH = 10,
-  iniP = 10,
-  # number of discrete types
-  n.H = 30,         
-  n.P = 30,        
-  # undirected variation 
-  v.H = 0.15,
-  v.P = 0.15,
-  # intrinsic growth rate 
-  r.H = 0.04, 
-  r.P = 0.1, 
-  # Utility per capita of individuals of type N
-  mU.PnH = 1.5,
-  mU.HnP = 1,
-  # Utility per capita of individuals of type 1
-  mU.P1H = 0.15,                                  
-  mU.H1P = 0,                                   
-  # basic resources:
-  # population of type N that can be sustained by resources independent of HP relationship
-  U.bHn = SEQ.U.bHn,                                
-  U.bPn = SEQ.U.bPn, 
-  # population of type 1 that can be sustained by resources independent of HP relationship
-  U.bH1 = SEQ.U.bH1,                               
-  U.bP1 = SEQ.U.bP1,                                
-  # maximum local area to be used by populations (multiplier or scaling effect)
-  MaxArea = 200, 
-  # settings 
-  # simulation flow & data
-  maxIt = 20000,
-  tol = 6,
+  iniH = iniH.default,
+  iniP = iniP.default,
+  n.H = n.H.default,         
+  n.P = n.P.default,        
+  v.H = v.H.default,
+  v.P = v.P.default,
+  r.H = r.H.default, 
+  r.P = r.P.default, 
+  mU.PnH = mU.PnH.default,
+  mU.HnP = mU.HnP.default,
+  mU.P1H = mU.P1H.default,
+  mU.H1P = mU.H1P.default,
+  U.bHn = SEQ.U.bHn, ###
+  U.bPn = SEQ.U.bPn, ###
+  U.bH1 = SEQ.U.bH1, ###
+  U.bP1 = SEQ.U.bP1, ###
+  MaxArea = MaxArea.default,
+  maxIt = maxIt.default,
+  tol = tol.default,
+  timing.threshold = timing.threshold.default,
   messages = FALSE
 )
 
@@ -209,37 +229,26 @@ SEQ.v.H <- seq(0.05, 0.25, length.out = 5)
 SEQ.v.P <- seq(0.05, 0.25, length.out = 5)
 
 exp.n_v <- hpcModel.exploration(
-  # initial populations
-  iniH = 10,
-  iniP = 10,
-  # number of discrete types
-  n.H = SEQ.n.H,         
-  n.P = SEQ.n.P,        
-  # undirected variation 
-  v.H = SEQ.v.H,
-  v.P = SEQ.v.P,
-  # intrinsic growth rate 
-  r.H = 0.04, 
-  r.P = 0.1, 
-  # Utility per capita of individuals of type N
-  mU.PnH = 1.5,
-  mU.HnP = 1,
-  # Utility per capita of individuals of type 1
-  mU.P1H = 0.15,                                  
-  mU.H1P = 0,                                   
-  # basic resources:
-  # population of type N that can be sustained by resources independent of HP relationship
-  U.bHn = 10,                                
-  U.bPn = 20, 
-  # population of type 1 that can be sustained by resources independent of HP relationship
-  U.bH1 = 80,                               
-  U.bP1 = 100,                                
-  # maximum local area to be used by populations (multiplier or scaling effect)
-  MaxArea = 200, 
-  # settings 
-  # simulation flow & data
-  maxIt = 20000,
-  tol = 6,
+  iniH = iniH.default,
+  iniP = iniP.default,
+  n.H = SEQ.n.H, ###
+  n.P = SEQ.n.P, ###
+  v.H = SEQ.v.H, ###
+  v.P = SEQ.v.P, ###
+  r.H = r.H.default, 
+  r.P = r.P.default, 
+  mU.PnH = mU.PnH.default,
+  mU.HnP = mU.HnP.default,
+  mU.P1H = mU.P1H.default,                                  
+  mU.H1P = mU.H1P.default,                                   
+  U.bHn = U.bHn.default,                                
+  U.bPn = U.bPn.default, 
+  U.bH1 = U.bH1.default,                               
+  U.bP1 = U.bP1.default,                                 
+  MaxArea = MaxArea.default,
+  maxIt = maxIt.default,
+  tol = tol.default,
+  timing.threshold = timing.threshold.default,
   messages = FALSE
 )
 
