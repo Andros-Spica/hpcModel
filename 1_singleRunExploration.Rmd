@@ -136,6 +136,11 @@ animate.trajectory <- function(filePath, fileName, delete.frames = TRUE)
 }
 ```
 
+Attractors are system stable states, in which all variables become, at some level, predictable (i.e., they attract trajectories). For most of the conditions explored, the HPC model displays stationary points, which are attractors where variables converge and do not change unless the system is perturbed.
+
+Another kind of attractor, oscillations, exists. A special case of oscillation occurs when either the iteration unit or at least one of the intrinsic growth rates are greater than the unit ( dt > 1 or rA > 1 ). Such behaviour is a common feature of logistic growth models and was already observed and analysed by Hastings (1997). More interestingly, certain, less extreme parameter configurations also produce oscillatory states (see last section in this chapter). 
+
+
 \newpage
 
 ## Fast coevolution (default)
