@@ -86,9 +86,9 @@ hpcModel.plot <-
       xlab = '',
       ylab = 'growth',
       ylim = c(min(c(
-        TRAJ$d.H, TRAJ$d.P
+        TRAJ$d.H[!is.infinite(TRAJ$d.H)], TRAJ$d.P[!is.infinite(TRAJ$d.P)], -1E-6
       ), na.rm = T), max(c(
-        TRAJ$d.H, TRAJ$d.P
+        TRAJ$d.H[!is.infinite(TRAJ$d.H)], TRAJ$d.P[!is.infinite(TRAJ$d.P)], 1E-6
       ), na.rm = T))
     )
     points(TRAJ$d.P, type = 'l', col = 'red')
@@ -117,7 +117,7 @@ hpcModel.plot <-
       col = 'blue',
       xlim = time.axis.limit,
       ylim = c(0, max(
-        c(TRAJ$U.PH, TRAJ$U.HP, TRAJ$U.bH, TRAJ$U.bP), na.rm = T
+        c(TRAJ$U.PH, TRAJ$U.HP, TRAJ$U.bH, TRAJ$U.bP, 1E-6), na.rm = T
       )),
       xlab = '',
       ylab = 'utility'
@@ -160,9 +160,9 @@ hpcModel.plot <-
       xlab = 't',
       ylab = 'coevolution\nand dependency',
       ylim = c(min(c(
-        TRAJ$coevo.H, TRAJ$coevo.P, TRAJ$depend.H, TRAJ$depend.P
+        TRAJ$coevo.H, TRAJ$coevo.P, TRAJ$depend.H, TRAJ$depend.P, -1E-6
       ), na.rm = T), max(c(
-        TRAJ$coevo.H, TRAJ$coevo.P, TRAJ$depend.H, TRAJ$depend.P
+        TRAJ$coevo.H, TRAJ$coevo.P, TRAJ$depend.H, TRAJ$depend.P, 1E-6
       ), na.rm = T))
     )
     points(TRAJ$coevo.P, type = 'l', col = 'red')
@@ -208,6 +208,7 @@ hpcModel.plot <-
       col = 'blue',
       type = 'b',
       main = 'fitness humans',
+      ylim = c(0, max(1E-6, TYPES$fitness.H[t,], na.rm = T)),
       cex = scaleMultiplier
     )
     plot(
@@ -215,6 +216,7 @@ hpcModel.plot <-
       col = 'red',
       type = 'b',
       main = 'fitness plants',
+      ylim = c(0, max(1E-6, TYPES$fitness.P[t,], na.rm = T)),
       cex = scaleMultiplier
     )
     

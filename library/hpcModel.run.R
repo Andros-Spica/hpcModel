@@ -2,7 +2,8 @@
 # fitness function
 Fitness <- function(i, U.BA, K.A)
 {
-  ((length(i) - i)*(K.A - U.BA) + i*U.BA) / K.A
+  if (is.na(K.A) || K.A == 0) { return(NA) }
+  return(((length(i) - i)*(K.A - U.BA) + i*U.BA) / K.A)
 }
 
 # coevolution coefficients:
@@ -171,9 +172,23 @@ hpcModel.run <- function(
     coevo.H[t] <- coevo.coef(pop.H[t,], types.H)
     coevo.P[t] <- coevo.coef(pop.P[t,], types.P)
     # slope of the fitness function (degree of dependency)
-    try(depend.H[t] <- lm(fitness.H[t,] ~ types.H)$coefficients[2])
-    try(depend.P[t] <- lm(fitness.P[t,] ~ types.P)$coefficients[2])
-
+    if (all(is.na(fitness.H[t,])))
+    {
+      depend.H[t] <- NA
+    }
+    else
+    {
+      try(depend.H[t] <- lm(fitness.H[t,] ~ types.H)$coefficients[2])
+    }
+    if (all(is.na(fitness.P[t,])))
+    {
+      depend.P[t] <- NA
+    }
+    else
+    {
+      try(depend.P[t] <- lm(fitness.P[t,] ~ types.P)$coefficients[2])
+    }
+    
     ### running plot --------------------------------------------------------------------
     if(plot.preview || plot.save) 
     {
@@ -226,18 +241,18 @@ hpcModel.run <- function(
     if (t > 2) 
     {
       # store the time step of change
-      if (timing.H == 0 && coevo.H[t] > timing.threshold) 
+      if (timing.H == 0 && !is.na(coevo.H[t]) && coevo.H[t] > timing.threshold) 
       {timing.H <- t}
       
-      if (timing.P == 0 && coevo.P[t] > timing.threshold)
+      if (timing.P == 0 && !is.na(coevo.P[t]) &&  coevo.P[t] > timing.threshold)
       {timing.P <- t}
       
       # break loop (reltol method: from optim)
-      evolution.stopped.H <- abs(coevo.H[t-2] - coevo.H[t-1]) < 10^-tol
-      evolution.stopped.P <- abs(coevo.P[t-2] - coevo.P[t-1]) < 10^-tol
+      evolution.stopped.H <- is.na(coevo.H[t]) || abs(coevo.H[t-2] - coevo.H[t-1]) < 10^-tol
+      evolution.stopped.P <- is.na(coevo.P[t]) || abs(coevo.P[t-2] - coevo.P[t-1]) < 10^-tol
       evolution.stopped <- (evolution.stopped.H & evolution.stopped.P)
       
-      populations.stable <- (abs(H[t-2] - H[t-1]) < 10^-tol & abs(P[t-2] - P[t-1]) < 10^-tol)
+      populations.stable <- is.na(H[t]) & is.na(P[t]) || (abs(H[t-2] - H[t-1]) < 10^-tol & abs(P[t-2] - P[t-1]) < 10^-tol)
       
       if (evolution.stopped && populations.stable) {break}
     }
