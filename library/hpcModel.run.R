@@ -269,7 +269,9 @@ hpcModel.run <- function(
     coevo.H = coevo.H[t], 
     coevo.P = coevo.P[t], 
     depend.H = depend.H[t], 
-    depend.P = depend.P[t]
+    depend.P = depend.P[t],
+    adaptativeCost.H = sum(d.H[d.H < 0], na.rm = TRUE),
+    adaptativeCost.P = sum(d.P[d.P < 0], na.rm = TRUE)
     )
   
   if (saveTrajectories)
