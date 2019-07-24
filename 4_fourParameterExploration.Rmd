@@ -168,14 +168,86 @@ fourPar.ggplot <- function(twoPar.exp, par1, par2, par3, par4, var1, var2,
 
 \newpage
 
+## Number of types and undirected variation of humans and plants ($n_{H}$ x $n_{P}$ x $v_{H}$ x $v_{P}$)
+
+```{r 4_n_v-values, cache=TRUE}
+exp.n_v.name <- "n-v"
+SEQ.n.H <- seq(5, 45, by = 10)
+SEQ.n.P <- seq(5, 45, by = 10)
+SEQ.v.H <- seq(0.05, 0.25, length.out = 5)
+SEQ.v.P <- seq(0.05, 0.25, length.out = 5)
+```
+
+```{r 4_n_v, cache=TRUE, dependson=c('4_default-values','4_n_v-values'), results = 'hide'}
+exp.n_v <- hpcModel.exploration(
+  iniH = iniH.default,
+  iniP = iniP.default,
+  n.H = SEQ.n.H, ###
+  n.P = SEQ.n.P, ###
+  v.H = SEQ.v.H, ###
+  v.P = SEQ.v.P, ###
+  r.H = r.H.default, 
+  r.P = r.P.default, 
+  mU.PnH = mU.PnH.default,
+  mU.HnP = mU.HnP.default,
+  mU.P1H = mU.P1H.default,                                  
+  mU.H1P = mU.H1P.default,                                   
+  U.bHn = U.bHn.default,                                
+  U.bPn = U.bPn.default, 
+  U.bH1 = U.bH1.default,                               
+  U.bP1 = U.bP1.default,                                 
+  MaxArea = MaxArea.default,
+  maxIt = maxIt.default,
+  tol = tol.default,
+  timing.threshold = timing.threshold.default,
+  messages = FALSE
+)
+```
+
+```{r 4nvtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_n_v')}
+exp.table(exp.n_v, caption = 'Parameter setting')
+```
+```{r 4nvtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_n_v')}
+exp.table(exp.n_v, caption = 'Parameter setting', output = "latex")
+```
+
+\newpage
+
+```{r 4_n_v-plot, include=FALSE, cache=TRUE, dependson=c('4_plot-functions','4_n_v')}
+plotScale = 10#100 / length(SEQ.U.bPn)
+
+png(paste0("plots/4_fourPar-", exp.n_v.name, "_plot.png"),
+    width = 100 * plotScale, height = 100 * plotScale)
+fourPar.ggplot(exp.n_v, 'v.H', 'v.P', 'n.H', 'n.P', 'coevo.H', 'coevo.P', 
+              xlab = expression(v['H']),
+              ylab = expression(v['P']),
+              var1lab = expression('coevo'[H]),
+              var2lab = expression('coevo'[P]),
+              plotScale = plotScale)
+dev.off()
+```
+
+```{r 4_n_v-plot-print, echo=FALSE, dependson='4_n_v-plot', out.width = '100%'}
+knitr::include_graphics(paste0("plots/4_fourPar-", exp.n_v.name, "_plot.png"))
+```
+
+**_Interpretation_**:  
+- Higher values of all four parameters facilitate coevolution. Undirected variation has a stronger effect than number of types. 
+- As a summary of possible end-states:  
+    - *'Fast' coevolution* (red square in blue tile, small *t*): most cases when the numbers of types ($n_{H}$, $n_{P}$) are greater than **15** and values of undirected variation ($v_{H}$, $v_{P}$) higher than **0.15**.  
+    - *'Semi-domestication' without cultivation* (redish square in whitish tile): cases when $v_{P}\geq 0.15$.  
+    - *'Semi-cultivation' without domestication* (whitish square in blue tile): cases when $v_{H}\geq 0.15$.
+  
+\newpage
+
 ## Utility per capita between humans and plants ($\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$ x $\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$)
 
 ```{r 4_mU.HP_mU.PH-values, cache=TRUE}
 exp.mU.HP_mU.PH.name <- "mU.HP-mU.PH"
-SEQ.mU.HnP <- seq(0, 2.5, length.out = 5)
-SEQ.mU.PnH <- seq(0, 2.5, length.out = 5)
-SEQ.mU.H1P <- seq(0, 2.5, length.out = 5)
-SEQ.mU.P1H <- seq(0, 2.5, length.out = 5)
+SEQ.mU.HnP <- seq(0, 3, length.out = 5)
+SEQ.mU.PnH <- seq(0, 3, length.out = 5)
+SEQ.mU.H1P <- seq(0, 3, length.out = 5)
+SEQ.mU.P1H <- seq(0, 3, length.out = 5)
 ```
 
 ```{r 4_mU.HP_mU.PH, cache=TRUE, dependson=c('4_default-values','4_mU.HP_mU.PH-values'), results = 'hide'}
@@ -237,7 +309,7 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.mU.HP_mU.PH.name, "_plot.
 - Coevolution is still possible if any single one of these parameters equal zero (bottom-left corners). Under this type of conditions, agriculture (blue) appears more probable than domestication (red), and the latter is strongly dependent on a non-null $\bar{U}_{H_{n}P}$.  
 - As a summary of possible end-states:  
     - *'Fast' coevolution* (red square in blue tile, small *t*): most cases when values are greater than 0.625.  
-    - *Domestication without cultivation* (red square in whitish tile): most cases when $\bar{U}_{H_{n}P}>0.625$, $\bar{U}_{H_{1}P}\geq 0.625$, $\bar{U}_{P_{n}H}=0$, and $\bar{U}_{P_{1}H}<2.5$.  
+    - *Domestication without cultivation* (red square in whitish tile): most cases when $\bar{U}_{H_{n}P}>0.625$, $\bar{U}_{H_{1}P}\geq 0.625$, $\bar{U}_{P_{n}H}=0$, and $\bar{U}_{P_{1}H}<3$.  
     - *Cultivation without domestication* (whitish square in blue tile): most cases when $\bar{U}_{H_{n}P} = 0$.
 
 \newpage
@@ -311,40 +383,42 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bH_U.bP.name, "_plot.pn
 - Lower values of all four parameters facilitate coevolution; under the 'default' setting and for all four parameters, values higher than $MaxArea$ (here, `r MaxArea.default`) impede coevolution. The human parameters ($U_{bH_{1}}$, $U_{bH_{n}}$), together regulating the scale of the subsistence alternatives for humans, are significantly more important; their relationship (if one is greater than the other) seems to be less important as long as their combined sum is small enough.  
 - Coevolution is likely to occur when $U_{bH_{1}}=5$, unless $U_{bH_{1}}$ is too big and $U_{bP_{1}}$ is too small.  
 - As a summary of possible end-states:  
-    - *'Fast' coevolution* (red square in blue tile, small *t*): most cases when $U_{bH_{1}}$ and $U_{bH_{n}}<152.5$.  
+    - *'Fast' coevolution* (red square in blue tile, small *t*): most cases when $U_{bH_{1}}$ and $U_{bH_{n}}<153$.  
     - *Domestication without cultivation* (red square in whitish tile): most cases when $U_{bP_{n}}=5$, $U_{bP_{1}}=5$ (i.e. there is very little carrying capacity for plants beyond the anthropic space) and $U_{bH_{1}}>5$ (i.e. humans get enough of other resources when -still- not engaged in agriculture).  
     - *Cultivation without domestication* (whitish square in blue tile): *no cases are visible under these conditions*.
 
 \newpage
 
-## Number of types and undirected variation of humans and plants ($n_{H}$ x $n_{P}$ x $v_{H}$ x $v_{P}$)
+## Utility from other resources to humans and utility per capita of plants to humans ($U_{bH_{1}}$ x $U_{bH_{n}}$ x $\bar{U}_{P_{1}H}$ x $\bar{U}_{P_{n}H}$)
 
-```{r 4_n_v-values, cache=TRUE}
-exp.n_v.name <- "n-v"
-SEQ.n.H <- seq(5, 45, by = 10)
-SEQ.n.P <- seq(5, 45, by = 10)
-SEQ.v.H <- seq(0.05, 0.25, length.out = 5)
-SEQ.v.P <- seq(0.05, 0.25, length.out = 5)
+All four parameters affect directly the carrying capacity for humans.
+
+```{r 4_U.bH_U.PH-values, cache=TRUE}
+exp.U.bH_U.PH.name <- "U.bH-U.PH"
+SEQ.U.bHn <- seq(5, 300, length.out = 5)
+SEQ.U.bH1 <- seq(5, 300, length.out = 5)
+SEQ.mU.PnH <- seq(0, 3, length.out = 5)
+SEQ.mU.P1H <- seq(0, 3, length.out = 5)
 ```
 
-```{r 4_n_v, cache=TRUE, dependson=c('4_default-values','4_n_v-values'), results = 'hide'}
-exp.n_v <- hpcModel.exploration(
+```{r 4_U.bH_U.PH, cache=TRUE, dependson=c('4_default-values','4_U.bH_U.PH-values'), results = 'hide'}
+exp.U.bH_U.PH <- hpcModel.exploration(
   iniH = iniH.default,
   iniP = iniP.default,
-  n.H = SEQ.n.H, ###
-  n.P = SEQ.n.P, ###
-  v.H = SEQ.v.H, ###
-  v.P = SEQ.v.P, ###
+  n.H = n.H.default,         
+  n.P = n.P.default,        
+  v.H = v.H.default,
+  v.P = v.P.default,
   r.H = r.H.default, 
   r.P = r.P.default, 
-  mU.PnH = mU.PnH.default,
+  mU.PnH = SEQ.mU.PnH, ###
   mU.HnP = mU.HnP.default,
-  mU.P1H = mU.P1H.default,                                  
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = U.bP1.default,                                 
+  mU.P1H = SEQ.mU.P1H, ###
+  mU.H1P = mU.H1P.default,
+  U.bHn = SEQ.U.bHn, ###
+  U.bPn = U.bPn.default,
+  U.bH1 = SEQ.U.bH1, ###
+  U.bP1 = U.bP1.default,
   MaxArea = MaxArea.default,
   maxIt = maxIt.default,
   tol = tol.default,
@@ -353,37 +427,402 @@ exp.n_v <- hpcModel.exploration(
 )
 ```
 
-```{r 4nvtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_n_v')}
-exp.table(exp.n_v, caption = 'Parameter setting')
+```{r 4UbHUPHtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bH_U.PH')}
+exp.table(exp.U.bH_U.PH, caption = 'Parameter setting')
 ```
-```{r 4nvtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_n_v')}
-exp.table(exp.n_v, caption = 'Parameter setting', output = "latex")
+```{r 4UbHUbPtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bH_U.PH')}
+exp.table(exp.U.bH_U.PH, caption = 'Parameter setting', output = "latex")
 ```
 
 \newpage
 
-```{r 4_n_v-plot, include=FALSE, cache=TRUE, dependson=c('4_plot-functions','4_n_v')}
-plotScale = 10#100 / length(SEQ.U.bPn)
+```{r 4_U.bH_U.PH-plot, include=FALSE, cache=TRUE, dependson=c('4_plot-functions','4_U.bH_U.PH')}
+plotScale = 10
 
-png(paste0("plots/4_fourPar-", exp.n_v.name, "_plot.png"),
+png(paste0("plots/4_fourPar-", exp.U.bH_U.PH.name, "_plot.png"),
     width = 100 * plotScale, height = 100 * plotScale)
-fourPar.ggplot(exp.n_v, 'v.H', 'v.P', 'n.H', 'n.P', 'coevo.H', 'coevo.P', 
-              xlab = expression(v['H']),
-              ylab = expression(v['P']),
+fourPar.ggplot(exp.U.bH_U.PH, 'U.bH1', 'U.bHn', 'mU.P1H', 'mU.PnH', 'coevo.H', 'coevo.P', 
+              xlab = expression(U['bH1']),
+              ylab = expression(U['bHn']),
               var1lab = expression('coevo'[H]),
               var2lab = expression('coevo'[P]),
               plotScale = plotScale)
 dev.off()
 ```
 
-```{r 4_n_v-plot-print, echo=FALSE, dependson='4_n_v-plot', out.width = '100%'}
-knitr::include_graphics(paste0("plots/4_fourPar-", exp.n_v.name, "_plot.png"))
+```{r 4_U.bH_U.PH-plot-print, echo=FALSE, dependson='4_U.bH_U.PH-plot', out.width = '100%'}
+knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bH_U.PH.name, "_plot.png"))
 ```
 
 **_Interpretation_**:  
-- Higher values of all four parameters facilitate coevolution. Undirected variation has a stronger effect than number of types. 
+-   
 - As a summary of possible end-states:  
-    - *'Fast' coevolution* (red square in blue tile, small *t*): most cases when the numbers of types ($n_{H}$, $n_{P}$) are greater than **15** and values of undirected variation ($v_{H}$, $v_{P}$) higher than **0.15**.  
-    - *'Semi-domestication' without cultivation* (redish square in whitish tile): cases when $v_{P}\geq 0.15$.  
-    - *'Semi-cultivation' without domestication* (whitish square in blue tile): cases when $v_{H}\geq 0.15$.
-  
+    - *'Fast' coevolution* (red square in blue tile, small *t*): .  
+    - *Domestication without cultivation* (red square in whitish tile): .  
+    - *Cultivation without domestication* (whitish square in blue tile): .
+
+\newpage
+
+## Utility from other resources to plants and utility per capita of humans to plants ($U_{bP_{1}}$ x $U_{bP_{n}}$ x $\bar{U}_{H_{1}P}$ x $\bar{U}_{H_{n}P}$)
+
+All four parameters affect directly the carrying capacity for plants.
+
+```{r 4_U.bP_mU.HP-values, cache=TRUE}
+exp.U.bP_mU.HP.name <- "U.bP-mU.HP"
+SEQ.U.bPn <- seq(5, 300, length.out = 5)
+SEQ.U.bP1 <- seq(5, 300, length.out = 5)
+SEQ.mU.HnP <- seq(0, 3, length.out = 5)
+SEQ.mU.H1P <- seq(0, 3, length.out = 5)
+```
+
+```{r 4_U.bP_mU.HP, cache=TRUE, dependson=c('4_default-values','4_U.bP_mU.HP-values'), results = 'hide'}
+exp.U.bP_mU.HP <- hpcModel.exploration(
+  iniH = iniH.default,
+  iniP = iniP.default,
+  n.H = n.H.default,         
+  n.P = n.P.default,        
+  v.H = v.H.default,
+  v.P = v.P.default,
+  r.H = r.H.default, 
+  r.P = r.P.default, 
+  mU.PnH = mU.PnH.default,
+  mU.HnP = SEQ.mU.HnP, ###
+  mU.P1H = mU.P1H.default,
+  mU.H1P = SEQ.mU.H1P, ###
+  U.bHn = U.bHn.default,
+  U.bPn = SEQ.U.bPn, ###
+  U.bH1 = U.bH1.default,
+  U.bP1 = SEQ.U.bP1, ###
+  MaxArea = MaxArea.default,
+  maxIt = maxIt.default,
+  tol = tol.default,
+  timing.threshold = timing.threshold.default,
+  messages = FALSE
+)
+```
+
+```{r 4UbPUHPtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bP_mU.HP')}
+exp.table(exp.U.bP_mU.HP, caption = 'Parameter setting')
+```
+```{r 4UbPUHPtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bP_mU.HP')}
+exp.table(exp.U.bP_mU.HP, caption = 'Parameter setting', output = "latex")
+```
+
+\newpage
+
+```{r 4_U.bP_mU.HP-plot, include=FALSE, cache=TRUE, dependson=c('4_plot-functions','4_U.bP_mU.HP')}
+plotScale = 10
+
+png(paste0("plots/4_fourPar-", exp.U.bP_mU.HP.name, "_plot.png"),
+    width = 100 * plotScale, height = 100 * plotScale)
+fourPar.ggplot(exp.U.bP_mU.HP, 'U.bP1', 'U.bPn', 'mU.H1P', 'mU.HnP', 'coevo.H', 'coevo.P', 
+              xlab = expression(U['bP1']),
+              ylab = expression(U['bPn']),
+              var1lab = expression('coevo'[H]),
+              var2lab = expression('coevo'[P]),
+              plotScale = plotScale)
+dev.off()
+```
+
+```{r 4_U.bP_mU.HP-plot-print, echo=FALSE, dependson='4_U.bP_mU.HP-plot', out.width = '100%'}
+knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bP_mU.HP.name, "_plot.png"))
+```
+
+**_Interpretation_**:  
+-   
+- As a summary of possible end-states:  
+    - *'Fast' coevolution* (red square in blue tile, small *t*): .  
+    - *Domestication without cultivation* (red square in whitish tile): .  
+    - *Cultivation without domestication* (whitish square in blue tile): .
+
+\newpage
+
+## Utility from other resources and utility per capita of type 1 humans and plants ($U_{bP_{1}}$ x $U_{bH_{1}}$ x $\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$)
+
+This exploration reflects the state at the start of simulations (both populations are mostly of type 1).
+
+```{r 4_U.b1_mU1_-values, cache=TRUE}
+exp.U.b1_mU1.name <- "U.b1-mU1"
+SEQ.U.bH1 <- seq(5, 300, length.out = 5)
+SEQ.U.bP1 <- seq(5, 300, length.out = 5)
+SEQ.mU.H1P <- seq(0, 3, length.out = 5)
+SEQ.mU.P1H <- seq(0, 3, length.out = 5)
+```
+
+```{r 4_U.b1_mU1, cache=TRUE, dependson=c('4_default-values','4_U.b1_mU1-values'), results = 'hide'}
+exp.U.b1_mU1 <- hpcModel.exploration(
+  iniH = iniH.default,
+  iniP = iniP.default,
+  n.H = n.H.default,         
+  n.P = n.P.default,        
+  v.H = v.H.default,
+  v.P = v.P.default,
+  r.H = r.H.default, 
+  r.P = r.P.default, 
+  mU.PnH = mU.PnH.default,
+  mU.HnP = mU.HnP.default,
+  mU.P1H = SEQ.mU.P1H, ###
+  mU.H1P = SEQ.mU.H1P, ###
+  U.bHn = U.bHn.default,
+  U.bPn = U.bPn.default,
+  U.bH1 = SEQ.U.bH1, ###
+  U.bP1 = SEQ.U.bP1, ###
+  MaxArea = MaxArea.default,
+  maxIt = maxIt.default,
+  tol = tol.default,
+  timing.threshold = timing.threshold.default,
+  messages = FALSE
+)
+```
+
+```{r 4Ub1mU1tablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.b1_mU1')}
+exp.table(exp.U.b1_mU1, caption = 'Parameter setting')
+```
+```{r 4Ub1mU1tablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.b1_mU1')}
+exp.table(exp.U.b1_mU1, caption = 'Parameter setting', output = "latex")
+```
+
+\newpage
+
+```{r 4_U.b1_mU1-plot, include=FALSE, cache=TRUE, dependson=c('4_plot-functions','4_U.b1_mU1')}
+plotScale = 10
+
+png(paste0("plots/4_fourPar-", exp.U.b1_mU1.name, "_plot.png"),
+    width = 100 * plotScale, height = 100 * plotScale)
+fourPar.ggplot(exp.U.b1_mU1, 'U.bH1', 'U.bP1', 'mU.H1P', 'mU.P1H', 'coevo.H', 'coevo.P', 
+              xlab = expression(U['bH1']),
+              ylab = expression(U['bP1']),
+              var1lab = expression('coevo'[H]),
+              var2lab = expression('coevo'[P]),
+              plotScale = plotScale)
+dev.off()
+```
+
+```{r 4_U.b1_mU1-plot-print, echo=FALSE, dependson='4_U.b1_mU1-plot', out.width = '100%'}
+knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.b1_mU1.name, "_plot.png"))
+```
+
+**_Interpretation_**:  
+-   
+- As a summary of possible end-states:  
+    - *'Fast' coevolution* (red square in blue tile, small *t*): .  
+    - *Domestication without cultivation* (red square in whitish tile): .  
+    - *Cultivation without domestication* (whitish square in blue tile): .
+
+\newpage
+
+## Utility from other resources and utility per capita of type n humans and plants ($U_{bP_{n}}$ x $U_{bH_{n}}$ x $\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$)
+
+This exploration reflects the state after a successful coevolution (both populations are mostly of type n).
+
+```{r 4_U.bn_mUn_-values, cache=TRUE}
+exp.U.bn_mUn.name <- "U.bn-mUn"
+SEQ.U.bHn <- seq(5, 300, length.out = 5)
+SEQ.U.bPn <- seq(5, 300, length.out = 5)
+SEQ.mU.HnP <- seq(0, 3, length.out = 5)
+SEQ.mU.PnH <- seq(0, 3, length.out = 5)
+```
+
+```{r 4_U.bn_mUn, cache=TRUE, dependson=c('4_default-values','4_U.bn_mUn-values'), results = 'hide'}
+exp.U.bn_mUn <- hpcModel.exploration(
+  iniH = iniH.default,
+  iniP = iniP.default,
+  n.H = n.H.default,         
+  n.P = n.P.default,        
+  v.H = v.H.default,
+  v.P = v.P.default,
+  r.H = r.H.default, 
+  r.P = r.P.default, 
+  mU.PnH = SEQ.mU.PnH, ###
+  mU.HnP = SEQ.mU.HnP, ###
+  mU.P1H = mU.P1H.default,
+  mU.H1P = mU.H1P.default,
+  U.bHn = SEQ.U.bHn, ###
+  U.bPn = SEQ.U.bPn, ###
+  U.bH1 = U.bH1.default,
+  U.bP1 = U.bP1.default,
+  MaxArea = MaxArea.default,
+  maxIt = maxIt.default,
+  tol = tol.default,
+  timing.threshold = timing.threshold.default,
+  messages = FALSE
+)
+```
+
+```{r 4UbnmUntablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bn_mUn')}
+exp.table(exp.U.bn_mUn, caption = 'Parameter setting')
+```
+```{r 4UbnmUntablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bn_mUn')}
+exp.table(exp.U.bn_mUn, caption = 'Parameter setting', output = "latex")
+```
+
+\newpage
+
+```{r 4_U.bn_mUn-plot, include=FALSE, cache=TRUE, dependson=c('4_plot-functions','4_U.bn_mUn')}
+plotScale = 10
+
+png(paste0("plots/4_fourPar-", exp.U.bn_mUn.name, "_plot.png"),
+    width = 100 * plotScale, height = 100 * plotScale)
+fourPar.ggplot(exp.U.bn_mUn, 'U.bHn', 'U.bPn', 'mU.HnP', 'mU.PnH', 'coevo.H', 'coevo.P', 
+              xlab = expression(U['bHn']),
+              ylab = expression(U['bPn']),
+              var1lab = expression('coevo'[H]),
+              var2lab = expression('coevo'[P]),
+              plotScale = plotScale)
+dev.off()
+```
+
+```{r 4_U.bn_mUn-plot-print, echo=FALSE, dependson='4_U.bn_mUn-plot', out.width = '100%'}
+knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bn_mUn.name, "_plot.png"))
+```
+
+**_Interpretation_**:  
+-   
+- As a summary of possible end-states:  
+    - *'Fast' coevolution* (red square in blue tile, small *t*): .  
+    - *Domestication without cultivation* (red square in whitish tile): .  
+    - *Cultivation without domestication* (whitish square in blue tile): .
+
+\newpage
+
+## Utility from other resources to type 1 humans and plants and utility per capita of type n humans and plants ($U_{bP_{1}}$ x $U_{bH_{1}}$ x $\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$)
+
+```{r 4_U.b1_mUn_-values, cache=TRUE}
+exp.U.b1_mUn.name <- "U.b1-mUn"
+SEQ.U.bH1 <- seq(5, 300, length.out = 5)
+SEQ.U.bP1 <- seq(5, 300, length.out = 5)
+SEQ.mU.HnP <- seq(0, 3, length.out = 5)
+SEQ.mU.PnH <- seq(0, 3, length.out = 5)
+```
+
+```{r 4_U.b1_mUn, cache=TRUE, dependson=c('4_default-values','4_U.b1_mUn-values'), results = 'hide'}
+exp.U.b1_mUn <- hpcModel.exploration(
+  iniH = iniH.default,
+  iniP = iniP.default,
+  n.H = n.H.default,         
+  n.P = n.P.default,        
+  v.H = v.H.default,
+  v.P = v.P.default,
+  r.H = r.H.default, 
+  r.P = r.P.default, 
+  mU.PnH = SEQ.mU.PnH, ###
+  mU.HnP = SEQ.mU.HnP, ###
+  mU.P1H = mU.P1H.default,
+  mU.H1P = mU.H1P.default,
+  U.bHn = U.bHn.default,
+  U.bPn = U.bPn.default,
+  U.bH1 = SEQ.U.bH1, ###
+  U.bP1 = SEQ.U.bP1, ###
+  MaxArea = MaxArea.default,
+  maxIt = maxIt.default,
+  tol = tol.default,
+  timing.threshold = timing.threshold.default,
+  messages = FALSE
+)
+```
+
+```{r 4Ub1mUntablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.b1_mUn')}
+exp.table(exp.U.b1_mUn, caption = 'Parameter setting')
+```
+```{r 4Ub1mUntablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.b1_mUn')}
+exp.table(exp.U.b1_mUn, caption = 'Parameter setting', output = "latex")
+```
+
+\newpage
+
+```{r 4_U.b1_mUn-plot, include=FALSE, cache=TRUE, dependson=c('4_plot-functions','4_U.b1_mUn')}
+plotScale = 10
+
+png(paste0("plots/4_fourPar-", exp.U.b1_mUn.name, "_plot.png"),
+    width = 100 * plotScale, height = 100 * plotScale)
+fourPar.ggplot(exp.U.b1_mUn, 'U.bH1', 'U.bP1', 'mU.HnP', 'mU.PnH', 'coevo.H', 'coevo.P', 
+              xlab = expression(U['bH1']),
+              ylab = expression(U['bP1']),
+              var1lab = expression('coevo'[H]),
+              var2lab = expression('coevo'[P]),
+              plotScale = plotScale)
+dev.off()
+```
+
+```{r 4_U.b1_mUn-plot-print, echo=FALSE, dependson='4_U.b1_mUn-plot', out.width = '100%'}
+knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.b1_mUn.name, "_plot.png"))
+```
+
+**_Interpretation_**:  
+-   
+- As a summary of possible end-states:  
+    - *'Fast' coevolution* (red square in blue tile, small *t*): .  
+    - *Domestication without cultivation* (red square in whitish tile): .  
+    - *Cultivation without domestication* (whitish square in blue tile): .
+    
+
+## Utility from other resources to type n humans and plants and utility per capita of type 1 humans and plants ($U_{bP_{n}}$ x $U_{bH_{n}}$ x $\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$)
+
+```{r 4_U.bn_mU1_-values, cache=TRUE}
+exp.U.bn_mU1.name <- "U.bn-mU1"
+SEQ.U.bHn <- seq(5, 300, length.out = 5)
+SEQ.U.bPn <- seq(5, 300, length.out = 5)
+SEQ.mU.H1P <- seq(0, 3, length.out = 5)
+SEQ.mU.P1H <- seq(0, 3, length.out = 5)
+```
+
+```{r 4_U.bn_mU1, cache=TRUE, dependson=c('4_default-values','4_U.bn_mU1-values'), results = 'hide'}
+exp.U.bn_mU1 <- hpcModel.exploration(
+  iniH = iniH.default,
+  iniP = iniP.default,
+  n.H = n.H.default,         
+  n.P = n.P.default,        
+  v.H = v.H.default,
+  v.P = v.P.default,
+  r.H = r.H.default, 
+  r.P = r.P.default, 
+  mU.PnH = mU.PnH,
+  mU.HnP = mU.HnP,
+  mU.P1H = SEQ.mU.P1H, ###
+  mU.H1P = SEQ.mU.H1P, ###
+  U.bHn = SEQ.U.bHn, ###
+  U.bPn = SEQ.U.bPn, ###
+  U.bH1 = U.bH1.default,
+  U.bP1 = U.bP1.default,
+  MaxArea = MaxArea.default,
+  maxIt = maxIt.default,
+  tol = tol.default,
+  timing.threshold = timing.threshold.default,
+  messages = FALSE
+)
+```
+
+```{r 4Ub1mUntablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bn_mU1')}
+exp.table(exp.U.bn_mU1, caption = 'Parameter setting')
+```
+```{r 4Ub1mUntablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bn_mU1')}
+exp.table(exp.U.bn_mU1, caption = 'Parameter setting', output = "latex")
+```
+
+\newpage
+
+```{r 4_U.bn_mU1-plot, include=FALSE, cache=TRUE, dependson=c('4_plot-functions','4_U.bn_mU1')}
+plotScale = 10
+
+png(paste0("plots/4_fourPar-", exp.U.bn_mU1.name, "_plot.png"),
+    width = 100 * plotScale, height = 100 * plotScale)
+fourPar.ggplot(exp.U.bn_mU1, 'U.bHn', 'U.bPn', 'mU.H1P', 'mU.P1H', 'coevo.H', 'coevo.P', 
+              xlab = expression(U['bHn']),
+              ylab = expression(U['bPn']),
+              var1lab = expression('coevo'[H]),
+              var2lab = expression('coevo'[P]),
+              plotScale = plotScale)
+dev.off()
+```
+
+```{r 4_U.bn_mU1-plot-print, echo=FALSE, dependson='4_U.bn_mU1-plot', out.width = '100%'}
+knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bn_mU1.name, "_plot.png"))
+```
+
+**_Interpretation_**:  
+-   
+- As a summary of possible end-states:  
+    - *'Fast' coevolution* (red square in blue tile, small *t*): .  
+    - *Domestication without cultivation* (red square in whitish tile): .  
+    - *Cultivation without domestication* (whitish square in blue tile): .
+    

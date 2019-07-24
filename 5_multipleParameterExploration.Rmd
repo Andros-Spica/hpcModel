@@ -117,17 +117,17 @@ run.LHC.experiment <- function(experimentSettings, cluster)
                 n.P = experimentSettings[experimentIndex, 2],        
                 v.H = experimentSettings[experimentIndex, 3],
                 v.P = experimentSettings[experimentIndex, 4],
-                r.H = r.H.default, 
-                r.P = r.P.default, 
-                mU.PnH = experimentSettings[experimentIndex, 5],
-                mU.HnP = experimentSettings[experimentIndex, 6],
-                mU.P1H = experimentSettings[experimentIndex, 7],                                  
-                mU.H1P = experimentSettings[experimentIndex, 8],                                   
-                U.bHn = experimentSettings[experimentIndex, 9],                                
-                U.bPn = experimentSettings[experimentIndex, 10], 
-                U.bH1 = experimentSettings[experimentIndex, 11],                               
-                U.bP1 = experimentSettings[experimentIndex, 12],
-                MaxArea = MaxArea.default,
+                r.H = experimentSettings[experimentIndex, 5], 
+                r.P = experimentSettings[experimentIndex, 6], 
+                mU.PnH = experimentSettings[experimentIndex, 7],
+                mU.HnP = experimentSettings[experimentIndex, 8],
+                mU.P1H = experimentSettings[experimentIndex, 9],                                  
+                mU.H1P = experimentSettings[experimentIndex, 10],                                   
+                U.bHn = experimentSettings[experimentIndex, 11],                                
+                U.bPn = experimentSettings[experimentIndex, 12], 
+                U.bH1 = experimentSettings[experimentIndex, 13],                               
+                U.bP1 = experimentSettings[experimentIndex, 14],
+                MaxArea = experimentSettings[experimentIndex, 15],
                 maxIt = 5000,
                 tol = 6,
                 saveTrajectories = FALSE,
@@ -237,13 +237,16 @@ varImpPlot2 <- function(rf, cex = 1)
   imp <- importance(rf)
   imp <- imp[nrow(imp):1, ] # invert row order for plotting top-downwards
   
-  # assuming order to be: n & v, mU, and U.b
-  parColors <- c(rep("blue", 4), rep("green", 4), rep("red", 4))
+  imp <- log(imp, 10)
+  
+  # assuming order to be: n, v, r, mU, U.b and MaxArea
+  parColors <- c("black", rep("blue", 4), rep("green", 4), rep("red", 6))
   dotchart(imp, 
            color = parColors,
            cex = cex,
            main = rf$terms[[2]],
-           pch = 19)
+           pch = 19,
+           xlab = expression(paste(log[10], x)))
 }
 ```
 
@@ -255,14 +258,18 @@ varImpPlot2 <- function(rf, cex = 1)
 LHC.parameter.names <- c(
   'n.H', 'n.P',        
   'v.H', 'v.P',
+  'r.H', 'r.P',
   'mU.PnH', 'mU.HnP', 'mU.P1H', 'mU.H1P',                                   
-  'U.bHn', 'U.bPn', 'U.bH1', 'U.bP1'
+  'U.bHn', 'U.bPn', 'U.bH1', 'U.bP1',
+  'MaxArea'
 )
 LHC.parameter.ranges <- list(
   n.H = c(3, 50),         
   n.P = c(3, 50),        
   v.H = c(0.1, 0.3),
   v.P = c(0.1, 0.3),
+  r.H = c(0.01, 0.3),
+  r.P = c(0.01, 0.3),
   mU.PnH = c(0, 3),
   mU.HnP = c(0, 3),
   mU.P1H = c(0, 3),                                  
@@ -270,7 +277,8 @@ LHC.parameter.ranges <- list(
   U.bHn = c(0, 300),                                
   U.bPn = c(0, 300), 
   U.bH1 = c(0, 300),                               
-  U.bP1 = c(0, 300)
+  U.bP1 = c(0, 300),
+  MaxArea = c(0, 300)
 )
 ```
 
@@ -278,10 +286,12 @@ LHC.parameter.ranges <- list(
  ------------------ | ----------------------------------
  `n.H`, `n.P`       | [`r LHC.parameter.ranges$n.H[1]`, `r LHC.parameter.ranges$n.H[2]`], [`r LHC.parameter.ranges$n.P[1]`, `r LHC.parameter.ranges$n.P[2]`]
  `v.H`, `v.P`       | [`r LHC.parameter.ranges$v.H[1]`, `r LHC.parameter.ranges$v.H[2]`], [`r LHC.parameter.ranges$v.P[1]`, `r LHC.parameter.ranges$v.P[2]`]
+  `r.H`, `r.P`       | [`r LHC.parameter.ranges$r.H[1]`, `r LHC.parameter.ranges$r.H[2]`], [`r LHC.parameter.ranges$r.P[1]`, `r LHC.parameter.ranges$r.P[2]`]
  `mU.PnH`, `mU.HnP` | [`r LHC.parameter.ranges$mU.PnH[1]`, `r LHC.parameter.ranges$mU.PnH[2]`], [`r LHC.parameter.ranges$mU.HnP[1]`, `r LHC.parameter.ranges$mU.HnP[2]`]
  `mU.P1H`, `mU.H1P` | [`r LHC.parameter.ranges$mU.P1H[1]`, `r LHC.parameter.ranges$mU.P1H[2]`], [`r LHC.parameter.ranges$mU.H1P[1]`, `r LHC.parameter.ranges$mU.H1P[2]`]
  `U.bH1`, `U.bP1`   | [`r LHC.parameter.ranges$U.bH1[1]`, `r LHC.parameter.ranges$U.bH1[2]`], [`r LHC.parameter.ranges$U.bP1[1]`, `r LHC.parameter.ranges$U.bP1[2]`]
  `U.bHn`, `U.bPn`   | [`r LHC.parameter.ranges$U.bHn[1]`, `r LHC.parameter.ranges$U.bHn[2]`], [`r LHC.parameter.ranges$U.bPn[1]`, `r LHC.parameter.ranges$U.bPn[2]`]
+ `MaxArea`   | [`r LHC.parameter.ranges$MaxArea[1]`, `r LHC.parameter.ranges$MaxArea[2]`]
 
 Table: Ranges of parameter exploration
 
@@ -292,11 +302,11 @@ if (!file.exists('LHS.RData')) # you must delete "LHC.RData" to create a new fil
 {
   LHS <- DoE.wrapper::lhs.design(
     nruns = 10000, # probably should be greater
-    nfactors = 12,
+    nfactors = 15,
     type = 'strauss',
     seed = 777,
     factor.names = LHC.parameter.ranges,
-    digits = c(0, 0, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4),
+    digits = c(0, 0, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4),
     RND = 0.2
   )
 
@@ -314,10 +324,10 @@ PARS <- as.data.frame(LHS)
 ```
 
 ```{r 5LHCtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_LHC-load')}
-exp.table(PARS, numberOfParameters = 12, caption = 'ACTUAL parameter values')
+exp.table(PARS, numberOfParameters = 15, caption = 'ACTUAL parameter values')
 ```
 ```{r 5LHCtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_LHC-load')}
-exp.table(PARS, numberOfParameters = 12, caption = 'ACTUAL parameter values', output = "latex")
+exp.table(PARS, numberOfParameters = 15, caption = 'ACTUAL parameter values', output = "latex")
 ```
 
 \newpage
@@ -350,9 +360,7 @@ if(!file.exists('exp.LHC.RData')) # you must delete "exp.LHC.RData" to create a 
   clusterExport(cl, 
                 list('hpcModel.run', 'Fitness', 'coevo.coef', 
                      'PARS', 
-                     'iniH.default', 'iniP.default', 
-                     'r.H.default', 'r.P.default', 
-                     'MaxArea.default'), 
+                     'iniH.default', 'iniP.default'), 
                 envir = environment())
   
   # loop
@@ -377,6 +385,9 @@ if(!file.exists('exp.LHC.RData')) # you must delete "exp.LHC.RData" to create a 
 ```{r 5_run-experiments-load, include=FALSE, dependson='5_run-experiments'}
 # load
 load('exp.LHC.RData')
+
+H.evolved <- exp.LHC$timing.H > 0
+P.evolved <- exp.LHC$timing.P > 0
 ```
 
 ```{r 5_overview-collapsed-plot, include=FALSE, cache=TRUE}
@@ -397,6 +408,24 @@ dev.off()
 knitr::include_graphics(paste0("plots/5_multiplePar-", overview.variable.name, "_collapsed-ggplot.png"))
 ```
 
+```{r 5_overview-trajectories-plot, include=FALSE, cache=TRUE}
+overview.variable.name = 'H'
+plotScale = 10
+source("library/varxtimeggplot.R")
+#svg('plots/5_collapsed.svg', width=10, height=10)
+png(paste0("plots/5_multiplePar-", overview.variable.name, "_trajectories-ggplot.png"),
+    width = 100 * plotScale, height = 100 * plotScale)
+    # varxtimeggplot(exp.LHC,
+    #                variables = c('H', 'P'),
+    #                timeVar = 
+    #                )
+dev.off()
+```
+
+```{r 5_overview-trajectories-plot-print, dependson='5_overview-trajectories-plot', out.width = '100%'}
+#knitr::include_graphics(paste0("plots/5_multiplePar-", overview.variable.name, "_trajectories-ggplot.png"))
+```
+
 \newpage
 
 ### Random forest
@@ -406,26 +435,26 @@ knitr::include_graphics(paste0("plots/5_multiplePar-", overview.variable.name, "
 ```{r 5_rf-coevo.H, include=FALSE, cache=TRUE, dependson='5_setup_plus'}
 RF.coevo.H <-
   randomForest::randomForest(
-    coevo.H ~ n.H + n.P + v.H + v.P + mU.HnP + mU.H1P + mU.PnH + mU.P1H + U.bP1 + U.bPn + U.bH1 + U.bHn,
+    coevo.H ~ n.H + n.P + v.H + v.P + r.H + r.P + mU.HnP + mU.H1P + mU.PnH + mU.P1H + U.bP1 + U.bPn + U.bH1 + U.bHn + MaxArea,
     data = exp.LHC,
     mtry = 5,
     ntree = 1000,
     importance = T
   )
-acc.coevo.H <- mean((predict(RF.coevo.H, exp.LHC[, 1:12]) - exp.LHC$coevo.H) ^ 2)
+#acc.coevo.H <- mean((predict(RF.coevo.H, exp.LHC[, 1:12]) - exp.LHC$coevo.H) ^ 2)
 #importance(RF.coevo.H)
 ```
 
 ```{r 5_rf-coevo.P, include=FALSE, cache=TRUE, dependson='5_setup_plus'}
 RF.coevo.P <-
   randomForest::randomForest(
-    coevo.P ~ n.H + n.P + v.H + v.P + mU.HnP + mU.H1P + mU.PnH + mU.P1H + U.bP1 + U.bPn + U.bH1 + U.bHn,
+    coevo.P ~ n.H + n.P + v.H + v.P + r.H + r.P + mU.HnP + mU.H1P + mU.PnH + mU.P1H + U.bP1 + U.bPn + U.bH1 + U.bHn + MaxArea,
     data = exp.LHC,
     mtry = 5,
     ntree = 1000,
     importance = T
   )
-acc.coevo.P <- mean((predict(RF.coevo.P, exp.LHC[, 1:12]) - exp.LHC$coevo.P) ^ 2)
+#acc.coevo.P <- mean((predict(RF.coevo.P, exp.LHC[, 1:12]) - exp.LHC$coevo.P) ^ 2)
 #importance(RF.coevo.P)
 ```
 
@@ -451,26 +480,26 @@ knitr::include_graphics(paste0("plots/5_multiplePar-rf-coevo.png"))
 ```{r 5_rf-depend.H, include=FALSE, cache=TRUE, dependson='5_setup_plus'}
 RF.depend.H <-
   randomForest::randomForest(
-    depend.H ~ n.H + n.P + v.H + v.P + mU.HnP + mU.H1P + mU.PnH + mU.P1H + U.bP1 + U.bPn + U.bH1 + U.bHn,
+    depend.H ~ n.H + n.P + v.H + v.P + r.H + r.P + mU.HnP + mU.H1P + mU.PnH + mU.P1H + U.bP1 + U.bPn + U.bH1 + U.bHn + MaxArea,
     data = exp.LHC,
     mtry = 5,
     ntree = 1000,
     importance = T
   )
-acc.depend.H <- mean((predict(RF.depend.H, exp.LHC[, 1:12]) - exp.LHC$depend.H) ^ 2)
+#acc.depend.H <- mean((predict(RF.depend.H, exp.LHC[, 1:12]) - exp.LHC$depend.H) ^ 2)
 #importance(RF.depend.H)
 ```
 
 ```{r 5_rf-depend.P, include=FALSE, cache=TRUE, dependson='5_setup_plus'}
 RF.depend.P <-
   randomForest::randomForest(
-    depend.P ~ n.H + n.P + v.H + v.P + mU.HnP + mU.H1P + mU.PnH + mU.P1H + U.bP1 + U.bPn + U.bH1 + U.bHn,
+    depend.P ~ n.H + n.P + v.H + v.P + r.H + r.P + mU.HnP + mU.H1P + mU.PnH + mU.P1H + U.bP1 + U.bPn + U.bH1 + U.bHn + MaxArea,
     data = exp.LHC,
     mtry = 5,
     ntree = 1000,
     importance = T
   )
-acc.depend.P <- mean((predict(RF.depend.P, exp.LHC[, 1:12]) - exp.LHC$depend.P) ^ 2)
+#acc.depend.P <- mean((predict(RF.depend.P, exp.LHC[, 1:12]) - exp.LHC$depend.P) ^ 2)
 #importance(RF.depend.P)
 ```
 
@@ -494,26 +523,26 @@ knitr::include_graphics(paste0("plots/5_multiplePar-rf-depend.png"))
 ```{r 5_rf-timing.H, include=FALSE, cache=TRUE, dependson='5_setup_plus'}
 RF.timing.H <-
   randomForest::randomForest(
-    timing.H ~ n.H + n.P + v.H + v.P + mU.HnP + mU.H1P + mU.PnH + mU.P1H + U.bP1 + U.bPn + U.bH1 + U.bHn,
-    data = exp.LHC,
+    timing.H ~ n.H + n.P + v.H + v.P + r.H + r.P + mU.HnP + mU.H1P + mU.PnH + mU.P1H + U.bP1 + U.bPn + U.bH1 + U.bHn + MaxArea,
+    data = exp.LHC[H.evolved,], # filter out cases where humans did not evolved towards n
     mtry = 5,
     ntree = 1000,
     importance = T
   )
-acc.timing.H <- mean((predict(RF.timing.H, exp.LHC[, 1:12]) - exp.LHC$timing.H) ^ 2)
+#acc.timing.H <- mean((predict(RF.timing.H, exp.LHC[H.evolved, 1:12]) - exp.LHC$timing.H) ^ 2)
 #importance(RF.timing.H)
 ```
 
 ```{r 5_rf-timing.P, include=FALSE, cache=TRUE, dependson='5_setup_plus'}
 RF.timing.P <-
   randomForest::randomForest(
-    timing.P ~ n.H + n.P + v.H + v.P + mU.HnP + mU.H1P + mU.PnH + mU.P1H + U.bP1 + U.bPn + U.bH1 + U.bHn,
-    data = exp.LHC,
+    timing.P ~ n.H + n.P + v.H + v.P + r.H + r.P + mU.HnP + mU.H1P + mU.PnH + mU.P1H + U.bP1 + U.bPn + U.bH1 + U.bHn + MaxArea,
+    data = exp.LHC[P.evolved,], # filter out cases where plants did not evolved towards n
     mtry = 5,
     ntree = 1000,
     importance = T
   )
-acc.timing.P <- mean((predict(RF.timing.P, exp.LHC[, 1:12]) - exp.LHC$timing.P) ^ 2)
+#acc.timing.P <- mean((predict(RF.timing.P, exp.LHC[P.evolved, 1:12]) - exp.LHC$timing.P) ^ 2)
 #importance(RF.timing.P)
 ```
 
@@ -521,7 +550,7 @@ acc.timing.P <- mean((predict(RF.timing.P, exp.LHC[, 1:12]) - exp.LHC$timing.P) 
 plotScale = 2
 
 png("plots/5_multiplePar-rf-timing.png", width = 640 * plotScale, height = 320 * plotScale)
-par(mar = c(3,1,3,1), cex.lab = plotScale * 0.5)
+par(mar = c(5,1,3,1), cex.lab = plotScale * 0.5)
 layout(matrix(c(1,2), ncol = 2))
 varImpPlot2(RF.timing.H, cex = plotScale * 0.8)
 varImpPlot2(RF.timing.P, cex = plotScale * 0.8)
@@ -1034,3 +1063,54 @@ dev.off()
 knitr::include_graphics("plots/5_multiplePar-timing-bothLessBase-ggplot.png")
 ```
 
+\newpage
+
+## Random forest (manual tuning)
+
+```{r 5_find-number-trees, include=FALSE}
+set.seed(777)
+
+# prepare data
+exp.LHC.r <- exp.LHC[sample(1:nrow(exp.LHC), nrow(exp.LHC)),]
+
+exp.LHC.spl <- split(as.data.frame(exp.LHC.r), 
+                 f = factor(ceiling(seq_along(1:nrow(exp.LHC.r)) / 1000)))
+
+Grid <- expand.grid(c(2:6), c(500, 750, 1000))
+
+# cluster and loop
+cl <- makeCluster(6)
+clusterExport(cl, list('randomForest', 'Grid', 'exp.LHC.spl'), envir = environment())
+
+AUX <- parSapply(cl, 1:nrow(Grid), function(p) {
+  aux <- c()
+  for (i in 1:10) {
+    X <- do.call(rbind, exp.LHC.spl[-i])
+    RF.coevo.h <- randomForest(
+      coevo.H ~ max.h + max.p + Um.ph + Um.hp + Ump.ph + Ump.hp + Kmp.h + Kmp.p,
+      data = X,
+      mtry = Grid[p, 1],
+      ntree = Grid[p, 2]
+    )
+    RF.coevo.p <- randomForest(
+      coevo.P ~ max.h + max.p + Um.ph + Um.hp + Ump.ph + Ump.hp + Kmp.h + Kmp.p,
+      data = X,
+      mtry = Grid[p, 1],
+      ntree = Grid[p, 2]
+    )
+    acc.coevo.H <- 
+      mean((predict(RF.coevo.h, exp.LHC.spl[[i]][, 1:8]) - exp.LHC.spl[[i]]$LM.h) ^ 2)
+    acc.coevo.P <- 
+      mean((predict(RF.coevo.p, exp.LHC.spl[[i]][, 1:8]) - exp.LHC.spl[[i]]$LM.p) ^ 2)
+    
+    rm(RF.coevo.H)
+    gc()
+    rm(RF.coevo.p)
+    gc()
+    
+    aux[i] <- acc.coevo.H + acc.coevo.P
+  }
+  
+  return(mean(aux))
+})
+```
