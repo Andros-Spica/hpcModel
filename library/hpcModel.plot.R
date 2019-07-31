@@ -13,7 +13,7 @@ hpcModel.plot <-
     scaleMultiplier = (dev.size('px')[1] / 480)
     if (!is.null(scale.override)) { scaleMultiplier = scale.override }
     
-    time.axis.limit <- c(0, t + ceiling(t * 0.4))
+    time.axis.limit <- c(0, t + ceiling(t * 0.45))
     
     ### set plot positions
     layout(matrix(
@@ -104,7 +104,7 @@ hpcModel.plot <-
     legend(
       'right',
       legend = c("Plants (d.P)",
-                 "Humans (d.H))"),
+                 "Humans (d.H)"),
       lty = c(1, 1),
       col = c('red', 'blue'),
       cex = scaleMultiplier * 0.8
@@ -157,8 +157,7 @@ hpcModel.plot <-
       type = 'l',
       col = 'blue',
       xlim = time.axis.limit,
-      xlab = 't',
-      ylab = 'coevolution\nand dependency',
+      ylab = 'coevolution',
       ylim = c(min(c(
         TRAJ$coevo.H, TRAJ$coevo.P, TRAJ$depend.H, TRAJ$depend.P, -1E-6
       ), na.rm = T), max(c(
@@ -179,9 +178,9 @@ hpcModel.plot <-
     # legend
     legend(
       'right',
-      legend = c("Human change (coevo.H))",
+      legend = c("Human change (coevo.H)",
                  "Plant change (coevo.P)",
-                 "Human dependency (depend.H))",
+                 "Human dependency (depend.H)",
                  "Plant dependency (depend.P)"),
       lty = c(1, 1, 2, 2),
       col = c('blue', 'red', 'darkblue', 'darkred'),
@@ -250,7 +249,7 @@ hpcModel.plot <-
       xaxt = 'n',
       yaxt = 'n'
     )
-    text(0.6, 0.8, labels = 't', cex = scaleMultiplier)
+    text(0.6, 0.8, labels = 'time', cex = scaleMultiplier)
     
     ### add types axis title plot
     plot(
@@ -285,7 +284,7 @@ hpcModel.plot <-
     parNameAndValue2 <- ''
     for (i in 1:length(PARS))
     {
-      if (i < 11)
+      if (i < 12)
       {
         parNameAndValue1 <-
           paste(parNameAndValue1, names(PARS)[i], ' = ', PARS[[i]], sep = '')

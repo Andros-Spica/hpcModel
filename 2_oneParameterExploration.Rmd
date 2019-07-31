@@ -254,7 +254,7 @@ knitr::include_graphics(paste0("plots/2_onePar-", exp.mU.PnH.name, "_bifplot-pai
 
 ## Exploration on 'default' setting for each parameter:
 
-### Initial populations of humans and plants ($init_{H},\,init_{P}$):
+### Initial populations of humans and plants ($init_{H},\,init_{P}$)
 
 ```{r 2_init-values, cache=TRUE}
 exp.init.H.name <- "init.H"

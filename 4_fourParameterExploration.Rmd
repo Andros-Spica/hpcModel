@@ -169,6 +169,7 @@ fourPar.ggplot <- function(twoPar.exp, par1, par2, par3, par4, var1, var2,
 \newpage
 
 ## Number of types and undirected variation of humans and plants ($n_{H}$ x $n_{P}$ x $v_{H}$ x $v_{P}$)
+\sectionmark{$n_{H}$ x $n_{P}$ x $v_{H}$ x $v_{P}$}
 
 ```{r 4_n_v-values, cache=TRUE}
 exp.n_v.name <- "n-v"
@@ -241,6 +242,7 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.n_v.name, "_plot.png"))
 \newpage
 
 ## Utility per capita between humans and plants ($\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$ x $\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$)
+\sectionmark{$\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$ x $\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$}
 
 ```{r 4_mU.HP_mU.PH-values, cache=TRUE}
 exp.mU.HP_mU.PH.name <- "mU.HP-mU.PH"
@@ -315,6 +317,7 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.mU.HP_mU.PH.name, "_plot.
 \newpage
 
 ## Utility from other resources to humans and plants ($U_{bH_{1}}$ x $U_{bP_{1}}$ x $U_{bH_{n}}$ x $U_{bP_{n}}$)
+\sectionmark{$U_{bH_{1}}$ x $U_{bP_{1}}$ x $U_{bH_{n}}$ x $U_{bP_{n}}$}
 
 For this experiment, consider that the default setting includes $MaxArea=200$ (i.e. the maximum for the plant population).
 
@@ -390,6 +393,7 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bH_U.bP.name, "_plot.pn
 \newpage
 
 ## Utility from other resources to humans and utility per capita of plants to humans ($U_{bH_{1}}$ x $U_{bH_{n}}$ x $\bar{U}_{P_{1}H}$ x $\bar{U}_{P_{n}H}$)
+\sectionmark{$U_{bH_{1}}$ x $U_{bH_{n}}$ x $\bar{U}_{P_{1}H}$ x $\bar{U}_{P_{n}H}$}
 
 All four parameters affect directly the carrying capacity for humans.
 
@@ -430,7 +434,7 @@ exp.U.bH_U.PH <- hpcModel.exploration(
 ```{r 4UbHUPHtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bH_U.PH')}
 exp.table(exp.U.bH_U.PH, caption = 'Parameter setting')
 ```
-```{r 4UbHUbPtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bH_U.PH')}
+```{r 4UbHUPHtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bH_U.PH')}
 exp.table(exp.U.bH_U.PH, caption = 'Parameter setting', output = "latex")
 ```
 
@@ -455,7 +459,6 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bH_U.PH.name, "_plot.pn
 ```
 
 **_Interpretation_**:  
--   
 - As a summary of possible end-states:  
     - *'Fast' coevolution* (red square in blue tile, small *t*): .  
     - *Domestication without cultivation* (red square in whitish tile): .  
@@ -464,6 +467,7 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bH_U.PH.name, "_plot.pn
 \newpage
 
 ## Utility from other resources to plants and utility per capita of humans to plants ($U_{bP_{1}}$ x $U_{bP_{n}}$ x $\bar{U}_{H_{1}P}$ x $\bar{U}_{H_{n}P}$)
+\sectionmark{$U_{bP_{1}}$ x $U_{bP_{n}}$ x $\bar{U}_{H_{1}P}$ x $\bar{U}_{H_{n}P}$}
 
 All four parameters affect directly the carrying capacity for plants.
 
@@ -529,7 +533,6 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bP_mU.HP.name, "_plot.p
 ```
 
 **_Interpretation_**:  
--   
 - As a summary of possible end-states:  
     - *'Fast' coevolution* (red square in blue tile, small *t*): .  
     - *Domestication without cultivation* (red square in whitish tile): .  
@@ -538,6 +541,7 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bP_mU.HP.name, "_plot.p
 \newpage
 
 ## Utility from other resources and utility per capita of type 1 humans and plants ($U_{bP_{1}}$ x $U_{bH_{1}}$ x $\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$)
+\sectionmark{$U_{bP_{1}}$ x $U_{bH_{1}}$ x $\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$}
 
 This exploration reflects the state at the start of simulations (both populations are mostly of type 1).
 
@@ -602,8 +606,7 @@ dev.off()
 knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.b1_mU1.name, "_plot.png"))
 ```
 
-**_Interpretation_**:  
--   
+**_Interpretation_**:   
 - As a summary of possible end-states:  
     - *'Fast' coevolution* (red square in blue tile, small *t*): .  
     - *Domestication without cultivation* (red square in whitish tile): .  
@@ -612,6 +615,7 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.b1_mU1.name, "_plot.png
 \newpage
 
 ## Utility from other resources and utility per capita of type n humans and plants ($U_{bP_{n}}$ x $U_{bH_{n}}$ x $\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$)
+\sectionmark{$U_{bP_{n}}$ x $U_{bH_{n}}$ x $\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$}
 
 This exploration reflects the state after a successful coevolution (both populations are mostly of type n).
 
@@ -677,7 +681,6 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bn_mUn.name, "_plot.png
 ```
 
 **_Interpretation_**:  
--   
 - As a summary of possible end-states:  
     - *'Fast' coevolution* (red square in blue tile, small *t*): .  
     - *Domestication without cultivation* (red square in whitish tile): .  
@@ -686,6 +689,7 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bn_mUn.name, "_plot.png
 \newpage
 
 ## Utility from other resources to type 1 humans and plants and utility per capita of type n humans and plants ($U_{bP_{1}}$ x $U_{bH_{1}}$ x $\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$)
+\sectionmark{$U_{bP_{1}}$ x $U_{bH_{1}}$ x $\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$}
 
 ```{r 4_U.b1_mUn_-values, cache=TRUE}
 exp.U.b1_mUn.name <- "U.b1-mUn"
@@ -749,7 +753,6 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.b1_mUn.name, "_plot.png
 ```
 
 **_Interpretation_**:  
--   
 - As a summary of possible end-states:  
     - *'Fast' coevolution* (red square in blue tile, small *t*): .  
     - *Domestication without cultivation* (red square in whitish tile): .  
@@ -757,6 +760,7 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.b1_mUn.name, "_plot.png
     
 
 ## Utility from other resources to type n humans and plants and utility per capita of type 1 humans and plants ($U_{bP_{n}}$ x $U_{bH_{n}}$ x $\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$)
+\sectionmark{$U_{bP_{n}}$ x $U_{bH_{n}}$ x $\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$}
 
 ```{r 4_U.bn_mU1_-values, cache=TRUE}
 exp.U.bn_mU1.name <- "U.bn-mU1"
@@ -776,8 +780,8 @@ exp.U.bn_mU1 <- hpcModel.exploration(
   v.P = v.P.default,
   r.H = r.H.default, 
   r.P = r.P.default, 
-  mU.PnH = mU.PnH,
-  mU.HnP = mU.HnP,
+  mU.PnH = mU.PnH.default,
+  mU.HnP = mU.HnP.default,
   mU.P1H = SEQ.mU.P1H, ###
   mU.H1P = SEQ.mU.H1P, ###
   U.bHn = SEQ.U.bHn, ###
@@ -792,10 +796,10 @@ exp.U.bn_mU1 <- hpcModel.exploration(
 )
 ```
 
-```{r 4Ub1mUntablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bn_mU1')}
+```{r 4UbnmU1tablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bn_mU1')}
 exp.table(exp.U.bn_mU1, caption = 'Parameter setting')
 ```
-```{r 4Ub1mUntablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bn_mU1')}
+```{r 4UbnmU1tablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bn_mU1')}
 exp.table(exp.U.bn_mU1, caption = 'Parameter setting', output = "latex")
 ```
 
@@ -820,7 +824,6 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bn_mU1.name, "_plot.png
 ```
 
 **_Interpretation_**:  
--   
 - As a summary of possible end-states:  
     - *'Fast' coevolution* (red square in blue tile, small *t*): .  
     - *Domestication without cultivation* (red square in whitish tile): .  

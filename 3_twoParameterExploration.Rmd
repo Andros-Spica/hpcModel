@@ -163,7 +163,8 @@ twoPar.ggplot <- function(twoPar.exp, par1, par2, var1, var2,
 
 ## Full example
 
-### Utility per capita from type n humans and plants ($\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$):
+### Utility per capita from type n humans and plants ($\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$)
+\sectionmark{$\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$}
 
 ```{r 3_mU.HnP_mU.PnH-values, cache=TRUE}
 exp.mU.HnP_mU.PnH.name <- "mU.HnP-mU.PnH"
@@ -229,9 +230,10 @@ knitr::include_graphics(paste0("plots/3_twoPar-", exp.mU.HnP_mU.PnH.name, "_plot
 
 \newpage
 
-## Exploration on 'default' setting for (directly-related) parameter pairs:
+## Exploration on 'default' setting for parameter pairs
 
-### Number of types of humans and plants ($n_{H}$ x $n_{P}$):
+### Number of types of humans and plants ($n_{H}$ x $n_{P}$)
+\sectionmark{$n_{H}$ x $n_{P}$}
 
 ```{r 3_n.H_n.P-values, cache=TRUE}
 exp.n.H_n.P.name <- "n.H-n.P"
@@ -287,7 +289,8 @@ knitr::include_graphics(paste0("plots/3_twoPar-", exp.n.H_n.P.name, "_plot.png")
 
 \newpage
 
-### Undirected variation in humans and plants ($v_{H}$ x $v_{P}$):
+### Undirected variation in humans and plants ($v_{H}$ x $v_{P}$)
+\sectionmark{$v_{H}$ x $v_{P}$}
 
 ```{r 3_v.H_v.P-values, cache=TRUE}
 exp.v.H_v.P.name <- "v.H-v.P"
@@ -343,7 +346,8 @@ knitr::include_graphics(paste0("plots/3_twoPar-", exp.v.H_v.P.name, "_plot.png")
 
 \newpage
 
-### Utility per capita from type 1 humans and plants ($\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$):
+### Utility per capita from type 1 humans and plants ($\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$)
+\sectionmark{$\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$}
 
 ```{r 3_mU.H1P_mU.P1H-values, cache=TRUE}
 exp.mU.H1P_mU.P1H.name <- "mU.H1P-mU.P1H"
@@ -399,7 +403,8 @@ knitr::include_graphics(paste0("plots/3_twoPar-", exp.mU.H1P_mU.P1H.name, "_plot
 
 \newpage
 
-### Utility per capita from type n humans and plants ($\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$):
+### Utility per capita from type n humans and plants ($\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$)
+\sectionmark{$\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$}
 
 ```{r 3_mU.HnP_mU.PnH-plot-print2, echo=FALSE, dependson='3_mU.HnP_mU.PnH-plot', out.width = '100%'}
 knitr::include_graphics(paste0("plots/3_twoPar-", exp.mU.HnP_mU.PnH.name, "_plot.png"))
@@ -407,7 +412,8 @@ knitr::include_graphics(paste0("plots/3_twoPar-", exp.mU.HnP_mU.PnH.name, "_plot
 
 \newpage
 
-### Utility per capita from humans to plants ($\bar{U}_{H_{1}P}$ x $\bar{U}_{H_{n}P}$):
+### Utility per capita from humans to plants ($\bar{U}_{H_{1}P}$ x $\bar{U}_{H_{n}P}$)
+\sectionmark{$\bar{U}_{H_{1}P}$ x $\bar{U}_{H_{n}P}$}
 
 ```{r 3_mU.H1P_mU.HnP-values, cache=TRUE}
 exp.mU.H1P_mU.HnP.name <- "mU.H1P-mU.HnP"
@@ -463,7 +469,8 @@ knitr::include_graphics(paste0("plots/3_twoPar-", exp.mU.H1P_mU.HnP.name, "_plot
 
 \newpage
 
-### Utility per capita from plants to humans ($\bar{U}_{P_{1}H}$ x $\bar{U}_{P_{n}H}$):
+### Utility per capita from plants to humans ($\bar{U}_{P_{1}H}$ x $\bar{U}_{P_{n}H}$)
+\sectionmark{$\bar{U}_{P_{1}H}$ x $\bar{U}_{P_{n}H}$}
 
 ```{r 3_mU.P1H_mU.PnH-values, cache=TRUE}
 exp.mU.P1H_mU.PnH.name <- "mU.P1H-mU.PnH"
@@ -519,7 +526,8 @@ knitr::include_graphics(paste0("plots/3_twoPar-", exp.mU.P1H_mU.PnH.name, "_plot
 
 \newpage
 
-### Utility of other resources to type 1 humans and plants ($U_{bH_{1}}$ x $U_{bP_{1}}$):
+### Utility of other resources to type 1 humans and plants ($U_{bH_{1}}$ x $U_{bP_{1}}$)
+\sectionmark{$U_{bH_{1}}$ x $U_{bP_{1}}$}
 
 ```{r 3_U.bH1_U.bP1-values, cache=TRUE}
 exp.U.bH1_U.bP1.name <- "U.bH1-U.bP1"
@@ -575,7 +583,8 @@ knitr::include_graphics(paste0("plots/3_twoPar-", exp.U.bH1_U.bP1.name, "_plot.p
 
 \newpage
 
-### Utility of other resources to type n humans and plants ($U_{bH_{n}}$ x $U_{bP_{n}}$):
+### Utility of other resources to type n humans and plants ($U_{bH_{n}}$ x $U_{bP_{n}}$)
+\sectionmark{$U_{bH_{n}}$ x $U_{bP_{n}}$}
 
 ```{r 3_U.bHn_U.bPn-values, cache=TRUE}
 exp.U.bHn_U.bPn.name <- "U.bHn-U.bPn"
@@ -631,7 +640,8 @@ knitr::include_graphics(paste0("plots/3_twoPar-", exp.U.bHn_U.bPn.name, "_plot.p
 
 \newpage
 
-### Utility of other resources to humans ($U_{bH_{1}}$ x $U_{bH_{n}}$):
+### Utility of other resources to humans ($U_{bH_{1}}$ x $U_{bH_{n}}$)
+\sectionmark{$U_{bH_{1}}$ x $U_{bH_{n}}$}
 
 ```{r 3_U.bH1_U.bHn-values, cache=TRUE}
 exp.U.bH1_U.bHn.name <- "U.bH1-U.bHn"
@@ -687,7 +697,8 @@ knitr::include_graphics(paste0("plots/3_twoPar-", exp.U.bH1_U.bHn.name, "_plot.p
 
 \newpage
 
-### Utility of other resources to plants ($U_{bP_{1}}$ x $U_{bP_{n}}$):
+### Utility of other resources to plants ($U_{bP_{1}}$ x $U_{bP_{n}}$)
+\sectionmark{$U_{bP_{1}}$ x $U_{bP_{n}}$}
 
 ```{r 3_U.bP1_U.bPn-values, cache=TRUE}
 exp.U.bP1_U.bPn.name <- "U.bP1-U.bPn"
@@ -741,7 +752,8 @@ dev.off()
 knitr::include_graphics(paste0("plots/3_twoPar-", exp.U.bP1_U.bPn.name, "_plot.png"))
 ```
 
-### Utility of other resources to type 1 humans and utility per capita of type 1 humans  to plants ($U_{bH_{1}}$ x $\bar{U}_{H_{1}P}$):
+### Utility of other resources to type 1 humans and utility per capita of type 1 humans  to plants ($U_{bH_{1}}$ x $\bar{U}_{H_{1}P}$)
+\sectionmark{$U_{bH_{1}}$ x $\bar{U}_{H_{1}P}$}
 
 ```{r 3_U.bH1_mU.H1P-values, cache=TRUE}
 exp.U.bH1_mU.H1P.name <- "U.bH1-mU.H1P"
@@ -797,7 +809,7 @@ knitr::include_graphics(paste0("plots/3_twoPar-", exp.U.bH1_mU.H1P.name, "_plot.
 
 \newpage
 
-### Utility of other resources to type 1 plants and utility per capita of type 1 plants to humans ($U_{bP_{1}}$ x $\bar{U}_{P_{1}H}$):
+### Utility of other resources to type 1 plants and utility per capita of type 1 plants to humans ($U_{bP_{1}}$ x $\bar{U}_{P_{1}H}$)
 
 ```{r 3_U.bP1_mU.P1H-values, cache=TRUE}
 exp.U.bP1_mU.P1H.name <- "U.bP1-mU.P1H"
@@ -853,7 +865,7 @@ knitr::include_graphics(paste0("plots/3_twoPar-", exp.U.bP1_mU.P1H.name, "_plot.
 
 \newpage
 
-### Utility of other resources to type n humans and utility per capita of type n humans to plants ($U_{bH_{n}}$ x $\bar{U}_{H_{n}P}$):
+### Utility of other resources to type n humans and utility per capita of type n humans to plants ($U_{bH_{n}}$ x $\bar{U}_{H_{n}P}$)
 
 ```{r 3_U.bHn_mU.HnP-values, cache=TRUE}
 exp.U.bHn_mU.HnP.name <- "U.bHn-mU.HnP"
@@ -909,7 +921,7 @@ knitr::include_graphics(paste0("plots/3_twoPar-", exp.U.bHn_mU.HnP.name, "_plot.
 
 \newpage
 
-### Utility of other resources to type n plants and utility per capita of type n plants to humans ($U_{bP_{n}}$ x $\bar{U}_{P_{n}H}$):
+### Utility of other resources to type n plants and utility per capita of type n plants to humans ($U_{bP_{n}}$ x $\bar{U}_{P_{n}H}$)
 
 ```{r 3_U.bPn_mU.PnH-values, cache=TRUE}
 exp.U.bPn_mU.PnH.name <- "U.bPn-mU.PnH"

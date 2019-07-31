@@ -18,6 +18,7 @@ source("library/hpcModel.plot.R")
 require(reshape2)
 require(ggplot2)
 require(scales)
+require(ggpubr)
 require(kableExtra)
 ```
 
@@ -45,7 +46,7 @@ exp.table <- function(exp.results, numberOfParameters = 17, caption = NULL, outp
   for (i in 1:numberOfParameters)
   {
     exp.parnames <- c(exp.parnames, names(exp.results)[i])
-    value <- levels(factor(exp.results[[i]]))
+    value <- levels(factor(exp.results[,i]))
     if (length(value) > 1) 
     {
       value <- as.numeric(as.character(value))
@@ -99,37 +100,35 @@ messages.default = TRUE
 ```
 
 ```{r 5_setup_plus, include=FALSE}
-require(DoE.wrapper)    # LHC
+require(DoE.wrapper)    # LHS
 require(randomForest)   # RF
 require(party)          # classification / regression tree
 require(parallel)       # use parallelization, it takes 8 min aprox
 
-outputVariables <- list()
-
-run.LHC.experiment <- function(experimentSettings, cluster)
+run.LHS.experiment <- function(experimentSettings, cluster)
 {
   parLapply(cluster, 1:nrow(experimentSettings),
             function(experimentIndex) {
               RESULTS <- hpcModel.run(
                 iniH = iniH.default,
                 iniP = iniP.default,
-                n.H = experimentSettings[experimentIndex, 1],         
-                n.P = experimentSettings[experimentIndex, 2],        
-                v.H = experimentSettings[experimentIndex, 3],
-                v.P = experimentSettings[experimentIndex, 4],
-                r.H = experimentSettings[experimentIndex, 5], 
-                r.P = experimentSettings[experimentIndex, 6], 
-                mU.PnH = experimentSettings[experimentIndex, 7],
-                mU.HnP = experimentSettings[experimentIndex, 8],
-                mU.P1H = experimentSettings[experimentIndex, 9],                                  
-                mU.H1P = experimentSettings[experimentIndex, 10],                                   
-                U.bHn = experimentSettings[experimentIndex, 11],                                
-                U.bPn = experimentSettings[experimentIndex, 12], 
-                U.bH1 = experimentSettings[experimentIndex, 13],                               
-                U.bP1 = experimentSettings[experimentIndex, 14],
+                n.H = experimentSettings[experimentIndex,     1],         
+                n.P = experimentSettings[experimentIndex,     2],        
+                v.H = experimentSettings[experimentIndex,     3],
+                v.P = experimentSettings[experimentIndex,     4],
+                r.H = experimentSettings[experimentIndex,     5], 
+                r.P = experimentSettings[experimentIndex,     6], 
+                mU.PnH = experimentSettings[experimentIndex,  7],
+                mU.HnP = experimentSettings[experimentIndex,  8],
+                mU.P1H = experimentSettings[experimentIndex,  9],
+                mU.H1P = experimentSettings[experimentIndex,  10],
+                U.bHn = experimentSettings[experimentIndex,   11],
+                U.bPn = experimentSettings[experimentIndex,   12], 
+                U.bH1 = experimentSettings[experimentIndex,   13],
+                U.bP1 = experimentSettings[experimentIndex,   14],
                 MaxArea = experimentSettings[experimentIndex, 15],
-                maxIt = 5000,
-                tol = 6,
+                maxIt = maxIt.default,
+                tol = tol.default,
                 saveTrajectories = FALSE,
                 messages = FALSE
               )
@@ -137,6 +136,36 @@ run.LHC.experiment <- function(experimentSettings, cluster)
             })
 }
 
+run.LHS.experiment2 <- function(experimentSettings, cluster)
+{
+  parLapply(cluster, 1:nrow(experimentSettings),
+            function(experimentIndex) {
+              RESULTS <- hpcModel.run(
+                iniH = iniH.default,
+                iniP = iniP.default,
+                n.H = experimentSettings[experimentIndex,     1],         
+                n.P = experimentSettings[experimentIndex,     2],        
+                v.H = experimentSettings[experimentIndex,     3],
+                v.P = experimentSettings[experimentIndex,     4],
+                r.H = experimentSettings[experimentIndex,     5], 
+                r.P = experimentSettings[experimentIndex,     6], 
+                mU.PnH = experimentSettings[experimentIndex,  7],
+                mU.HnP = experimentSettings[experimentIndex,  8],
+                mU.P1H = experimentSettings[experimentIndex,  9],
+                mU.H1P = experimentSettings[experimentIndex,  10],
+                U.bHn = experimentSettings[experimentIndex,   11],
+                U.bPn = experimentSettings[experimentIndex,   12], 
+                U.bH1 = experimentSettings[experimentIndex,   13],
+                U.bP1 = experimentSettings[experimentIndex,   14],
+                MaxArea = experimentSettings[experimentIndex, 15],
+                maxIt = maxIt.default,
+                tol = tol.default,
+                saveTrajectories = TRUE,
+                messages = FALSE
+              )
+              return(RESULTS$TRAJECTORIES)
+            })
+}
 ```
 
 ```{r 5_plot-functions, include=FALSE}
@@ -173,13 +202,52 @@ collapsed.ggplot <- function(results,
     )
 }
 
+trajectories.ggplot <- function(runs,
+                                variables.plot.1,
+                                variables.plot.2,
+                                variables.plot.1.title,
+                                variables.plot.2.title,
+                                cex = 1)
+{
+  g1.data <- reshape::melt(exp.LHS.trajectories[, c('run', 'time', variables.plot.1)], 
+                           id.vars = c('run', 'time'))
+  g1 <- 
+    ggplot(data = g1.data, aes(x = time)) +
+    geom_line(data = g1.data, aes(x = time, y = value, colour = variable)) +
+    facet_wrap(.~factor(run), ncol = 5) +
+    scale_color_manual(values = c('blue', 'red')) +
+    theme_bw() +
+    theme(strip.background = element_blank(), strip.text.x = element_blank(),
+          legend.title = element_blank()) +
+    ggtitle(variables.plot.1.title) +
+    ylab('')
+  
+  g2.data <- reshape::melt(exp.LHS.trajectories[, c('run', 'time', variables.plot.2)], 
+                           id.vars = c('run', 'time'))
+  g2 <- 
+    ggplot(data = g2.data, aes(x = time)) +
+    geom_line(data = g2.data, aes(x = time, y = value, colour = variable)) +
+    geom_hline(aes(yintercept = 0), data = g2.data, linetype = "dashed") +
+    ylim(-1, 1) +
+    facet_wrap(.~factor(run), ncol = 5) +
+    scale_color_manual(values = c('blue', 'red')) +
+    theme_bw() +
+    theme(strip.background = element_blank(), strip.text.x = element_blank(),
+          legend.title = element_blank()) +
+    ggtitle(variables.plot.2.title) +
+    ylab('')
+  
+  ggpubr::ggarrange(g1, g2, nrow = 2, legend = "bottom", common.legend = TRUE)
+}
+
 parameter.x.scenario.ggplot <- function(results,
                                         parameterNames,
                                         variableName1,
                                         variableName2,
                                         scenarioSplitter,
                                         ylab = 'observation variable',
-                                        plotScale = 1)
+                                        plotScale = 1,
+                                        y.log = FALSE)
 {
   temp <- cbind(results, scenarioSplitter)
   temp <- melt(temp[, c(variableName1, 
@@ -190,11 +258,11 @@ parameter.x.scenario.ggplot <- function(results,
   names(temp) <-
   c("obsVar1", "obsVar2", "scenario", "parameter", "parValue")
   
-  ggplot(temp) +
+  p <- ggplot(temp) +
   geom_point(
     data = temp,
     aes(x = parValue, y = obsVar1, color = 'Humans'),
-    alpha = 0.5, size = 1
+    alpha = 0.2, size = 1
   ) +
   geom_smooth(
     data = temp,
@@ -203,7 +271,7 @@ parameter.x.scenario.ggplot <- function(results,
   geom_point(
     data = temp,
     aes(x = parValue, y = obsVar2, color = 'Plants'),
-    alpha = 0.5, size = 1
+    alpha = 0.2, size = 1
   ) +
   geom_smooth(
     data = temp,
@@ -230,11 +298,13 @@ parameter.x.scenario.ggplot <- function(results,
       legend.title = element_text(size = plotScale * 3.5),
       legend.text = element_text(size = plotScale * 2)
       )
+  if (y.log) p <- p + scale_y_log10()
+  p
 }
 
-varImpPlot2 <- function(rf, cex = 1)
+varImpPlot2 <- function(RF, cex = 1)
 {
-  imp <- importance(rf)
+  imp <- importance(RF)
   imp <- imp[nrow(imp):1, ] # invert row order for plotting top-downwards
   
   imp <- log(imp, 10)
@@ -244,18 +314,34 @@ varImpPlot2 <- function(rf, cex = 1)
   dotchart(imp, 
            color = parColors,
            cex = cex,
-           main = rf$terms[[2]],
-           pch = 19,
-           xlab = expression(paste(log[10], x)))
+           main = RF$terms[[2]],
+           pch = 19)
+}
+
+varImpPlot2Pair <- function(RF1, RF2, cex = 1)
+{
+  par(mar = c(3,1,3,1), cex.lab = cex * 0.5)
+  layout(matrix(c(1,2,3,3), ncol = 2, byrow = T),
+         heights = c(12,1))
+  
+  varImpPlot2(RF1, cex = cex * 0.8)
+  varImpPlot2(RF2, cex = cex * 0.8)
+  
+  par(mar=c(0, 0, 0, 0))
+  plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
+  text(x = 0.3, y = 0.8, expression(paste(log[10], x)), 
+       cex = 1.6, col = "black", font = 4)
+  text(x = 0.83, y = 0.8, expression(paste(log[10], x)), 
+       cex = 1.6, col = "black", font = 4)
 }
 ```
 
 \newpage
 
-## Sampling parameter values with Latin Hypercube Sampling (LHC)
+## Sampling parameter values with Latin Hypercube Sampling (LHS)
 
-```{r 5_LHC-values}
-LHC.parameter.names <- c(
+```{r 5_LHS-values}
+LHS.parameter.names <- c(
   'n.H', 'n.P',        
   'v.H', 'v.P',
   'r.H', 'r.P',
@@ -263,7 +349,7 @@ LHC.parameter.names <- c(
   'U.bHn', 'U.bPn', 'U.bH1', 'U.bP1',
   'MaxArea'
 )
-LHC.parameter.ranges <- list(
+LHS.parameter.ranges <- list(
   n.H = c(3, 50),         
   n.P = c(3, 50),        
   v.H = c(0.1, 0.3),
@@ -274,38 +360,37 @@ LHC.parameter.ranges <- list(
   mU.HnP = c(0, 3),
   mU.P1H = c(0, 3),                                  
   mU.H1P = c(0, 3),                                   
-  U.bHn = c(0, 300),                                
-  U.bPn = c(0, 300), 
-  U.bH1 = c(0, 300),                               
-  U.bP1 = c(0, 300),
-  MaxArea = c(0, 300)
+  U.bHn = c(1, 300),                                
+  U.bPn = c(1, 300), 
+  U.bH1 = c(1, 300),                               
+  U.bP1 = c(1, 300),
+  MaxArea = c(1, 300)
 )
 ```
 
 **parameter**       | **value**
  ------------------ | ----------------------------------
- `n.H`, `n.P`       | [`r LHC.parameter.ranges$n.H[1]`, `r LHC.parameter.ranges$n.H[2]`], [`r LHC.parameter.ranges$n.P[1]`, `r LHC.parameter.ranges$n.P[2]`]
- `v.H`, `v.P`       | [`r LHC.parameter.ranges$v.H[1]`, `r LHC.parameter.ranges$v.H[2]`], [`r LHC.parameter.ranges$v.P[1]`, `r LHC.parameter.ranges$v.P[2]`]
-  `r.H`, `r.P`       | [`r LHC.parameter.ranges$r.H[1]`, `r LHC.parameter.ranges$r.H[2]`], [`r LHC.parameter.ranges$r.P[1]`, `r LHC.parameter.ranges$r.P[2]`]
- `mU.PnH`, `mU.HnP` | [`r LHC.parameter.ranges$mU.PnH[1]`, `r LHC.parameter.ranges$mU.PnH[2]`], [`r LHC.parameter.ranges$mU.HnP[1]`, `r LHC.parameter.ranges$mU.HnP[2]`]
- `mU.P1H`, `mU.H1P` | [`r LHC.parameter.ranges$mU.P1H[1]`, `r LHC.parameter.ranges$mU.P1H[2]`], [`r LHC.parameter.ranges$mU.H1P[1]`, `r LHC.parameter.ranges$mU.H1P[2]`]
- `U.bH1`, `U.bP1`   | [`r LHC.parameter.ranges$U.bH1[1]`, `r LHC.parameter.ranges$U.bH1[2]`], [`r LHC.parameter.ranges$U.bP1[1]`, `r LHC.parameter.ranges$U.bP1[2]`]
- `U.bHn`, `U.bPn`   | [`r LHC.parameter.ranges$U.bHn[1]`, `r LHC.parameter.ranges$U.bHn[2]`], [`r LHC.parameter.ranges$U.bPn[1]`, `r LHC.parameter.ranges$U.bPn[2]`]
- `MaxArea`   | [`r LHC.parameter.ranges$MaxArea[1]`, `r LHC.parameter.ranges$MaxArea[2]`]
+ `n.H`, `n.P`       | [`r LHS.parameter.ranges$n.H[1]`, `r LHS.parameter.ranges$n.H[2]`], [`r LHS.parameter.ranges$n.P[1]`, `r LHS.parameter.ranges$n.P[2]`]
+ `v.H`, `v.P`       | [`r LHS.parameter.ranges$v.H[1]`, `r LHS.parameter.ranges$v.H[2]`], [`r LHS.parameter.ranges$v.P[1]`, `r LHS.parameter.ranges$v.P[2]`]
+  `r.H`, `r.P`       | [`r LHS.parameter.ranges$r.H[1]`, `r LHS.parameter.ranges$r.H[2]`], [`r LHS.parameter.ranges$r.P[1]`, `r LHS.parameter.ranges$r.P[2]`]
+ `mU.PnH`, `mU.HnP` | [`r LHS.parameter.ranges$mU.PnH[1]`, `r LHS.parameter.ranges$mU.PnH[2]`], [`r LHS.parameter.ranges$mU.HnP[1]`, `r LHS.parameter.ranges$mU.HnP[2]`]
+ `mU.P1H`, `mU.H1P` | [`r LHS.parameter.ranges$mU.P1H[1]`, `r LHS.parameter.ranges$mU.P1H[2]`], [`r LHS.parameter.ranges$mU.H1P[1]`, `r LHS.parameter.ranges$mU.H1P[2]`]
+ `U.bH1`, `U.bP1`   | [`r LHS.parameter.ranges$U.bH1[1]`, `r LHS.parameter.ranges$U.bH1[2]`], [`r LHS.parameter.ranges$U.bP1[1]`, `r LHS.parameter.ranges$U.bP1[2]`]
+ `U.bHn`, `U.bPn`   | [`r LHS.parameter.ranges$U.bHn[1]`, `r LHS.parameter.ranges$U.bHn[2]`], [`r LHS.parameter.ranges$U.bPn[1]`, `r LHS.parameter.ranges$U.bPn[2]`]
+ `MaxArea`   | [`r LHS.parameter.ranges$MaxArea[1]`, `r LHS.parameter.ranges$MaxArea[2]`]
 
 Table: Ranges of parameter exploration
 
-```{r 5_LHC, include=FALSE}
+```{r 5_LHS, include=FALSE}
 ### generate LHS design (strauss method, with 0.2 radious interaction)
-# it takes 45 min aprox
-if (!file.exists('LHS.RData')) # you must delete "LHC.RData" to create a new file
+if (!file.exists('LHS.RData')) # you must delete "LHS.RData" to create a new file
 {
   LHS <- DoE.wrapper::lhs.design(
     nruns = 10000, # probably should be greater
     nfactors = 15,
     type = 'strauss',
     seed = 777,
-    factor.names = LHC.parameter.ranges,
+    factor.names = LHS.parameter.ranges,
     digits = c(0, 0, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4),
     RND = 0.2
   )
@@ -315,7 +400,7 @@ if (!file.exists('LHS.RData')) # you must delete "LHC.RData" to create a new fil
 }
 ```
 
-```{r 5_LHC-load, include=FALSE}
+```{r 5_LHS-load, include=FALSE}
 # load
 load('LHS.RData')
 
@@ -323,26 +408,26 @@ load('LHS.RData')
 PARS <- as.data.frame(LHS)
 ```
 
-```{r 5LHCtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_LHC-load')}
+```{r 5LHStablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_LHS-load')}
 exp.table(PARS, numberOfParameters = 15, caption = 'ACTUAL parameter values')
 ```
-```{r 5LHCtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_LHC-load')}
+```{r 5LHStablepdf, eval=params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_LHS-load')}
 exp.table(PARS, numberOfParameters = 15, caption = 'ACTUAL parameter values', output = "latex")
 ```
 
 \newpage
 
-```{r 5_LHC-pairs-plot, cache=TRUE, dependson='5_LHC-load'}
+```{r 5_LHS-pairs-plot, cache=TRUE, dependson='5_LHS-load'}
 plotScale = 10
 
-png("plots/5_multiplePar-LHC_pairs-plot.png",
+png("plots/5_multiplePar-LHS_pairs-plot.png",
     width = 100 * plotScale, height = 100 * plotScale)
 pairs(LHS, pch='·')
 invisible(dev.off())
 ```
 
-```{r 5_LHC-pairs-plot-print, dependson='5_LHC-pairs-plot', out.width = '100%'}
-knitr::include_graphics("plots/5_multiplePar-LHC_pairs-plot.png")
+```{r 5_LHS-pairs-plot-print, dependson='5_LHS-pairs-plot', out.width = '100%'}
+knitr::include_graphics("plots/5_multiplePar-LHS_pairs-plot.png")
 ```
 
 \newpage
@@ -351,8 +436,7 @@ knitr::include_graphics("plots/5_multiplePar-LHC_pairs-plot.png")
 
 ```{r 5_run-experiments, include=FALSE}
 ### run the model for every setting according to the LHS design
-# it takes hours
-if(!file.exists('exp.LHC.RData')) # you must delete "exp.LHC.RData" to create a new file
+if(!file.exists('exp.LHS.RData')) # you must delete "exp.LHS.RData" to create a new file
 {
   
   # build cluster
@@ -364,7 +448,7 @@ if(!file.exists('exp.LHC.RData')) # you must delete "exp.LHC.RData" to create a 
                 envir = environment())
   
   # loop
-  exp.LHC <- run.LHC.experiment(PARS, cl)
+  exp.LHS <- run.LHS.experiment(PARS, cl)
   
   # stop cluster and clean
   stopCluster(cl)
@@ -372,22 +456,49 @@ if(!file.exists('exp.LHC.RData')) # you must delete "exp.LHC.RData" to create a 
   gc()
   
   # bind result
-  exp.LHC <- do.call('rbind', exp.LHC)
+  exp.LHS <- do.call('rbind', exp.LHS)
   
   # build object
-  exp.LHC <- cbind(PARS, exp.LHC)
+  exp.LHS <- cbind(PARS, exp.LHS)
   
   # save
-  save(exp.LHC, file = 'exp.LHC.RData')
+  save(exp.LHS, file = 'exp.LHS.RData')
 }
 ```
 
 ```{r 5_run-experiments-load, include=FALSE, dependson='5_run-experiments'}
 # load
-load('exp.LHC.RData')
+load('exp.LHS.RData')
 
-H.evolved <- exp.LHC$timing.H > 0
-P.evolved <- exp.LHC$timing.P > 0
+H.evolved <- exp.LHS$timing.H > 0
+P.evolved <- exp.LHS$timing.P > 0
+H.exist <- !is.na(exp.LHS$H) & exp.LHS$H > 0
+P.exist <- !is.na(exp.LHS$P) & exp.LHS$P > 0
+```
+
+```{r 5existHtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_run-experiments-load')}
+knitr::kable(table(H.exist), "html")
+```
+```{r 5existHtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_run-experiments-load')}
+knitr::kable(table(H.exist), "latex")
+```
+```{r 5existPtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_run-experiments-load')}
+knitr::kable(table(P.exist), "html")
+```
+```{r 5existPtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_run-experiments-load')}
+knitr::kable(table(P.exist), "latex")
+```
+```{r 5evolvedHtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_run-experiments-load')}
+knitr::kable(table(H.evolved), "html")
+```
+```{r 5evolvedHtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_run-experiments-load')}
+knitr::kable(table(H.evolved), "latex")
+```
+```{r 5evolvedPtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_run-experiments-load')}
+knitr::kable(table(P.evolved), "html")
+```
+```{r 5evolvedPtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_run-experiments-load')}
+knitr::kable(table(P.evolved), "latex")
 ```
 
 ```{r 5_overview-collapsed-plot, include=FALSE, cache=TRUE}
@@ -397,7 +508,7 @@ plotScale = 10
 #svg('plots/5_collapsed.svg', width=10, height=10)
 png(paste0("plots/5_multiplePar-", overview.variable.name, "_collapsed-ggplot.png"),
     width = 100 * plotScale, height = 100 * plotScale)
-collapsed.ggplot(exp.LHC,
+collapsed.ggplot(exp.LHS,
                  'mU.HnP', 'coevo.H', 'coevo.P',
                  ylab = "coevolution coefficient",
                  plotScale = plotScale)
@@ -408,157 +519,210 @@ dev.off()
 knitr::include_graphics(paste0("plots/5_multiplePar-", overview.variable.name, "_collapsed-ggplot.png"))
 ```
 
-```{r 5_overview-trajectories-plot, include=FALSE, cache=TRUE}
-overview.variable.name = 'H'
-plotScale = 10
-source("library/varxtimeggplot.R")
-#svg('plots/5_collapsed.svg', width=10, height=10)
-png(paste0("plots/5_multiplePar-", overview.variable.name, "_trajectories-ggplot.png"),
-    width = 100 * plotScale, height = 100 * plotScale)
-    # varxtimeggplot(exp.LHC,
-    #                variables = c('H', 'P'),
-    #                timeVar = 
-    #                )
-dev.off()
-```
-
-```{r 5_overview-trajectories-plot-print, dependson='5_overview-trajectories-plot', out.width = '100%'}
-#knitr::include_graphics(paste0("plots/5_multiplePar-", overview.variable.name, "_trajectories-ggplot.png"))
-```
-
 \newpage
 
 ### Random forest
 
 **_Coevolution coefficients_**
 
-```{r 5_rf-coevo.H, include=FALSE, cache=TRUE, dependson='5_setup_plus'}
+Only using those runs with any humans (coevo.H) and plants (coevo.P) at the end-state.
+
+```{r 5_RF-coevo.H, include=FALSE, cache=TRUE, dependson='5_setup_plus'}
 RF.coevo.H <-
   randomForest::randomForest(
-    coevo.H ~ n.H + n.P + v.H + v.P + r.H + r.P + mU.HnP + mU.H1P + mU.PnH + mU.P1H + U.bP1 + U.bPn + U.bH1 + U.bHn + MaxArea,
-    data = exp.LHC,
+    as.formula(paste0("coevo.H ~ ", paste(LHS.parameter.names, collapse = '+'))),
+    data = exp.LHS[H.exist,],
     mtry = 5,
     ntree = 1000,
     importance = T
   )
-#acc.coevo.H <- mean((predict(RF.coevo.H, exp.LHC[, 1:12]) - exp.LHC$coevo.H) ^ 2)
+#acc.coevo.H <- mean((predict(RF.coevo.H, exp.LHS[, 1:12]) - exp.LHS$coevo.H) ^ 2)
 #importance(RF.coevo.H)
 ```
 
-```{r 5_rf-coevo.P, include=FALSE, cache=TRUE, dependson='5_setup_plus'}
+```{r 5_RF-coevo.P, include=FALSE, cache=TRUE, dependson='5_setup_plus'}
 RF.coevo.P <-
   randomForest::randomForest(
-    coevo.P ~ n.H + n.P + v.H + v.P + r.H + r.P + mU.HnP + mU.H1P + mU.PnH + mU.P1H + U.bP1 + U.bPn + U.bH1 + U.bHn + MaxArea,
-    data = exp.LHC,
+    as.formula(paste0("coevo.P ~ ", paste(LHS.parameter.names, collapse = '+'))),
+    data = exp.LHS[P.exist,],
     mtry = 5,
     ntree = 1000,
     importance = T
   )
-#acc.coevo.P <- mean((predict(RF.coevo.P, exp.LHC[, 1:12]) - exp.LHC$coevo.P) ^ 2)
+#acc.coevo.P <- mean((predict(RF.coevo.P, exp.LHS[, 1:12]) - exp.LHS$coevo.P) ^ 2)
 #importance(RF.coevo.P)
 ```
 
-```{r 5_rf-coevo-plots, include=FALSE, cache=TRUE}
+```{r 5_RF-coevo-plots, include=FALSE, cache=TRUE}
 plotScale = 2
 
-png("plots/5_multiplePar-rf-coevo.png", width = 640 * plotScale, height = 320 * plotScale)
-par(mar = c(3,1,3,1), cex.lab = plotScale * 0.5)
-layout(matrix(c(1,2), ncol = 2))
-varImpPlot2(RF.coevo.H, cex = plotScale * 0.8)
-varImpPlot2(RF.coevo.P, cex = plotScale * 0.8)
+png("plots/5_multiplePar-RF-coevo.png", width = 640 * plotScale, height = 320 * plotScale)
+varImpPlot2Pair(RF.coevo.H, RF.coevo.P, cex = plotScale)
 dev.off()
 ```
 
-```{r 5_rf-coevo-plot-print, dependson='5_rf-coevo-plots', out.width = '100%'}
-knitr::include_graphics(paste0("plots/5_multiplePar-rf-coevo.png"))
+```{r 5_RF-coevo-plot-print, dependson='5_RF-coevo-plots', out.width = '100%'}
+knitr::include_graphics(paste0("plots/5_multiplePar-RF-coevo.png"))
 ```
 
 \newpage
 
 **_Dependency coefficients_**
 
-```{r 5_rf-depend.H, include=FALSE, cache=TRUE, dependson='5_setup_plus'}
+Only using those runs with any humans (depend.H) and plants (depend.P) at the end-state.
+
+```{r 5_RF-depend.H, include=FALSE, cache=TRUE, dependson='5_setup_plus'}
 RF.depend.H <-
   randomForest::randomForest(
-    depend.H ~ n.H + n.P + v.H + v.P + r.H + r.P + mU.HnP + mU.H1P + mU.PnH + mU.P1H + U.bP1 + U.bPn + U.bH1 + U.bHn + MaxArea,
-    data = exp.LHC,
+    as.formula(paste0("depend.H ~ ", paste(LHS.parameter.names, collapse = '+'))),
+    data = exp.LHS[H.exist,],
     mtry = 5,
     ntree = 1000,
     importance = T
   )
-#acc.depend.H <- mean((predict(RF.depend.H, exp.LHC[, 1:12]) - exp.LHC$depend.H) ^ 2)
+#acc.depend.H <- mean((predict(RF.depend.H, exp.LHS[, 1:12]) - exp.LHS$depend.H) ^ 2)
 #importance(RF.depend.H)
 ```
 
-```{r 5_rf-depend.P, include=FALSE, cache=TRUE, dependson='5_setup_plus'}
+```{r 5_RF-depend.P, include=FALSE, cache=TRUE, dependson='5_setup_plus'}
 RF.depend.P <-
   randomForest::randomForest(
-    depend.P ~ n.H + n.P + v.H + v.P + r.H + r.P + mU.HnP + mU.H1P + mU.PnH + mU.P1H + U.bP1 + U.bPn + U.bH1 + U.bHn + MaxArea,
-    data = exp.LHC,
+    as.formula(paste0("depend.P ~ ", paste(LHS.parameter.names, collapse = '+'))),
+    data = exp.LHS[P.exist,],
     mtry = 5,
     ntree = 1000,
     importance = T
   )
-#acc.depend.P <- mean((predict(RF.depend.P, exp.LHC[, 1:12]) - exp.LHC$depend.P) ^ 2)
+#acc.depend.P <- mean((predict(RF.depend.P, exp.LHS[, 1:12]) - exp.LHS$depend.P) ^ 2)
 #importance(RF.depend.P)
 ```
 
-```{r 5_rf-depend-plots, include=FALSE, cache=TRUE}
+```{r 5_RF-depend-plots, include=FALSE, cache=TRUE}
 plotScale = 2
 
-png("plots/5_multiplePar-rf-depend.png", width = 640 * plotScale, height = 320 * plotScale)
-par(mar = c(3,1,3,1), cex.lab = plotScale * 0.5)
-layout(matrix(c(1,2), ncol = 2))
-varImpPlot2(RF.depend.H, cex = plotScale * 0.8)
-varImpPlot2(RF.depend.P, cex = plotScale * 0.8)
+png("plots/5_multiplePar-RF-depend.png", width = 640 * plotScale, height = 320 * plotScale)
+varImpPlot2Pair(RF.depend.H, RF.depend.P, cex = plotScale)
 dev.off()
 ```
 
-```{r 5_rf-depend.H-plot-print, dependson='5_rf-depend-plots', out.width = '100%'}
-knitr::include_graphics(paste0("plots/5_multiplePar-rf-depend.png"))
+```{r 5_RF-depend.H-plot-print, dependson='5_RF-depend-plots', out.width = '100%'}
+knitr::include_graphics(paste0("plots/5_multiplePar-RF-depend.png"))
 ```
 
 **_Timings_**
 
-```{r 5_rf-timing.H, include=FALSE, cache=TRUE, dependson='5_setup_plus'}
+Only using those runs with successful human (timing.H) and plant (timing.P) evolution.
+
+```{r 5_RF-timing.H, include=FALSE, cache=TRUE, dependson='5_setup_plus'}
 RF.timing.H <-
   randomForest::randomForest(
-    timing.H ~ n.H + n.P + v.H + v.P + r.H + r.P + mU.HnP + mU.H1P + mU.PnH + mU.P1H + U.bP1 + U.bPn + U.bH1 + U.bHn + MaxArea,
-    data = exp.LHC[H.evolved,], # filter out cases where humans did not evolved towards n
+    as.formula(paste0("timing.H ~ ", paste(LHS.parameter.names, collapse = '+'))),
+    data = exp.LHS[H.evolved,], # filter out cases where humans did not evolved towards n
     mtry = 5,
     ntree = 1000,
     importance = T
   )
-#acc.timing.H <- mean((predict(RF.timing.H, exp.LHC[H.evolved, 1:12]) - exp.LHC$timing.H) ^ 2)
+#acc.timing.H <- mean((predict(RF.timing.H, exp.LHS[H.evolved, 1:12]) - exp.LHS$timing.H) ^ 2)
 #importance(RF.timing.H)
 ```
 
-```{r 5_rf-timing.P, include=FALSE, cache=TRUE, dependson='5_setup_plus'}
+```{r 5_RF-timing.P, include=FALSE, cache=TRUE, dependson='5_setup_plus'}
 RF.timing.P <-
   randomForest::randomForest(
-    timing.P ~ n.H + n.P + v.H + v.P + r.H + r.P + mU.HnP + mU.H1P + mU.PnH + mU.P1H + U.bP1 + U.bPn + U.bH1 + U.bHn + MaxArea,
-    data = exp.LHC[P.evolved,], # filter out cases where plants did not evolved towards n
+    as.formula(paste0("timing.P ~ ", paste(LHS.parameter.names, collapse = '+'))),
+    data = exp.LHS[P.evolved,], # filter out cases where plants did not evolved towards n
     mtry = 5,
     ntree = 1000,
     importance = T
   )
-#acc.timing.P <- mean((predict(RF.timing.P, exp.LHC[P.evolved, 1:12]) - exp.LHC$timing.P) ^ 2)
+#acc.timing.P <- mean((predict(RF.timing.P, exp.LHS[P.evolved, 1:12]) - exp.LHS$timing.P) ^ 2)
 #importance(RF.timing.P)
 ```
 
-```{r 5_rf-timing-plots, include=FALSE, cache=TRUE}
+```{r 5_RF-timing-plots, include=FALSE, cache=TRUE}
 plotScale = 2
 
-png("plots/5_multiplePar-rf-timing.png", width = 640 * plotScale, height = 320 * plotScale)
-par(mar = c(5,1,3,1), cex.lab = plotScale * 0.5)
-layout(matrix(c(1,2), ncol = 2))
-varImpPlot2(RF.timing.H, cex = plotScale * 0.8)
-varImpPlot2(RF.timing.P, cex = plotScale * 0.8)
+png("plots/5_multiplePar-RF-timing.png", width = 640 * plotScale, height = 320 * plotScale)
+varImpPlot2Pair(RF.timing.H, RF.timing.P, cex = plotScale)
 dev.off()
 ```
 
-```{r 5_rf-timing.H-plot-print, dependson='5_rf-timing-plots', out.width = '100%'}
-knitr::include_graphics(paste0("plots/5_multiplePar-rf-timing.png"))
+```{r 5_RF-timing.H-plot-print, dependson='5_RF-timing-plots', out.width = '100%'}
+knitr::include_graphics(paste0("plots/5_multiplePar-RF-timing.png"))
+```
+
+\newpage
+
+### Trajectories
+
+```{r 5_exp.LHS.trajectories, include=FALSE}
+number.trajectories = 5
+
+set.seed(777)
+  
+randomSample <- sample(1:nrow(PARS), number.trajectories)
+
+PARS.sample <- PARS[randomSample,]
+
+# build cluster
+cl <- makeCluster(6)
+clusterExport(cl, 
+              list('hpcModel.run', 'Fitness', 'coevo.coef', 
+                   'PARS.sample', 
+                   'iniH.default', 'iniP.default', 'maxIt.default', 'tol.default'), 
+              envir = environment())
+
+# loop
+exp.LHS.trajectories.list <- run.LHS.experiment2(PARS.sample, cl)
+
+# stop cluster and clean
+stopCluster(cl)
+rm(cl)
+gc()
+
+# build object
+exp.LHS.trajectories <- c()
+
+for (runIndex in 1:number.trajectories)
+{
+  exp.LHS.trajectories <- rbind(
+    exp.LHS.trajectories,
+    cbind(
+      run = rep(runIndex, nrow(exp.LHS.trajectories.list[[runIndex]])),
+      time = 1:(nrow(exp.LHS.trajectories.list[[runIndex]])),
+      exp.LHS.trajectories.list[[runIndex]][,c('H', 'P', 'coevo.H', 'coevo.P')]
+    )
+  )
+}
+
+exp.LHS.trajectories <- exp.LHS.trajectories[!is.na(exp.LHS.trajectories$H) & exp.LHS.trajectories$H > 0,]
+
+rm(exp.LHS.trajectories.list)
+
+# save
+save(exp.LHS.trajectories, file = 'exp.LHS.trajectories.RData')
+```
+
+```{r 5_overview-trajectories-plot, include=FALSE, cache=TRUE}
+load('exp.LHS.trajectories.RData')
+
+overview.variable.name = 'pop'
+
+plotScale = 10
+
+png(paste0("plots/5_multiplePar-", overview.variable.name, "_trajectories-ggplot.png"),
+    width = 100 * plotScale, height = 50 * plotScale)
+
+trajectories.ggplot(exp.LHS.trajectories, 
+                    c('H', 'P'), c('coevo.H', 'coevo.P'),
+                    'Populations', 'Coevolution coefficients',
+                    cex = plotScale)
+
+dev.off()
+```
+
+```{r 5_overview-trajectories-plot-print, dependson='5_overview-trajectories-plot', out.width = '100%'}
+knitr::include_graphics(paste0("plots/5_multiplePar-", overview.variable.name, "_trajectories-ggplot.png"))
 ```
 
 \newpage
@@ -566,50 +730,51 @@ knitr::include_graphics(paste0("plots/5_multiplePar-rf-timing.png"))
 ## Scenarios
 
 ```{r 5_split-scenarios, include=FALSE, cache=TRUE, dependson='5_run-experiments-load'}
-# exp.LHC.scenarios.names <- c(
+# exp.LHS.scenarios.names <- c(
 #   'plantImprove', 'humanImprove', 'bothImprove',
 #   'plantLessBase', 'humanLessBase', 'bothLessBase'
 # )
 
 # # mU.PnH > mU.P1H (mutualistic plant types give more utility = TRUE, else = FALSE)
-exp.LHC_plantImprove <- factor(as.character(exp.LHC$mU.PnH > exp.LHC$mU.P1H),
+exp.LHS_plantImprove <- factor(as.character(exp.LHS$mU.PnH > exp.LHS$mU.P1H),
                                levels = c('TRUE', 'FALSE'),
                                labels = c('mU.PnH > mU.P1H', 
                                           'mU.PnH <= mU.P1H')
                                )
 
 # # mU.HnP > mU.H1P (mutualistic human types give more utility = TRUE, else = FALSE)
-exp.LHC_humanImprove <- factor(as.character(exp.LHC$mU.HnP > exp.LHC$mU.H1P),
+exp.LHS_humanImprove <- factor(as.character(exp.LHS$mU.HnP > exp.LHS$mU.H1P),
                                levels = c('TRUE', 'FALSE'),
                                labels = c('mU.HnP > mU.H1P',
                                           'mU.HnP <= mU.H1P'))
 
 # # mU.PnH > mU.P1H AND mU.HnP > mU.H1P (mutualistic types give more utility = TRUE, else = FALSE)
-exp.LHC_bothImprove <- factor(as.character(exp.LHC$mU.PnH > exp.LHC$mU.P1H & exp.LHC$mU.HnP > exp.LHC$mU.H1P),
+exp.LHS_bothImprove <- factor(as.character(exp.LHS$mU.PnH > exp.LHS$mU.P1H & exp.LHS$mU.HnP > exp.LHS$mU.H1P),
                               levels = c('TRUE', 'FALSE'),
                               labels = c('mU.PnH > mU.P1H ~~~ AND ~~~ mU.HnP > mU.H1P', 
                                          'mU.PnH <= mU.P1H ~~~ AND ~~~ mU.HnP <= mU.H1P'))
 
 # # U.bP1 > U.bPn (non-mutualistic plant types obtain more utility from other resources = TRUE, else = FALSE)
-exp.LHC_plantLessBase <- factor(as.character(exp.LHC$U.bP1 > exp.LHC$U.bPn),
+exp.LHS_plantLessBase <- factor(as.character(exp.LHS$U.bP1 > exp.LHS$U.bPn),
                                 levels = c('TRUE', 'FALSE'),
                                 labels = c('U.bP1 > U.bPn',
                                            'U.bP1 <= U.bPn'))
 
 # # U.bH1 > U.bHn (non-mutualistic human types obtain more utility from other resources = TRUE, else = FALSE)
-exp.LHC_humanLessBase <- factor(as.character(exp.LHC$U.bH1 > exp.LHC$U.bHn),
+exp.LHS_humanLessBase <- factor(as.character(exp.LHS$U.bH1 > exp.LHS$U.bHn),
                                 levels = c('TRUE', 'FALSE'),
                                 labels = c('U.bH1 > U.bHn',
                                            'U.bH1 <= U.bHn'))
 
 # # mU.PnH > mU.P1H AND mU.HnP > mU.H1P (non-mutualistic types obtain more utility from other resources = TRUE, else = FALSE)
-exp.LHC_bothLessBase <- factor(as.character(exp.LHC$U.bP1 > exp.LHC$U.bPn & exp.LHC$U.bH1 > exp.LHC$U.bHn),
+exp.LHS_bothLessBase <- factor(as.character(exp.LHS$U.bP1 > exp.LHS$U.bPn & exp.LHS$U.bH1 > exp.LHS$U.bHn),
                                levels = c('TRUE', 'FALSE'),
                                labels = c('mU.PnH > mU.P1H ~~~ AND ~~~ mU.HnP > mU.H1P',
                                           'mU.PnH <= mU.P1H ~~~ AND ~~~ mU.HnP <= mU.H1P'))
 ```
 
 ### Mutualistic human type gives more utility ($\bar{U}_{H_{n}P}> \bar{U}_{H_{1}P}$)
+\sectionmark{Scenario: $\bar{U}_{H_{n}P}> \bar{U}_{H_{1}P}$}
 
 **_Coevolution coefficients_**
 
@@ -622,10 +787,10 @@ png("plots/5_multiplePar-coevo-humanImprove-ggplot.png",
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHC, 
-                            LHC.parameter.names,
+parameter.x.scenario.ggplot(exp.LHS, 
+                            LHS.parameter.names,
                             'coevo.H', 'coevo.P',
-                            scenarioSplitter = exp.LHC_humanImprove,
+                            scenarioSplitter = exp.LHS_humanImprove,
                             ylab = "coevolution coefficient",
                             plotScale = plotScale)
 dev.off()
@@ -646,12 +811,13 @@ png("plots/5_multiplePar-depend-humanImprove-ggplot.png",
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHC, 
-                            LHC.parameter.names,
+parameter.x.scenario.ggplot(exp.LHS, 
+                            LHS.parameter.names,
                             'depend.H', 'depend.P',
-                            scenarioSplitter = exp.LHC_humanImprove,
+                            scenarioSplitter = exp.LHS_humanImprove,
                             ylab = "dependency coefficient",
-                            plotScale = plotScale)
+                            plotScale = plotScale,
+                            y.log = TRUE)
 dev.off()
 ```
 
@@ -670,22 +836,24 @@ png("plots/5_multiplePar-timing-humanImprove-ggplot.png",
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHC, 
-                            LHC.parameter.names,
+parameter.x.scenario.ggplot(exp.LHS, 
+                            LHS.parameter.names,
                             'timing.H', 'timing.P',
-                            scenarioSplitter = exp.LHC_humanImprove,
+                            scenarioSplitter = exp.LHS_humanImprove,
                             ylab = "Timing",
-                            plotScale = plotScale)
+                            plotScale = plotScale,
+                            y.log = TRUE)
 dev.off()
 ```
 
-```{r 5_scenarios-humanImprove-timing-plot-print, timingson='5_scenarios-humanImprove-timing-plot', out.width = '100%'}
+```{r 5_scenarios-humanImprove-timing-plot-print, dependson='5_scenarios-humanImprove-timing-plot', out.width = '100%'}
 knitr::include_graphics("plots/5_multiplePar-timing-humanImprove-ggplot.png")
 ```
 
 \newpage
 
 ### Mutualistic plant type gives more utility ($\bar{U}_{P_{n}H}> \bar{U}_{P_{1}H}$)
+\sectionmark{Scenario: $\bar{U}_{P_{n}H}> \bar{U}_{P_{1}H}$}
 
 **_Coevolution coefficients_**
 
@@ -698,10 +866,10 @@ png("plots/5_multiplePar-coevo-plantImprove-ggplot.png",
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHC, 
-                            LHC.parameter.names,
+parameter.x.scenario.ggplot(exp.LHS, 
+                            LHS.parameter.names,
                             'coevo.H', 'coevo.P',
-                            scenarioSplitter = exp.LHC_plantImprove,
+                            scenarioSplitter = exp.LHS_plantImprove,
                             ylab = "coevolution coefficient",
                             plotScale = plotScale)
 dev.off()
@@ -722,12 +890,13 @@ png("plots/5_multiplePar-depend-plantImprove-ggplot.png",
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHC, 
-                            LHC.parameter.names,
+parameter.x.scenario.ggplot(exp.LHS, 
+                            LHS.parameter.names,
                             'depend.H', 'depend.P',
-                            scenarioSplitter = exp.LHC_plantImprove,
+                            scenarioSplitter = exp.LHS_plantImprove,
                             ylab = "dependency coefficient",
-                            plotScale = plotScale)
+                            plotScale = plotScale,
+                            y.log = TRUE)
 dev.off()
 ```
 
@@ -746,22 +915,24 @@ png("plots/5_multiplePar-timing-plantImprove-ggplot.png",
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHC, 
-                            LHC.parameter.names,
+parameter.x.scenario.ggplot(exp.LHS, 
+                            LHS.parameter.names,
                             'timing.H', 'timing.P',
-                            scenarioSplitter = exp.LHC_plantImprove,
+                            scenarioSplitter = exp.LHS_plantImprove,
                             ylab = "Timing",
-                            plotScale = plotScale)
+                            plotScale = plotScale,
+                            y.log = TRUE)
 dev.off()
 ```
 
-```{r 5_scenarios-plantImprove-timing-plot-print, timingson='5_scenarios-plantImprove-timing-plot', out.width = '100%'}
+```{r 5_scenarios-plantImprove-timing-plot-print, dependson='5_scenarios-plantImprove-timing-plot', out.width = '100%'}
 knitr::include_graphics("plots/5_multiplePar-timing-plantImprove-ggplot.png")
 ```
 
 \newpage
 
 ### Mutualistic types (human and plant) give more utility ($\bar{U}_{H_{n}P}> \bar{U}_{H_{1}P}$ AND $\bar{U}_{P_{n}H}> \bar{U}_{P_{1}H}$)
+\sectionmark{$\bar{U}_{H_{n}P}> \bar{U}_{H_{1}P}$ AND $\bar{U}_{P_{n}H}> \bar{U}_{P_{1}H}$}
 
 **_Coevolution coefficients_**
 
@@ -774,10 +945,10 @@ png("plots/5_multiplePar-coevo-bothImprove-ggplot.png",
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHC, 
-                            LHC.parameter.names,
+parameter.x.scenario.ggplot(exp.LHS, 
+                            LHS.parameter.names,
                             'coevo.H', 'coevo.P',
-                            scenarioSplitter = exp.LHC_bothImprove,
+                            scenarioSplitter = exp.LHS_bothImprove,
                             ylab = "coevolution coefficient",
                             plotScale = plotScale)
 dev.off()
@@ -798,12 +969,13 @@ png("plots/5_multiplePar-depend-bothImprove-ggplot.png",
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHC, 
-                            LHC.parameter.names,
+parameter.x.scenario.ggplot(exp.LHS, 
+                            LHS.parameter.names,
                             'depend.H', 'depend.P',
-                            scenarioSplitter = exp.LHC_bothImprove,
+                            scenarioSplitter = exp.LHS_bothImprove,
                             ylab = "dependency coefficient",
-                            plotScale = plotScale)
+                            plotScale = plotScale,
+                            y.log = TRUE)
 dev.off()
 ```
 
@@ -822,22 +994,24 @@ png("plots/5_multiplePar-timing-bothImprove-ggplot.png",
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHC, 
-                            LHC.parameter.names,
+parameter.x.scenario.ggplot(exp.LHS, 
+                            LHS.parameter.names,
                             'timing.H', 'timing.P',
-                            scenarioSplitter = exp.LHC_bothImprove,
+                            scenarioSplitter = exp.LHS_bothImprove,
                             ylab = "Timing",
-                            plotScale = plotScale)
+                            plotScale = plotScale,
+                            y.log = TRUE)
 dev.off()
 ```
 
-```{r 5_scenarios-bothImprove-timing-plot-print, timingson='5_scenarios-bothImprove-timing-plot', out.width = '100%'}
+```{r 5_scenarios-bothImprove-timing-plot-print, dependson='5_scenarios-bothImprove-timing-plot', out.width = '100%'}
 knitr::include_graphics("plots/5_multiplePar-timing-bothImprove-ggplot.png")
 ```
 
 \newpage
 
 ### Mutualistic human type gets less utility from other resources ($U_{bH_{1}}>U_{bH_{n}}$)
+\sectionmark{Scenario: $U_{bH_{1}}>U_{bH_{n}}$}
 
 **_Coevolution coefficients_**
 
@@ -850,10 +1024,10 @@ png("plots/5_multiplePar-coevo-humanLessBase-ggplot.png",
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHC, 
-                            LHC.parameter.names,
+parameter.x.scenario.ggplot(exp.LHS, 
+                            LHS.parameter.names,
                             'coevo.H', 'coevo.P',
-                            scenarioSplitter = exp.LHC_humanLessBase,
+                            scenarioSplitter = exp.LHS_humanLessBase,
                             ylab = "coevolution coefficient",
                             plotScale = plotScale)
 dev.off()
@@ -874,12 +1048,13 @@ png("plots/5_multiplePar-depend-humanLessBase-ggplot.png",
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHC, 
-                            LHC.parameter.names,
+parameter.x.scenario.ggplot(exp.LHS, 
+                            LHS.parameter.names,
                             'depend.H', 'depend.P',
-                            scenarioSplitter = exp.LHC_humanLessBase,
+                            scenarioSplitter = exp.LHS_humanLessBase,
                             ylab = "dependency coefficient",
-                            plotScale = plotScale)
+                            plotScale = plotScale,
+                            y.log = TRUE)
 dev.off()
 ```
 
@@ -898,22 +1073,24 @@ png("plots/5_multiplePar-timing-humanLessBase-ggplot.png",
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHC, 
-                            LHC.parameter.names,
+parameter.x.scenario.ggplot(exp.LHS, 
+                            LHS.parameter.names,
                             'timing.H', 'timing.P',
-                            scenarioSplitter = exp.LHC_humanLessBase,
+                            scenarioSplitter = exp.LHS_humanLessBase,
                             ylab = "Timing",
-                            plotScale = plotScale)
+                            plotScale = plotScale,
+                            y.log = TRUE)
 dev.off()
 ```
 
-```{r 5_scenarios-humanLessBase-timing-plot-print, timingson='5_scenarios-humanLessBase-timing-plot', out.width = '100%'}
+```{r 5_scenarios-humanLessBase-timing-plot-print, dependson='5_scenarios-humanLessBase-timing-plot', out.width = '100%'}
 knitr::include_graphics("plots/5_multiplePar-timing-humanLessBase-ggplot.png")
 ```
 
 \newpage
 
 ### Mutualistic plant type gets less utility from other resources ($U_{bP_{1}}>U_{bP_{n}}$)
+\sectionmark{Scenario: $U_{bP_{1}}>U_{bP_{n}}$}
 
 **_Coevolution coefficients_**
 
@@ -926,10 +1103,10 @@ png("plots/5_multiplePar-coevo-plantLessBase-ggplot.png",
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHC, 
-                            LHC.parameter.names,
+parameter.x.scenario.ggplot(exp.LHS, 
+                            LHS.parameter.names,
                             'coevo.H', 'coevo.P',
-                            scenarioSplitter = exp.LHC_plantLessBase,
+                            scenarioSplitter = exp.LHS_plantLessBase,
                             ylab = "coevolution coefficient",
                             plotScale = plotScale)
 dev.off()
@@ -950,12 +1127,13 @@ png("plots/5_multiplePar-depend-plantLessBase-ggplot.png",
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHC, 
-                            LHC.parameter.names,
+parameter.x.scenario.ggplot(exp.LHS, 
+                            LHS.parameter.names,
                             'depend.H', 'depend.P',
-                            scenarioSplitter = exp.LHC_plantLessBase,
+                            scenarioSplitter = exp.LHS_plantLessBase,
                             ylab = "dependency coefficient",
-                            plotScale = plotScale)
+                            plotScale = plotScale,
+                            y.log = TRUE)
 dev.off()
 ```
 
@@ -974,22 +1152,24 @@ png("plots/5_multiplePar-timing-plantLessBase-ggplot.png",
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHC, 
-                            LHC.parameter.names,
+parameter.x.scenario.ggplot(exp.LHS, 
+                            LHS.parameter.names,
                             'timing.H', 'timing.P',
-                            scenarioSplitter = exp.LHC_plantLessBase,
+                            scenarioSplitter = exp.LHS_plantLessBase,
                             ylab = "Timing",
-                            plotScale = plotScale)
+                            plotScale = plotScale,
+                            y.log = TRUE)
 dev.off()
 ```
 
-```{r 5_scenarios-plantLessBase-timing-plot-print, timingson='5_scenarios-plantLessBase-timing-plot', out.width = '100%'}
+```{r 5_scenarios-plantLessBase-timing-plot-print, dependson='5_scenarios-plantLessBase-timing-plot', out.width = '100%'}
 knitr::include_graphics("plots/5_multiplePar-timing-plantLessBase-ggplot.png")
 ```
 
 \newpage
 
 ### Mutualistic types (human and plant) get less utility from other resources ($U_{bH_{1}}>U_{bH_{n}}$ AND $U_{bP_{1}}>U_{bP_{n}}$)
+\sectionmark{Scenario: $U_{bH_{1}}>U_{bH_{n}}$ AND $U_{bP_{1}}>U_{bP_{n}}$}
 
 **_Coevolution coefficients_**
 
@@ -1002,10 +1182,10 @@ png("plots/5_multiplePar-coevo-bothLessBase-ggplot.png",
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHC, 
-                            LHC.parameter.names,
+parameter.x.scenario.ggplot(exp.LHS, 
+                            LHS.parameter.names,
                             'coevo.H', 'coevo.P',
-                            scenarioSplitter = exp.LHC_bothLessBase,
+                            scenarioSplitter = exp.LHS_bothLessBase,
                             ylab = "coevolution coefficient",
                             plotScale = plotScale)
 dev.off()
@@ -1026,12 +1206,13 @@ png("plots/5_multiplePar-depend-bothLessBase-ggplot.png",
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHC, 
-                            LHC.parameter.names,
+parameter.x.scenario.ggplot(exp.LHS, 
+                            LHS.parameter.names,
                             'depend.H', 'depend.P',
-                            scenarioSplitter = exp.LHC_bothLessBase,
+                            scenarioSplitter = exp.LHS_bothLessBase,
                             ylab = "dependency coefficient",
-                            plotScale = plotScale)
+                            plotScale = plotScale,
+                            y.log = TRUE)
 dev.off()
 ```
 
@@ -1050,16 +1231,17 @@ png("plots/5_multiplePar-timing-bothLessBase-ggplot.png",
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHC, 
-                            LHC.parameter.names,
+parameter.x.scenario.ggplot(exp.LHS, 
+                            LHS.parameter.names,
                             'timing.H', 'timing.P',
-                            scenarioSplitter = exp.LHC_bothLessBase,
+                            scenarioSplitter = exp.LHS_bothLessBase,
                             ylab = "Timing",
-                            plotScale = plotScale)
+                            plotScale = plotScale,
+                            y.log = TRUE)
 dev.off()
 ```
 
-```{r 5_scenarios-bothLessBase-timing-plot-print, timingson='5_scenarios-bothLessBase-timing-plot', out.width = '100%'}
+```{r 5_scenarios-bothLessBase-timing-plot-print, dependson='5_scenarios-bothLessBase-timing-plot', out.width = '100%'}
 knitr::include_graphics("plots/5_multiplePar-timing-bothLessBase-ggplot.png")
 ```
 
@@ -1067,50 +1249,117 @@ knitr::include_graphics("plots/5_multiplePar-timing-bothLessBase-ggplot.png")
 
 ## Random forest (manual tuning)
 
-```{r 5_find-number-trees, include=FALSE}
+```{r 5_RF.tunning.preparation, include=FALSE}
 set.seed(777)
 
-# prepare data
-exp.LHC.r <- exp.LHC[sample(1:nrow(exp.LHC), nrow(exp.LHC)),]
+exp.LHS.r <- exp.LHS[P.exist,]
 
-exp.LHC.spl <- split(as.data.frame(exp.LHC.r), 
-                 f = factor(ceiling(seq_along(1:nrow(exp.LHC.r)) / 1000)))
+exp.LHS.r <- exp.LHS.r[sample(1:nrow(exp.LHS.r), nrow(exp.LHS.r)),]
 
-Grid <- expand.grid(c(2:6), c(500, 750, 1000))
+exp.LHS.spl <- split(as.data.frame(exp.LHS.r), 
+                     f = factor(ceiling(seq_along(1:nrow(exp.LHS.r)) / 1000)))
 
-# cluster and loop
-cl <- makeCluster(6)
-clusterExport(cl, list('randomForest', 'Grid', 'exp.LHC.spl'), envir = environment())
-
-AUX <- parSapply(cl, 1:nrow(Grid), function(p) {
-  aux <- c()
-  for (i in 1:10) {
-    X <- do.call(rbind, exp.LHC.spl[-i])
-    RF.coevo.h <- randomForest(
-      coevo.H ~ max.h + max.p + Um.ph + Um.hp + Ump.ph + Ump.hp + Kmp.h + Kmp.p,
-      data = X,
-      mtry = Grid[p, 1],
-      ntree = Grid[p, 2]
-    )
-    RF.coevo.p <- randomForest(
-      coevo.P ~ max.h + max.p + Um.ph + Um.hp + Ump.ph + Ump.hp + Kmp.h + Kmp.p,
-      data = X,
-      mtry = Grid[p, 1],
-      ntree = Grid[p, 2]
-    )
-    acc.coevo.H <- 
-      mean((predict(RF.coevo.h, exp.LHC.spl[[i]][, 1:8]) - exp.LHC.spl[[i]]$LM.h) ^ 2)
-    acc.coevo.P <- 
-      mean((predict(RF.coevo.p, exp.LHC.spl[[i]][, 1:8]) - exp.LHC.spl[[i]]$LM.p) ^ 2)
-    
-    rm(RF.coevo.H)
-    gc()
-    rm(RF.coevo.p)
-    gc()
-    
-    aux[i] <- acc.coevo.H + acc.coevo.P
-  }
-  
-  return(mean(aux))
-})
+Grid <- expand.grid(mtry = c(2:6), ntree = c(500, 750, 1000))
 ```
+
+```{r 5_RF.tunning.H, include=FALSE}
+if (!file.exists('RF.coevo.H-tunning.RData')) # you must delete "RF.coevo.H-tunning.RData" to create a new file
+{
+  # cluster and loop
+  cl <- makeCluster(6)
+  clusterExport(cl, 
+                list('randomForest', 'Grid', 'LHS.parameter.names', 'exp.LHS.spl'), 
+                envir = environment())
+  
+  RF.coevo.H.tunning <- parSapply(cl, 1:nrow(Grid), function(p) {
+    aux <- c()
+    for (i in 1:10) {
+      X <- do.call(rbind, exp.LHS.spl[-i])
+      RF.coevo.H <- randomForest(
+        as.formula(paste0("coevo.H ~ ", paste(LHS.parameter.names, collapse = '+'))),
+        data = X,
+        mtry = Grid[p, 1],
+        ntree = Grid[p, 2]
+      )
+      acc.coevo.H <- 
+        mean((predict(RF.coevo.H, exp.LHS.spl[[i]][, 1:15]) - exp.LHS.spl[[i]]$coevo.H) ^ 2)
+      
+      rm(RF.coevo.H)
+      gc()
+      
+      aux[i] <- acc.coevo.H
+    }
+    
+    return(mean(aux))
+  })
+
+  RF.coevo.H.tunning <- cbind(Grid, mean.predict = RF.coevo.H.tunning)
+  # save
+  save(RF.coevo.H.tunning, file = 'RF.coevo.H-tunning.RData')
+}
+```
+
+```{r 5_RF.coevo.H.tunning-load, include=FALSE}
+# load
+load('RF.coevo.H-tunning.RData')
+```
+
+```{r 5_RF.tunning.P, include=FALSE, eval=FALSE}
+if (!file.exists('RF.coevo.P-tunning.RData')) # you must delete "RF.coevo.P-tunning.RData" to create a new file
+{
+  # cluster and loop
+  cl <- makeCluster(6)
+  clusterExport(cl, 
+                list('randomForest', 'Grid', 'LHS.parameter.names', 'exp.LHS.spl'), 
+                envir = environment())
+  
+  RF.coevo.P.tunning <- parSapply(cl, 1:nrow(Grid), function(p) {
+    aux <- c()
+    for (i in 1:10) {
+      exp.LHS.leftOneOut <- do.call(rbind, exp.LHS.spl[-i])
+      RF.coevo.P <- randomForest(
+        as.formula(paste0("coevo.P ~ ", paste(LHS.parameter.names, collapse = '+'))),
+        data = exp.LHS.leftOneOut,
+        mtry = Grid[p, 1],
+        ntree = Grid[p, 2]
+      )
+      acc.coevo.P <- 
+        mean((predict(RF.coevo.P, exp.LHS.spl[[i]][, 1:15]) - exp.LHS.spl[[i]]$coevo.P) ^ 2)
+      
+      rm(RF.coevo.p)
+      gc()
+      
+      aux[i] <- acc.coevo.P
+    }
+    
+    return(mean(aux))
+  })
+
+  RF.coevo.P.tunning <- cbind(Grid, mean.predict = RF.coevo.P.tunning)
+  # save
+  save(RF.coevo.P.tunning, file = 'RF.coevo.P-tunning.RData')
+}
+```
+
+```{r 5_RF.coevo.P.tunning-load, include=FALSE}
+# load
+load('RF.coevo.P-tunning.RData')
+```
+
+```{r 5_RF.coevo.tunning-plot, dependson=c('5_RF.coevo.H.tunning-load', '5_RF.coevo.P.tunning-load'), out.width = '100%'}
+temp <- cbind(
+  output.var = c(
+    rep('coevo.H', nrow(RF.coevo.H.tunning)), 
+    rep('coevo.P', nrow(RF.coevo.P.tunning))
+    ),
+  rbind(RF.coevo.H.tunning, RF.coevo.P.tunning)
+  )
+
+ggplot(temp, aes(x = ntree, y = mtry)) + 
+  geom_tile(aes(fill = mean.predict), colour = "white") + 
+  scale_fill_gradient(low = "white", high = "black") +
+  geom_text(aes(label = round(mean.predict, 5)), color = "steelblue") +
+  facet_wrap(.~output.var) + theme_bw()
+```
+
+

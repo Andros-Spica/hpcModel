@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>4.9 Utility from other resources to type n humans and plants and utility per capita of type 1 humans and plants (\(U_{bP_{n}}\) x \(U_{bH_{n}}\) x \(\bar{U}_{H_{1}P}\) x \(\bar{U}_{P_{1}H}\)) | Human-Plant Coevolution (HPC) model General exploration and parameter sensitivity analysis</title>
+  <meta name="description" content="The Human-Plant Coevolution (HPC) model represents the dynamics of coevolution between a human and a plant population. The model consists of an ecological positive feedback system (mutualism), which can be reinforced by positive evolutionary feedback (coevolution). The model is the result of wiring together relatively simple simulation models of population ecology and evolution, through a computational implementation in R.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="4.9 Utility from other resources to type n humans and plants and utility per capita of type 1 humans and plants (\(U_{bP_{n}}\) x \(U_{bH_{n}}\) x \(\bar{U}_{H_{1}P}\) x \(\bar{U}_{P_{1}H}\)) | Human-Plant Coevolution (HPC) model General exploration and parameter sensitivity analysis" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://andros-spica.github.io/hpcModel/" />
+  <meta property="og:image" content="https://andros-spica.github.io/hpcModel/images/hpcModel-logo_v2.png" />
+  <meta property="og:description" content="The Human-Plant Coevolution (HPC) model represents the dynamics of coevolution between a human and a plant population. The model consists of an ecological positive feedback system (mutualism), which can be reinforced by positive evolutionary feedback (coevolution). The model is the result of wiring together relatively simple simulation models of population ecology and evolution, through a computational implementation in R." />
+  <meta name="github-repo" content="Andros-Spica/hpcModel" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="4.9 Utility from other resources to type n humans and plants and utility per capita of type 1 humans and plants (\(U_{bP_{n}}\) x \(U_{bH_{n}}\) x \(\bar{U}_{H_{1}P}\) x \(\bar{U}_{P_{1}H}\)) | Human-Plant Coevolution (HPC) model General exploration and parameter sensitivity analysis" />
+  
+  <meta name="twitter:description" content="The Human-Plant Coevolution (HPC) model represents the dynamics of coevolution between a human and a plant population. The model consists of an ecological positive feedback system (mutualism), which can be reinforced by positive evolutionary feedback (coevolution). The model is the result of wiring together relatively simple simulation models of population ecology and evolution, through a computational implementation in R." />
+  <meta name="twitter:image" content="https://andros-spica.github.io/hpcModel/images/hpcModel-logo_v2.png" />
+
+
+
+<meta name="date" content="2019-07-31">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="utility-from-other-resources-to-type-1-humans-and-plants-and-utility-per-capita-of-type-n-humans-and-plants-u-bp-1-x-u-bh-1-x-baru-h-np-x-baru-p-nh.html">
+<link rel="next" href="multiple-parameter-exploration.html">
+<script src="assets/jquery-2.2.3/jquery.min.js"></script>
+<link href="assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="assets/kePrint-0.0.1/kePrint.js"></script>
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="https://andros-spica.github.io/hpcModel/">Human-Plant model - exploration book</a></li>
+Andreas Angourakis & Jonàs Alcaina
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>_______</a></li>
+<li class="chapter" data-level="" data-path="model-overview.html"><a href="model-overview.html"><i class="fa fa-check"></i>Model overview</a></li>
+<li class="chapter" data-level="1" data-path="single-runs.html"><a href="single-runs.html"><i class="fa fa-check"></i><b>1</b> Single runs</a><ul>
+<li class="chapter" data-level="1.1" data-path="fast-coevolution-default.html"><a href="fast-coevolution-default.html"><i class="fa fa-check"></i><b>1.1</b> Fast coevolution (default)</a></li>
+<li class="chapter" data-level="1.2" data-path="no-coevolution.html"><a href="no-coevolution.html"><i class="fa fa-check"></i><b>1.2</b> No coevolution</a></li>
+<li class="chapter" data-level="1.3" data-path="coevolution-with-early-cultivation.html"><a href="coevolution-with-early-cultivation.html"><i class="fa fa-check"></i><b>1.3</b> Coevolution with early cultivation</a></li>
+<li class="chapter" data-level="1.4" data-path="coevolution-with-early-domestication.html"><a href="coevolution-with-early-domestication.html"><i class="fa fa-check"></i><b>1.4</b> Coevolution with early domestication</a></li>
+<li class="chapter" data-level="1.5" data-path="cultivation-without-domestication.html"><a href="cultivation-without-domestication.html"><i class="fa fa-check"></i><b>1.5</b> Cultivation without domestication</a></li>
+<li class="chapter" data-level="1.6" data-path="coevolution-with-population-bleep.html"><a href="coevolution-with-population-bleep.html"><i class="fa fa-check"></i><b>1.6</b> Coevolution with population “bleep”</a></li>
+<li class="chapter" data-level="1.7" data-path="coevolution-with-population-boom.html"><a href="coevolution-with-population-boom.html"><i class="fa fa-check"></i><b>1.7</b> Coevolution with population “boom”</a></li>
+<li class="chapter" data-level="1.8" data-path="coevolution-with-long-population-boom.html"><a href="coevolution-with-long-population-boom.html"><i class="fa fa-check"></i><b>1.8</b> Coevolution with long population “boom”</a></li>
+<li class="chapter" data-level="1.9" data-path="semi-coevolution-stationary-point.html"><a href="semi-coevolution-stationary-point.html"><i class="fa fa-check"></i><b>1.9</b> Semi-coevolution (stationary point)</a></li>
+<li class="chapter" data-level="1.10" data-path="semi-coevolution-oscillations.html"><a href="semi-coevolution-oscillations.html"><i class="fa fa-check"></i><b>1.10</b> Semi-coevolution (oscillations)</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="one-parameter-exploration.html"><a href="one-parameter-exploration.html"><i class="fa fa-check"></i><b>2</b> One parameter exploration</a><ul>
+<li class="chapter" data-level="2.1" data-path="full-example-tableplot-alternatives.html"><a href="full-example-tableplot-alternatives.html"><i class="fa fa-check"></i><b>2.1</b> Full example (table+plot alternatives)</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="full-example-tableplot-alternatives.html"><a href="full-example-tableplot-alternatives.html#utility-per-capita-of-type-n-plants-to-humans-baru_p_nh"><i class="fa fa-check"></i><b>2.1.1</b> utility per capita <strong>of</strong> type n plants <strong>to</strong> humans (<span class="math inline">\(\bar{U}_{P_{n}H}\)</span>):</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="exploration-on-default-setting-for-each-parameter.html"><a href="exploration-on-default-setting-for-each-parameter.html"><i class="fa fa-check"></i><b>2.2</b> Exploration on ‘default’ setting for each parameter:</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="exploration-on-default-setting-for-each-parameter.html"><a href="exploration-on-default-setting-for-each-parameter.html#initial-populations-of-humans-and-plants-init_hinit_p"><i class="fa fa-check"></i><b>2.2.1</b> Initial populations of humans and plants (<span class="math inline">\(init_{H},\,init_{P}\)</span>)</a></li>
+<li class="chapter" data-level="2.2.2" data-path="exploration-on-default-setting-for-each-parameter.html"><a href="exploration-on-default-setting-for-each-parameter.html#number-of-types-of-humans-and-plants-n_hn_p"><i class="fa fa-check"></i><b>2.2.2</b> Number of types of humans and plants (<span class="math inline">\(n_{H},\,n_{P}\)</span>):</a></li>
+<li class="chapter" data-level="2.2.3" data-path="exploration-on-default-setting-for-each-parameter.html"><a href="exploration-on-default-setting-for-each-parameter.html#level-of-undirected-variation-in-humans-and-plants-v_hv_p"><i class="fa fa-check"></i><b>2.2.3</b> level of undirected variation in humans and plants (<span class="math inline">\(v_{H},\,v_{P}\)</span>):</a></li>
+<li class="chapter" data-level="2.2.4" data-path="exploration-on-default-setting-for-each-parameter.html"><a href="exploration-on-default-setting-for-each-parameter.html#intrinsic-growth-rates-for-human-and-plant-populations-r_hr_p"><i class="fa fa-check"></i><b>2.2.4</b> intrinsic growth rates for human and plant populations (<span class="math inline">\(r_{H},\,r_{P}\)</span>):</a></li>
+<li class="chapter" data-level="2.2.5" data-path="exploration-on-default-setting-for-each-parameter.html"><a href="exploration-on-default-setting-for-each-parameter.html#utility-per-capita-of-type-n-plants-to-humans-baru_p_nh-1"><i class="fa fa-check"></i><b>2.2.5</b> utility per capita <strong>of</strong> type n plants <strong>to</strong> humans (<span class="math inline">\(\bar{U}_{P_{n}H}\)</span>):</a></li>
+<li class="chapter" data-level="2.2.6" data-path="exploration-on-default-setting-for-each-parameter.html"><a href="exploration-on-default-setting-for-each-parameter.html#utility-per-capita-of-type-n-human-to-plants-baru_h_np"><i class="fa fa-check"></i><b>2.2.6</b> utility per capita <strong>of</strong> type n human <strong>to</strong> plants (<span class="math inline">\(\bar{U}_{H_{n}P}\)</span>):</a></li>
+<li class="chapter" data-level="2.2.7" data-path="exploration-on-default-setting-for-each-parameter.html"><a href="exploration-on-default-setting-for-each-parameter.html#utility-per-capita-of-type-1-plants-to-humans-baru_p_1h"><i class="fa fa-check"></i><b>2.2.7</b> utility per capita <strong>of</strong> type 1 plants <strong>to</strong> humans (<span class="math inline">\(\bar{U}_{P_{1}H}\)</span>):</a></li>
+<li class="chapter" data-level="2.2.8" data-path="exploration-on-default-setting-for-each-parameter.html"><a href="exploration-on-default-setting-for-each-parameter.html#utility-per-capita-of-type-1-humans-to-plants-baru_h_1p"><i class="fa fa-check"></i><b>2.2.8</b> utility per capita <strong>of</strong> type 1 humans <strong>to</strong> plants (<span class="math inline">\(\bar{U}_{H_{1}P}\)</span>):</a></li>
+<li class="chapter" data-level="2.2.9" data-path="exploration-on-default-setting-for-each-parameter.html"><a href="exploration-on-default-setting-for-each-parameter.html#utility-of-other-resources-to-humans-of-type-1-u_bh_1"><i class="fa fa-check"></i><b>2.2.9</b> utility <strong>of</strong> other resources <strong>to</strong> humans of type 1 (<span class="math inline">\(U_{bH_{1}}\)</span>):</a></li>
+<li class="chapter" data-level="2.2.10" data-path="exploration-on-default-setting-for-each-parameter.html"><a href="exploration-on-default-setting-for-each-parameter.html#utility-of-non-anthropic-space-to-type-1-plants-u_bp_1"><i class="fa fa-check"></i><b>2.2.10</b> utility <strong>of</strong> non-anthropic space <strong>to</strong> type 1 plants (<span class="math inline">\(U_{bP_{1}}\)</span>):</a></li>
+<li class="chapter" data-level="2.2.11" data-path="exploration-on-default-setting-for-each-parameter.html"><a href="exploration-on-default-setting-for-each-parameter.html#utility-of-other-resources-to-type-n-humans-u_bh_n"><i class="fa fa-check"></i><b>2.2.11</b> utility <strong>of</strong> other resources <strong>to</strong> type n humans (<span class="math inline">\(U_{bH_{n}}\)</span>):</a></li>
+<li class="chapter" data-level="2.2.12" data-path="exploration-on-default-setting-for-each-parameter.html"><a href="exploration-on-default-setting-for-each-parameter.html#utility-of-non-anthropic-space-to-type-n-plants-u_bp_n"><i class="fa fa-check"></i><b>2.2.12</b> utility <strong>of</strong> non-anthropic space <strong>to</strong> type n plants (<span class="math inline">\(U_{bP_{n}}\)</span>):</a></li>
+<li class="chapter" data-level="2.2.13" data-path="exploration-on-default-setting-for-each-parameter.html"><a href="exploration-on-default-setting-for-each-parameter.html#maximum-contiguous-area-to-be-used-by-plants-maxarea"><i class="fa fa-check"></i><b>2.2.13</b> maximum contiguous area to be used by plants (<span class="math inline">\(MaxArea\)</span>):</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="oscilations.html"><a href="oscilations.html"><i class="fa fa-check"></i><b>2.3</b> Oscilations</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="two-parameter-exploration.html"><a href="two-parameter-exploration.html"><i class="fa fa-check"></i><b>3</b> Two parameter exploration</a><ul>
+<li class="chapter" data-level="3.1" data-path="full-example.html"><a href="full-example.html"><i class="fa fa-check"></i><b>3.1</b> Full example</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="full-example.html"><a href="full-example.html#utility-per-capita-from-type-n-humans-and-plants-baru_h_np-x-baru_p_nh"><i class="fa fa-check"></i><b>3.1.1</b> Utility per capita from type n humans and plants (<span class="math inline">\(\bar{U}_{H_{n}P}\)</span> x <span class="math inline">\(\bar{U}_{P_{n}H}\)</span>)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="exploration-on-default-setting-for-parameter-pairs.html"><a href="exploration-on-default-setting-for-parameter-pairs.html"><i class="fa fa-check"></i><b>3.2</b> Exploration on ‘default’ setting for parameter pairs</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="exploration-on-default-setting-for-parameter-pairs.html"><a href="exploration-on-default-setting-for-parameter-pairs.html#number-of-types-of-humans-and-plants-n_h-x-n_p"><i class="fa fa-check"></i><b>3.2.1</b> Number of types of humans and plants (<span class="math inline">\(n_{H}\)</span> x <span class="math inline">\(n_{P}\)</span>)</a></li>
+<li class="chapter" data-level="3.2.2" data-path="exploration-on-default-setting-for-parameter-pairs.html"><a href="exploration-on-default-setting-for-parameter-pairs.html#undirected-variation-in-humans-and-plants-v_h-x-v_p"><i class="fa fa-check"></i><b>3.2.2</b> Undirected variation in humans and plants (<span class="math inline">\(v_{H}\)</span> x <span class="math inline">\(v_{P}\)</span>)</a></li>
+<li class="chapter" data-level="3.2.3" data-path="exploration-on-default-setting-for-parameter-pairs.html"><a href="exploration-on-default-setting-for-parameter-pairs.html#utility-per-capita-from-type-1-humans-and-plants-baru_h_1p-x-baru_p_1h"><i class="fa fa-check"></i><b>3.2.3</b> Utility per capita from type 1 humans and plants (<span class="math inline">\(\bar{U}_{H_{1}P}\)</span> x <span class="math inline">\(\bar{U}_{P_{1}H}\)</span>)</a></li>
+<li class="chapter" data-level="3.2.4" data-path="exploration-on-default-setting-for-parameter-pairs.html"><a href="exploration-on-default-setting-for-parameter-pairs.html#utility-per-capita-from-type-n-humans-and-plants-baru_h_np-x-baru_p_nh-1"><i class="fa fa-check"></i><b>3.2.4</b> Utility per capita from type n humans and plants (<span class="math inline">\(\bar{U}_{H_{n}P}\)</span> x <span class="math inline">\(\bar{U}_{P_{n}H}\)</span>)</a></li>
+<li class="chapter" data-level="3.2.5" data-path="exploration-on-default-setting-for-parameter-pairs.html"><a href="exploration-on-default-setting-for-parameter-pairs.html#utility-per-capita-from-humans-to-plants-baru_h_1p-x-baru_h_np"><i class="fa fa-check"></i><b>3.2.5</b> Utility per capita from humans to plants (<span class="math inline">\(\bar{U}_{H_{1}P}\)</span> x <span class="math inline">\(\bar{U}_{H_{n}P}\)</span>)</a></li>
+<li class="chapter" data-level="3.2.6" data-path="exploration-on-default-setting-for-parameter-pairs.html"><a href="exploration-on-default-setting-for-parameter-pairs.html#utility-per-capita-from-plants-to-humans-baru_p_1h-x-baru_p_nh"><i class="fa fa-check"></i><b>3.2.6</b> Utility per capita from plants to humans (<span class="math inline">\(\bar{U}_{P_{1}H}\)</span> x <span class="math inline">\(\bar{U}_{P_{n}H}\)</span>)</a></li>
+<li class="chapter" data-level="3.2.7" data-path="exploration-on-default-setting-for-parameter-pairs.html"><a href="exploration-on-default-setting-for-parameter-pairs.html#utility-of-other-resources-to-type-1-humans-and-plants-u_bh_1-x-u_bp_1"><i class="fa fa-check"></i><b>3.2.7</b> Utility of other resources to type 1 humans and plants (<span class="math inline">\(U_{bH_{1}}\)</span> x <span class="math inline">\(U_{bP_{1}}\)</span>)</a></li>
+<li class="chapter" data-level="3.2.8" data-path="exploration-on-default-setting-for-parameter-pairs.html"><a href="exploration-on-default-setting-for-parameter-pairs.html#utility-of-other-resources-to-type-n-humans-and-plants-u_bh_n-x-u_bp_n"><i class="fa fa-check"></i><b>3.2.8</b> Utility of other resources to type n humans and plants (<span class="math inline">\(U_{bH_{n}}\)</span> x <span class="math inline">\(U_{bP_{n}}\)</span>)</a></li>
+<li class="chapter" data-level="3.2.9" data-path="exploration-on-default-setting-for-parameter-pairs.html"><a href="exploration-on-default-setting-for-parameter-pairs.html#utility-of-other-resources-to-humans-u_bh_1-x-u_bh_n"><i class="fa fa-check"></i><b>3.2.9</b> Utility of other resources to humans (<span class="math inline">\(U_{bH_{1}}\)</span> x <span class="math inline">\(U_{bH_{n}}\)</span>)</a></li>
+<li class="chapter" data-level="3.2.10" data-path="exploration-on-default-setting-for-parameter-pairs.html"><a href="exploration-on-default-setting-for-parameter-pairs.html#utility-of-other-resources-to-plants-u_bp_1-x-u_bp_n"><i class="fa fa-check"></i><b>3.2.10</b> Utility of other resources to plants (<span class="math inline">\(U_{bP_{1}}\)</span> x <span class="math inline">\(U_{bP_{n}}\)</span>)</a></li>
+<li class="chapter" data-level="3.2.11" data-path="exploration-on-default-setting-for-parameter-pairs.html"><a href="exploration-on-default-setting-for-parameter-pairs.html#utility-of-other-resources-to-type-1-humans-and-utility-per-capita-of-type-1-humans-to-plants-u_bh_1-x-baru_h_1p"><i class="fa fa-check"></i><b>3.2.11</b> Utility of other resources to type 1 humans and utility per capita of type 1 humans to plants (<span class="math inline">\(U_{bH_{1}}\)</span> x <span class="math inline">\(\bar{U}_{H_{1}P}\)</span>)</a></li>
+<li class="chapter" data-level="3.2.12" data-path="exploration-on-default-setting-for-parameter-pairs.html"><a href="exploration-on-default-setting-for-parameter-pairs.html#utility-of-other-resources-to-type-1-plants-and-utility-per-capita-of-type-1-plants-to-humans-u_bp_1-x-baru_p_1h"><i class="fa fa-check"></i><b>3.2.12</b> Utility of other resources to type 1 plants and utility per capita of type 1 plants to humans (<span class="math inline">\(U_{bP_{1}}\)</span> x <span class="math inline">\(\bar{U}_{P_{1}H}\)</span>)</a></li>
+<li class="chapter" data-level="3.2.13" data-path="exploration-on-default-setting-for-parameter-pairs.html"><a href="exploration-on-default-setting-for-parameter-pairs.html#utility-of-other-resources-to-type-n-humans-and-utility-per-capita-of-type-n-humans-to-plants-u_bh_n-x-baru_h_np"><i class="fa fa-check"></i><b>3.2.13</b> Utility of other resources to type n humans and utility per capita of type n humans to plants (<span class="math inline">\(U_{bH_{n}}\)</span> x <span class="math inline">\(\bar{U}_{H_{n}P}\)</span>)</a></li>
+<li class="chapter" data-level="3.2.14" data-path="exploration-on-default-setting-for-parameter-pairs.html"><a href="exploration-on-default-setting-for-parameter-pairs.html#utility-of-other-resources-to-type-n-plants-and-utility-per-capita-of-type-n-plants-to-humans-u_bp_n-x-baru_p_nh"><i class="fa fa-check"></i><b>3.2.14</b> Utility of other resources to type n plants and utility per capita of type n plants to humans (<span class="math inline">\(U_{bP_{n}}\)</span> x <span class="math inline">\(\bar{U}_{P_{n}H}\)</span>)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="four-parameter-exploration.html"><a href="four-parameter-exploration.html"><i class="fa fa-check"></i><b>4</b> Four parameter exploration</a><ul>
+<li class="chapter" data-level="4.1" data-path="number-of-types-and-undirected-variation-of-humans-and-plants-n-h-x-n-p-x-v-h-x-v-p.html"><a href="number-of-types-and-undirected-variation-of-humans-and-plants-n-h-x-n-p-x-v-h-x-v-p.html"><i class="fa fa-check"></i><b>4.1</b> Number of types and undirected variation of humans and plants (<span class="math inline">\(n_{H}\)</span> x <span class="math inline">\(n_{P}\)</span> x <span class="math inline">\(v_{H}\)</span> x <span class="math inline">\(v_{P}\)</span>)</a></li>
+<li class="chapter" data-level="4.2" data-path="utility-per-capita-between-humans-and-plants-baru-h-1p-x-baru-p-1h-x-baru-h-np-x-baru-p-nh.html"><a href="utility-per-capita-between-humans-and-plants-baru-h-1p-x-baru-p-1h-x-baru-h-np-x-baru-p-nh.html"><i class="fa fa-check"></i><b>4.2</b> Utility per capita between humans and plants (<span class="math inline">\(\bar{U}_{H_{1}P}\)</span> x <span class="math inline">\(\bar{U}_{P_{1}H}\)</span> x <span class="math inline">\(\bar{U}_{H_{n}P}\)</span> x <span class="math inline">\(\bar{U}_{P_{n}H}\)</span>)</a></li>
+<li class="chapter" data-level="4.3" data-path="utility-from-other-resources-to-humans-and-plants-u-bh-1-x-u-bp-1-x-u-bh-n-x-u-bp-n.html"><a href="utility-from-other-resources-to-humans-and-plants-u-bh-1-x-u-bp-1-x-u-bh-n-x-u-bp-n.html"><i class="fa fa-check"></i><b>4.3</b> Utility from other resources to humans and plants (<span class="math inline">\(U_{bH_{1}}\)</span> x <span class="math inline">\(U_{bP_{1}}\)</span> x <span class="math inline">\(U_{bH_{n}}\)</span> x <span class="math inline">\(U_{bP_{n}}\)</span>)</a></li>
+<li class="chapter" data-level="4.4" data-path="utility-from-other-resources-to-humans-and-utility-per-capita-of-plants-to-humans-u-bh-1-x-u-bh-n-x-baru-p-1h-x-baru-p-nh.html"><a href="utility-from-other-resources-to-humans-and-utility-per-capita-of-plants-to-humans-u-bh-1-x-u-bh-n-x-baru-p-1h-x-baru-p-nh.html"><i class="fa fa-check"></i><b>4.4</b> Utility from other resources to humans and utility per capita of plants to humans (<span class="math inline">\(U_{bH_{1}}\)</span> x <span class="math inline">\(U_{bH_{n}}\)</span> x <span class="math inline">\(\bar{U}_{P_{1}H}\)</span> x <span class="math inline">\(\bar{U}_{P_{n}H}\)</span>)</a></li>
+<li class="chapter" data-level="4.5" data-path="utility-from-other-resources-to-plants-and-utility-per-capita-of-humans-to-plants-u-bp-1-x-u-bp-n-x-baru-h-1p-x-baru-h-np.html"><a href="utility-from-other-resources-to-plants-and-utility-per-capita-of-humans-to-plants-u-bp-1-x-u-bp-n-x-baru-h-1p-x-baru-h-np.html"><i class="fa fa-check"></i><b>4.5</b> Utility from other resources to plants and utility per capita of humans to plants (<span class="math inline">\(U_{bP_{1}}\)</span> x <span class="math inline">\(U_{bP_{n}}\)</span> x <span class="math inline">\(\bar{U}_{H_{1}P}\)</span> x <span class="math inline">\(\bar{U}_{H_{n}P}\)</span>)</a></li>
+<li class="chapter" data-level="4.6" data-path="utility-from-other-resources-and-utility-per-capita-of-type-1-humans-and-plants-u-bp-1-x-u-bh-1-x-baru-h-1p-x-baru-p-1h.html"><a href="utility-from-other-resources-and-utility-per-capita-of-type-1-humans-and-plants-u-bp-1-x-u-bh-1-x-baru-h-1p-x-baru-p-1h.html"><i class="fa fa-check"></i><b>4.6</b> Utility from other resources and utility per capita of type 1 humans and plants (<span class="math inline">\(U_{bP_{1}}\)</span> x <span class="math inline">\(U_{bH_{1}}\)</span> x <span class="math inline">\(\bar{U}_{H_{1}P}\)</span> x <span class="math inline">\(\bar{U}_{P_{1}H}\)</span>)</a></li>
+<li class="chapter" data-level="4.7" data-path="utility-from-other-resources-and-utility-per-capita-of-type-n-humans-and-plants-u-bp-n-x-u-bh-n-x-baru-h-np-x-baru-p-nh.html"><a href="utility-from-other-resources-and-utility-per-capita-of-type-n-humans-and-plants-u-bp-n-x-u-bh-n-x-baru-h-np-x-baru-p-nh.html"><i class="fa fa-check"></i><b>4.7</b> Utility from other resources and utility per capita of type n humans and plants (<span class="math inline">\(U_{bP_{n}}\)</span> x <span class="math inline">\(U_{bH_{n}}\)</span> x <span class="math inline">\(\bar{U}_{H_{n}P}\)</span> x <span class="math inline">\(\bar{U}_{P_{n}H}\)</span>)</a></li>
+<li class="chapter" data-level="4.8" data-path="utility-from-other-resources-to-type-1-humans-and-plants-and-utility-per-capita-of-type-n-humans-and-plants-u-bp-1-x-u-bh-1-x-baru-h-np-x-baru-p-nh.html"><a href="utility-from-other-resources-to-type-1-humans-and-plants-and-utility-per-capita-of-type-n-humans-and-plants-u-bp-1-x-u-bh-1-x-baru-h-np-x-baru-p-nh.html"><i class="fa fa-check"></i><b>4.8</b> Utility from other resources to type 1 humans and plants and utility per capita of type n humans and plants (<span class="math inline">\(U_{bP_{1}}\)</span> x <span class="math inline">\(U_{bH_{1}}\)</span> x <span class="math inline">\(\bar{U}_{H_{n}P}\)</span> x <span class="math inline">\(\bar{U}_{P_{n}H}\)</span>)</a></li>
+<li class="chapter" data-level="4.9" data-path="utility-from-other-resources-to-type-n-humans-and-plants-and-utility-per-capita-of-type-1-humans-and-plants-u-bp-n-x-u-bh-n-x-baru-h-1p-x-baru-p-1h.html"><a href="utility-from-other-resources-to-type-n-humans-and-plants-and-utility-per-capita-of-type-1-humans-and-plants-u-bp-n-x-u-bh-n-x-baru-h-1p-x-baru-p-1h.html"><i class="fa fa-check"></i><b>4.9</b> Utility from other resources to type n humans and plants and utility per capita of type 1 humans and plants (<span class="math inline">\(U_{bP_{n}}\)</span> x <span class="math inline">\(U_{bH_{n}}\)</span> x <span class="math inline">\(\bar{U}_{H_{1}P}\)</span> x <span class="math inline">\(\bar{U}_{P_{1}H}\)</span>)</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="multiple-parameter-exploration.html"><a href="multiple-parameter-exploration.html"><i class="fa fa-check"></i><b>5</b> Multiple parameter exploration</a><ul>
+<li class="chapter" data-level="5.1" data-path="sampling-parameter-values-with-latin-hypercube-sampling-lhs.html"><a href="sampling-parameter-values-with-latin-hypercube-sampling-lhs.html"><i class="fa fa-check"></i><b>5.1</b> Sampling parameter values with Latin Hypercube Sampling (LHS)</a></li>
+<li class="chapter" data-level="5.2" data-path="experiment-overview.html"><a href="experiment-overview.html"><i class="fa fa-check"></i><b>5.2</b> Experiment overview</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="experiment-overview.html"><a href="experiment-overview.html#random-forest"><i class="fa fa-check"></i><b>5.2.1</b> Random forest</a></li>
+<li class="chapter" data-level="5.2.2" data-path="experiment-overview.html"><a href="experiment-overview.html#trajectories"><i class="fa fa-check"></i><b>5.2.2</b> Trajectories</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="scenarios.html"><a href="scenarios.html"><i class="fa fa-check"></i><b>5.3</b> Scenarios</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="scenarios.html"><a href="scenarios.html#mutualistic-human-type-gives-more-utility-baru_h_np-baru_h_1p"><i class="fa fa-check"></i><b>5.3.1</b> Mutualistic human type gives more utility (<span class="math inline">\(\bar{U}_{H_{n}P}&gt; \bar{U}_{H_{1}P}\)</span>)</a></li>
+<li class="chapter" data-level="5.3.2" data-path="scenarios.html"><a href="scenarios.html#mutualistic-plant-type-gives-more-utility-baru_p_nh-baru_p_1h"><i class="fa fa-check"></i><b>5.3.2</b> Mutualistic plant type gives more utility (<span class="math inline">\(\bar{U}_{P_{n}H}&gt; \bar{U}_{P_{1}H}\)</span>)</a></li>
+<li class="chapter" data-level="5.3.3" data-path="scenarios.html"><a href="scenarios.html#mutualistic-types-human-and-plant-give-more-utility-baru_h_np-baru_h_1p-and-baru_p_nh-baru_p_1h"><i class="fa fa-check"></i><b>5.3.3</b> Mutualistic types (human and plant) give more utility (<span class="math inline">\(\bar{U}_{H_{n}P}&gt; \bar{U}_{H_{1}P}\)</span> AND <span class="math inline">\(\bar{U}_{P_{n}H}&gt; \bar{U}_{P_{1}H}\)</span>)</a></li>
+<li class="chapter" data-level="5.3.4" data-path="scenarios.html"><a href="scenarios.html#mutualistic-human-type-gets-less-utility-from-other-resources-u_bh_1u_bh_n"><i class="fa fa-check"></i><b>5.3.4</b> Mutualistic human type gets less utility from other resources (<span class="math inline">\(U_{bH_{1}}&gt;U_{bH_{n}}\)</span>)</a></li>
+<li class="chapter" data-level="5.3.5" data-path="scenarios.html"><a href="scenarios.html#mutualistic-plant-type-gets-less-utility-from-other-resources-u_bp_1u_bp_n"><i class="fa fa-check"></i><b>5.3.5</b> Mutualistic plant type gets less utility from other resources (<span class="math inline">\(U_{bP_{1}}&gt;U_{bP_{n}}\)</span>)</a></li>
+<li class="chapter" data-level="5.3.6" data-path="scenarios.html"><a href="scenarios.html#mutualistic-types-human-and-plant-get-less-utility-from-other-resources-u_bh_1u_bh_n-and-u_bp_1u_bp_n"><i class="fa fa-check"></i><b>5.3.6</b> Mutualistic types (human and plant) get less utility from other resources (<span class="math inline">\(U_{bH_{1}}&gt;U_{bH_{n}}\)</span> AND <span class="math inline">\(U_{bP_{1}}&gt;U_{bP_{n}}\)</span>)</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="random-forest-manual-tuning.html"><a href="random-forest-manual-tuning.html"><i class="fa fa-check"></i><b>5.4</b> Random forest (manual tuning)</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown">Proudly published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Human-Plant Coevolution (HPC) model<br>General exploration and parameter sensitivity analysis</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="utility-from-other-resources-to-type-n-humans-and-plants-and-utility-per-capita-of-type-1-humans-and-plants-u_bp_n-x-u_bh_n-x-baru_h_1p-x-baru_p_1h" class="section level2">
+<h2><span class="header-section-number">4.9</span> Utility from other resources to type n humans and plants and utility per capita of type 1 humans and plants (<span class="math inline">\(U_{bP_{n}}\)</span> x <span class="math inline">\(U_{bH_{n}}\)</span> x <span class="math inline">\(\bar{U}_{H_{1}P}\)</span> x <span class="math inline">\(\bar{U}_{P_{1}H}\)</span>)</h2>
+
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:4UbnmU1tablehtml">Table 4.9: </span>Parameter setting
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+parameter
+</th>
+<th style="text-align:left;">
+value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+iniH
+</td>
+<td style="text-align:left;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+iniP
+</td>
+<td style="text-align:left;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+n.H
+</td>
+<td style="text-align:left;">
+30
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+n.P
+</td>
+<td style="text-align:left;">
+30
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+v.H
+</td>
+<td style="text-align:left;">
+0.15
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+v.P
+</td>
+<td style="text-align:left;">
+0.15
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+r.H
+</td>
+<td style="text-align:left;">
+0.04
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+r.P
+</td>
+<td style="text-align:left;">
+0.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+mU.PnH
+</td>
+<td style="text-align:left;">
+1.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+mU.HnP
+</td>
+<td style="text-align:left;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+mU.P1H
+</td>
+<td style="text-align:left;">
+0 - 3 (sample = 5 )
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+mU.H1P
+</td>
+<td style="text-align:left;">
+0 - 3 (sample = 5 )
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+U.bHn
+</td>
+<td style="text-align:left;">
+5 - 300 (sample = 5 )
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+U.bPn
+</td>
+<td style="text-align:left;">
+5 - 300 (sample = 5 )
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+U.bH1
+</td>
+<td style="text-align:left;">
+80
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+U.bP1
+</td>
+<td style="text-align:left;">
+100
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MaxArea
+</td>
+<td style="text-align:left;">
+200
+</td>
+</tr>
+</tbody>
+</table>
+
+<p><img src="plots/4_fourPar-U.bn-mU1_plot.png" width="100%" /></p>
+<p><strong><em>Interpretation</em></strong>:<br />
+- As a summary of possible end-states:<br />
+- <em>‘Fast’ coevolution</em> (red square in blue tile, small <em>t</em>): .<br />
+- <em>Domestication without cultivation</em> (red square in whitish tile): .<br />
+- <em>Cultivation without domestication</em> (whitish square in blue tile): .</p>
+
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="utility-from-other-resources-to-type-1-humans-and-plants-and-utility-per-capita-of-type-n-humans-and-plants-u-bp-1-x-u-bh-1-x-baru-h-np-x-baru-p-nh.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="multiple-parameter-exploration.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="assets/gitbook-2.6.7/js/app.min.js"></script>
+<script src="assets/gitbook-2.6.7/js/lunr.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed",
+"edit": null,
+"download": "pdf",
+"search": true,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"sharing": {
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false
+}
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

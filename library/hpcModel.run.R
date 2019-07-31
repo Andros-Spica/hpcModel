@@ -2,7 +2,7 @@
 # fitness function
 Fitness <- function(i, U.BA, K.A)
 {
-  if (is.na(K.A) || K.A == 0) { return(NA) }
+  #if (K.A < U.BA) {K.A = U.BA}
   return(((length(i) - i)*(K.A - U.BA) + i*U.BA) / K.A)
 }
 
@@ -172,22 +172,22 @@ hpcModel.run <- function(
     coevo.H[t] <- coevo.coef(pop.H[t,], types.H)
     coevo.P[t] <- coevo.coef(pop.P[t,], types.P)
     # slope of the fitness function (degree of dependency)
-    if (all(is.na(fitness.H[t,])))
-    {
-      depend.H[t] <- NA
-    }
-    else
-    {
+    # if (all(fitness.H[t,] == NA))
+    # {
+    #   depend.H[t] <- NA
+    # }
+    # else
+    # {
       try(depend.H[t] <- lm(fitness.H[t,] ~ types.H)$coefficients[2])
-    }
-    if (all(is.na(fitness.P[t,])))
-    {
-      depend.P[t] <- NA
-    }
-    else
-    {
+    # }
+    # if (all(fitness.P[t,] == NA))
+    # {
+    #   depend.P[t] <- NA
+    # }
+    # else
+    # {
       try(depend.P[t] <- lm(fitness.P[t,] ~ types.P)$coefficients[2])
-    }
+    #}
     
     ### running plot --------------------------------------------------------------------
     if(plot.preview || plot.save) 
@@ -263,13 +263,15 @@ hpcModel.run <- function(
   # build results list -----------------------------------------------------------------
   
   RESULTS$END <- list(
-    time = t,
-    timing.H = timing.H, 
-    timing.P = timing.P, 
+    H = H[t],
+    P = P[t],
     coevo.H = coevo.H[t], 
     coevo.P = coevo.P[t], 
     depend.H = depend.H[t], 
     depend.P = depend.P[t],
+    timing.H = timing.H, 
+    timing.P = timing.P, 
+    time = t,
     adaptativeCost.H = sum(d.H[d.H < 0], na.rm = TRUE),
     adaptativeCost.P = sum(d.P[d.P < 0], na.rm = TRUE)
     )
