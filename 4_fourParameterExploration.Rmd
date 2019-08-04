@@ -235,9 +235,9 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.n_v.name, "_plot.png"))
 **_Interpretation_**:  
 - Higher values of all four parameters facilitate coevolution. Undirected variation has a stronger effect than number of types. 
 - As a summary of possible end-states:  
-    - *'Fast' coevolution* (red square in blue tile, small *t*): most cases when the numbers of types ($n_{H}$, $n_{P}$) are greater than **15** and values of undirected variation ($v_{H}$, $v_{P}$) higher than **0.15**.  
-    - *'Semi-domestication' without cultivation* (redish square in whitish tile): cases when $v_{P}\geq 0.15$.  
-    - *'Semi-cultivation' without domestication* (whitish square in blue tile): cases when $v_{H}\geq 0.15$.
+    + *'Fast' coevolution* (red square in blue tile, small *t*): most cases when the numbers of types ($n_{H}$, $n_{P}$) are greater than **15** and values of undirected variation ($v_{H}$, $v_{P}$) higher than **0.15**.  
+    + *'Semi-domestication' without cultivation* (redish square in whitish tile): cases when $v_{P}\geq 0.15$ and $v_{H}\leq 0.15$.  
+    + *'Semi-cultivation' without domestication* (whitish square in blue tile): cases when $v_{H}\geq 0.15$ and $v_{P}\leq 0.15$.
   
 \newpage
 
@@ -308,11 +308,11 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.mU.HP_mU.PH.name, "_plot.
 
 **_Interpretation_**:  
 - Higher values of all four parameters facilitate coevolution; under the 'default' setting, a value around 1 is enough for all four parameters (intermediate values in this exploration).  
-- Coevolution is still possible if any single one of these parameters equal zero (bottom-left corners). Under this type of conditions, agriculture (blue) appears more probable than domestication (red), and the latter is strongly dependent on a non-null $\bar{U}_{H_{n}P}$.  
+- Coevolution is still possible if any single one of these parameters equal zero (first rows or first columns). Under this type of conditions, cultivation (blue) is more probable than domestication (red), and the latter is strongly dependent on a non-null $\bar{U}_{H_{n}P}$.  
 - As a summary of possible end-states:  
-    - *'Fast' coevolution* (red square in blue tile, small *t*): most cases when values are greater than 0.625.  
-    - *Domestication without cultivation* (red square in whitish tile): most cases when $\bar{U}_{H_{n}P}>0.625$, $\bar{U}_{H_{1}P}\geq 0.625$, $\bar{U}_{P_{n}H}=0$, and $\bar{U}_{P_{1}H}<3$.  
-    - *Cultivation without domestication* (whitish square in blue tile): most cases when $\bar{U}_{H_{n}P} = 0$.
+    + *'Fast' coevolution* (red square in blue tile, small *t*): most cases when values are greater than 0.75.  
+    + *Domestication without cultivation* (red square in whitish tile): most cases when $\bar{U}_{H_{n}P}>0.75$, $\bar{U}_{H_{1}P}\geq 0.75$, $\bar{U}_{P_{n}H}=0$, and $\bar{U}_{P_{1}H}<2$.  
+    + *Cultivation without domestication* (whitish square in blue tile): most cases when $\bar{U}_{H_{n}P} = 0$.
 
 \newpage
 
@@ -383,12 +383,12 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bH_U.bP.name, "_plot.pn
 ```
 
 **_Interpretation_**:  
-- Lower values of all four parameters facilitate coevolution; under the 'default' setting and for all four parameters, values higher than $MaxArea$ (here, `r MaxArea.default`) impede coevolution. The human parameters ($U_{bH_{1}}$, $U_{bH_{n}}$), together regulating the scale of the subsistence alternatives for humans, are significantly more important; their relationship (if one is greater than the other) seems to be less important as long as their combined sum is small enough.  
-- Coevolution is likely to occur when $U_{bH_{1}}=5$, unless $U_{bH_{1}}$ is too big and $U_{bP_{1}}$ is too small.  
+- Lower values of the two human-related parameters ($U_{bH_{1}}$, $U_{bH_{n}}$) facilitate coevolution; under the 'default' setting and for all four parameters, values greater or equal to $MaxArea$ (here, `r MaxArea.default`) impede coevolution. Inversely, higher values of the plant-related parameters ($U_{bP_{1}}$, $U_{bP_{n}}$) facilitate coevolution. The human-related parameters, together regulating the scale of the subsistence alternatives for humans, are significantly more important; their relationship (if one is greater than the other) seems to be less important as long as their combined sum is small enough.  
+- Coevolution is likely to occur when $U_{bH_{1}}=5$ (first row in small grids), unless $U_{bH_{n}}$ is too big and $U_{bP_{1}}$ is too small.  
 - As a summary of possible end-states:  
-    - *'Fast' coevolution* (red square in blue tile, small *t*): most cases when $U_{bH_{1}}$ and $U_{bH_{n}}<153$.  
-    - *Domestication without cultivation* (red square in whitish tile): most cases when $U_{bP_{n}}=5$, $U_{bP_{1}}=5$ (i.e. there is very little carrying capacity for plants beyond the anthropic space) and $U_{bH_{1}}>5$ (i.e. humans get enough of other resources when -still- not engaged in agriculture).  
-    - *Cultivation without domestication* (whitish square in blue tile): *no cases are visible under these conditions*.
+    + *'Fast' coevolution* (red square in blue tile, small *t*): most cases when $U_{bH_{1}}$ and $U_{bH_{n}}<153$.  
+    + *Domestication without cultivation* (red square in whitish tile): most cases when $U_{bP_{n}}=5$, $U_{bP_{1}}=5$ (i.e. there is very little carrying capacity for plants beyond the anthropic space) and $U_{bH_{1}}>5$ (i.e. humans get enough of other resources when -still- not engaged in agriculture).  
+    + *Cultivation without domestication* (whitish square in blue tile): *no cases are visible under these conditions*.
 
 \newpage
 
@@ -458,12 +458,6 @@ dev.off()
 knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bH_U.PH.name, "_plot.png"))
 ```
 
-**_Interpretation_**:  
-- As a summary of possible end-states:  
-    - *'Fast' coevolution* (red square in blue tile, small *t*): .  
-    - *Domestication without cultivation* (red square in whitish tile): .  
-    - *Cultivation without domestication* (whitish square in blue tile): .
-
 \newpage
 
 ## Utility from other resources to plants and utility per capita of humans to plants ($U_{bP_{1}}$ x $U_{bP_{n}}$ x $\bar{U}_{H_{1}P}$ x $\bar{U}_{H_{n}P}$)
@@ -531,12 +525,6 @@ dev.off()
 ```{r 4_U.bP_mU.HP-plot-print, echo=FALSE, dependson='4_U.bP_mU.HP-plot', out.width = '100%'}
 knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bP_mU.HP.name, "_plot.png"))
 ```
-
-**_Interpretation_**:  
-- As a summary of possible end-states:  
-    - *'Fast' coevolution* (red square in blue tile, small *t*): .  
-    - *Domestication without cultivation* (red square in whitish tile): .  
-    - *Cultivation without domestication* (whitish square in blue tile): .
 
 \newpage
 
@@ -606,12 +594,6 @@ dev.off()
 knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.b1_mU1.name, "_plot.png"))
 ```
 
-**_Interpretation_**:   
-- As a summary of possible end-states:  
-    - *'Fast' coevolution* (red square in blue tile, small *t*): .  
-    - *Domestication without cultivation* (red square in whitish tile): .  
-    - *Cultivation without domestication* (whitish square in blue tile): .
-
 \newpage
 
 ## Utility from other resources and utility per capita of type n humans and plants ($U_{bP_{n}}$ x $U_{bH_{n}}$ x $\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$)
@@ -680,12 +662,6 @@ dev.off()
 knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bn_mUn.name, "_plot.png"))
 ```
 
-**_Interpretation_**:  
-- As a summary of possible end-states:  
-    - *'Fast' coevolution* (red square in blue tile, small *t*): .  
-    - *Domestication without cultivation* (red square in whitish tile): .  
-    - *Cultivation without domestication* (whitish square in blue tile): .
-
 \newpage
 
 ## Utility from other resources to type 1 humans and plants and utility per capita of type n humans and plants ($U_{bP_{1}}$ x $U_{bH_{1}}$ x $\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$)
@@ -752,12 +728,7 @@ dev.off()
 knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.b1_mUn.name, "_plot.png"))
 ```
 
-**_Interpretation_**:  
-- As a summary of possible end-states:  
-    - *'Fast' coevolution* (red square in blue tile, small *t*): .  
-    - *Domestication without cultivation* (red square in whitish tile): .  
-    - *Cultivation without domestication* (whitish square in blue tile): .
-    
+\newpage
 
 ## Utility from other resources to type n humans and plants and utility per capita of type 1 humans and plants ($U_{bP_{n}}$ x $U_{bH_{n}}$ x $\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$)
 \sectionmark{$U_{bP_{n}}$ x $U_{bH_{n}}$ x $\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$}
@@ -823,9 +794,3 @@ dev.off()
 knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bn_mU1.name, "_plot.png"))
 ```
 
-**_Interpretation_**:  
-- As a summary of possible end-states:  
-    - *'Fast' coevolution* (red square in blue tile, small *t*): .  
-    - *Domestication without cultivation* (red square in whitish tile): .  
-    - *Cultivation without domestication* (whitish square in blue tile): .
-    

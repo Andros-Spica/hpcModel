@@ -140,8 +140,8 @@ hpcModel.run <- function(
     ### carrying capacity ----------------------------------------------------------
     # set utilities
     U.PH[t] <- sum(P[t] * pop.P[t,] * mU.PH.per.type)
-    U.HP[t] <- sum(H[t] * pop.H[t,] * mU.HP.per.type)
-    #U.HP[t] <- min(sum(H[t] * pop.H[t,] * mU.HP.per.type), MaxArea)
+    #U.HP[t] <- sum(H[t] * pop.H[t,] * mU.HP.per.type)
+    U.HP[t] <- min(sum(H[t] * pop.H[t,] * mU.HP.per.type), MaxArea)
     # set basic resources 
     U.bH[t] <- sum(pop.H[t,] * U.bH.per.type)
     U.bP[t] <- sum(pop.P[t,] * U.bP.per.type)

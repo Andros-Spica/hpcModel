@@ -24,7 +24,7 @@
 
 
 
-<meta name="date" content="2019-07-31">
+<meta name="date" content="2019-08-04">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -149,7 +149,6 @@ Andreas Angourakis & Jonàs Alcaina
 <li class="chapter" data-level="5.3.5" data-path="scenarios.html"><a href="scenarios.html#mutualistic-plant-type-gets-less-utility-from-other-resources-u_bp_1u_bp_n"><i class="fa fa-check"></i><b>5.3.5</b> Mutualistic plant type gets less utility from other resources (<span class="math inline">\(U_{bP_{1}}&gt;U_{bP_{n}}\)</span>)</a></li>
 <li class="chapter" data-level="5.3.6" data-path="scenarios.html"><a href="scenarios.html#mutualistic-types-human-and-plant-get-less-utility-from-other-resources-u_bh_1u_bh_n-and-u_bp_1u_bp_n"><i class="fa fa-check"></i><b>5.3.6</b> Mutualistic types (human and plant) get less utility from other resources (<span class="math inline">\(U_{bH_{1}}&gt;U_{bH_{n}}\)</span> AND <span class="math inline">\(U_{bP_{1}}&gt;U_{bP_{n}}\)</span>)</a></li>
 </ul></li>
-<li class="chapter" data-level="5.4" data-path="random-forest-manual-tuning.html"><a href="random-forest-manual-tuning.html"><i class="fa fa-check"></i><b>5.4</b> Random forest (manual tuning)</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown">Proudly published with bookdown</a></li>
@@ -332,9 +331,9 @@ MaxArea
 <p><strong><em>Interpretation</em></strong>:<br />
 - Higher values of all four parameters facilitate coevolution. Undirected variation has a stronger effect than number of types.
 - As a summary of possible end-states:<br />
-- <em>‘Fast’ coevolution</em> (red square in blue tile, small <em>t</em>): most cases when the numbers of types (<span class="math inline">\(n_{H}\)</span>, <span class="math inline">\(n_{P}\)</span>) are greater than <strong>15</strong> and values of undirected variation (<span class="math inline">\(v_{H}\)</span>, <span class="math inline">\(v_{P}\)</span>) higher than <strong>0.15</strong>.<br />
-- <em>‘Semi-domestication’ without cultivation</em> (redish square in whitish tile): cases when <span class="math inline">\(v_{P}\geq 0.15\)</span>.<br />
-- <em>‘Semi-cultivation’ without domestication</em> (whitish square in blue tile): cases when <span class="math inline">\(v_{H}\geq 0.15\)</span>.</p>
++ <em>‘Fast’ coevolution</em> (red square in blue tile, small <em>t</em>): most cases when the numbers of types (<span class="math inline">\(n_{H}\)</span>, <span class="math inline">\(n_{P}\)</span>) are greater than <strong>15</strong> and values of undirected variation (<span class="math inline">\(v_{H}\)</span>, <span class="math inline">\(v_{P}\)</span>) higher than <strong>0.15</strong>.<br />
++ <em>‘Semi-domestication’ without cultivation</em> (redish square in whitish tile): cases when <span class="math inline">\(v_{P}\geq 0.15\)</span> and <span class="math inline">\(v_{H}\leq 0.15\)</span>.<br />
++ <em>‘Semi-cultivation’ without domestication</em> (whitish square in blue tile): cases when <span class="math inline">\(v_{H}\geq 0.15\)</span> and <span class="math inline">\(v_{P}\leq 0.15\)</span>.</p>
 
 </div>
             </section>

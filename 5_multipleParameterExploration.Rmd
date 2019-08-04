@@ -307,6 +307,9 @@ varImpPlot2 <- function(RF, cex = 1)
   imp <- importance(RF)
   imp <- imp[nrow(imp):1, ] # invert row order for plotting top-downwards
   
+  # set negative values as the minimum positive values
+  imp[imp < 0] <- min(imp[imp > 0]) 
+  # log 10 scale
   imp <- log(imp, 10)
   
   # assuming order to be: n, v, r, mU, U.b and MaxArea
@@ -444,7 +447,7 @@ if(!file.exists('exp.LHS.RData')) # you must delete "exp.LHS.RData" to create a 
   clusterExport(cl, 
                 list('hpcModel.run', 'Fitness', 'coevo.coef', 
                      'PARS', 
-                     'iniH.default', 'iniP.default'), 
+                     'iniH.default', 'iniP.default', 'maxIt.default', 'tol.default'), 
                 envir = environment())
   
   # loop
@@ -523,6 +526,123 @@ knitr::include_graphics(paste0("plots/5_multiplePar-", overview.variable.name, "
 
 ### Random forest
 
+**_Optimisation_** 
+
+```{r 5_RF.tunning.preparation, include=FALSE}
+set.seed(777)
+
+exp.LHS.r <- exp.LHS[P.exist,]
+
+exp.LHS.r <- exp.LHS.r[sample(1:nrow(exp.LHS.r), nrow(exp.LHS.r)),]
+
+exp.LHS.spl <- split(as.data.frame(exp.LHS.r), 
+                     f = factor(ceiling(seq_along(1:nrow(exp.LHS.r)) / 1000)))
+
+Grid <- expand.grid(mtry = c(2:10), ntree = seq(500, 2000, 500))
+```
+
+```{r 5_RF.tunning.H, include=FALSE}
+if (!file.exists('RF.coevo.H-tunning.RData')) # you must delete "RF.coevo.H-tunning.RData" to create a new file
+{
+  # cluster and loop
+  cl <- makeCluster(6)
+  clusterExport(cl, 
+                list('randomForest', 'Grid', 'LHS.parameter.names', 'exp.LHS.spl'), 
+                envir = environment())
+  
+  RF.coevo.H.tunning <- parSapply(cl, 1:nrow(Grid), function(p) {
+    aux <- c()
+    for (i in 1:10) {
+      X <- do.call(rbind, exp.LHS.spl[-i])
+      RF.coevo.H <- randomForest(
+        as.formula(paste0("coevo.H ~ ", paste(LHS.parameter.names, collapse = '+'))),
+        data = X,
+        mtry = Grid[p, 1],
+        ntree = Grid[p, 2]
+      )
+      acc.coevo.H <- 
+        mean((predict(RF.coevo.H, exp.LHS.spl[[i]][, 1:15]) - exp.LHS.spl[[i]]$coevo.H) ^ 2)
+      
+      rm(RF.coevo.H)
+      gc()
+      
+      aux[i] <- acc.coevo.H
+    }
+    
+    return(mean(aux))
+  })
+
+  RF.coevo.H.tunning <- cbind(Grid, mean.predict = RF.coevo.H.tunning)
+  # save
+  save(RF.coevo.H.tunning, file = 'RF.coevo.H-tunning.RData')
+}
+```
+
+```{r 5_RF.coevo.H.tunning-load, include=FALSE}
+# load
+load('RF.coevo.H-tunning.RData')
+```
+
+```{r 5_RF.tunning.P, include=FALSE, eval=FALSE}
+if (!file.exists('RF.coevo.P-tunning.RData')) # you must delete "RF.coevo.P-tunning.RData" to create a new file
+{
+  # cluster and loop
+  cl <- makeCluster(6)
+  clusterExport(cl, 
+                list('randomForest', 'Grid', 'LHS.parameter.names', 'exp.LHS.spl'), 
+                envir = environment())
+  
+  RF.coevo.P.tunning <- parSapply(cl, 1:nrow(Grid), function(p) {
+    aux <- c()
+    for (i in 1:10) {
+      exp.LHS.leftOneOut <- do.call(rbind, exp.LHS.spl[-i])
+      RF.coevo.P <- randomForest(
+        as.formula(paste0("coevo.P ~ ", paste(LHS.parameter.names, collapse = '+'))),
+        data = exp.LHS.leftOneOut,
+        mtry = Grid[p, 1],
+        ntree = Grid[p, 2]
+      )
+      acc.coevo.P <- 
+        mean((predict(RF.coevo.P, exp.LHS.spl[[i]][, 1:15]) - exp.LHS.spl[[i]]$coevo.P) ^ 2)
+      
+      rm(RF.coevo.p)
+      gc()
+      
+      aux[i] <- acc.coevo.P
+    }
+    
+    return(mean(aux))
+  })
+
+  RF.coevo.P.tunning <- cbind(Grid, mean.predict = RF.coevo.P.tunning)
+  # save
+  save(RF.coevo.P.tunning, file = 'RF.coevo.P-tunning.RData')
+}
+```
+
+```{r 5_RF.coevo.P.tunning-load, include=FALSE}
+# load
+load('RF.coevo.P-tunning.RData')
+```
+
+```{r 5_RF.coevo.tunning-plot, dependson=c('5_RF.coevo.H.tunning-load', '5_RF.coevo.P.tunning-load'), out.width = '100%'}
+temp <- cbind(
+  output.var = c(
+    rep('coevo.H', nrow(RF.coevo.H.tunning)), 
+    rep('coevo.P', nrow(RF.coevo.P.tunning))
+    ),
+  rbind(RF.coevo.H.tunning, RF.coevo.P.tunning)
+  )
+
+ggplot(temp, aes(x = ntree, y = mtry)) + 
+  geom_tile(aes(fill = mean.predict), colour = "white") + 
+  scale_fill_gradient(low = "white", high = "black") +
+  geom_text(aes(label = round(mean.predict, 5)), color = "steelblue") +
+  facet_wrap(.~output.var) + theme_bw()
+```
+
+\newpage
+
 **_Coevolution coefficients_**
 
 Only using those runs with any humans (coevo.H) and plants (coevo.P) at the end-state.
@@ -556,7 +676,7 @@ RF.coevo.P <-
 ```{r 5_RF-coevo-plots, include=FALSE, cache=TRUE}
 plotScale = 2
 
-png("plots/5_multiplePar-RF-coevo.png", width = 640 * plotScale, height = 320 * plotScale)
+png("plots/5_multiplePar-RF-coevo.png", width = 640 * plotScale, height = 360 * plotScale)
 varImpPlot2Pair(RF.coevo.H, RF.coevo.P, cex = plotScale)
 dev.off()
 ```
@@ -600,7 +720,7 @@ RF.depend.P <-
 ```{r 5_RF-depend-plots, include=FALSE, cache=TRUE}
 plotScale = 2
 
-png("plots/5_multiplePar-RF-depend.png", width = 640 * plotScale, height = 320 * plotScale)
+png("plots/5_multiplePar-RF-depend.png", width = 640 * plotScale, height = 360 * plotScale)
 varImpPlot2Pair(RF.depend.H, RF.depend.P, cex = plotScale)
 dev.off()
 ```
@@ -642,7 +762,7 @@ RF.timing.P <-
 ```{r 5_RF-timing-plots, include=FALSE, cache=TRUE}
 plotScale = 2
 
-png("plots/5_multiplePar-RF-timing.png", width = 640 * plotScale, height = 320 * plotScale)
+png("plots/5_multiplePar-RF-timing.png", width = 640 * plotScale, height = 360 * plotScale)
 varImpPlot2Pair(RF.timing.H, RF.timing.P, cex = plotScale)
 dev.off()
 ```
@@ -1244,122 +1364,4 @@ dev.off()
 ```{r 5_scenarios-bothLessBase-timing-plot-print, dependson='5_scenarios-bothLessBase-timing-plot', out.width = '100%'}
 knitr::include_graphics("plots/5_multiplePar-timing-bothLessBase-ggplot.png")
 ```
-
-\newpage
-
-## Random forest (manual tuning)
-
-```{r 5_RF.tunning.preparation, include=FALSE}
-set.seed(777)
-
-exp.LHS.r <- exp.LHS[P.exist,]
-
-exp.LHS.r <- exp.LHS.r[sample(1:nrow(exp.LHS.r), nrow(exp.LHS.r)),]
-
-exp.LHS.spl <- split(as.data.frame(exp.LHS.r), 
-                     f = factor(ceiling(seq_along(1:nrow(exp.LHS.r)) / 1000)))
-
-Grid <- expand.grid(mtry = c(2:6), ntree = c(500, 750, 1000))
-```
-
-```{r 5_RF.tunning.H, include=FALSE}
-if (!file.exists('RF.coevo.H-tunning.RData')) # you must delete "RF.coevo.H-tunning.RData" to create a new file
-{
-  # cluster and loop
-  cl <- makeCluster(6)
-  clusterExport(cl, 
-                list('randomForest', 'Grid', 'LHS.parameter.names', 'exp.LHS.spl'), 
-                envir = environment())
-  
-  RF.coevo.H.tunning <- parSapply(cl, 1:nrow(Grid), function(p) {
-    aux <- c()
-    for (i in 1:10) {
-      X <- do.call(rbind, exp.LHS.spl[-i])
-      RF.coevo.H <- randomForest(
-        as.formula(paste0("coevo.H ~ ", paste(LHS.parameter.names, collapse = '+'))),
-        data = X,
-        mtry = Grid[p, 1],
-        ntree = Grid[p, 2]
-      )
-      acc.coevo.H <- 
-        mean((predict(RF.coevo.H, exp.LHS.spl[[i]][, 1:15]) - exp.LHS.spl[[i]]$coevo.H) ^ 2)
-      
-      rm(RF.coevo.H)
-      gc()
-      
-      aux[i] <- acc.coevo.H
-    }
-    
-    return(mean(aux))
-  })
-
-  RF.coevo.H.tunning <- cbind(Grid, mean.predict = RF.coevo.H.tunning)
-  # save
-  save(RF.coevo.H.tunning, file = 'RF.coevo.H-tunning.RData')
-}
-```
-
-```{r 5_RF.coevo.H.tunning-load, include=FALSE}
-# load
-load('RF.coevo.H-tunning.RData')
-```
-
-```{r 5_RF.tunning.P, include=FALSE, eval=FALSE}
-if (!file.exists('RF.coevo.P-tunning.RData')) # you must delete "RF.coevo.P-tunning.RData" to create a new file
-{
-  # cluster and loop
-  cl <- makeCluster(6)
-  clusterExport(cl, 
-                list('randomForest', 'Grid', 'LHS.parameter.names', 'exp.LHS.spl'), 
-                envir = environment())
-  
-  RF.coevo.P.tunning <- parSapply(cl, 1:nrow(Grid), function(p) {
-    aux <- c()
-    for (i in 1:10) {
-      exp.LHS.leftOneOut <- do.call(rbind, exp.LHS.spl[-i])
-      RF.coevo.P <- randomForest(
-        as.formula(paste0("coevo.P ~ ", paste(LHS.parameter.names, collapse = '+'))),
-        data = exp.LHS.leftOneOut,
-        mtry = Grid[p, 1],
-        ntree = Grid[p, 2]
-      )
-      acc.coevo.P <- 
-        mean((predict(RF.coevo.P, exp.LHS.spl[[i]][, 1:15]) - exp.LHS.spl[[i]]$coevo.P) ^ 2)
-      
-      rm(RF.coevo.p)
-      gc()
-      
-      aux[i] <- acc.coevo.P
-    }
-    
-    return(mean(aux))
-  })
-
-  RF.coevo.P.tunning <- cbind(Grid, mean.predict = RF.coevo.P.tunning)
-  # save
-  save(RF.coevo.P.tunning, file = 'RF.coevo.P-tunning.RData')
-}
-```
-
-```{r 5_RF.coevo.P.tunning-load, include=FALSE}
-# load
-load('RF.coevo.P-tunning.RData')
-```
-
-```{r 5_RF.coevo.tunning-plot, dependson=c('5_RF.coevo.H.tunning-load', '5_RF.coevo.P.tunning-load'), out.width = '100%'}
-temp <- cbind(
-  output.var = c(
-    rep('coevo.H', nrow(RF.coevo.H.tunning)), 
-    rep('coevo.P', nrow(RF.coevo.P.tunning))
-    ),
-  rbind(RF.coevo.H.tunning, RF.coevo.P.tunning)
-  )
-
-ggplot(temp, aes(x = ntree, y = mtry)) + 
-  geom_tile(aes(fill = mean.predict), colour = "white") + 
-  scale_fill_gradient(low = "white", high = "black") +
-  geom_text(aes(label = round(mean.predict, 5)), color = "steelblue") +
-  facet_wrap(.~output.var) + theme_bw()
-```
-
 

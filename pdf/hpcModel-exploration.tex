@@ -85,7 +85,7 @@
     \preauthor{}\postauthor{}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2019-07-31}
+    \date{2019-08-04}
 
 \usepackage{fancyhdr}
 \usepackage{placeins}
@@ -488,11 +488,11 @@ Abbreviation & Value\tabularnewline
 Abbreviation & Value\tabularnewline
 \midrule
 \endhead
-\texttt{time} & 716\tabularnewline
-\texttt{coevo.H} & 0.6922901\tabularnewline
-\texttt{coevo.P} & 0.7687119\tabularnewline
-\texttt{depend.H} & 0.8913384\tabularnewline
-\texttt{depend.P} & 1.7541986\tabularnewline
+\texttt{time} & 683\tabularnewline
+\texttt{coevo.H} & 0.6916643\tabularnewline
+\texttt{coevo.P} & 0.7088114\tabularnewline
+\texttt{depend.H} & 0.8876576\tabularnewline
+\texttt{depend.P} & 1\tabularnewline
 \texttt{timing.H} & 236\tabularnewline
 \texttt{timing.P} & 252\tabularnewline
 \bottomrule
@@ -514,6 +514,7 @@ Abbreviation & Value\tabularnewline
 
 \newpage
 
+\FloatBarrier
 \newpage
 
 \hypertarget{no-coevolution}{%
@@ -977,9 +978,9 @@ MaxArea & 200\\
 \textbf{\emph{Interpretation}}:\\
 - Higher values of all four parameters facilitate coevolution. Undirected variation has a stronger effect than number of types.
 - As a summary of possible end-states:\\
-- \emph{`Fast' coevolution} (red square in blue tile, small \emph{t}): most cases when the numbers of types (\(n_{H}\), \(n_{P}\)) are greater than \textbf{15} and values of undirected variation (\(v_{H}\), \(v_{P}\)) higher than \textbf{0.15}.\\
-- \emph{`Semi-domestication' without cultivation} (redish square in whitish tile): cases when \(v_{P}\geq 0.15\).\\
-- \emph{`Semi-cultivation' without domestication} (whitish square in blue tile): cases when \(v_{H}\geq 0.15\).
++ \emph{`Fast' coevolution} (red square in blue tile, small \emph{t}): most cases when the numbers of types (\(n_{H}\), \(n_{P}\)) are greater than \textbf{15} and values of undirected variation (\(v_{H}\), \(v_{P}\)) higher than \textbf{0.15}.\\
++ \emph{`Semi-domestication' without cultivation} (redish square in whitish tile): cases when \(v_{P}\geq 0.15\) and \(v_{H}\leq 0.15\).\\
++ \emph{`Semi-cultivation' without domestication} (whitish square in blue tile): cases when \(v_{H}\geq 0.15\) and \(v_{P}\leq 0.15\).
 
 \newpage
 
@@ -1039,11 +1040,11 @@ MaxArea & 200\\
 
 \textbf{\emph{Interpretation}}:\\
 - Higher values of all four parameters facilitate coevolution; under the `default' setting, a value around 1 is enough for all four parameters (intermediate values in this exploration).\\
-- Coevolution is still possible if any single one of these parameters equal zero (bottom-left corners). Under this type of conditions, agriculture (blue) appears more probable than domestication (red), and the latter is strongly dependent on a non-null \(\bar{U}_{H_{n}P}\).\\
+- Coevolution is still possible if any single one of these parameters equal zero (first rows or first columns). Under this type of conditions, cultivation (blue) is more probable than domestication (red), and the latter is strongly dependent on a non-null \(\bar{U}_{H_{n}P}\).\\
 - As a summary of possible end-states:\\
-- \emph{`Fast' coevolution} (red square in blue tile, small \emph{t}): most cases when values are greater than 0.625.\\
-- \emph{Domestication without cultivation} (red square in whitish tile): most cases when \(\bar{U}_{H_{n}P}>0.625\), \(\bar{U}_{H_{1}P}\geq 0.625\), \(\bar{U}_{P_{n}H}=0\), and \(\bar{U}_{P_{1}H}<3\).\\
-- \emph{Cultivation without domestication} (whitish square in blue tile): most cases when \(\bar{U}_{H_{n}P} = 0\).
++ \emph{`Fast' coevolution} (red square in blue tile, small \emph{t}): most cases when values are greater than 0.75.\\
++ \emph{Domestication without cultivation} (red square in whitish tile): most cases when \(\bar{U}_{H_{n}P}>0.75\), \(\bar{U}_{H_{1}P}\geq 0.75\), \(\bar{U}_{P_{n}H}=0\), and \(\bar{U}_{P_{1}H}<2\).\\
++ \emph{Cultivation without domestication} (whitish square in blue tile): most cases when \(\bar{U}_{H_{n}P} = 0\).
 
 \newpage
 
@@ -1104,12 +1105,12 @@ MaxArea & 200\\
 \includegraphics[width=1\linewidth]{plots/4_fourPar-U.bH-U.bP_plot}
 
 \textbf{\emph{Interpretation}}:\\
-- Lower values of all four parameters facilitate coevolution; under the `default' setting and for all four parameters, values higher than \(MaxArea\) (here, 200) impede coevolution. The human parameters (\(U_{bH_{1}}\), \(U_{bH_{n}}\)), together regulating the scale of the subsistence alternatives for humans, are significantly more important; their relationship (if one is greater than the other) seems to be less important as long as their combined sum is small enough.\\
-- Coevolution is likely to occur when \(U_{bH_{1}}=5\), unless \(U_{bH_{1}}\) is too big and \(U_{bP_{1}}\) is too small.\\
+- Lower values of the two human-related parameters (\(U_{bH_{1}}\), \(U_{bH_{n}}\)) facilitate coevolution; under the `default' setting and for all four parameters, values greater or equal to \(MaxArea\) (here, 200) impede coevolution. Inversely, higher values of the plant-related parameters (\(U_{bP_{1}}\), \(U_{bP_{n}}\)) facilitate coevolution. The human-related parameters, together regulating the scale of the subsistence alternatives for humans, are significantly more important; their relationship (if one is greater than the other) seems to be less important as long as their combined sum is small enough.\\
+- Coevolution is likely to occur when \(U_{bH_{1}}=5\) (first row in small grids), unless \(U_{bH_{n}}\) is too big and \(U_{bP_{1}}\) is too small.\\
 - As a summary of possible end-states:\\
-- \emph{`Fast' coevolution} (red square in blue tile, small \emph{t}): most cases when \(U_{bH_{1}}\) and \(U_{bH_{n}}<153\).\\
-- \emph{Domestication without cultivation} (red square in whitish tile): most cases when \(U_{bP_{n}}=5\), \(U_{bP_{1}}=5\) (i.e.~there is very little carrying capacity for plants beyond the anthropic space) and \(U_{bH_{1}}>5\) (i.e.~humans get enough of other resources when -still- not engaged in agriculture).\\
-- \emph{Cultivation without domestication} (whitish square in blue tile): \emph{no cases are visible under these conditions}.
++ \emph{`Fast' coevolution} (red square in blue tile, small \emph{t}): most cases when \(U_{bH_{1}}\) and \(U_{bH_{n}}<153\).\\
++ \emph{Domestication without cultivation} (red square in whitish tile): most cases when \(U_{bP_{n}}=5\), \(U_{bP_{1}}=5\) (i.e.~there is very little carrying capacity for plants beyond the anthropic space) and \(U_{bH_{1}}>5\) (i.e.~humans get enough of other resources when -still- not engaged in agriculture).\\
++ \emph{Cultivation without domestication} (whitish square in blue tile): \emph{no cases are visible under these conditions}.
 
 \newpage
 
@@ -1169,12 +1170,6 @@ MaxArea & 200\\
 
 \includegraphics[width=1\linewidth]{plots/4_fourPar-U.bH-U.PH_plot}
 
-\textbf{\emph{Interpretation}}:\\
-- As a summary of possible end-states:\\
-- \emph{`Fast' coevolution} (red square in blue tile, small \emph{t}): .\\
-- \emph{Domestication without cultivation} (red square in whitish tile): .\\
-- \emph{Cultivation without domestication} (whitish square in blue tile): .
-
 \newpage
 
 \hypertarget{utility-from-other-resources-to-plants-and-utility-per-capita-of-humans-to-plants-u_bp_1-x-u_bp_n-x-baru_h_1p-x-baru_h_np}{%
@@ -1232,12 +1227,6 @@ MaxArea & 200\\
 \newpage
 
 \includegraphics[width=1\linewidth]{plots/4_fourPar-U.bP-mU.HP_plot}
-
-\textbf{\emph{Interpretation}}:\\
-- As a summary of possible end-states:\\
-- \emph{`Fast' coevolution} (red square in blue tile, small \emph{t}): .\\
-- \emph{Domestication without cultivation} (red square in whitish tile): .\\
-- \emph{Cultivation without domestication} (whitish square in blue tile): .
 
 \newpage
 
@@ -1297,12 +1286,6 @@ MaxArea & 200\\
 
 \includegraphics[width=1\linewidth]{plots/4_fourPar-U.b1-mU1_plot}
 
-\textbf{\emph{Interpretation}}:\\
-- As a summary of possible end-states:\\
-- \emph{`Fast' coevolution} (red square in blue tile, small \emph{t}): .\\
-- \emph{Domestication without cultivation} (red square in whitish tile): .\\
-- \emph{Cultivation without domestication} (whitish square in blue tile): .
-
 \newpage
 
 \hypertarget{utility-from-other-resources-and-utility-per-capita-of-type-n-humans-and-plants-u_bp_n-x-u_bh_n-x-baru_h_np-x-baru_p_nh}{%
@@ -1361,12 +1344,6 @@ MaxArea & 200\\
 
 \includegraphics[width=1\linewidth]{plots/4_fourPar-U.bn-mUn_plot}
 
-\textbf{\emph{Interpretation}}:\\
-- As a summary of possible end-states:\\
-- \emph{`Fast' coevolution} (red square in blue tile, small \emph{t}): .\\
-- \emph{Domestication without cultivation} (red square in whitish tile): .\\
-- \emph{Cultivation without domestication} (whitish square in blue tile): .
-
 \newpage
 
 \hypertarget{utility-from-other-resources-to-type-1-humans-and-plants-and-utility-per-capita-of-type-n-humans-and-plants-u_bp_1-x-u_bh_1-x-baru_h_np-x-baru_p_nh}{%
@@ -1423,11 +1400,7 @@ MaxArea & 200\\
 
 \includegraphics[width=1\linewidth]{plots/4_fourPar-U.b1-mUn_plot}
 
-\textbf{\emph{Interpretation}}:\\
-- As a summary of possible end-states:\\
-- \emph{`Fast' coevolution} (red square in blue tile, small \emph{t}): .\\
-- \emph{Domestication without cultivation} (red square in whitish tile): .\\
-- \emph{Cultivation without domestication} (whitish square in blue tile): .
+\newpage
 
 \hypertarget{utility-from-other-resources-to-type-n-humans-and-plants-and-utility-per-capita-of-type-1-humans-and-plants-u_bp_n-x-u_bh_n-x-baru_h_1p-x-baru_p_1h}{%
 \section{\texorpdfstring{Utility from other resources to type n humans and plants and utility per capita of type 1 humans and plants (\(U_{bP_{n}}\) x \(U_{bH_{n}}\) x \(\bar{U}_{H_{1}P}\) x \(\bar{U}_{P_{1}H}\))}{Utility from other resources to type n humans and plants and utility per capita of type 1 humans and plants (U\_\{bP\_\{n\}\} x U\_\{bH\_\{n\}\} x \textbackslash{}bar\{U\}\_\{H\_\{1\}P\} x \textbackslash{}bar\{U\}\_\{P\_\{1\}H\})}}\label{utility-from-other-resources-to-type-n-humans-and-plants-and-utility-per-capita-of-type-1-humans-and-plants-u_bp_n-x-u_bh_n-x-baru_h_1p-x-baru_p_1h}}
@@ -1482,12 +1455,6 @@ MaxArea & 200\\
 \newpage
 
 \includegraphics[width=1\linewidth]{plots/4_fourPar-U.bn-mU1_plot}
-
-\textbf{\emph{Interpretation}}:\\
-- As a summary of possible end-states:\\
-- \emph{`Fast' coevolution} (red square in blue tile, small \emph{t}): .\\
-- \emph{Domestication without cultivation} (red square in whitish tile): .\\
-- \emph{Cultivation without domestication} (whitish square in blue tile): .
 
 \hypertarget{multiple-parameter-exploration}{%
 \chapter{Multiple parameter exploration}\label{multiple-parameter-exploration}}
@@ -1572,9 +1539,9 @@ MaxArea & 1.0026 - 299.958 (sample = 9979 )\\
 \hline
 H.exist & Freq\\
 \hline
-FALSE & 118\\
+FALSE & 18\\
 \hline
-TRUE & 9882\\
+TRUE & 9982\\
 \hline
 \end{tabular}
 
@@ -1582,9 +1549,9 @@ TRUE & 9882\\
 \hline
 P.exist & Freq\\
 \hline
-FALSE & 118\\
+FALSE & 18\\
 \hline
-TRUE & 9882\\
+TRUE & 9982\\
 \hline
 \end{tabular}
 
@@ -1592,9 +1559,9 @@ TRUE & 9882\\
 \hline
 H.evolved & Freq\\
 \hline
-FALSE & 7993\\
+FALSE & 8107\\
 \hline
-TRUE & 2007\\
+TRUE & 1893\\
 \hline
 \end{tabular}
 
@@ -1602,9 +1569,9 @@ TRUE & 2007\\
 \hline
 P.evolved & Freq\\
 \hline
-FALSE & 541\\
+FALSE & 1500\\
 \hline
-TRUE & 9459\\
+TRUE & 8500\\
 \hline
 \end{tabular}
 
@@ -1614,6 +1581,12 @@ TRUE & 9459\\
 
 \hypertarget{random-forest}{%
 \subsection{Random forest}\label{random-forest}}
+
+\textbf{\emph{Optimisation}}
+
+\includegraphics[width=1\linewidth]{hpcModel-exploration_files/figure-latex/5_RF.coevo.tunning-plot-1}
+
+\newpage
 
 \textbf{\emph{Coevolution coefficients}}
 
@@ -1758,13 +1731,6 @@ Only using those runs with successful human (timing.H) and plant (timing.P) evol
 \textbf{\emph{Timings}}
 
 \includegraphics[width=1\linewidth]{plots/5_multiplePar-timing-bothLessBase-ggplot}
-
-\newpage
-
-\hypertarget{random-forest-manual-tuning}{%
-\section{Random forest (manual tuning)}\label{random-forest-manual-tuning}}
-
-\includegraphics[width=1\linewidth]{hpcModel-exploration_files/figure-latex/5_RF.coevo.tunning-plot-1}
 
 
 \end{document}

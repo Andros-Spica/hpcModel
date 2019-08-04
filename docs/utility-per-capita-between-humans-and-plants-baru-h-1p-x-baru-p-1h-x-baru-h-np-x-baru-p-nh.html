@@ -24,7 +24,7 @@
 
 
 
-<meta name="date" content="2019-07-31">
+<meta name="date" content="2019-08-04">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -149,7 +149,6 @@ Andreas Angourakis & Jonàs Alcaina
 <li class="chapter" data-level="5.3.5" data-path="scenarios.html"><a href="scenarios.html#mutualistic-plant-type-gets-less-utility-from-other-resources-u_bp_1u_bp_n"><i class="fa fa-check"></i><b>5.3.5</b> Mutualistic plant type gets less utility from other resources (<span class="math inline">\(U_{bP_{1}}&gt;U_{bP_{n}}\)</span>)</a></li>
 <li class="chapter" data-level="5.3.6" data-path="scenarios.html"><a href="scenarios.html#mutualistic-types-human-and-plant-get-less-utility-from-other-resources-u_bh_1u_bh_n-and-u_bp_1u_bp_n"><i class="fa fa-check"></i><b>5.3.6</b> Mutualistic types (human and plant) get less utility from other resources (<span class="math inline">\(U_{bH_{1}}&gt;U_{bH_{n}}\)</span> AND <span class="math inline">\(U_{bP_{1}}&gt;U_{bP_{n}}\)</span>)</a></li>
 </ul></li>
-<li class="chapter" data-level="5.4" data-path="random-forest-manual-tuning.html"><a href="random-forest-manual-tuning.html"><i class="fa fa-check"></i><b>5.4</b> Random forest (manual tuning)</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown">Proudly published with bookdown</a></li>
@@ -331,11 +330,11 @@ MaxArea
 <p><img src="plots/4_fourPar-mU.HP-mU.PH_plot.png" width="100%" /></p>
 <p><strong><em>Interpretation</em></strong>:<br />
 - Higher values of all four parameters facilitate coevolution; under the ‘default’ setting, a value around 1 is enough for all four parameters (intermediate values in this exploration).<br />
-- Coevolution is still possible if any single one of these parameters equal zero (bottom-left corners). Under this type of conditions, agriculture (blue) appears more probable than domestication (red), and the latter is strongly dependent on a non-null <span class="math inline">\(\bar{U}_{H_{n}P}\)</span>.<br />
+- Coevolution is still possible if any single one of these parameters equal zero (first rows or first columns). Under this type of conditions, cultivation (blue) is more probable than domestication (red), and the latter is strongly dependent on a non-null <span class="math inline">\(\bar{U}_{H_{n}P}\)</span>.<br />
 - As a summary of possible end-states:<br />
-- <em>‘Fast’ coevolution</em> (red square in blue tile, small <em>t</em>): most cases when values are greater than 0.625.<br />
-- <em>Domestication without cultivation</em> (red square in whitish tile): most cases when <span class="math inline">\(\bar{U}_{H_{n}P}&gt;0.625\)</span>, <span class="math inline">\(\bar{U}_{H_{1}P}\geq 0.625\)</span>, <span class="math inline">\(\bar{U}_{P_{n}H}=0\)</span>, and <span class="math inline">\(\bar{U}_{P_{1}H}&lt;3\)</span>.<br />
-- <em>Cultivation without domestication</em> (whitish square in blue tile): most cases when <span class="math inline">\(\bar{U}_{H_{n}P} = 0\)</span>.</p>
++ <em>‘Fast’ coevolution</em> (red square in blue tile, small <em>t</em>): most cases when values are greater than 0.75.<br />
++ <em>Domestication without cultivation</em> (red square in whitish tile): most cases when <span class="math inline">\(\bar{U}_{H_{n}P}&gt;0.75\)</span>, <span class="math inline">\(\bar{U}_{H_{1}P}\geq 0.75\)</span>, <span class="math inline">\(\bar{U}_{P_{n}H}=0\)</span>, and <span class="math inline">\(\bar{U}_{P_{1}H}&lt;2\)</span>.<br />
++ <em>Cultivation without domestication</em> (whitish square in blue tile): most cases when <span class="math inline">\(\bar{U}_{H_{n}P} = 0\)</span>.</p>
 
 </div>
             </section>

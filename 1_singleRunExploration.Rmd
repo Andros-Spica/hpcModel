@@ -274,6 +274,7 @@ animate.trajectory(runPlot.dir, run.coevo.coeta.name)
 knitr::include_graphics(paste0(runPlot.dir, run.coevo.coeta.name, "-anim.gif"))
 ```
 
+\FloatBarrier
 \newpage
 
 ## No coevolution
