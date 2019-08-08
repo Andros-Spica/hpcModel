@@ -188,36 +188,53 @@ hpcModel.plot <-
     )
     
     ### 6. & 7. population types
-    par(mar = c(1, 3, 1, 0.3), cex.main = scaleMultiplier)
+    par(mar = c(2, 3, 2, 0.3), cex.main = scaleMultiplier)
     
     barplot(TYPES$pop.H[t,],
-            main = 'human types',
+            main = 'population per type',
+            names.arg = as.character(1:PARS$n.H),
             width = 0.86,
             ylim = c(0, 1))
+    text(PARS$n.H/2, 0.9, labels = 'humans', 
+         font = 4, cex = scaleMultiplier)
+    
+    par(mar = c(3, 3, 1, 0.3))
     barplot(TYPES$pop.P[t,],
-            main = 'plant types',
+            names.arg = as.character(1:PARS$n.P),
             width = 0.86,
-            ylim = c(0, 1))
+            ylim = c(0, 1),
+            xlab = '')
+    text(PARS$n.P/2, 0.9, labels = 'plants', 
+         font = 4, cex = scaleMultiplier)
     
     # 8. & 9. fitness
-    par(mar = c(2, 3, 1.5, 0.3))
+    par(mar = c(2, 3, 2, 0.3))
     
     plot(
       TYPES$fitness.H[t,],
       col = 'blue',
       type = 'b',
-      main = 'fitness humans',
+      bty= 'n',
+      main = 'fitness per type',
       ylim = c(0, max(1E-6, TYPES$fitness.H[t,], na.rm = T)),
-      cex = scaleMultiplier
+      cex = scaleMultiplier,
+      xlab = ''
     )
+    text(PARS$n.H/2, max(1E-6, TYPES$fitness.H[t,], na.rm = T), labels = 'humans', 
+         font = 4, cex = scaleMultiplier)
+    
+    par(mar = c(3, 3, 1, 0.3))
     plot(
       TYPES$fitness.P[t,],
       col = 'red',
       type = 'b',
-      main = 'fitness plants',
+      bty= 'n',
       ylim = c(0, max(1E-6, TYPES$fitness.P[t,], na.rm = T)),
-      cex = scaleMultiplier
+      cex = scaleMultiplier,
+      xlab = ''
     )
+    text(PARS$n.P/2, max(1E-6, TYPES$fitness.P[t,], na.rm = T), labels = 'plants', 
+         font = 4, cex = scaleMultiplier)
     
     par(mar = c(0, 0, 0, 0))
     
@@ -261,7 +278,7 @@ hpcModel.plot <-
       xaxt = 'n',
       yaxt = 'n'
     )
-    text(0.62, 0.65, labels = '"wild" <---> "domesticated"', cex = scaleMultiplier * 0.8)
+    text(0.6, 0.65, labels = '"wild" <---> "domesticated"', cex = scaleMultiplier)
     
     ### add parameters values
     plot(
