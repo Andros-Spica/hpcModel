@@ -7,14 +7,12 @@ output:
 # Single runs
 
 ```{r 1_setup, include=FALSE}
-# this chunk is needed in case you want to compile a separated html/pdf for this exploration (without bookdown package)
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, # hide code and messages
                       cache=TRUE, autodep=TRUE) 
 
 source("library/hpcModel.run.R")
 source("library/hpcModel.exploration.R")
 source("library/hpcModel.plot.R")
-# for ggplot:
 require(reshape2)
 require(ggplot2)
 require(scales)
@@ -22,40 +20,8 @@ require(kableExtra)
 ```
 
 ```{r 1_table-functions}
-run.table <- function(run.result, caption = NULL, output = "html")
-{
-  run.parnames <- names(run.result$PARS)
-  run.parvalues <- c()
-  for (i in 1:length(run.result$PARS))
-  {
-    run.parvalues <- c(run.parvalues, run.result$PARS[[i]])
-  }
-  knitr::kable(cbind(run.parnames, run.parvalues), output,
-               col.names = c("parameter", "values"),
-               caption = caption) %>%
-    kable_styling(latex_options = "hold_position")
-}
-
-exp.table <- function(exp.results, caption = NULL, numberOfParameters = 17, output = "html")
-{
-  exp.parnames <- c()
-  exp.values <- c()
-  for (i in 1:numberOfParameters)
-  {
-    exp.parnames <- c(exp.parnames, names(exp.results)[i])
-    value <- levels(factor(exp.results[[i]]))
-    if (length(value) > 1) 
-    {
-      value <- as.numeric(as.character(value))
-      value <- paste(min(value), "-", max(value), "(sample =", length(value), ")")
-    }
-    exp.values <- c(exp.values, value)
-  }
-  kable(cbind(exp.parnames, exp.values), output,
-               col.names = c("parameter", "value"),
-               caption = caption) %>%
-    kable_styling(latex_options = "hold_position")
-}
+source("library/plotting/run.table.R")
+source("library/plotting/exp.table.R")
 ```
 
 ```{r 1_default-values}
@@ -99,41 +65,12 @@ messages.default = TRUE
 ```{r 1_plot-functions, include=FALSE}
 # this chunk is specific for this exploration 
 
-# for creating animates GIF
-require(purrr)
-require(magick)
+# for creating animates GIF, you need to install purrr and magick packages.
 
 runPlot.dir <- "plots/runPlot/" # directory holding animation files
 
-plot.trajectory <- function(meltedRunData, plotScale = 1)
-{
-  ggplot(meltedRunData,
-         aes(x = time, y = value, colour = variable), size = 2 * plotScale) +
-    geom_line(size = 0.2 * plotScale) +
-    ylab("population") + 
-    scale_color_manual(labels = c('Humans', ' Plants'), values = c('blue', 'red')) +
-    
-    theme(axis.title = element_text(size = 3 * plotScale),
-          axis.text = element_text(size = 2 * plotScale),
-          legend.title = element_blank(),
-          legend.text = element_text(size = 3 * plotScale),
-          legend.key.size = unit(0.2 * plotScale, 'lines'))
-}
-
-animate.trajectory <- function(filePath, fileName, delete.frames = TRUE)
-{
-  # files <- dir(filePath)
-  # for (i in 1:length(files))
-  # {
-  #   files[i] <- paste0(filePath, files[i])
-  # }
-  files <- paste0(filePath, dir(path = filePath, pattern = paste0("^", fileName, ".*\\.png$")))
-  images <- map(files, image_read)
-  images <- image_join(images)
-  animation <- image_animate(images, fps = 10)
-  image_write(animation, paste0(filePath, fileName, "-anim.gif"))
-  if (delete.frames) { unlink(files); }
-}
+source("library/plotting/plot.trajectory.R")
+source("library/plotting/animate.trajectory.R")
 ```
 
 Attractors are system stable states, in which all variables become, at some level, predictable (i.e., they attract trajectories). For most of the conditions explored, the HPC model displays stationary points, which are attractors where variables converge and do not change unless the system is perturbed.
