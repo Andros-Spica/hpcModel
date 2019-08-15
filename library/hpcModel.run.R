@@ -1,9 +1,8 @@
 
 # fitness function
-Fitness <- function(i, U.BA, K.A)
+Fitness <- function(i, U.BA, U.bA)
 {
-  #if (K.A < U.BA) {K.A = U.BA}
-  return(((length(i) - i)*(K.A - U.BA) + i*U.BA) / K.A)
+  return(((length(i) - i)*U.bA + i*U.BA) / (U.bA + U.BA))
 }
 
 # coevolution coefficients:
@@ -140,8 +139,7 @@ hpcModel.run <- function(
     ### carrying capacity ----------------------------------------------------------
     # set utilities
     U.PH[t] <- sum(P[t] * pop.P[t,] * mU.PH.per.type)
-    #U.HP[t] <- sum(H[t] * pop.H[t,] * mU.HP.per.type)
-    U.HP[t] <- min(sum(H[t] * pop.H[t,] * mU.HP.per.type), MaxArea)
+    U.HP[t] <- sum(H[t] * pop.H[t,] * mU.HP.per.type)
     # set basic resources 
     U.bH[t] <- sum(pop.H[t,] * U.bH.per.type)
     U.bP[t] <- sum(pop.P[t,] * U.bP.per.type)
@@ -150,8 +148,8 @@ hpcModel.run <- function(
     K.P[t] <- min(sum(U.HP[t], U.bP[t]), MaxArea)
     ### update population types ----------------------------------------------------
     # set fitness
-    fitness.H[t,] <- Fitness(1:n.H, U.PH[t], K.H[t])
-    fitness.P[t,] <- Fitness(1:n.P, U.HP[t], K.P[t])
+    fitness.H[t,] <- Fitness(1:n.H, U.PH[t], U.bH[t])
+    fitness.P[t,] <- Fitness(1:n.P, U.HP[t], U.bP[t])
     # set undirected variation 
     pop.H[t,] <- pop.H[t,] + v.H * ((1/n.H) - pop.H[t,])
     pop.P[t,] <- pop.P[t,] + v.P * ((1/n.P) - pop.P[t,])
