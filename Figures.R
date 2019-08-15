@@ -113,7 +113,8 @@ run.coevo.coeta <- hpcModel.run(
   plot.save = FALSE
 )
 
-png(paste0("plots/figures/Fig2-", run.coevo.coeta.name, ".png"))
+png(paste0("plots/figures/Fig2-", run.coevo.coeta.name, ".png"),
+    width = 1000, height = 1000)
 hpcModel.plot(run.coevo.coeta)
 dev.off()
 
@@ -155,7 +156,8 @@ run.no.coevo <- hpcModel.run(
   plot.fileName = paste0(run.no.coevo.name, "-runPlot")
 )
 
-png(paste0("plots/figures/Fig3-", run.no.coevo.name, ".png"))
+png(paste0("plots/figures/Fig3-", run.no.coevo.name, ".png"),
+    width = 1000, height = 1000)
 hpcModel.plot(run.no.coevo)
 dev.off()
 
@@ -197,7 +199,8 @@ run.semicoevo <- hpcModel.run(
   plot.fileName = paste0(run.semicoevo.name, "-runPlot")
 )
 
-png(paste0("plots/figures/Fig4-", run.semicoevo.name, ".png"))
+png(paste0("plots/figures/Fig4-", run.semicoevo.name, ".png"),
+    width = 1000, height = 1000)
 hpcModel.plot(run.semicoevo)
 dev.off()
 
@@ -239,7 +242,8 @@ run.semicoevo.osc2 <- hpcModel.run(
   plot.fileName = paste0(run.semicoevo.osc2.name, "-runPlot")
 )
 
-png(paste0("plots/figures/Fig5-", run.semicoevo.osc2.name, ".png"))
+png(paste0("plots/figures/Fig5-", run.semicoevo.osc2.name, ".png"),
+    width = 1000, height = 1000)
 hpcModel.plot(run.semicoevo.osc2)
 dev.off()
 
