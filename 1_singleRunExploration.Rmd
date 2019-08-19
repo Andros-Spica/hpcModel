@@ -83,38 +83,49 @@ Another kind of attractor, oscillations, exists. A special case of oscillation o
 ## Fast coevolution (default)
 
 ```{r 1_run.coevo.coeta-name, cache=TRUE}
-run.coevo.coeta.name <- "coevo.coeta"
+run.coevo.coeta.name <- "run.coevo.coeta"
 ```
 
 ```{r 1_run.coevo.coeta, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.coevo.coeta-name')}
+if(!file.exists('plots/runPlot/run.coevo.coeta-anim.gif'))
+{
+  run.coevo.coeta <- hpcModel.run(
+    iniH = iniH.default,
+    iniP = iniP.default,
+    n.H = n.H.default,         
+    n.P = n.P.default,        
+    v.H = v.H.default,
+    v.P = v.P.default,
+    r.H = r.H.default, 
+    r.P = r.P.default, 
+    mU.PnH = mU.PnH.default,
+    mU.HnP = mU.HnP.default,
+    mU.P1H = mU.P1H.default,                                  
+    mU.H1P = mU.H1P.default,                                   
+    U.bHn = U.bHn.default,                                
+    U.bPn = U.bPn.default, 
+    U.bH1 = U.bH1.default,                               
+    U.bP1 = U.bP1.default,                                 
+    MaxArea = MaxArea.default,
+    maxIt = maxIt.default,
+    tol = tol.default,
+    timing.threshold = timing.threshold.default,
+    saveTrajectories = saveTrajectories.default,
+    messages = messages.default, 
+    # plotting
+    plot.preview = FALSE, 
+    plot.sleep = 0.05,
+    plot.save = TRUE,
+    plot.saveEvery = 5,
+    plot.directory = runPlot.dir,
+    plot.fileName = paste0(run.coevo.coeta.name, "-runPlot")
+  )
+  # save
+  save(run.coevo.coeta, file = 'data/run.coevo.coeta.RData')
+}
 
-run.coevo.coeta <- hpcModel.run(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = n.H.default,         
-  n.P = n.P.default,        
-  v.H = v.H.default,
-  v.P = v.P.default,
-  r.H = r.H.default, 
-  r.P = r.P.default, 
-  mU.PnH = mU.PnH.default,
-  mU.HnP = mU.HnP.default,
-  mU.P1H = mU.P1H.default,                                  
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = MaxArea.default,
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  saveTrajectories = saveTrajectories.default,
-  messages = messages.default, 
-  # plotting
-  plot.preview = FALSE, 
-  plot.save = FALSE
-)
+# load
+load('data/run.coevo.coeta.RData')
 ```
 
 ```{r 1runcoevocoetaparshtml, eval=!params$ispdf, cache=TRUE, dependson=c('1_table-functions', 'run.coevo.coeta'), fig.align='center', results='asis'}
@@ -171,44 +182,19 @@ knitr::include_graphics(paste0("plots/1_singleRun-ggplot-", run.coevo.coeta.name
 \newpage
 
 ```{r 1_run.coevo.coeta-frames, include=FALSE, dependson=c('1_default-values', '1_run.coevo.coeta-name')}
-run.coevo.coeta2 <- hpcModel.run(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = n.H.default,         
-  n.P = n.P.default,        
-  v.H = v.H.default,
-  v.P = v.P.default,
-  r.H = r.H.default, 
-  r.P = r.P.default, 
-  mU.PnH = mU.PnH.default,
-  mU.HnP = mU.HnP.default,
-  mU.P1H = mU.P1H.default,                                  
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = MaxArea.default, 
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  saveTrajectories = saveTrajectories.default,
-  messages = messages.default,   
-  # plotting
-  plot.preview = FALSE, 
-  plot.sleep = 0.05,
-  plot.save = TRUE,
-  plot.saveEvery = 5,
-  plot.directory = runPlot.dir,
-  plot.fileName = paste0(run.coevo.coeta.name, "-runPlot")
-)
-
-# Generate an animated GIF using the images in plot.directory folder
-animate.trajectory(runPlot.dir, run.coevo.coeta.name)
+if(!file.exists(paste0(runPlot.dir, run.coevo.coeta.name, "-anim.gif")))
+{
+  # Generate an animated GIF using the images in plot.directory folder
+  animate.trajectory(runPlot.dir, run.coevo.coeta.name)
+}
 ```
 
 ```{r 1runcoevocoetaanimation, eval=!params$ispdf, dependson='run.coevo.coeta-frames', fig.cap='Animated GIF showing the sequence of states throughout the simulation (only on the html version)'}
 knitr::include_graphics(paste0(runPlot.dir, run.coevo.coeta.name, "-anim.gif"))
+```
+
+```{r 1_run.coevo.coeta-clear, include=FALSE}
+rm(run.coevo.coeta)
 ```
 
 \FloatBarrier
@@ -217,45 +203,49 @@ knitr::include_graphics(paste0(runPlot.dir, run.coevo.coeta.name, "-anim.gif"))
 ## No coevolution
 
 ```{r 1_run.no.coevo-name, cache=TRUE}
-run.no.coevo.name <- "no.coevo"
+run.no.coevo.name <- "run.no.coevo"
 ```
 
 ```{r 1_run.no.coevo, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.no.coevo-name')}
+if(!file.exists('plots/runPlot/run.no.coevo-anim.gif'))
+{
+  run.no.coevo <- hpcModel.run(
+    iniH = iniH.default,
+    iniP = iniP.default,
+    n.H = n.H.default,         
+    n.P = n.P.default,        
+    v.H = v.H.default,
+    v.P = v.P.default,
+    r.H = r.H.default, 
+    r.P = r.P.default, 
+    mU.PnH = mU.PnH.default,
+    mU.HnP = mU.HnP.default,
+    mU.P1H = 0, # utility of type 1 plants has utility zero                      
+    mU.H1P = mU.H1P.default,                                   
+    U.bHn = U.bHn.default,                                
+    U.bPn = U.bPn.default, 
+    U.bH1 = U.bH1.default,                               
+    U.bP1 = U.bP1.default,                                 
+    MaxArea = MaxArea.default,
+    maxIt = maxIt.default,
+    tol = tol.default,
+    timing.threshold = timing.threshold.default,
+    saveTrajectories = saveTrajectories.default,
+    messages = messages.default, 
+    # plotting
+    plot.preview = FALSE, 
+    plot.sleep = 0.05,
+    plot.save = TRUE,
+    plot.saveEvery = 5,
+    plot.directory = runPlot.dir,
+    plot.fileName = paste0(run.no.coevo.name, "-runPlot")
+  )
+  # save
+  save(run.no.coevo, file = 'data/run.no.coevo.RData')
 
-run.no.coevo <- hpcModel.run(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = n.H.default,         
-  n.P = n.P.default,        
-  v.H = v.H.default,
-  v.P = v.P.default,
-  r.H = r.H.default, 
-  r.P = r.P.default, 
-  mU.PnH = mU.PnH.default,
-  mU.HnP = mU.HnP.default,
-  mU.P1H = 0, # utility of type 1 plants has utility zero                      
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = MaxArea.default,
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  saveTrajectories = saveTrajectories.default,
-  messages = messages.default, 
-  # plotting
-  plot.preview = FALSE, 
-  plot.sleep = 0.05,
-  plot.save = TRUE,
-  plot.saveEvery = 5,
-  plot.directory = runPlot.dir,
-  plot.fileName = paste0(run.no.coevo.name, "-runPlot")
-)
-
-# Generate an animated GIF using the images in plot.directory folder
-animate.trajectory(runPlot.dir, run.no.coevo.name)
+  # Generate an animated GIF using the images in plot.directory folder
+  animate.trajectory(runPlot.dir, run.no.coevo.name)
+}
 ```
 
 ```{r 1_run.no.coevo-animation, eval=!params$ispdf, dependson='run.no.coevo'}
@@ -263,7 +253,14 @@ knitr::include_graphics(paste0(runPlot.dir, run.no.coevo.name, "-anim.gif"))
 ```
 
 ```{r 1_run.no.coevo-plot, cache=TRUE, eval=params$ispdf, dependson='run.no.coevo', fig.width=8, fig.height=8}
+# load
+load('data/run.no.coevo.RData')
+
 hpcModel.plot(run.no.coevo, scale.override = 1)
+```
+
+```{r 1_run.no.coevo-clear, include=FALSE}
+rm(run.no.coevo)
 ```
 
 \newpage
@@ -271,45 +268,50 @@ hpcModel.plot(run.no.coevo, scale.override = 1)
 ## Coevolution with early cultivation
 
 ```{r 1_run.coevo.early.cult-name, cache=TRUE}
-run.coevo.early.cult.name <- "coevo.early.cult"
+run.coevo.early.cult.name <- "run.coevo.early.cult"
 ```
 
 ```{r 1_run.coevo.early.cult, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.coevo.early.cult-name')}
+if(!file.exists('plots/runPlot/run.coevo.early.cult-anim.gif'))
+{
+  run.coevo.early.cult <- hpcModel.run(
+    iniH = iniH.default,
+    iniP = iniP.default,
+    n.H = n.H.default,         
+    n.P = n.P.default,        
+    v.H = v.H.default,
+    v.P = v.P.default,
+    r.H = r.H.default, 
+    r.P = r.P.default, 
+    mU.PnH = 2, # utility type n plant is higher than default
+    mU.HnP = mU.HnP.default,
+    mU.P1H = 1, # lutility type 1 plant is higher than default
+    mU.H1P = mU.H1P.default,                                   
+    U.bHn = U.bHn.default,                                
+    U.bPn = U.bPn.default, 
+    U.bH1 = U.bH1.default,                               
+    U.bP1 = U.bP1.default,                                 
+    MaxArea = MaxArea.default,
+    maxIt = maxIt.default,
+    tol = tol.default,
+    timing.threshold = timing.threshold.default,
+    saveTrajectories = saveTrajectories.default,
+    messages = messages.default, 
+    # plotting
+    plot.preview = FALSE, 
+    plot.sleep = 0.05,
+    plot.save = TRUE,
+    plot.saveEvery = 5,
+    plot.directory = runPlot.dir,
+    plot.fileName = paste0(run.coevo.early.cult.name, "-runPlot")
+  )
+  
+  # save
+  save(run.coevo.early.cult, file = 'data/run.coevo.early.cult.RData')
 
-run.coevo.early.cult <- hpcModel.run(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = n.H.default,         
-  n.P = n.P.default,        
-  v.H = v.H.default,
-  v.P = v.P.default,
-  r.H = r.H.default, 
-  r.P = r.P.default, 
-  mU.PnH = 2, # utility type n plant is higher than default
-  mU.HnP = mU.HnP.default,
-  mU.P1H = 1, # lutility type 1 plant is higher than default
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = MaxArea.default,
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  saveTrajectories = saveTrajectories.default,
-  messages = messages.default, 
-  # plotting
-  plot.preview = FALSE, 
-  plot.sleep = 0.05,
-  plot.save = TRUE,
-  plot.saveEvery = 5,
-  plot.directory = runPlot.dir,
-  plot.fileName = paste0(run.coevo.early.cult.name, "-runPlot")
-)
-
-# Generate an animated GIF using the images in plot.directory folder
-animate.trajectory(runPlot.dir, run.coevo.early.cult.name)
+  # Generate an animated GIF using the images in plot.directory folder
+  animate.trajectory(runPlot.dir, run.coevo.early.cult.name)
+}
 ```
 
 ```{r 1_run.coevo.early.cult-animation, eval=!params$ispdf, dependson='run.coevo.early.cult'}
@@ -317,7 +319,14 @@ knitr::include_graphics(paste0(runPlot.dir, run.coevo.early.cult.name, "-anim.gi
 ```
 
 ```{r 1_run.coevo.early.cult-plot, cache=TRUE, eval=params$ispdf, dependson='run.coevo.early.cult', fig.width=8, fig.height=8}
+# load
+load('data/run.coevo.early.cult.RData')
+
 hpcModel.plot(run.coevo.early.cult, scale.override = 1)
+```
+
+```{r 1_run.coevo.early.cult-clear, include=FALSE}
+rm(run.coevo.early.cult)
 ```
 
 \newpage
@@ -325,45 +334,50 @@ hpcModel.plot(run.coevo.early.cult, scale.override = 1)
 ## Coevolution with early domestication
 
 ```{r 1_run.coevo.early.dom-name, cache=TRUE}
-run.coevo.early.dom.name <- "coevo.early.dom"
+run.coevo.early.dom.name <- "run.coevo.early.dom"
 ```
 
 ```{r 1_run.coevo.early.dom, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.coevo.early.dom-name')}
-
-run.coevo.early.dom <- hpcModel.run(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = n.H.default,         
-  n.P = n.P.default,        
-  v.H = v.H.default,
-  v.P = v.P.default,
-  r.H = r.H.default, 
-  r.P = r.P.default, 
-  mU.PnH = 1, # utility type n plant is the same than type 1 plants
-  mU.HnP = mU.HnP.default,
-  mU.P1H = 1, # utility type 1 plant is the same than type n plants
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = 20, # baseline carrying capacity of type 1 plant is the same than type n plants
-  MaxArea = MaxArea.default,
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  saveTrajectories = saveTrajectories.default,
-  messages = messages.default, 
-  # plotting
-  plot.preview = FALSE, 
-  plot.sleep = 0.05,
-  plot.save = TRUE,
-  plot.saveEvery = 5,
-  plot.directory = runPlot.dir,
-  plot.fileName = paste0(run.coevo.early.dom.name, "-runPlot")
-)
-
-# Generate an animated GIF using the images in plot.directory folder
-animate.trajectory(runPlot.dir, run.coevo.early.dom.name)
+if(!file.exists('plots/runPlot/run.coevo.early.dom-anim.gif'))
+{
+  run.coevo.early.dom <- hpcModel.run(
+    iniH = iniH.default,
+    iniP = iniP.default,
+    n.H = n.H.default,         
+    n.P = n.P.default,        
+    v.H = v.H.default,
+    v.P = v.P.default,
+    r.H = r.H.default, 
+    r.P = r.P.default, 
+    mU.PnH = 1, # utility type n plant is the same than type 1 plants
+    mU.HnP = mU.HnP.default,
+    mU.P1H = 1, # utility type 1 plant is the same than type n plants
+    mU.H1P = mU.H1P.default,                                   
+    U.bHn = U.bHn.default,                                
+    U.bPn = U.bPn.default, 
+    U.bH1 = U.bH1.default,                               
+    U.bP1 = 20, # baseline carrying capacity of type 1 plant is the same than type n plants
+    MaxArea = MaxArea.default,
+    maxIt = maxIt.default,
+    tol = tol.default,
+    timing.threshold = timing.threshold.default,
+    saveTrajectories = saveTrajectories.default,
+    messages = messages.default, 
+    # plotting
+    plot.preview = FALSE, 
+    plot.sleep = 0.05,
+    plot.save = TRUE,
+    plot.saveEvery = 5,
+    plot.directory = runPlot.dir,
+    plot.fileName = paste0(run.coevo.early.dom.name, "-runPlot")
+  )
+  
+  # save
+  save(run.coevo.early.dom, file = 'data/run.coevo.early.dom.RData')
+  
+  # Generate an animated GIF using the images in plot.directory folder
+  animate.trajectory(runPlot.dir, run.coevo.early.dom.name)
+}
 ```
 
 ```{r 1_run.coevo.early.dom-animation, eval=!params$ispdf, dependson='run.coevo.early.dom'}
@@ -371,7 +385,14 @@ knitr::include_graphics(paste0(runPlot.dir, run.coevo.early.dom.name, "-anim.gif
 ```
 
 ```{r 1_run.coevo.early.dom-plot, cache=TRUE, eval=params$ispdf, dependson='run.coevo.early.dom', fig.width=8, fig.height=8}
+# load
+load('data/run.coevo.early.dom.RData')
+
 hpcModel.plot(run.coevo.early.dom, scale.override = 1)
+```
+
+```{r 1_run.coevo.early.dom-clear, include=FALSE}
+rm(run.coevo.early.dom)
 ```
 
 \newpage
@@ -379,45 +400,50 @@ hpcModel.plot(run.coevo.early.dom, scale.override = 1)
 ## Cultivation without domestication
 
 ```{r 1_run.cult.without.dom-name, cache=TRUE}
-run.cult.without.dom.name <- "cult.without.dom"
+run.cult.without.dom.name <- "run.cult.without.dom"
 ```
 
 ```{r 1_run.cult.without.dom, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.cult.without.dom-name')}
-
-run.cult.without.dom <- hpcModel.run(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = n.H.default,         
-  n.P = n.P.default,        
-  v.H = v.H.default,
-  v.P = v.P.default,
-  r.H = r.H.default, 
-  r.P = r.P.default, 
-  mU.PnH = 2.5, # utility type n plant is higher than default
-  mU.HnP = 0.45, # utility type n humans is lower than default
-  mU.P1H = mU.P1H.default,                                  
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = MaxArea.default,
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  saveTrajectories = saveTrajectories.default,
-  messages = messages.default, 
-  # plotting
-  plot.preview = FALSE, 
-  plot.sleep = 0.05,
-  plot.save = TRUE,
-  plot.saveEvery = 5,
-  plot.directory = runPlot.dir,
-  plot.fileName = paste0(run.cult.without.dom.name, "-runPlot")
-)
-
-# Generate an animated GIF using the images in plot.directory folder
-animate.trajectory(runPlot.dir, run.cult.without.dom.name)
+if(!file.exists('plots/runPlot/run.cult.without.dom-anim.gif'))
+{
+  run.cult.without.dom <- hpcModel.run(
+    iniH = iniH.default,
+    iniP = iniP.default,
+    n.H = n.H.default,         
+    n.P = n.P.default,        
+    v.H = v.H.default,
+    v.P = v.P.default,
+    r.H = r.H.default, 
+    r.P = r.P.default, 
+    mU.PnH = 2.5, # utility type n plant is higher than default
+    mU.HnP = 0.45, # utility type n humans is lower than default
+    mU.P1H = mU.P1H.default,                                  
+    mU.H1P = mU.H1P.default,                                   
+    U.bHn = U.bHn.default,                                
+    U.bPn = U.bPn.default, 
+    U.bH1 = U.bH1.default,                               
+    U.bP1 = U.bP1.default,                                 
+    MaxArea = MaxArea.default,
+    maxIt = maxIt.default,
+    tol = tol.default,
+    timing.threshold = timing.threshold.default,
+    saveTrajectories = saveTrajectories.default,
+    messages = messages.default, 
+    # plotting
+    plot.preview = FALSE, 
+    plot.sleep = 0.05,
+    plot.save = TRUE,
+    plot.saveEvery = 5,
+    plot.directory = runPlot.dir,
+    plot.fileName = paste0(run.cult.without.dom.name, "-runPlot")
+  )
+  
+  # save
+  save(run.cult.without.dom, file = 'data/run.cult.without.dom.RData')
+  
+  # Generate an animated GIF using the images in plot.directory folder
+  animate.trajectory(runPlot.dir, run.cult.without.dom.name)
+}
 ```
 
 ```{r 1_run.cult.without.dom-animation, eval=!params$ispdf, dependson='run.cult.without.dom'}
@@ -425,7 +451,14 @@ knitr::include_graphics(paste0(runPlot.dir, run.cult.without.dom.name, "-anim.gi
 ```
 
 ```{r 1_run.cult.without.dom-plot, cache=TRUE, eval=params$ispdf, dependson='run.cult.without.dom', fig.width=8, fig.height=8}
+# load
+load('data/run.cult.without.dom.RData')
+
 hpcModel.plot(run.cult.without.dom, scale.override = 1)
+```
+
+```{r 1_run.cult.without.dom-clear, include=FALSE}
+rm(run.cult.without.dom)
 ```
 
 \newpage
@@ -433,45 +466,50 @@ hpcModel.plot(run.cult.without.dom, scale.override = 1)
 ## Coevolution with population "bleep"
 
 ```{r 1_run.coevo.bleep-name, cache=TRUE}
-run.coevo.bleep.name <- "coevo.bleep"
+run.coevo.bleep.name <- "run.coevo.bleep"
 ```
 
 ```{r 1_run.coevo.bleep, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.coevo.bleep-name')}
-
-run.coevo.bleep <- hpcModel.run(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = n.H.default,         
-  n.P = n.P.default,        
-  v.H = v.H.default,
-  v.P = v.P.default,
-  r.H = r.H.default, 
-  r.P = r.P.default, 
-  mU.PnH = mU.PnH.default,
-  mU.HnP = mU.HnP.default,
-  mU.P1H = mU.P1H.default,                                  
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = 110, # MaxArea is lower than default
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  saveTrajectories = saveTrajectories.default,
-  messages = messages.default, 
-  # plotting
-  plot.preview = FALSE, 
-  plot.sleep = 0.05,
-  plot.save = TRUE,
-  plot.saveEvery = 5,
-  plot.directory = runPlot.dir,
-  plot.fileName = paste0(run.coevo.bleep.name, "-runPlot")
-)
-
-# Generate an animated GIF using the images in plot.directory folder
-animate.trajectory(runPlot.dir, run.coevo.bleep.name)
+if(!file.exists('plots/runPlot/run.coevo.bleep-anim.gif'))
+{
+  run.coevo.bleep <- hpcModel.run(
+    iniH = iniH.default,
+    iniP = iniP.default,
+    n.H = n.H.default,         
+    n.P = n.P.default,        
+    v.H = v.H.default,
+    v.P = v.P.default,
+    r.H = r.H.default, 
+    r.P = r.P.default, 
+    mU.PnH = mU.PnH.default,
+    mU.HnP = mU.HnP.default,
+    mU.P1H = mU.P1H.default,                                  
+    mU.H1P = mU.H1P.default,                                   
+    U.bHn = U.bHn.default,                                
+    U.bPn = U.bPn.default, 
+    U.bH1 = U.bH1.default,                               
+    U.bP1 = U.bP1.default,                                 
+    MaxArea = 110, # MaxArea is lower than default
+    maxIt = maxIt.default,
+    tol = tol.default,
+    timing.threshold = timing.threshold.default,
+    saveTrajectories = saveTrajectories.default,
+    messages = messages.default, 
+    # plotting
+    plot.preview = FALSE, 
+    plot.sleep = 0.05,
+    plot.save = TRUE,
+    plot.saveEvery = 5,
+    plot.directory = runPlot.dir,
+    plot.fileName = paste0(run.coevo.bleep.name, "-runPlot")
+  )
+  
+  # save
+  save(run.coevo.bleep, file = 'data/run.coevo.bleep.RData')
+  
+  # Generate an animated GIF using the images in plot.directory folder
+  animate.trajectory(runPlot.dir, run.coevo.bleep.name)
+}
 ```
 
 ```{r 1_run.coevo.bleep-animation, eval=!params$ispdf, dependson='run.coevo.bleep'}
@@ -479,7 +517,14 @@ knitr::include_graphics(paste0(runPlot.dir, run.coevo.bleep.name, "-anim.gif"))
 ```
 
 ```{r 1_run.coevo.bleep-plot, cache=TRUE, eval=params$ispdf, dependson='run.coevo.bleep', fig.width=8, fig.height=8}
+# load
+load('data/run.coevo.bleep.RData')
+
 hpcModel.plot(run.coevo.bleep, scale.override = 1)
+```
+
+```{r 1_run.coevo.bleep-clear, include=FALSE}
+rm(run.coevo.bleep)
 ```
 
 \newpage
@@ -487,45 +532,50 @@ hpcModel.plot(run.coevo.bleep, scale.override = 1)
 ## Coevolution with population "boom"
 
 ```{r 1_run.coevo.boom-name, cache=TRUE}
-run.coevo.boom.name <- "coevo.boom"
+run.coevo.boom.name <- "run.coevo.boom"
 ```
 
 ```{r 1_run.coevo.boom, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.coevo.boom-name')}
-
-run.coevo.boom <- hpcModel.run(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = n.H.default,         
-  n.P = n.P.default,        
-  v.H = v.H.default,
-  v.P = v.P.default,
-  r.H = r.H.default, 
-  r.P = r.P.default, 
-  mU.PnH = 2, # utility type n plant is higher than default
-  mU.HnP = mU.HnP.default,
-  mU.P1H = mU.P1H.default,                                  
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = 500, # MaxArea is higher than default
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  saveTrajectories = saveTrajectories.default,
-  messages = messages.default, 
-  # plotting
-  plot.preview = FALSE, 
-  plot.sleep = 0.05,
-  plot.save = TRUE,
-  plot.saveEvery = 5,
-  plot.directory = runPlot.dir,
-  plot.fileName = paste0(run.coevo.boom.name, "-runPlot")
-)
-
-# Generate an animated GIF using the images in plot.directory folder
-animate.trajectory(runPlot.dir, run.coevo.boom.name)
+if(!file.exists('plots/runPlot/run.coevo.boom-anim.gif'))
+{
+  run.coevo.boom <- hpcModel.run(
+    iniH = iniH.default,
+    iniP = iniP.default,
+    n.H = n.H.default,         
+    n.P = n.P.default,        
+    v.H = v.H.default,
+    v.P = v.P.default,
+    r.H = r.H.default, 
+    r.P = r.P.default, 
+    mU.PnH = 2, # utility type n plant is higher than default
+    mU.HnP = mU.HnP.default,
+    mU.P1H = mU.P1H.default,                                  
+    mU.H1P = mU.H1P.default,                                   
+    U.bHn = U.bHn.default,                                
+    U.bPn = U.bPn.default, 
+    U.bH1 = U.bH1.default,                               
+    U.bP1 = U.bP1.default,                                 
+    MaxArea = 500, # MaxArea is higher than default
+    maxIt = maxIt.default,
+    tol = tol.default,
+    timing.threshold = timing.threshold.default,
+    saveTrajectories = saveTrajectories.default,
+    messages = messages.default, 
+    # plotting
+    plot.preview = FALSE, 
+    plot.sleep = 0.05,
+    plot.save = TRUE,
+    plot.saveEvery = 5,
+    plot.directory = runPlot.dir,
+    plot.fileName = paste0(run.coevo.boom.name, "-runPlot")
+  )
+  
+  # save
+  save(run.coevo.boom, file = 'data/run.coevo.boom.RData')
+  
+  # Generate an animated GIF using the images in plot.directory folder
+  animate.trajectory(runPlot.dir, run.coevo.boom.name)
+}
 ```
 
 ```{r 1_run.coevo.boom-animation, eval=!params$ispdf, dependson='run.coevo.boom'}
@@ -533,7 +583,14 @@ knitr::include_graphics(paste0(runPlot.dir, run.coevo.boom.name, "-anim.gif"))
 ```
 
 ```{r 1_run.coevo.boom-plot, cache=TRUE, eval=params$ispdf, dependson='run.coevo.boom', fig.width=8, fig.height=8}
+# load
+load('data/run.coevo.boom.RData')
+
 hpcModel.plot(run.coevo.boom, scale.override = 1)
+```
+
+```{r 1_run.coevo.boom-clear, include=FALSE}
+rm(run.coevo.boom)
 ```
 
 \newpage
@@ -541,45 +598,50 @@ hpcModel.plot(run.coevo.boom, scale.override = 1)
 ## Coevolution with long population "boom"
 
 ```{r 1_run.coevo.long.boom-name, cache=TRUE}
-run.coevo.long.boom.name <- "coevo.long.boom"
+run.coevo.long.boom.name <- "run.coevo.long.boom"
 ```
 
 ```{r 1_run.coevo.long.boom, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.coevo.long.boom-name')}
-
-run.coevo.long.boom <- hpcModel.run(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = n.H.default,         
-  n.P = n.P.default,        
-  v.H = v.H.default,
-  v.P = v.P.default,
-  r.H = r.H.default, 
-  r.P = r.P.default, 
-  mU.PnH = 1, # utility type n plant is the same than type 1 plants
-  mU.HnP = mU.HnP.default,
-  mU.P1H = 1, # utility type 1 plant is the same than type n plants
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = 1000, # MaxArea is much higher than default
-  maxIt = 2000, # this is a dangerously long simulation!!!
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  saveTrajectories = saveTrajectories.default,
-  messages = messages.default, 
-  # plotting
-  plot.preview = FALSE, 
-  plot.sleep = 0.05,
-  plot.save = TRUE,
-  plot.saveEvery = 5,
-  plot.directory = runPlot.dir,
-  plot.fileName = paste0(run.coevo.long.boom.name, "-runPlot")
-)
-
-# Generate an animated GIF using the images in plot.directory folder
-animate.trajectory(runPlot.dir, run.coevo.long.boom.name)
+if(!file.exists('plots/runPlot/run.coevo.long.boom-anim.gif'))
+{
+  run.coevo.long.boom <- hpcModel.run(
+    iniH = iniH.default,
+    iniP = iniP.default,
+    n.H = n.H.default,         
+    n.P = n.P.default,        
+    v.H = v.H.default,
+    v.P = v.P.default,
+    r.H = r.H.default, 
+    r.P = r.P.default, 
+    mU.PnH = 1, # utility type n plant is the same than type 1 plants
+    mU.HnP = mU.HnP.default,
+    mU.P1H = 1, # utility type 1 plant is the same than type n plants
+    mU.H1P = mU.H1P.default,                                   
+    U.bHn = U.bHn.default,                                
+    U.bPn = U.bPn.default, 
+    U.bH1 = U.bH1.default,                               
+    U.bP1 = U.bP1.default,                                 
+    MaxArea = 1000, # MaxArea is much higher than default
+    maxIt = 2000, # this is a dangerously long simulation!!!
+    tol = tol.default,
+    timing.threshold = timing.threshold.default,
+    saveTrajectories = saveTrajectories.default,
+    messages = messages.default, 
+    # plotting
+    plot.preview = FALSE, 
+    plot.sleep = 0.05,
+    plot.save = TRUE,
+    plot.saveEvery = 5,
+    plot.directory = runPlot.dir,
+    plot.fileName = paste0(run.coevo.long.boom.name, "-runPlot")
+  )
+  
+  # save
+  save(run.coevo.long.boom, file = 'data/run.coevo.long.boom.RData')
+  
+  # Generate an animated GIF using the images in plot.directory folder
+  animate.trajectory(runPlot.dir, run.coevo.long.boom.name)
+}
 ```
 
 ```{r 1_run.coevo.long.boom-animation, eval=!params$ispdf, dependson='run.coevo.long.boom'}
@@ -587,7 +649,14 @@ knitr::include_graphics(paste0(runPlot.dir, run.coevo.long.boom.name, "-anim.gif
 ```
 
 ```{r 1_run.coevo.long.boom-plot, cache=TRUE, eval=params$ispdf, dependson='run.coevo.long.boom', fig.width=8, fig.height=8}
+# load
+load('data/run.coevo.long.boom.RData')
+
 hpcModel.plot(run.coevo.long.boom, scale.override = 1)
+```
+
+```{r 1_run.coevo.long.boom-clear, include=FALSE}
+rm(run.coevo.long.boom)
 ```
 
 \newpage
@@ -595,45 +664,50 @@ hpcModel.plot(run.coevo.long.boom, scale.override = 1)
 ## Semi-coevolution (stationary point)
 
 ```{r 1_run.semicoevo-name, cache=TRUE}
-run.semicoevo.name <- "semicoevo"
+run.semicoevo.name <- "run.semicoevo"
 ```
 
 ```{r 1_run.semicoevo, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.semicoevo-name')}
-
-run.semicoevo <- hpcModel.run(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = n.H.default,         
-  n.P = n.P.default,        
-  v.H = v.H.default,
-  v.P = v.P.default,
-  r.H = r.H.default, 
-  r.P = r.P.default, 
-  mU.PnH = 0.5, # utility type n plant is the same than type 1 plants and lower than default
-  mU.HnP = mU.HnP.default,
-  mU.P1H = 0.5, # utility type 1 plant is the same than type n plants and higher than default
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = MaxArea.default,
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  saveTrajectories = saveTrajectories.default,
-  messages = messages.default, 
-  # plotting
-  plot.preview = FALSE, 
-  plot.sleep = 0.05,
-  plot.save = TRUE,
-  plot.saveEvery = 5,
-  plot.directory = runPlot.dir,
-  plot.fileName = paste0(run.semicoevo.name, "-runPlot")
-)
-
-# Generate an animated GIF using the images in plot.directory folder
-animate.trajectory(runPlot.dir, run.semicoevo.name)
+if(!file.exists('plots/runPlot/run.semicoevo-anim.gif'))
+{
+  run.semicoevo <- hpcModel.run(
+    iniH = iniH.default,
+    iniP = iniP.default,
+    n.H = n.H.default,         
+    n.P = n.P.default,        
+    v.H = v.H.default,
+    v.P = v.P.default,
+    r.H = r.H.default, 
+    r.P = r.P.default, 
+    mU.PnH = 0.5, # utility type n plant is the same than type 1 plants and lower than default
+    mU.HnP = mU.HnP.default,
+    mU.P1H = 0.5, # utility type 1 plant is the same than type n plants and higher than default
+    mU.H1P = mU.H1P.default,                                   
+    U.bHn = U.bHn.default,                                
+    U.bPn = U.bPn.default, 
+    U.bH1 = U.bH1.default,                               
+    U.bP1 = U.bP1.default,                                 
+    MaxArea = MaxArea.default,
+    maxIt = maxIt.default,
+    tol = tol.default,
+    timing.threshold = timing.threshold.default,
+    saveTrajectories = saveTrajectories.default,
+    messages = messages.default, 
+    # plotting
+    plot.preview = FALSE, 
+    plot.sleep = 0.05,
+    plot.save = TRUE,
+    plot.saveEvery = 5,
+    plot.directory = runPlot.dir,
+    plot.fileName = paste0(run.semicoevo.name, "-runPlot")
+  )
+  
+  # save
+  save(run.semicoevo, file = 'data/run.semicoevo.RData')
+  
+  # Generate an animated GIF using the images in plot.directory folder
+  animate.trajectory(runPlot.dir, run.semicoevo.name)
+}
 ```
 
 ```{r 1_run.semicoevo-animation, eval=!params$ispdf, dependson='run.semicoevo'}
@@ -641,7 +715,14 @@ knitr::include_graphics(paste0(runPlot.dir, run.semicoevo.name, "-anim.gif"))
 ```
 
 ```{r 1_run.semicoevo-plot, cache=TRUE, eval=params$ispdf, dependson='run.semicoevo', fig.width=8, fig.height=8}
+# load
+load('data/run.semicoevo.RData')
+
 hpcModel.plot(run.semicoevo, scale.override = 1)
+```
+
+```{r 1_run.semicoevo-clear, include=FALSE}
+rm(run.semicoevo)
 ```
 
 \newpage
@@ -649,44 +730,50 @@ hpcModel.plot(run.semicoevo, scale.override = 1)
 ## Semi-coevolution (oscillations)
 
 ```{r 1_run.semicoevo.osc1-name, cache=TRUE}
-run.semicoevo.osc1.name <- "semicoevo.osc1"
+run.semicoevo.osc1.name <- "run.semicoevo.osc1"
 ```
 
 ```{r 1_run.semicoevo.osc1-frames, include=FALSE, dependson=c('1_default-values', '1_run.semicoevo.osc1-name')}
-run.semicoevo.osc1 <- hpcModel.run(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = n.H.default,#10,         
-  n.P = n.P.default,#10,        
-  v.H = v.H.default,
-  v.P = v.P.default, 
-  r.H = r.H.default,
-  r.P = r.P.default, 
-  mU.PnH = 0.5, # utility type n plant is the same than type 1 plants and lower than default
-  mU.HnP = 0.9, # utility type n humans is lower than default
-  mU.P1H = 0.5, # utility type 1 plant is the same than type n plants and higher than default
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = 20, # baseline carrying capacity for type n humans is higher than default
-  U.bPn = U.bPn.default, 
-  U.bH1 = 100, # baseline carrying capacity for type 1 humans is higher than default
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = MaxArea.default, 
-  maxIt = 2000, # limit iterations
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  saveTrajectories = saveTrajectories.default,
-  messages = messages.default, 
-  # plotting
-  plot.preview = FALSE, 
-  plot.sleep = 0.05,
-  plot.save = TRUE,
-  plot.saveEvery = 5,
-  plot.directory = runPlot.dir,
-  plot.fileName = paste0(run.semicoevo.osc1.name, "-runPlot")
-)
-
-# Generate an animated GIF using the images in plot.directory folder
-animate.trajectory(runPlot.dir, run.semicoevo.osc1.name)
+if(!file.exists('plots/runPlot/run.semicoevo.osc1-anim.gif'))
+{
+  run.semicoevo.osc1 <- hpcModel.run(
+    iniH = iniH.default,
+    iniP = iniP.default,
+    n.H = n.H.default,#10,         
+    n.P = n.P.default,#10,        
+    v.H = v.H.default,
+    v.P = v.P.default, 
+    r.H = r.H.default,
+    r.P = r.P.default, 
+    mU.PnH = 0.5, # utility type n plant is the same than type 1 plants and lower than default
+    mU.HnP = 0.9, # utility type n humans is lower than default
+    mU.P1H = 0.5, # utility type 1 plant is the same than type n plants and higher than default
+    mU.H1P = mU.H1P.default,                                   
+    U.bHn = 20, # baseline carrying capacity for type n humans is higher than default
+    U.bPn = U.bPn.default, 
+    U.bH1 = 100, # baseline carrying capacity for type 1 humans is higher than default
+    U.bP1 = U.bP1.default,                                 
+    MaxArea = MaxArea.default, 
+    maxIt = 2000, # limit iterations
+    tol = tol.default,
+    timing.threshold = timing.threshold.default,
+    saveTrajectories = saveTrajectories.default,
+    messages = messages.default, 
+    # plotting
+    plot.preview = FALSE, 
+    plot.sleep = 0.05,
+    plot.save = TRUE,
+    plot.saveEvery = 5,
+    plot.directory = runPlot.dir,
+    plot.fileName = paste0(run.semicoevo.osc1.name, "-runPlot")
+  )
+  
+  # save
+  save(run.semicoevo.osc1, file = 'data/run.semicoevo.osc1.RData')
+  
+  # Generate an animated GIF using the images in plot.directory folder
+  animate.trajectory(runPlot.dir, run.semicoevo.osc1.name)
+}
 ```
 
 ```{r 1_run.semicoevo.osc1-animation, eval=!params$ispdf, dependson='run.semicoevo.osc1'}
@@ -694,48 +781,61 @@ knitr::include_graphics(paste0(runPlot.dir, run.semicoevo.osc1.name, "-anim.gif"
 ```
 
 ```{r 1_run.semicoevo.osc1-plot, cache=TRUE, eval=params$ispdf, dependson='run.semicoevo.osc1', fig.width=8, fig.height=8}
+# load
+load('data/run.semicoevo.osc1.RData')
+
 hpcModel.plot(run.semicoevo.osc1, scale.override = 1)
 ```
 
+```{r 1_run.semicoevo.osc1-clear, include=FALSE}
+rm(run.semicoevo.osc1)
+```
+
 ```{r 1_run.semicoevo.osc2-name, cache=TRUE}
-run.semicoevo.osc2.name <- "semicoevo.osc2"
+run.semicoevo.osc2.name <- "run.semicoevo.osc2"
 ```
 
 ```{r 1_run.semicoevo.osc2-frames, include=FALSE, dependson=c('1_default-values', '1_run.semicoevo.osc2-name')}
-run.semicoevo.osc2 <- hpcModel.run(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = 10,         
-  n.P = 10,        
-  v.H = v.H.default,
-  v.P = v.P.default, 
-  r.H = 0.15,
-  r.P = 0.15, 
-  mU.PnH = 1,
-  mU.HnP = 0.5, # utility type n humans is the same than type 1
-  mU.P1H = 0.2,
-  mU.H1P = 0.5,
-  U.bHn = 10,
-  U.bPn = 10, 
-  U.bH1 = 100,
-  U.bP1 = 100,
-  MaxArea = MaxArea.default, 
-  maxIt = 2000, # limit iterations
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  saveTrajectories = saveTrajectories.default,
-  messages = messages.default, 
-  # plotting
-  plot.preview = FALSE, 
-  plot.sleep = 0.05,
-  plot.save = TRUE,
-  plot.saveEvery = 5,
-  plot.directory = runPlot.dir,
-  plot.fileName = paste0(run.semicoevo.osc2.name, "-runPlot")
-)
-
-# Generate an animated GIF using the images in plot.directory folder
-animate.trajectory(runPlot.dir, run.semicoevo.osc2.name)
+if(!file.exists('plots/runPlot/run.semicoevo.osc2-anim.gif'))
+{
+  run.semicoevo.osc2 <- hpcModel.run(
+    iniH = iniH.default,
+    iniP = iniP.default,
+    n.H = 10,         
+    n.P = 10,        
+    v.H = v.H.default,
+    v.P = v.P.default, 
+    r.H = 0.15,
+    r.P = 0.15, 
+    mU.PnH = 1,
+    mU.HnP = 0.5, # utility type n humans is the same than type 1
+    mU.P1H = 0.2,
+    mU.H1P = 0.5,
+    U.bHn = 10,
+    U.bPn = 10, 
+    U.bH1 = 100,
+    U.bP1 = 100,
+    MaxArea = MaxArea.default, 
+    maxIt = 2000, # limit iterations
+    tol = tol.default,
+    timing.threshold = timing.threshold.default,
+    saveTrajectories = saveTrajectories.default,
+    messages = messages.default, 
+    # plotting
+    plot.preview = FALSE, 
+    plot.sleep = 0.05,
+    plot.save = TRUE,
+    plot.saveEvery = 5,
+    plot.directory = runPlot.dir,
+    plot.fileName = paste0(run.semicoevo.osc2.name, "-runPlot")
+  )
+  
+  # save
+  save(run.semicoevo.osc2, file = 'data/run.semicoevo.osc2.RData')
+  
+  # Generate an animated GIF using the images in plot.directory folder
+  animate.trajectory(runPlot.dir, run.semicoevo.osc2.name)
+}
 ```
 
 ```{r 1_run.semicoevo.osc2-animation, eval=!params$ispdf, dependson='run.semicoevo.osc2'}
@@ -743,5 +843,12 @@ knitr::include_graphics(paste0(runPlot.dir, run.semicoevo.osc2.name, "-anim.gif"
 ```
 
 ```{r 1_run.semicoevo.osc2-plot, cache=TRUE, eval=params$ispdf, dependson='run.semicoevo.osc2', fig.width=8, fig.height=8}
+# load
+load('data/run.semicoevo.osc2.RData')
+
 hpcModel.plot(run.semicoevo.osc2, scale.override = 1)
+```
+
+```{r 1_run.semicoevo.osc2-clear, include=FALSE}
+rm(run.semicoevo.osc2)
 ```

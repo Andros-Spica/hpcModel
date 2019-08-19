@@ -132,7 +132,7 @@ hpcModel.run <- function(
   timing.P <- 0
 
   #-----------ITERATIONS-------------------------------------------------------------------
-  if (messages) { cat('running simulation...') }
+  if (messages) { cat('running simulation...\n') }
   #### main loop =====================================================================
   for (t in 1:(maxIt - 1)) 
   {
@@ -224,6 +224,8 @@ hpcModel.run <- function(
         
         if (plot.save && t %% plot.saveEvery == 1)
         {
+          if (messages) { cat('saving plot...') }
+          
           dir.create(file.path(plot.directory))
           
           tWithZeros <- paste0(paste(rep('0', nchar(maxIt) - nchar(t)), collapse = ''), t)
@@ -232,6 +234,8 @@ hpcModel.run <- function(
               width = 1000, height = 1000)
           hpcModel.plot(RESULTS, device.sleep = plot.sleep)
           dev.off()
+          
+          if (messages) { cat('\n') }
         }
     }
     

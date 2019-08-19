@@ -156,6 +156,7 @@ hpcModel.plot <-
       TRAJ$coevo.H,
       type = 'l',
       col = 'blue',
+      xlab = '',
       xlim = time.axis.limit,
       ylab = 'coevolution',
       ylim = c(min(c(
