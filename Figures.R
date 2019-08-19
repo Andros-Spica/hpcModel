@@ -15,6 +15,7 @@ source("library/hpcModel.plot.R")
 require(ggplot2)
 require(scales)
 require(ggpubr)
+require(randomForest)
 
 ## custom plot functions
 ##----------------------
@@ -149,11 +150,7 @@ run.no.coevo <- hpcModel.run(
   messages = messages.default, 
   # plotting
   plot.preview = FALSE, 
-  plot.sleep = 0.05,
-  plot.save = TRUE,
-  plot.saveEvery = 5,
-  plot.directory = runPlot.dir,
-  plot.fileName = paste0(run.no.coevo.name, "-runPlot")
+  plot.save = FALSE
 )
 
 png(paste0("plots/figures/Fig3-", run.no.coevo.name, ".png"),
@@ -192,11 +189,7 @@ run.semicoevo <- hpcModel.run(
   messages = messages.default, 
   # plotting
   plot.preview = FALSE, 
-  plot.sleep = 0.05,
-  plot.save = TRUE,
-  plot.saveEvery = 5,
-  plot.directory = runPlot.dir,
-  plot.fileName = paste0(run.semicoevo.name, "-runPlot")
+  plot.save = FALSE
 )
 
 png(paste0("plots/figures/Fig4-", run.semicoevo.name, ".png"),
