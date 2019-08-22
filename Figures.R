@@ -221,18 +221,14 @@ run.semicoevo.osc2 <- hpcModel.run(
   U.bH1 = 100,
   U.bP1 = 100,
   MaxArea = MaxArea.default, 
-  maxIt = 2000, # limit iterations
+  maxIt = 600, # limit iterations
   tol = tol.default,
   timing.threshold = timing.threshold.default,
   saveTrajectories = saveTrajectories.default,
   messages = messages.default, 
   # plotting
   plot.preview = FALSE, 
-  plot.sleep = 0.05,
-  plot.save = TRUE,
-  plot.saveEvery = 5,
-  plot.directory = runPlot.dir,
-  plot.fileName = paste0(run.semicoevo.osc2.name, "-runPlot")
+  plot.save = FALSE
 )
 
 png(paste0("plots/figures/Fig5-", run.semicoevo.osc2.name, ".png"),
