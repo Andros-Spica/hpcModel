@@ -64,7 +64,7 @@ R notation              | Math notation | Description
  `pop.H`, `pop.P`         | $pop_{H_{i}}[t],\,pop_{P_{i}}[t]$ | **Proportion of a population** belonging to type $i$ at time $t$ (vector or array).  
  `mU.HP.per.type`, `mU.PH.per.type`         | $\bar{U}_{H_{i}P},\,\bar{U}_{P_{i}H}$ | **Utility per capita** of type $i$ individuals of one population to the other (vector or array).  
  `U.bH.per.type`, `U.bP.per.type`         | $U_{bH_{i}},\,U_{bP_{i}}$ | **Utility of other resources** to type $i$ individuals of a population (vector or array).  
- `fitness.H`, `fitness.P`         | $fitness_{H_{i}}[t],\,fitness_{P_{i}}[t]$ | **Fitness score** of type $i$ individuals of a population at time $t$ (vector or array).  
+ `fitness.H`, `fitness.P`         | $fitness_{H_{i}}[t]$, $fitness_{P_{i}}[t]$ | **Fitness score** of type $i$ individuals of a population at time $t$ (vector or array).  
  `d.H`, `d.P`         | $\Delta H[t],\,\Delta P[t]$ | **Population change** (*delta*) at time $t$ in respect to time $t -1$ (vector or array).  
 
 Table: Variables

@@ -1,39 +1,60 @@
-\documentclass[]{book}
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames*,x11names*}{xcolor}
+%
+\documentclass[
+]{book}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
-\else % if luatex or xelatex
-  \ifxetex
-    \usepackage{mathspec}
-  \else
-    \usepackage{fontspec}
-  \fi
-  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 \fi
-% use upquote if available, for straight quotes in verbatim environments
+% Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-% use microtype if available
-\IfFileExists{microtype.sty}{%
-\usepackage{microtype}
-\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
-\usepackage[margin=1in]{geometry}
-\usepackage{hyperref}
-\PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
-\hypersetup{unicode=true,
-            pdftitle={Human-Plant Coevolution (HPC) model General exploration and parameter sensitivity analysis},
-            colorlinks=true,
-            linkcolor=Maroon,
-            citecolor=Blue,
-            urlcolor=blue,
-            breaklinks=true}
-\urlstyle{same}  % don't use monospace font for urls
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Human-Plant Coevolution (HPC) model General exploration and parameter sensitivity analysis},
+  colorlinks=true,
+  linkcolor=Maroon,
+  filecolor=Maroon,
+  citecolor=Blue,
+  urlcolor=blue,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
 \usepackage{longtable,booktabs}
-\usepackage{graphicx,grffile}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
 \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
@@ -42,51 +63,14 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-\IfFileExists{parskip.sty}{%
-\usepackage{parskip}
-}{% else
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt plus 2pt minus 1pt}
-}
-\setlength{\emergencystretch}{3em}  % prevent overfull lines
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{5}
-% Redefines (sub)paragraphs to behave more like sections
-\ifx\paragraph\undefined\else
-\let\oldparagraph\paragraph
-\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
-\fi
-\ifx\subparagraph\undefined\else
-\let\oldsubparagraph\subparagraph
-\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
-\fi
-
-%%% Use protect on footnotes to avoid problems with footnotes in titles
-\let\rmarkdownfootnote\footnote%
-\def\footnote{\protect\rmarkdownfootnote}
-
-%%% Change title format to be more compact
-\usepackage{titling}
-
-% Create subtitle command for use in maketitle
-\newcommand{\subtitle}[1]{
-  \posttitle{
-    \begin{center}\large#1\end{center}
-    }
-}
-
-\setlength{\droptitle}{-2em}
-
-  \title{Human-Plant Coevolution (HPC) modelGeneral exploration and parameter sensitivity analysis}
-    \pretitle{\vspace{\droptitle}\centering\huge}
-  \posttitle{\par}
-    \author{}
-    \preauthor{}\postauthor{}
-      \predate{\centering\large\emph}
-  \postdate{\par}
-    \date{2019-08-19}
-
 \usepackage{fancyhdr}
 \usepackage{placeins}
 \usepackage{booktabs}
@@ -97,6 +81,10 @@
   \thm@postskip=\thm@preskip
 }
 \makeatother
+
+\title{Human-Plant Coevolution (HPC) modelGeneral exploration and parameter sensitivity analysis}
+\author{}
+\date{\vspace{-2.5em}2020-04-15}
 
 \begin{document}
 \maketitle
@@ -127,7 +115,7 @@ Andreas Angourakis \& Jon\`{a}s Alcaina
 \pagenumbering{arabic}
 
 {
-\hypersetup{linkcolor=black}
+\hypersetup{linkcolor=}
 \setcounter{tocdepth}{1}
 \tableofcontents
 }
@@ -256,7 +244,7 @@ utility of \textbf{other resources} to \textbf{type} \(n\) \textbf{plants} or th
 \end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
 \(MaxArea\)\strut
 \end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
-\textbf{Maximum contiguous area to be used by plants}. It is used as the maximum carrying capacity for plants.\strut
+\textbf{Maximum number of plant population units fitting the contiguous area available}. It is used as the maximum carrying capacity for plants.\strut
 \end{minipage}\tabularnewline
 \bottomrule
 \end{longtable}
@@ -304,7 +292,7 @@ Description\strut
 \end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
 \(U_{HP}[t],\,U_{PH}[t]\)\strut
 \end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
-\textbf{Utility of one population to the other} or the total contribution of a population to the maximum population at time \(t\), expressed in population units\strut
+\textbf{Utility of one population to the other} or the total contribution of a population to the carrying capacity of the other population at time \(t\), expressed in population units\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.36\columnwidth}\raggedright
 \texttt{U.bH}, \texttt{U.bP}\strut
@@ -344,7 +332,7 @@ Population types, arbitrarily ordered from \(1\) to \(n\) (vector or array).\str
 \begin{minipage}[t]{0.36\columnwidth}\raggedright
 \texttt{fitness.H}, \texttt{fitness.P}\strut
 \end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
-\(fitness_{H_{i}}[t],\,fitness_{P_{i}}[t]\)\strut
+\(fitness_{H_{i}}[t]\), \(fitness_{P_{i}}[t]\)\strut
 \end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
 \textbf{Fitness score} of type \(i\) individuals of a population at time \(t\) (vector or array).\strut
 \end{minipage}\tabularnewline
@@ -429,7 +417,7 @@ Another kind of attractor, oscillations, exists. A special case of oscillation o
 
 \caption{\label{tab:1runcoevocoetaparspdf}Parameter setting}
 \centering
-\begin{tabular}{l|l}
+\begin{tabular}[t]{l|l}
 \hline
 parameter & values\\
 \hline
@@ -589,13 +577,13 @@ Abbreviation & Value\tabularnewline
 \section{Full example (table+plot alternatives)}\label{full-example-tableplot-alternatives}}
 
 \hypertarget{utility-per-capita-of-type-n-plants-to-humans-baru_p_nh}{%
-\subsection{\texorpdfstring{utility per capita \textbf{of} type n plants \textbf{to} humans (\(\bar{U}_{P_{n}H}\)):}{utility per capita of type n plants to humans (\textbackslash{}bar\{U\}\_\{P\_\{n\}H\}):}}\label{utility-per-capita-of-type-n-plants-to-humans-baru_p_nh}}
+\subsection{\texorpdfstring{utility per capita \textbf{of} type n plants \textbf{to} humans (\(\bar{U}_{P_{n}H}\)):}{utility per capita of type n plants to humans (\textbackslash bar\{U\}\_\{P\_\{n\}H\}):}}\label{utility-per-capita-of-type-n-plants-to-humans-baru_p_nh}}
 
 \begin{table}[!h]
 
 \caption{\label{tab:2mUPnHtablepdf}Parameter setting}
 \centering
-\begin{tabular}{l|l}
+\begin{tabular}[t]{l|l}
 \hline
 parameter & value\\
 \hline
@@ -648,50 +636,50 @@ MaxArea & 200\\
 \section{Exploration on `default' setting for each parameter:}\label{exploration-on-default-setting-for-each-parameter}}
 
 \hypertarget{initial-populations-of-humans-and-plants-init_hinit_p}{%
-\subsection{\texorpdfstring{Initial populations of humans and plants (\(init_{H},\,init_{P}\))}{Initial populations of humans and plants (init\_\{H\},\textbackslash{},init\_\{P\})}}\label{initial-populations-of-humans-and-plants-init_hinit_p}}
+\subsection{\texorpdfstring{Initial populations of humans and plants (\(init_{H},\,init_{P}\))}{Initial populations of humans and plants (init\_\{H\},\textbackslash,init\_\{P\})}}\label{initial-populations-of-humans-and-plants-init_hinit_p}}
 
 \includegraphics[width=1\linewidth]{plots/2_onePar-init.H_bifplot-pair}
 
 \includegraphics[width=1\linewidth]{plots/2_onePar-init.P_bifplot-pair}
 
 \hypertarget{number-of-types-of-humans-and-plants-n_hn_p}{%
-\subsection{\texorpdfstring{Number of types of humans and plants (\(n_{H},\,n_{P}\)):}{Number of types of humans and plants (n\_\{H\},\textbackslash{},n\_\{P\}):}}\label{number-of-types-of-humans-and-plants-n_hn_p}}
+\subsection{\texorpdfstring{Number of types of humans and plants (\(n_{H},\,n_{P}\)):}{Number of types of humans and plants (n\_\{H\},\textbackslash,n\_\{P\}):}}\label{number-of-types-of-humans-and-plants-n_hn_p}}
 
 \includegraphics[width=1\linewidth]{plots/2_onePar-n.H_bifplot-pair}
 
 \includegraphics[width=1\linewidth]{plots/2_onePar-n.P_bifplot-pair}
 
 \hypertarget{level-of-undirected-variation-in-humans-and-plants-v_hv_p}{%
-\subsection{\texorpdfstring{level of undirected variation in humans and plants (\(v_{H},\,v_{P}\)):}{level of undirected variation in humans and plants (v\_\{H\},\textbackslash{},v\_\{P\}):}}\label{level-of-undirected-variation-in-humans-and-plants-v_hv_p}}
+\subsection{\texorpdfstring{level of undirected variation in humans and plants (\(v_{H},\,v_{P}\)):}{level of undirected variation in humans and plants (v\_\{H\},\textbackslash,v\_\{P\}):}}\label{level-of-undirected-variation-in-humans-and-plants-v_hv_p}}
 
 \includegraphics[width=1\linewidth]{plots/2_onePar-v.H_bifplot-pair}
 
 \includegraphics[width=1\linewidth]{plots/2_onePar-v.P_bifplot-pair}
 
 \hypertarget{intrinsic-growth-rates-for-human-and-plant-populations-r_hr_p}{%
-\subsection{\texorpdfstring{intrinsic growth rates for human and plant populations (\(r_{H},\,r_{P}\)):}{intrinsic growth rates for human and plant populations (r\_\{H\},\textbackslash{},r\_\{P\}):}}\label{intrinsic-growth-rates-for-human-and-plant-populations-r_hr_p}}
+\subsection{\texorpdfstring{intrinsic growth rates for human and plant populations (\(r_{H},\,r_{P}\)):}{intrinsic growth rates for human and plant populations (r\_\{H\},\textbackslash,r\_\{P\}):}}\label{intrinsic-growth-rates-for-human-and-plant-populations-r_hr_p}}
 
 \includegraphics[width=1\linewidth]{plots/2_onePar-r.H_bifplot-pair}
 
 \includegraphics[width=1\linewidth]{plots/2_onePar-r.P_bifplot-pair}
 
 \hypertarget{utility-per-capita-of-type-n-plants-to-humans-baru_p_nh-1}{%
-\subsection{\texorpdfstring{utility per capita \textbf{of} type n plants \textbf{to} humans (\(\bar{U}_{P_{n}H}\)):}{utility per capita of type n plants to humans (\textbackslash{}bar\{U\}\_\{P\_\{n\}H\}):}}\label{utility-per-capita-of-type-n-plants-to-humans-baru_p_nh-1}}
+\subsection{\texorpdfstring{utility per capita \textbf{of} type n plants \textbf{to} humans (\(\bar{U}_{P_{n}H}\)):}{utility per capita of type n plants to humans (\textbackslash bar\{U\}\_\{P\_\{n\}H\}):}}\label{utility-per-capita-of-type-n-plants-to-humans-baru_p_nh-1}}
 
 \includegraphics[width=1\linewidth]{plots/2_onePar-mU.PnH_bifplot-pair}
 
 \hypertarget{utility-per-capita-of-type-n-human-to-plants-baru_h_np}{%
-\subsection{\texorpdfstring{utility per capita \textbf{of} type n human \textbf{to} plants (\(\bar{U}_{H_{n}P}\)):}{utility per capita of type n human to plants (\textbackslash{}bar\{U\}\_\{H\_\{n\}P\}):}}\label{utility-per-capita-of-type-n-human-to-plants-baru_h_np}}
+\subsection{\texorpdfstring{utility per capita \textbf{of} type n human \textbf{to} plants (\(\bar{U}_{H_{n}P}\)):}{utility per capita of type n human to plants (\textbackslash bar\{U\}\_\{H\_\{n\}P\}):}}\label{utility-per-capita-of-type-n-human-to-plants-baru_h_np}}
 
 \includegraphics[width=1\linewidth]{plots/2_onePar-mU.HnP_bifplot-pair}
 
 \hypertarget{utility-per-capita-of-type-1-plants-to-humans-baru_p_1h}{%
-\subsection{\texorpdfstring{utility per capita \textbf{of} type 1 plants \textbf{to} humans (\(\bar{U}_{P_{1}H}\)):}{utility per capita of type 1 plants to humans (\textbackslash{}bar\{U\}\_\{P\_\{1\}H\}):}}\label{utility-per-capita-of-type-1-plants-to-humans-baru_p_1h}}
+\subsection{\texorpdfstring{utility per capita \textbf{of} type 1 plants \textbf{to} humans (\(\bar{U}_{P_{1}H}\)):}{utility per capita of type 1 plants to humans (\textbackslash bar\{U\}\_\{P\_\{1\}H\}):}}\label{utility-per-capita-of-type-1-plants-to-humans-baru_p_1h}}
 
 \includegraphics[width=1\linewidth]{plots/2_onePar-mU.P1H_bifplot-pair}
 
 \hypertarget{utility-per-capita-of-type-1-humans-to-plants-baru_h_1p}{%
-\subsection{\texorpdfstring{utility per capita \textbf{of} type 1 humans \textbf{to} plants (\(\bar{U}_{H_{1}P}\)):}{utility per capita of type 1 humans to plants (\textbackslash{}bar\{U\}\_\{H\_\{1\}P\}):}}\label{utility-per-capita-of-type-1-humans-to-plants-baru_h_1p}}
+\subsection{\texorpdfstring{utility per capita \textbf{of} type 1 humans \textbf{to} plants (\(\bar{U}_{H_{1}P}\)):}{utility per capita of type 1 humans to plants (\textbackslash bar\{U\}\_\{H\_\{1\}P\}):}}\label{utility-per-capita-of-type-1-humans-to-plants-baru_h_1p}}
 
 \includegraphics[width=1\linewidth]{plots/2_onePar-mU.H1P_bifplot-pair}
 
@@ -720,7 +708,7 @@ MaxArea & 200\\
 
 \includegraphics[width=1\linewidth]{plots/2_onePar-MaxArea_bifplot-pair}
 
-\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \hypertarget{oscilations}{%
 \section{Oscilations}\label{oscilations}}
@@ -740,7 +728,7 @@ Bifurcation plot with last 100 time steps (of 1000) to capture oscillations or `
 \section{Full example}\label{full-example}}
 
 \hypertarget{utility-per-capita-from-type-n-humans-and-plants-baru_h_np-x-baru_p_nh}{%
-\subsection{\texorpdfstring{Utility per capita from type n humans and plants (\(\bar{U}_{H_{n}P}\) x \(\bar{U}_{P_{n}H}\))}{Utility per capita from type n humans and plants (\textbackslash{}bar\{U\}\_\{H\_\{n\}P\} x \textbackslash{}bar\{U\}\_\{P\_\{n\}H\})}}\label{utility-per-capita-from-type-n-humans-and-plants-baru_h_np-x-baru_p_nh}}
+\subsection{\texorpdfstring{Utility per capita from type n humans and plants (\(\bar{U}_{H_{n}P}\) x \(\bar{U}_{P_{n}H}\))}{Utility per capita from type n humans and plants (\textbackslash bar\{U\}\_\{H\_\{n\}P\} x \textbackslash bar\{U\}\_\{P\_\{n\}H\})}}\label{utility-per-capita-from-type-n-humans-and-plants-baru_h_np-x-baru_p_nh}}
 
 \sectionmark{$\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$}
 
@@ -748,7 +736,7 @@ Bifurcation plot with last 100 time steps (of 1000) to capture oscillations or `
 
 \caption{\label{tab:3mUHnPmUPnHtablepdf}Parameter setting}
 \centering
-\begin{tabular}{l|l}
+\begin{tabular}[t]{l|l}
 \hline
 parameter & value\\
 \hline
@@ -817,7 +805,7 @@ MaxArea & 200\\
 \newpage
 
 \hypertarget{utility-per-capita-from-type-1-humans-and-plants-baru_h_1p-x-baru_p_1h}{%
-\subsection{\texorpdfstring{Utility per capita from type 1 humans and plants (\(\bar{U}_{H_{1}P}\) x \(\bar{U}_{P_{1}H}\))}{Utility per capita from type 1 humans and plants (\textbackslash{}bar\{U\}\_\{H\_\{1\}P\} x \textbackslash{}bar\{U\}\_\{P\_\{1\}H\})}}\label{utility-per-capita-from-type-1-humans-and-plants-baru_h_1p-x-baru_p_1h}}
+\subsection{\texorpdfstring{Utility per capita from type 1 humans and plants (\(\bar{U}_{H_{1}P}\) x \(\bar{U}_{P_{1}H}\))}{Utility per capita from type 1 humans and plants (\textbackslash bar\{U\}\_\{H\_\{1\}P\} x \textbackslash bar\{U\}\_\{P\_\{1\}H\})}}\label{utility-per-capita-from-type-1-humans-and-plants-baru_h_1p-x-baru_p_1h}}
 
 \sectionmark{$\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$}
 
@@ -826,7 +814,7 @@ MaxArea & 200\\
 \newpage
 
 \hypertarget{utility-per-capita-from-type-n-humans-and-plants-baru_h_np-x-baru_p_nh-1}{%
-\subsection{\texorpdfstring{Utility per capita from type n humans and plants (\(\bar{U}_{H_{n}P}\) x \(\bar{U}_{P_{n}H}\))}{Utility per capita from type n humans and plants (\textbackslash{}bar\{U\}\_\{H\_\{n\}P\} x \textbackslash{}bar\{U\}\_\{P\_\{n\}H\})}}\label{utility-per-capita-from-type-n-humans-and-plants-baru_h_np-x-baru_p_nh-1}}
+\subsection{\texorpdfstring{Utility per capita from type n humans and plants (\(\bar{U}_{H_{n}P}\) x \(\bar{U}_{P_{n}H}\))}{Utility per capita from type n humans and plants (\textbackslash bar\{U\}\_\{H\_\{n\}P\} x \textbackslash bar\{U\}\_\{P\_\{n\}H\})}}\label{utility-per-capita-from-type-n-humans-and-plants-baru_h_np-x-baru_p_nh-1}}
 
 \sectionmark{$\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$}
 
@@ -835,7 +823,7 @@ MaxArea & 200\\
 \newpage
 
 \hypertarget{utility-per-capita-from-humans-to-plants-baru_h_1p-x-baru_h_np}{%
-\subsection{\texorpdfstring{Utility per capita from humans to plants (\(\bar{U}_{H_{1}P}\) x \(\bar{U}_{H_{n}P}\))}{Utility per capita from humans to plants (\textbackslash{}bar\{U\}\_\{H\_\{1\}P\} x \textbackslash{}bar\{U\}\_\{H\_\{n\}P\})}}\label{utility-per-capita-from-humans-to-plants-baru_h_1p-x-baru_h_np}}
+\subsection{\texorpdfstring{Utility per capita from humans to plants (\(\bar{U}_{H_{1}P}\) x \(\bar{U}_{H_{n}P}\))}{Utility per capita from humans to plants (\textbackslash bar\{U\}\_\{H\_\{1\}P\} x \textbackslash bar\{U\}\_\{H\_\{n\}P\})}}\label{utility-per-capita-from-humans-to-plants-baru_h_1p-x-baru_h_np}}
 
 \sectionmark{$\bar{U}_{H_{1}P}$ x $\bar{U}_{H_{n}P}$}
 
@@ -844,7 +832,7 @@ MaxArea & 200\\
 \newpage
 
 \hypertarget{utility-per-capita-from-plants-to-humans-baru_p_1h-x-baru_p_nh}{%
-\subsection{\texorpdfstring{Utility per capita from plants to humans (\(\bar{U}_{P_{1}H}\) x \(\bar{U}_{P_{n}H}\))}{Utility per capita from plants to humans (\textbackslash{}bar\{U\}\_\{P\_\{1\}H\} x \textbackslash{}bar\{U\}\_\{P\_\{n\}H\})}}\label{utility-per-capita-from-plants-to-humans-baru_p_1h-x-baru_p_nh}}
+\subsection{\texorpdfstring{Utility per capita from plants to humans (\(\bar{U}_{P_{1}H}\) x \(\bar{U}_{P_{n}H}\))}{Utility per capita from plants to humans (\textbackslash bar\{U\}\_\{P\_\{1\}H\} x \textbackslash bar\{U\}\_\{P\_\{n\}H\})}}\label{utility-per-capita-from-plants-to-humans-baru_p_1h-x-baru_p_nh}}
 
 \sectionmark{$\bar{U}_{P_{1}H}$ x $\bar{U}_{P_{n}H}$}
 
@@ -887,7 +875,7 @@ MaxArea & 200\\
 \includegraphics[width=1\linewidth]{plots/3_twoPar-U.bP1-U.bPn_plot}
 
 \hypertarget{utility-of-other-resources-to-type-1-humans-and-utility-per-capita-of-type-1-humans-to-plants-u_bh_1-x-baru_h_1p}{%
-\subsection{\texorpdfstring{Utility of other resources to type 1 humans and utility per capita of type 1 humans to plants (\(U_{bH_{1}}\) x \(\bar{U}_{H_{1}P}\))}{Utility of other resources to type 1 humans and utility per capita of type 1 humans to plants (U\_\{bH\_\{1\}\} x \textbackslash{}bar\{U\}\_\{H\_\{1\}P\})}}\label{utility-of-other-resources-to-type-1-humans-and-utility-per-capita-of-type-1-humans-to-plants-u_bh_1-x-baru_h_1p}}
+\subsection{\texorpdfstring{Utility of other resources to type 1 humans and utility per capita of type 1 humans to plants (\(U_{bH_{1}}\) x \(\bar{U}_{H_{1}P}\))}{Utility of other resources to type 1 humans and utility per capita of type 1 humans to plants (U\_\{bH\_\{1\}\} x \textbackslash bar\{U\}\_\{H\_\{1\}P\})}}\label{utility-of-other-resources-to-type-1-humans-and-utility-per-capita-of-type-1-humans-to-plants-u_bh_1-x-baru_h_1p}}
 
 \sectionmark{$U_{bH_{1}}$ x $\bar{U}_{H_{1}P}$}
 
@@ -896,21 +884,21 @@ MaxArea & 200\\
 \newpage
 
 \hypertarget{utility-of-other-resources-to-type-1-plants-and-utility-per-capita-of-type-1-plants-to-humans-u_bp_1-x-baru_p_1h}{%
-\subsection{\texorpdfstring{Utility of other resources to type 1 plants and utility per capita of type 1 plants to humans (\(U_{bP_{1}}\) x \(\bar{U}_{P_{1}H}\))}{Utility of other resources to type 1 plants and utility per capita of type 1 plants to humans (U\_\{bP\_\{1\}\} x \textbackslash{}bar\{U\}\_\{P\_\{1\}H\})}}\label{utility-of-other-resources-to-type-1-plants-and-utility-per-capita-of-type-1-plants-to-humans-u_bp_1-x-baru_p_1h}}
+\subsection{\texorpdfstring{Utility of other resources to type 1 plants and utility per capita of type 1 plants to humans (\(U_{bP_{1}}\) x \(\bar{U}_{P_{1}H}\))}{Utility of other resources to type 1 plants and utility per capita of type 1 plants to humans (U\_\{bP\_\{1\}\} x \textbackslash bar\{U\}\_\{P\_\{1\}H\})}}\label{utility-of-other-resources-to-type-1-plants-and-utility-per-capita-of-type-1-plants-to-humans-u_bp_1-x-baru_p_1h}}
 
 \includegraphics[width=1\linewidth]{plots/3_twoPar-U.bP1-mU.P1H_plot}
 
 \newpage
 
 \hypertarget{utility-of-other-resources-to-type-n-humans-and-utility-per-capita-of-type-n-humans-to-plants-u_bh_n-x-baru_h_np}{%
-\subsection{\texorpdfstring{Utility of other resources to type n humans and utility per capita of type n humans to plants (\(U_{bH_{n}}\) x \(\bar{U}_{H_{n}P}\))}{Utility of other resources to type n humans and utility per capita of type n humans to plants (U\_\{bH\_\{n\}\} x \textbackslash{}bar\{U\}\_\{H\_\{n\}P\})}}\label{utility-of-other-resources-to-type-n-humans-and-utility-per-capita-of-type-n-humans-to-plants-u_bh_n-x-baru_h_np}}
+\subsection{\texorpdfstring{Utility of other resources to type n humans and utility per capita of type n humans to plants (\(U_{bH_{n}}\) x \(\bar{U}_{H_{n}P}\))}{Utility of other resources to type n humans and utility per capita of type n humans to plants (U\_\{bH\_\{n\}\} x \textbackslash bar\{U\}\_\{H\_\{n\}P\})}}\label{utility-of-other-resources-to-type-n-humans-and-utility-per-capita-of-type-n-humans-to-plants-u_bh_n-x-baru_h_np}}
 
 \includegraphics[width=1\linewidth]{plots/3_twoPar-U.bHn-mU.HnP_plot}
 
 \newpage
 
 \hypertarget{utility-of-other-resources-to-type-n-plants-and-utility-per-capita-of-type-n-plants-to-humans-u_bp_n-x-baru_p_nh}{%
-\subsection{\texorpdfstring{Utility of other resources to type n plants and utility per capita of type n plants to humans (\(U_{bP_{n}}\) x \(\bar{U}_{P_{n}H}\))}{Utility of other resources to type n plants and utility per capita of type n plants to humans (U\_\{bP\_\{n\}\} x \textbackslash{}bar\{U\}\_\{P\_\{n\}H\})}}\label{utility-of-other-resources-to-type-n-plants-and-utility-per-capita-of-type-n-plants-to-humans-u_bp_n-x-baru_p_nh}}
+\subsection{\texorpdfstring{Utility of other resources to type n plants and utility per capita of type n plants to humans (\(U_{bP_{n}}\) x \(\bar{U}_{P_{n}H}\))}{Utility of other resources to type n plants and utility per capita of type n plants to humans (U\_\{bP\_\{n\}\} x \textbackslash bar\{U\}\_\{P\_\{n\}H\})}}\label{utility-of-other-resources-to-type-n-plants-and-utility-per-capita-of-type-n-plants-to-humans-u_bp_n-x-baru_p_nh}}
 
 \includegraphics[width=1\linewidth]{plots/3_twoPar-U.bPn-mU.PnH_plot}
 
@@ -930,7 +918,7 @@ MaxArea & 200\\
 
 \caption{\label{tab:4nvtablepdf}Parameter setting}
 \centering
-\begin{tabular}{l|l}
+\begin{tabular}[t]{l|l}
 \hline
 parameter & value\\
 \hline
@@ -985,7 +973,7 @@ MaxArea & 200\\
 \newpage
 
 \hypertarget{utility-per-capita-between-humans-and-plants-baru_h_1p-x-baru_p_1h-x-baru_h_np-x-baru_p_nh}{%
-\section{\texorpdfstring{Utility per capita between humans and plants (\(\bar{U}_{H_{1}P}\) x \(\bar{U}_{P_{1}H}\) x \(\bar{U}_{H_{n}P}\) x \(\bar{U}_{P_{n}H}\))}{Utility per capita between humans and plants (\textbackslash{}bar\{U\}\_\{H\_\{1\}P\} x \textbackslash{}bar\{U\}\_\{P\_\{1\}H\} x \textbackslash{}bar\{U\}\_\{H\_\{n\}P\} x \textbackslash{}bar\{U\}\_\{P\_\{n\}H\})}}\label{utility-per-capita-between-humans-and-plants-baru_h_1p-x-baru_p_1h-x-baru_h_np-x-baru_p_nh}}
+\section{\texorpdfstring{Utility per capita between humans and plants (\(\bar{U}_{H_{1}P}\) x \(\bar{U}_{P_{1}H}\) x \(\bar{U}_{H_{n}P}\) x \(\bar{U}_{P_{n}H}\))}{Utility per capita between humans and plants (\textbackslash bar\{U\}\_\{H\_\{1\}P\} x \textbackslash bar\{U\}\_\{P\_\{1\}H\} x \textbackslash bar\{U\}\_\{H\_\{n\}P\} x \textbackslash bar\{U\}\_\{P\_\{n\}H\})}}\label{utility-per-capita-between-humans-and-plants-baru_h_1p-x-baru_p_1h-x-baru_h_np-x-baru_p_nh}}
 
 \sectionmark{$\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$ x $\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$}
 
@@ -993,7 +981,7 @@ MaxArea & 200\\
 
 \caption{\label{tab:4mUHPmUPHtablepdf}Parameter setting}
 \centering
-\begin{tabular}{l|l}
+\begin{tabular}[t]{l|l}
 \hline
 parameter & value\\
 \hline
@@ -1059,7 +1047,7 @@ For this experiment, consider that the default setting includes \(MaxArea=200\) 
 
 \caption{\label{tab:4UbHUbPtablepdf}Parameter setting}
 \centering
-\begin{tabular}{l|l}
+\begin{tabular}[t]{l|l}
 \hline
 parameter & value\\
 \hline
@@ -1115,7 +1103,7 @@ MaxArea & 200\\
 \newpage
 
 \hypertarget{utility-from-other-resources-to-humans-and-utility-per-capita-of-plants-to-humans-u_bh_1-x-u_bh_n-x-baru_p_1h-x-baru_p_nh}{%
-\section{\texorpdfstring{Utility from other resources to humans and utility per capita of plants to humans (\(U_{bH_{1}}\) x \(U_{bH_{n}}\) x \(\bar{U}_{P_{1}H}\) x \(\bar{U}_{P_{n}H}\))}{Utility from other resources to humans and utility per capita of plants to humans (U\_\{bH\_\{1\}\} x U\_\{bH\_\{n\}\} x \textbackslash{}bar\{U\}\_\{P\_\{1\}H\} x \textbackslash{}bar\{U\}\_\{P\_\{n\}H\})}}\label{utility-from-other-resources-to-humans-and-utility-per-capita-of-plants-to-humans-u_bh_1-x-u_bh_n-x-baru_p_1h-x-baru_p_nh}}
+\section{\texorpdfstring{Utility from other resources to humans and utility per capita of plants to humans (\(U_{bH_{1}}\) x \(U_{bH_{n}}\) x \(\bar{U}_{P_{1}H}\) x \(\bar{U}_{P_{n}H}\))}{Utility from other resources to humans and utility per capita of plants to humans (U\_\{bH\_\{1\}\} x U\_\{bH\_\{n\}\} x \textbackslash bar\{U\}\_\{P\_\{1\}H\} x \textbackslash bar\{U\}\_\{P\_\{n\}H\})}}\label{utility-from-other-resources-to-humans-and-utility-per-capita-of-plants-to-humans-u_bh_1-x-u_bh_n-x-baru_p_1h-x-baru_p_nh}}
 
 \sectionmark{$U_{bH_{1}}$ x $U_{bH_{n}}$ x $\bar{U}_{P_{1}H}$ x $\bar{U}_{P_{n}H}$}
 
@@ -1125,7 +1113,7 @@ All four parameters affect directly the carrying capacity for humans.
 
 \caption{\label{tab:4UbHUPHtablepdf}Parameter setting}
 \centering
-\begin{tabular}{l|l}
+\begin{tabular}[t]{l|l}
 \hline
 parameter & value\\
 \hline
@@ -1173,7 +1161,7 @@ MaxArea & 200\\
 \newpage
 
 \hypertarget{utility-from-other-resources-to-plants-and-utility-per-capita-of-humans-to-plants-u_bp_1-x-u_bp_n-x-baru_h_1p-x-baru_h_np}{%
-\section{\texorpdfstring{Utility from other resources to plants and utility per capita of humans to plants (\(U_{bP_{1}}\) x \(U_{bP_{n}}\) x \(\bar{U}_{H_{1}P}\) x \(\bar{U}_{H_{n}P}\))}{Utility from other resources to plants and utility per capita of humans to plants (U\_\{bP\_\{1\}\} x U\_\{bP\_\{n\}\} x \textbackslash{}bar\{U\}\_\{H\_\{1\}P\} x \textbackslash{}bar\{U\}\_\{H\_\{n\}P\})}}\label{utility-from-other-resources-to-plants-and-utility-per-capita-of-humans-to-plants-u_bp_1-x-u_bp_n-x-baru_h_1p-x-baru_h_np}}
+\section{\texorpdfstring{Utility from other resources to plants and utility per capita of humans to plants (\(U_{bP_{1}}\) x \(U_{bP_{n}}\) x \(\bar{U}_{H_{1}P}\) x \(\bar{U}_{H_{n}P}\))}{Utility from other resources to plants and utility per capita of humans to plants (U\_\{bP\_\{1\}\} x U\_\{bP\_\{n\}\} x \textbackslash bar\{U\}\_\{H\_\{1\}P\} x \textbackslash bar\{U\}\_\{H\_\{n\}P\})}}\label{utility-from-other-resources-to-plants-and-utility-per-capita-of-humans-to-plants-u_bp_1-x-u_bp_n-x-baru_h_1p-x-baru_h_np}}
 
 \sectionmark{$U_{bP_{1}}$ x $U_{bP_{n}}$ x $\bar{U}_{H_{1}P}$ x $\bar{U}_{H_{n}P}$}
 
@@ -1183,7 +1171,7 @@ All four parameters affect directly the carrying capacity for plants.
 
 \caption{\label{tab:4UbPUHPtablepdf}Parameter setting}
 \centering
-\begin{tabular}{l|l}
+\begin{tabular}[t]{l|l}
 \hline
 parameter & value\\
 \hline
@@ -1231,7 +1219,7 @@ MaxArea & 200\\
 \newpage
 
 \hypertarget{utility-from-other-resources-and-utility-per-capita-of-type-1-humans-and-plants-u_bp_1-x-u_bh_1-x-baru_h_1p-x-baru_p_1h}{%
-\section{\texorpdfstring{Utility from other resources and utility per capita of type 1 humans and plants (\(U_{bP_{1}}\) x \(U_{bH_{1}}\) x \(\bar{U}_{H_{1}P}\) x \(\bar{U}_{P_{1}H}\))}{Utility from other resources and utility per capita of type 1 humans and plants (U\_\{bP\_\{1\}\} x U\_\{bH\_\{1\}\} x \textbackslash{}bar\{U\}\_\{H\_\{1\}P\} x \textbackslash{}bar\{U\}\_\{P\_\{1\}H\})}}\label{utility-from-other-resources-and-utility-per-capita-of-type-1-humans-and-plants-u_bp_1-x-u_bh_1-x-baru_h_1p-x-baru_p_1h}}
+\section{\texorpdfstring{Utility from other resources and utility per capita of type 1 humans and plants (\(U_{bP_{1}}\) x \(U_{bH_{1}}\) x \(\bar{U}_{H_{1}P}\) x \(\bar{U}_{P_{1}H}\))}{Utility from other resources and utility per capita of type 1 humans and plants (U\_\{bP\_\{1\}\} x U\_\{bH\_\{1\}\} x \textbackslash bar\{U\}\_\{H\_\{1\}P\} x \textbackslash bar\{U\}\_\{P\_\{1\}H\})}}\label{utility-from-other-resources-and-utility-per-capita-of-type-1-humans-and-plants-u_bp_1-x-u_bh_1-x-baru_h_1p-x-baru_p_1h}}
 
 \sectionmark{$U_{bP_{1}}$ x $U_{bH_{1}}$ x $\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$}
 
@@ -1241,7 +1229,7 @@ This exploration reflects the state at the start of simulations (both population
 
 \caption{\label{tab:4Ub1mU1tablepdf}Parameter setting}
 \centering
-\begin{tabular}{l|l}
+\begin{tabular}[t]{l|l}
 \hline
 parameter & value\\
 \hline
@@ -1289,7 +1277,7 @@ MaxArea & 200\\
 \newpage
 
 \hypertarget{utility-from-other-resources-and-utility-per-capita-of-type-n-humans-and-plants-u_bp_n-x-u_bh_n-x-baru_h_np-x-baru_p_nh}{%
-\section{\texorpdfstring{Utility from other resources and utility per capita of type n humans and plants (\(U_{bP_{n}}\) x \(U_{bH_{n}}\) x \(\bar{U}_{H_{n}P}\) x \(\bar{U}_{P_{n}H}\))}{Utility from other resources and utility per capita of type n humans and plants (U\_\{bP\_\{n\}\} x U\_\{bH\_\{n\}\} x \textbackslash{}bar\{U\}\_\{H\_\{n\}P\} x \textbackslash{}bar\{U\}\_\{P\_\{n\}H\})}}\label{utility-from-other-resources-and-utility-per-capita-of-type-n-humans-and-plants-u_bp_n-x-u_bh_n-x-baru_h_np-x-baru_p_nh}}
+\section{\texorpdfstring{Utility from other resources and utility per capita of type n humans and plants (\(U_{bP_{n}}\) x \(U_{bH_{n}}\) x \(\bar{U}_{H_{n}P}\) x \(\bar{U}_{P_{n}H}\))}{Utility from other resources and utility per capita of type n humans and plants (U\_\{bP\_\{n\}\} x U\_\{bH\_\{n\}\} x \textbackslash bar\{U\}\_\{H\_\{n\}P\} x \textbackslash bar\{U\}\_\{P\_\{n\}H\})}}\label{utility-from-other-resources-and-utility-per-capita-of-type-n-humans-and-plants-u_bp_n-x-u_bh_n-x-baru_h_np-x-baru_p_nh}}
 
 \sectionmark{$U_{bP_{n}}$ x $U_{bH_{n}}$ x $\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$}
 
@@ -1299,7 +1287,7 @@ This exploration reflects the state after a successful coevolution (both populat
 
 \caption{\label{tab:4UbnmUntablepdf}Parameter setting}
 \centering
-\begin{tabular}{l|l}
+\begin{tabular}[t]{l|l}
 \hline
 parameter & value\\
 \hline
@@ -1347,7 +1335,7 @@ MaxArea & 200\\
 \newpage
 
 \hypertarget{utility-from-other-resources-to-type-1-humans-and-plants-and-utility-per-capita-of-type-n-humans-and-plants-u_bp_1-x-u_bh_1-x-baru_h_np-x-baru_p_nh}{%
-\section{\texorpdfstring{Utility from other resources to type 1 humans and plants and utility per capita of type n humans and plants (\(U_{bP_{1}}\) x \(U_{bH_{1}}\) x \(\bar{U}_{H_{n}P}\) x \(\bar{U}_{P_{n}H}\))}{Utility from other resources to type 1 humans and plants and utility per capita of type n humans and plants (U\_\{bP\_\{1\}\} x U\_\{bH\_\{1\}\} x \textbackslash{}bar\{U\}\_\{H\_\{n\}P\} x \textbackslash{}bar\{U\}\_\{P\_\{n\}H\})}}\label{utility-from-other-resources-to-type-1-humans-and-plants-and-utility-per-capita-of-type-n-humans-and-plants-u_bp_1-x-u_bh_1-x-baru_h_np-x-baru_p_nh}}
+\section{\texorpdfstring{Utility from other resources to type 1 humans and plants and utility per capita of type n humans and plants (\(U_{bP_{1}}\) x \(U_{bH_{1}}\) x \(\bar{U}_{H_{n}P}\) x \(\bar{U}_{P_{n}H}\))}{Utility from other resources to type 1 humans and plants and utility per capita of type n humans and plants (U\_\{bP\_\{1\}\} x U\_\{bH\_\{1\}\} x \textbackslash bar\{U\}\_\{H\_\{n\}P\} x \textbackslash bar\{U\}\_\{P\_\{n\}H\})}}\label{utility-from-other-resources-to-type-1-humans-and-plants-and-utility-per-capita-of-type-n-humans-and-plants-u_bp_1-x-u_bh_1-x-baru_h_np-x-baru_p_nh}}
 
 \sectionmark{$U_{bP_{1}}$ x $U_{bH_{1}}$ x $\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$}
 
@@ -1355,7 +1343,7 @@ MaxArea & 200\\
 
 \caption{\label{tab:4Ub1mUntablepdf}Parameter setting}
 \centering
-\begin{tabular}{l|l}
+\begin{tabular}[t]{l|l}
 \hline
 parameter & value\\
 \hline
@@ -1403,7 +1391,7 @@ MaxArea & 200\\
 \newpage
 
 \hypertarget{utility-from-other-resources-to-type-n-humans-and-plants-and-utility-per-capita-of-type-1-humans-and-plants-u_bp_n-x-u_bh_n-x-baru_h_1p-x-baru_p_1h}{%
-\section{\texorpdfstring{Utility from other resources to type n humans and plants and utility per capita of type 1 humans and plants (\(U_{bP_{n}}\) x \(U_{bH_{n}}\) x \(\bar{U}_{H_{1}P}\) x \(\bar{U}_{P_{1}H}\))}{Utility from other resources to type n humans and plants and utility per capita of type 1 humans and plants (U\_\{bP\_\{n\}\} x U\_\{bH\_\{n\}\} x \textbackslash{}bar\{U\}\_\{H\_\{1\}P\} x \textbackslash{}bar\{U\}\_\{P\_\{1\}H\})}}\label{utility-from-other-resources-to-type-n-humans-and-plants-and-utility-per-capita-of-type-1-humans-and-plants-u_bp_n-x-u_bh_n-x-baru_h_1p-x-baru_p_1h}}
+\section{\texorpdfstring{Utility from other resources to type n humans and plants and utility per capita of type 1 humans and plants (\(U_{bP_{n}}\) x \(U_{bH_{n}}\) x \(\bar{U}_{H_{1}P}\) x \(\bar{U}_{P_{1}H}\))}{Utility from other resources to type n humans and plants and utility per capita of type 1 humans and plants (U\_\{bP\_\{n\}\} x U\_\{bH\_\{n\}\} x \textbackslash bar\{U\}\_\{H\_\{1\}P\} x \textbackslash bar\{U\}\_\{P\_\{1\}H\})}}\label{utility-from-other-resources-to-type-n-humans-and-plants-and-utility-per-capita-of-type-1-humans-and-plants-u_bp_n-x-u_bh_n-x-baru_h_1p-x-baru_p_1h}}
 
 \sectionmark{$U_{bP_{n}}$ x $U_{bH_{n}}$ x $\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$}
 
@@ -1411,7 +1399,7 @@ MaxArea & 200\\
 
 \caption{\label{tab:4UbnmU1tablepdf}Parameter setting}
 \centering
-\begin{tabular}{l|l}
+\begin{tabular}[t]{l|l}
 \hline
 parameter & value\\
 \hline
@@ -1489,7 +1477,7 @@ MaxArea & 200\\
 
 \caption{\label{tab:5LHStablepdf}ACTUAL parameter values}
 \centering
-\begin{tabular}{l|l}
+\begin{tabular}[t]{l|l}
 \hline
 parameter & value\\
 \hline
@@ -1535,9 +1523,14 @@ MaxArea & 1.0026 - 299.958 (sample = 9979 )\\
 \hypertarget{experiment-overview}{%
 \section{Experiment overview}\label{experiment-overview}}
 
+\hypertarget{end-states}{%
+\subsection{End-states}\label{end-states}}
+
+\textbf{\emph{Are there any humans?}}
+
 \begin{tabular}{l|r}
 \hline
-H.exist & Freq\\
+H.exists & Freq\\
 \hline
 FALSE & 18\\
 \hline
@@ -1545,9 +1538,11 @@ TRUE & 9982\\
 \hline
 \end{tabular}
 
+\textbf{\emph{Are there any plants?}}
+
 \begin{tabular}{l|r}
 \hline
-P.exist & Freq\\
+P.exists & Freq\\
 \hline
 FALSE & 18\\
 \hline
@@ -1555,60 +1550,81 @@ TRUE & 9982\\
 \hline
 \end{tabular}
 
-\begin{tabular}{l|r}
-\hline
-H.evolved & Freq\\
-\hline
-FALSE & 8089\\
-\hline
-TRUE & 1911\\
-\hline
-\end{tabular}
+\textbf{\emph{Did humans not evolved by far? (coevolution coefficient is less than -0.5)}}
 
 \begin{tabular}{l|r}
 \hline
-P.evolved & Freq\\
+H.notByFarEvolved & Freq\\
 \hline
-FALSE & 5787\\
+FALSE & 8490\\
 \hline
-TRUE & 4213\\
+TRUE & 1510\\
 \hline
 \end{tabular}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-coevo_collapsed-ggplot}
+\textbf{\emph{Did plants not evolved by far? (coevolution coefficient is less than -0.5)}}
 
-\newpage
+\begin{tabular}{l|r}
+\hline
+P.notByFarEvolved & Freq\\
+\hline
+FALSE & 9759\\
+\hline
+TRUE & 241\\
+\hline
+\end{tabular}
 
-\hypertarget{random-forest}{%
-\subsection{Random forest}\label{random-forest}}
+\textbf{\emph{Did humans evolved mildly? (coevolution coefficient is positive, but less than 0.5)}}
 
-\textbf{\emph{Optimisation}}
+\begin{tabular}{l|r}
+\hline
+H.mildEvolved & Freq\\
+\hline
+FALSE & 6033\\
+\hline
+TRUE & 3967\\
+\hline
+\end{tabular}
 
-\includegraphics[width=1\linewidth]{hpcModel-exploration_files/figure-latex/5_RF.coevo.tunning-plot-1}
+\textbf{\emph{Did plants evolved mildly? (coevolution coefficient is positive, but less than 0.5)}}
 
-\newpage
+\begin{tabular}{l|r}
+\hline
+P.mildEvolved & Freq\\
+\hline
+FALSE & 5340\\
+\hline
+TRUE & 4660\\
+\hline
+\end{tabular}
 
-\textbf{\emph{Coevolution coefficients}}
+\textbf{\emph{Did humans evolved fully? (coevolution coefficient is greater than 0.5)}}
 
-Only using those runs with any humans (coevo.H) and plants (coevo.P) at the end-state.
+\begin{tabular}{l|r}
+\hline
+H.fullEvolved & Freq\\
+\hline
+FALSE & 8166\\
+\hline
+TRUE & 1834\\
+\hline
+\end{tabular}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-RF-coevo}
+\textbf{\emph{Did plants evolved fully? (coevolution coefficient is greater than 0.5)}}
 
-\newpage
+\begin{tabular}{l|r}
+\hline
+P.fullEvolved & Freq\\
+\hline
+FALSE & 5802\\
+\hline
+TRUE & 4198\\
+\hline
+\end{tabular}
 
-\textbf{\emph{Dependency coefficients}}
+\textbf{\emph{Population and output variables}}
 
-Only using those runs with any humans (depend.H) and plants (depend.P) at the end-state.
-
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-RF-depend}
-
-\textbf{\emph{Timings}}
-
-Only using those runs with successful human (timing.H) and plant (timing.P) evolution.
-
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-RF-timing}
-
-\newpage
+\includegraphics[width=1\linewidth]{plots/5_multiplePar-variables-ggplot}
 
 \hypertarget{trajectories}{%
 \subsection{Trajectories}\label{trajectories}}
@@ -1617,11 +1633,79 @@ Only using those runs with successful human (timing.H) and plant (timing.P) evol
 
 \newpage
 
-\hypertarget{scenarios}{%
-\section{Scenarios}\label{scenarios}}
+\includegraphics[width=1\linewidth]{plots/5_multiplePar-coevo_endstates-ggplot}
+
+\newpage
+
+\hypertarget{random-forest}{%
+\section{Random forest}\label{random-forest}}
+
+\hypertarget{optimisation}{%
+\subsection{Optimisation}\label{optimisation}}
+
+\includegraphics[width=1\linewidth]{hpcModel-exploration_files/figure-latex/5_RF.coevo.tunning-plot-1}
+
+\newpage
+
+\hypertarget{coevolution-coefficients}{%
+\subsection{Coevolution coefficients}\label{coevolution-coefficients}}
+
+Only using those runs with any humans (coevo.H) and plants (coevo.P) at the end-state.
+
+\includegraphics[width=1\linewidth]{plots/5_multiplePar-RF-coevo}
+
+\newpage
+
+\hypertarget{dependency-coefficients}{%
+\subsection{Dependency coefficients}\label{dependency-coefficients}}
+
+Only using those runs with any humans (depend.H) and plants (depend.P) at the end-state.
+
+\includegraphics[width=1\linewidth]{plots/5_multiplePar-RF-depend}
+
+\hypertarget{timings}{%
+\subsection{Timings}\label{timings}}
+
+Only using those runs with successful human (timing.H) and plant (timing.P) evolution.
+
+\includegraphics[width=1\linewidth]{plots/5_multiplePar-RF-timing}
+
+\newpage
+
+\hypertarget{visualisation-of-parameter-effect}{%
+\section{Visualisation of parameter effect}\label{visualisation-of-parameter-effect}}
+
+\hypertarget{the-effect-on-coevolution-coefficients-of-the-utility-per-capita-of-type-n-humans-to-plants-baru_h_np}{%
+\subsection{\texorpdfstring{The effect on coevolution coefficients of the utility per capita of type n humans to plants (\(\bar{U}_{H_{n}P}\))}{The effect on coevolution coefficients of the utility per capita of type n humans to plants (\textbackslash bar\{U\}\_\{H\_\{n\}P\})}}\label{the-effect-on-coevolution-coefficients-of-the-utility-per-capita-of-type-n-humans-to-plants-baru_h_np}}
+
+\sectionmark{Visualising effect of $\bar{U}_{H_{n}P}$}
+
+\includegraphics[width=1\linewidth]{plots/5_multiplePar-coevo_collapsed-ggplot}
+
+\newpage
+
+\hypertarget{all-parameters}{%
+\subsection{All parameters}\label{all-parameters}}
+
+\textbf{\emph{Coevolution coefficients}}
+
+\includegraphics[width=1\linewidth]{plots/5_multiplePar-coevo-ggplot}
+
+\textbf{\emph{Dependency coefficients}}
+
+\includegraphics[width=1\linewidth]{plots/5_multiplePar-depend-ggplot}
+
+\textbf{\emph{Timings}}
+
+\includegraphics[width=1\linewidth]{plots/5_multiplePar-timing-ggplot}
+
+\newpage
+
+\hypertarget{parameter-effect-split-by-scenarios}{%
+\section{Parameter effect split by scenarios}\label{parameter-effect-split-by-scenarios}}
 
 \hypertarget{mutualistic-human-type-gives-more-utility-baru_h_np-baru_h_1p}{%
-\subsection{\texorpdfstring{Mutualistic human type gives more utility (\(\bar{U}_{H_{n}P}> \bar{U}_{H_{1}P}\))}{Mutualistic human type gives more utility (\textbackslash{}bar\{U\}\_\{H\_\{n\}P\}\textgreater{} \textbackslash{}bar\{U\}\_\{H\_\{1\}P\})}}\label{mutualistic-human-type-gives-more-utility-baru_h_np-baru_h_1p}}
+\subsection{\texorpdfstring{Mutualistic human type gives more utility (\(\bar{U}_{H_{n}P}> \bar{U}_{H_{1}P}\))}{Mutualistic human type gives more utility (\textbackslash bar\{U\}\_\{H\_\{n\}P\}\textgreater{} \textbackslash bar\{U\}\_\{H\_\{1\}P\})}}\label{mutualistic-human-type-gives-more-utility-baru_h_np-baru_h_1p}}
 
 \sectionmark{Scenario: $\bar{U}_{H_{n}P}> \bar{U}_{H_{1}P}$}
 
@@ -1640,7 +1724,7 @@ Only using those runs with successful human (timing.H) and plant (timing.P) evol
 \newpage
 
 \hypertarget{mutualistic-plant-type-gives-more-utility-baru_p_nh-baru_p_1h}{%
-\subsection{\texorpdfstring{Mutualistic plant type gives more utility (\(\bar{U}_{P_{n}H}> \bar{U}_{P_{1}H}\))}{Mutualistic plant type gives more utility (\textbackslash{}bar\{U\}\_\{P\_\{n\}H\}\textgreater{} \textbackslash{}bar\{U\}\_\{P\_\{1\}H\})}}\label{mutualistic-plant-type-gives-more-utility-baru_p_nh-baru_p_1h}}
+\subsection{\texorpdfstring{Mutualistic plant type gives more utility (\(\bar{U}_{P_{n}H}> \bar{U}_{P_{1}H}\))}{Mutualistic plant type gives more utility (\textbackslash bar\{U\}\_\{P\_\{n\}H\}\textgreater{} \textbackslash bar\{U\}\_\{P\_\{1\}H\})}}\label{mutualistic-plant-type-gives-more-utility-baru_p_nh-baru_p_1h}}
 
 \sectionmark{Scenario: $\bar{U}_{P_{n}H}> \bar{U}_{P_{1}H}$}
 
@@ -1659,7 +1743,7 @@ Only using those runs with successful human (timing.H) and plant (timing.P) evol
 \newpage
 
 \hypertarget{mutualistic-types-human-and-plant-give-more-utility-baru_h_np-baru_h_1p-and-baru_p_nh-baru_p_1h}{%
-\subsection{\texorpdfstring{Mutualistic types (human and plant) give more utility (\(\bar{U}_{H_{n}P}> \bar{U}_{H_{1}P}\) AND \(\bar{U}_{P_{n}H}> \bar{U}_{P_{1}H}\))}{Mutualistic types (human and plant) give more utility (\textbackslash{}bar\{U\}\_\{H\_\{n\}P\}\textgreater{} \textbackslash{}bar\{U\}\_\{H\_\{1\}P\} AND \textbackslash{}bar\{U\}\_\{P\_\{n\}H\}\textgreater{} \textbackslash{}bar\{U\}\_\{P\_\{1\}H\})}}\label{mutualistic-types-human-and-plant-give-more-utility-baru_h_np-baru_h_1p-and-baru_p_nh-baru_p_1h}}
+\subsection{\texorpdfstring{Mutualistic types (human and plant) give more utility (\(\bar{U}_{H_{n}P}> \bar{U}_{H_{1}P}\) AND \(\bar{U}_{P_{n}H}> \bar{U}_{P_{1}H}\))}{Mutualistic types (human and plant) give more utility (\textbackslash bar\{U\}\_\{H\_\{n\}P\}\textgreater{} \textbackslash bar\{U\}\_\{H\_\{1\}P\} AND \textbackslash bar\{U\}\_\{P\_\{n\}H\}\textgreater{} \textbackslash bar\{U\}\_\{P\_\{1\}H\})}}\label{mutualistic-types-human-and-plant-give-more-utility-baru_h_np-baru_h_1p-and-baru_p_nh-baru_p_1h}}
 
 \sectionmark{$\bar{U}_{H_{n}P}> \bar{U}_{H_{1}P}$ AND $\bar{U}_{P_{n}H}> \bar{U}_{P_{1}H}$}
 
@@ -1678,7 +1762,7 @@ Only using those runs with successful human (timing.H) and plant (timing.P) evol
 \newpage
 
 \hypertarget{mutualistic-human-type-gets-less-utility-from-other-resources-u_bh_1u_bh_n}{%
-\subsection{\texorpdfstring{Mutualistic human type gets less utility from other resources (\(U_{bH_{1}}>U_{bH_{n}}\))}{Mutualistic human type gets less utility from other resources (U\_\{bH\_\{1\}\}\textgreater{}U\_\{bH\_\{n\}\})}}\label{mutualistic-human-type-gets-less-utility-from-other-resources-u_bh_1u_bh_n}}
+\subsection{\texorpdfstring{Mutualistic human type gets less utility from other resources (\(U_{bH_{1}}>U_{bH_{n}}\))}{Mutualistic human type gets less utility from other resources (U\_\{bH\_\{1\}\}\textgreater U\_\{bH\_\{n\}\})}}\label{mutualistic-human-type-gets-less-utility-from-other-resources-u_bh_1u_bh_n}}
 
 \sectionmark{Scenario: $U_{bH_{1}}>U_{bH_{n}}$}
 
@@ -1697,7 +1781,7 @@ Only using those runs with successful human (timing.H) and plant (timing.P) evol
 \newpage
 
 \hypertarget{mutualistic-plant-type-gets-less-utility-from-other-resources-u_bp_1u_bp_n}{%
-\subsection{\texorpdfstring{Mutualistic plant type gets less utility from other resources (\(U_{bP_{1}}>U_{bP_{n}}\))}{Mutualistic plant type gets less utility from other resources (U\_\{bP\_\{1\}\}\textgreater{}U\_\{bP\_\{n\}\})}}\label{mutualistic-plant-type-gets-less-utility-from-other-resources-u_bp_1u_bp_n}}
+\subsection{\texorpdfstring{Mutualistic plant type gets less utility from other resources (\(U_{bP_{1}}>U_{bP_{n}}\))}{Mutualistic plant type gets less utility from other resources (U\_\{bP\_\{1\}\}\textgreater U\_\{bP\_\{n\}\})}}\label{mutualistic-plant-type-gets-less-utility-from-other-resources-u_bp_1u_bp_n}}
 
 \sectionmark{Scenario: $U_{bP_{1}}>U_{bP_{n}}$}
 
@@ -1716,7 +1800,7 @@ Only using those runs with successful human (timing.H) and plant (timing.P) evol
 \newpage
 
 \hypertarget{mutualistic-types-human-and-plant-get-less-utility-from-other-resources-u_bh_1u_bh_n-and-u_bp_1u_bp_n}{%
-\subsection{\texorpdfstring{Mutualistic types (human and plant) get less utility from other resources (\(U_{bH_{1}}>U_{bH_{n}}\) AND \(U_{bP_{1}}>U_{bP_{n}}\))}{Mutualistic types (human and plant) get less utility from other resources (U\_\{bH\_\{1\}\}\textgreater{}U\_\{bH\_\{n\}\} AND U\_\{bP\_\{1\}\}\textgreater{}U\_\{bP\_\{n\}\})}}\label{mutualistic-types-human-and-plant-get-less-utility-from-other-resources-u_bh_1u_bh_n-and-u_bp_1u_bp_n}}
+\subsection{\texorpdfstring{Mutualistic types (human and plant) get less utility from other resources (\(U_{bH_{1}}>U_{bH_{n}}\) AND \(U_{bP_{1}}>U_{bP_{n}}\))}{Mutualistic types (human and plant) get less utility from other resources (U\_\{bH\_\{1\}\}\textgreater U\_\{bH\_\{n\}\} AND U\_\{bP\_\{1\}\}\textgreater U\_\{bP\_\{n\}\})}}\label{mutualistic-types-human-and-plant-get-less-utility-from-other-resources-u_bh_1u_bh_n-and-u_bp_1u_bp_n}}
 
 \sectionmark{Scenario: $U_{bH_{1}}>U_{bH_{n}}$ AND $U_{bP_{1}}>U_{bP_{n}}$}
 
@@ -1731,6 +1815,5 @@ Only using those runs with successful human (timing.H) and plant (timing.P) evol
 \textbf{\emph{Timings}}
 
 \includegraphics[width=1\linewidth]{plots/5_multiplePar-timing-bothLessBase-ggplot}
-
 
 \end{document}
