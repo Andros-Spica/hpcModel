@@ -24,7 +24,7 @@ source("library/plotting/run.table.R")
 source("library/plotting/exp.table.R")
 ```
 
-```{r 1_default-values}
+```{r 1_default-values, cache=TRUE}
 # this is the 'default' parameter setting (end state is 'fast coevolution'):
 # initial populations
 iniH.default = 10
@@ -121,14 +121,14 @@ if(!file.exists('plots/runPlot/run.coevo.coeta-anim.gif'))
     plot.fileName = paste0(run.coevo.coeta.name, "-runPlot")
   )
   # save
-  save(run.coevo.coeta, file = 'data/run.coevo.coeta.RData')
+  save(run.coevo.coeta, file = 'data/1_run.coevo.coeta.RData')
 }
 
 # load
-load('data/run.coevo.coeta.RData')
+load('data/1_run.coevo.coeta.RData')
 ```
 
-```{r 1runcoevocoetaparshtml, eval=!params$ispdf, cache=TRUE, dependson=c('1_table-functions', 'run.coevo.coeta'), fig.align='center', results='asis'}
+```{r 1runcoevocoetaparshtml, eval=!params$ispdf, cache=TRUE, dependson='run.coevo.coeta', fig.align='center', results='asis'}
 run.table(run.coevo.coeta, caption = 'Parameter setting')
 ```
 
@@ -158,7 +158,7 @@ hpcModel.plot(run.coevo.coeta, scale.override = 1)
 
 \newpage
 
-```{r 1_run.coevo.coeta-ggplot, warning=FALSE, cache=TRUE, dependson=c('1_plot-functions', 'run.coevo.coeta')}
+```{r 1_run.coevo.coeta-ggplot, warning=FALSE, cache=TRUE, dependson='run.coevo.coeta'}
 run.coevo.coeta.melted <-
   data.frame(H = run.coevo.coeta$TRAJECTORIES$H, 
              P = run.coevo.coeta$TRAJECTORIES$P)[!is.na(run.coevo.coeta$TRAJECTORIES$H), ]
@@ -241,7 +241,7 @@ if(!file.exists('plots/runPlot/run.no.coevo-anim.gif'))
     plot.fileName = paste0(run.no.coevo.name, "-runPlot")
   )
   # save
-  save(run.no.coevo, file = 'data/run.no.coevo.RData')
+  save(run.no.coevo, file = 'data/1_run.no.coevo.RData')
 
   # Generate an animated GIF using the images in plot.directory folder
   animate.trajectory(runPlot.dir, run.no.coevo.name)
@@ -254,7 +254,7 @@ knitr::include_graphics(paste0(runPlot.dir, run.no.coevo.name, "-anim.gif"))
 
 ```{r 1_run.no.coevo-plot, cache=TRUE, eval=params$ispdf, dependson='run.no.coevo', fig.width=8, fig.height=8}
 # load
-load('data/run.no.coevo.RData')
+load('data/1_run.no.coevo.RData')
 
 hpcModel.plot(run.no.coevo, scale.override = 1)
 ```
@@ -307,7 +307,7 @@ if(!file.exists('plots/runPlot/run.coevo.early.cult-anim.gif'))
   )
   
   # save
-  save(run.coevo.early.cult, file = 'data/run.coevo.early.cult.RData')
+  save(run.coevo.early.cult, file = 'data/1_run.coevo.early.cult.RData')
 
   # Generate an animated GIF using the images in plot.directory folder
   animate.trajectory(runPlot.dir, run.coevo.early.cult.name)
@@ -320,7 +320,7 @@ knitr::include_graphics(paste0(runPlot.dir, run.coevo.early.cult.name, "-anim.gi
 
 ```{r 1_run.coevo.early.cult-plot, cache=TRUE, eval=params$ispdf, dependson='run.coevo.early.cult', fig.width=8, fig.height=8}
 # load
-load('data/run.coevo.early.cult.RData')
+load('data/1_run.coevo.early.cult.RData')
 
 hpcModel.plot(run.coevo.early.cult, scale.override = 1)
 ```
@@ -373,7 +373,7 @@ if(!file.exists('plots/runPlot/run.coevo.early.dom-anim.gif'))
   )
   
   # save
-  save(run.coevo.early.dom, file = 'data/run.coevo.early.dom.RData')
+  save(run.coevo.early.dom, file = 'data/1_run.coevo.early.dom.RData')
   
   # Generate an animated GIF using the images in plot.directory folder
   animate.trajectory(runPlot.dir, run.coevo.early.dom.name)
@@ -386,7 +386,7 @@ knitr::include_graphics(paste0(runPlot.dir, run.coevo.early.dom.name, "-anim.gif
 
 ```{r 1_run.coevo.early.dom-plot, cache=TRUE, eval=params$ispdf, dependson='run.coevo.early.dom', fig.width=8, fig.height=8}
 # load
-load('data/run.coevo.early.dom.RData')
+load('data/1_run.coevo.early.dom.RData')
 
 hpcModel.plot(run.coevo.early.dom, scale.override = 1)
 ```
@@ -439,7 +439,7 @@ if(!file.exists('plots/runPlot/run.cult.without.dom-anim.gif'))
   )
   
   # save
-  save(run.cult.without.dom, file = 'data/run.cult.without.dom.RData')
+  save(run.cult.without.dom, file = 'data/1_run.cult.without.dom.RData')
   
   # Generate an animated GIF using the images in plot.directory folder
   animate.trajectory(runPlot.dir, run.cult.without.dom.name)
@@ -452,7 +452,7 @@ knitr::include_graphics(paste0(runPlot.dir, run.cult.without.dom.name, "-anim.gi
 
 ```{r 1_run.cult.without.dom-plot, cache=TRUE, eval=params$ispdf, dependson='run.cult.without.dom', fig.width=8, fig.height=8}
 # load
-load('data/run.cult.without.dom.RData')
+load('data/1_run.cult.without.dom.RData')
 
 hpcModel.plot(run.cult.without.dom, scale.override = 1)
 ```
@@ -489,7 +489,7 @@ if(!file.exists('plots/runPlot/run.coevo.bleep-anim.gif'))
     U.bPn = U.bPn.default, 
     U.bH1 = U.bH1.default,                               
     U.bP1 = U.bP1.default,                                 
-    MaxArea = 110, # MaxArea is lower than default
+    MaxArea = 115, # MaxArea is lower than default
     maxIt = maxIt.default,
     tol = tol.default,
     timing.threshold = timing.threshold.default,
@@ -505,7 +505,7 @@ if(!file.exists('plots/runPlot/run.coevo.bleep-anim.gif'))
   )
   
   # save
-  save(run.coevo.bleep, file = 'data/run.coevo.bleep.RData')
+  save(run.coevo.bleep, file = 'data/1_run.coevo.bleep.RData')
   
   # Generate an animated GIF using the images in plot.directory folder
   animate.trajectory(runPlot.dir, run.coevo.bleep.name)
@@ -518,7 +518,7 @@ knitr::include_graphics(paste0(runPlot.dir, run.coevo.bleep.name, "-anim.gif"))
 
 ```{r 1_run.coevo.bleep-plot, cache=TRUE, eval=params$ispdf, dependson='run.coevo.bleep', fig.width=8, fig.height=8}
 # load
-load('data/run.coevo.bleep.RData')
+load('data/1_run.coevo.bleep.RData')
 
 hpcModel.plot(run.coevo.bleep, scale.override = 1)
 ```
@@ -571,7 +571,7 @@ if(!file.exists('plots/runPlot/run.coevo.boom-anim.gif'))
   )
   
   # save
-  save(run.coevo.boom, file = 'data/run.coevo.boom.RData')
+  save(run.coevo.boom, file = 'data/1_run.coevo.boom.RData')
   
   # Generate an animated GIF using the images in plot.directory folder
   animate.trajectory(runPlot.dir, run.coevo.boom.name)
@@ -584,7 +584,7 @@ knitr::include_graphics(paste0(runPlot.dir, run.coevo.boom.name, "-anim.gif"))
 
 ```{r 1_run.coevo.boom-plot, cache=TRUE, eval=params$ispdf, dependson='run.coevo.boom', fig.width=8, fig.height=8}
 # load
-load('data/run.coevo.boom.RData')
+load('data/1_run.coevo.boom.RData')
 
 hpcModel.plot(run.coevo.boom, scale.override = 1)
 ```
@@ -637,7 +637,7 @@ if(!file.exists('plots/runPlot/run.coevo.long.boom-anim.gif'))
   )
   
   # save
-  save(run.coevo.long.boom, file = 'data/run.coevo.long.boom.RData')
+  save(run.coevo.long.boom, file = 'data/1_run.coevo.long.boom.RData')
   
   # Generate an animated GIF using the images in plot.directory folder
   animate.trajectory(runPlot.dir, run.coevo.long.boom.name)
@@ -650,7 +650,7 @@ knitr::include_graphics(paste0(runPlot.dir, run.coevo.long.boom.name, "-anim.gif
 
 ```{r 1_run.coevo.long.boom-plot, cache=TRUE, eval=params$ispdf, dependson='run.coevo.long.boom', fig.width=8, fig.height=8}
 # load
-load('data/run.coevo.long.boom.RData')
+load('data/1_run.coevo.long.boom.RData')
 
 hpcModel.plot(run.coevo.long.boom, scale.override = 1)
 ```
@@ -703,7 +703,7 @@ if(!file.exists('plots/runPlot/run.semicoevo-anim.gif'))
   )
   
   # save
-  save(run.semicoevo, file = 'data/run.semicoevo.RData')
+  save(run.semicoevo, file = 'data/1_run.semicoevo.RData')
   
   # Generate an animated GIF using the images in plot.directory folder
   animate.trajectory(runPlot.dir, run.semicoevo.name)
@@ -716,7 +716,7 @@ knitr::include_graphics(paste0(runPlot.dir, run.semicoevo.name, "-anim.gif"))
 
 ```{r 1_run.semicoevo-plot, cache=TRUE, eval=params$ispdf, dependson='run.semicoevo', fig.width=8, fig.height=8}
 # load
-load('data/run.semicoevo.RData')
+load('data/1_run.semicoevo.RData')
 
 hpcModel.plot(run.semicoevo, scale.override = 1)
 ```
@@ -754,7 +754,7 @@ if(!file.exists('plots/runPlot/run.semicoevo.osc1-anim.gif'))
     U.bH1 = 100, # baseline carrying capacity for type 1 humans is higher than default
     U.bP1 = U.bP1.default,                                 
     MaxArea = MaxArea.default, 
-    maxIt = 2000, # limit iterations
+    maxIt = 600, # limit iterations
     tol = tol.default,
     timing.threshold = timing.threshold.default,
     saveTrajectories = saveTrajectories.default,
@@ -769,7 +769,7 @@ if(!file.exists('plots/runPlot/run.semicoevo.osc1-anim.gif'))
   )
   
   # save
-  save(run.semicoevo.osc1, file = 'data/run.semicoevo.osc1.RData')
+  save(run.semicoevo.osc1, file = 'data/1_run.semicoevo.osc1.RData')
   
   # Generate an animated GIF using the images in plot.directory folder
   animate.trajectory(runPlot.dir, run.semicoevo.osc1.name)
@@ -782,7 +782,7 @@ knitr::include_graphics(paste0(runPlot.dir, run.semicoevo.osc1.name, "-anim.gif"
 
 ```{r 1_run.semicoevo.osc1-plot, cache=TRUE, eval=params$ispdf, dependson='run.semicoevo.osc1', fig.width=8, fig.height=8}
 # load
-load('data/run.semicoevo.osc1.RData')
+load('data/1_run.semicoevo.osc1.RData')
 
 hpcModel.plot(run.semicoevo.osc1, scale.override = 1)
 ```
@@ -816,7 +816,7 @@ if(!file.exists('plots/runPlot/run.semicoevo.osc2-anim.gif'))
     U.bH1 = 100,
     U.bP1 = 100,
     MaxArea = MaxArea.default, 
-    maxIt = 2000, # limit iterations
+    maxIt = 600, # limit iterations
     tol = tol.default,
     timing.threshold = timing.threshold.default,
     saveTrajectories = saveTrajectories.default,
@@ -831,7 +831,7 @@ if(!file.exists('plots/runPlot/run.semicoevo.osc2-anim.gif'))
   )
   
   # save
-  save(run.semicoevo.osc2, file = 'data/run.semicoevo.osc2.RData')
+  save(run.semicoevo.osc2, file = 'data/1_run.semicoevo.osc2.RData')
   
   # Generate an animated GIF using the images in plot.directory folder
   animate.trajectory(runPlot.dir, run.semicoevo.osc2.name)
@@ -844,7 +844,7 @@ knitr::include_graphics(paste0(runPlot.dir, run.semicoevo.osc2.name, "-anim.gif"
 
 ```{r 1_run.semicoevo.osc2-plot, cache=TRUE, eval=params$ispdf, dependson='run.semicoevo.osc2', fig.width=8, fig.height=8}
 # load
-load('data/run.semicoevo.osc2.RData')
+load('data/1_run.semicoevo.osc2.RData')
 
 hpcModel.plot(run.semicoevo.osc2, scale.override = 1)
 ```

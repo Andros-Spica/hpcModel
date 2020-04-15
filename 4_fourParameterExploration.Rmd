@@ -22,7 +22,7 @@ require(kableExtra)
 source("library/plotting/exp.table.R")
 ```
 
-```{r 4_default-values}
+```{r 4_default-values, cache=TRUE}
 # this is the 'default' parameter setting (end state is 'fast coevolution'):
 # initial populations
 iniH.default = 10
@@ -79,7 +79,7 @@ SEQ.v.P <- seq(0.05, 0.25, length.out = 5)
 ```
 
 ```{r 4_n_v, cache=TRUE, dependson=c('4_default-values','4_n_v-values'), results = 'hide'}
-if(!file.exists('data/exp.n_v.RData'))
+if(!file.exists('data/4_exp.n_v.RData'))
 {
   exp.n_v <- hpcModel.exploration(
     iniH = iniH.default,
@@ -105,25 +105,25 @@ if(!file.exists('data/exp.n_v.RData'))
     messages = FALSE
   )
   # save
-  save(exp.n_v, file = 'data/exp.n_v.RData')
+  save(exp.n_v, file = 'data/4_exp.n_v.RData')
 }
 ```
 
 ```{r 5_exp.n_v-load, include=FALSE}
 # load
-load('data/exp.n_v.RData')
+load('data/4_exp.n_v.RData')
 ```
 
-```{r 4nvtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_n_v')}
+```{r 4nvtablehtml, eval=!params$ispdf, cache=TRUE, dependson='4_n_v'}
 exp.table(exp.n_v, caption = 'Parameter setting')
 ```
-```{r 4nvtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_n_v')}
+```{r 4nvtablepdf, eval=params$ispdf, cache=TRUE, dependson='4_n_v'}
 exp.table(exp.n_v, caption = 'Parameter setting', output = "latex")
 ```
 
 \newpage
 
-```{r 4_n_v-plot, include=FALSE, cache=TRUE, dependson=c('4_plot-functions','4_n_v')}
+```{r 4_n_v-plot, include=FALSE, cache=TRUE, dependson='4_n_v'}
 plotScale = 10#100 / length(SEQ.U.bPn)
 
 png(paste0("plots/4_fourPar-", exp.n_v.name, "_plot.png"),
@@ -162,7 +162,7 @@ SEQ.mU.P1H <- seq(0, 3, length.out = 5)
 ```
 
 ```{r 4_mU.HP_mU.PH, cache=TRUE, dependson=c('4_default-values','4_mU.HP_mU.PH-values'), results = 'hide'}
-if(!file.exists('data/exp.mU.HP_mU.PH.RData'))
+if(!file.exists('data/4_exp.mU.HP_mU.PH.RData'))
 {
   exp.mU.HP_mU.PH <- hpcModel.exploration(
     iniH = iniH.default,
@@ -188,26 +188,26 @@ if(!file.exists('data/exp.mU.HP_mU.PH.RData'))
     messages = FALSE
   )
   # save
-  save(exp.mU.HP_mU.PH, file = 'data/exp.mU.HP_mU.PH.RData')
+  save(exp.mU.HP_mU.PH, file = 'data/4_exp.mU.HP_mU.PH.RData')
 }
 ```
 
 ```{r 5_exp.mU.HP_mU.PH-load, include=FALSE}
 # load
-load('data/exp.mU.HP_mU.PH.RData')
+load('data/4_exp.mU.HP_mU.PH.RData')
 ```
 
-```{r 4mUHPmUPHtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_mU.HP_mU.PH')}
+```{r 4mUHPmUPHtablehtml, eval=!params$ispdf, cache=TRUE, dependson='4_mU.HP_mU.PH'}
 exp.table(exp.mU.HP_mU.PH, caption = 'Parameter setting')
 ```
 
-```{r 4mUHPmUPHtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_mU.HP_mU.PH')}
+```{r 4mUHPmUPHtablepdf, eval=params$ispdf, cache=TRUE, dependson='4_mU.HP_mU.PH'}
 exp.table(exp.mU.HP_mU.PH, caption = 'Parameter setting', output = "latex")
 ```
 
 \newpage
 
-```{r 4_mU.HP_mU.PH-plot, include=FALSE, cache=TRUE, dependson=c('4_plot-functions','4_mU.HP_mU.PH')}
+```{r 4_mU.HP_mU.PH-plot, include=FALSE, cache=TRUE, dependson='4_mU.HP_mU.PH'}
 plotScale = 10#100 / length(SEQ.U.bPn)
 
 png(paste0("plots/4_fourPar-", exp.mU.HP_mU.PH.name, "_plot.png"),
@@ -249,7 +249,7 @@ SEQ.U.bP1 <- seq(5, 300, length.out = 5)
 ```
 
 ```{r 4_U.bH_U.bP, cache=TRUE, dependson=c('4_default-values','4_U.bH_U.bP-values'), results = 'hide'}
-if(!file.exists('data/exp.U.bH_U.bP.RData'))
+if(!file.exists('data/4_exp.U.bH_U.bP.RData'))
 {
   exp.U.bH_U.bP <- hpcModel.exploration(
     iniH = iniH.default,
@@ -275,25 +275,25 @@ if(!file.exists('data/exp.U.bH_U.bP.RData'))
     messages = FALSE
   )
   # save
-  save(exp.U.bH_U.bP, file = 'data/exp.U.bH_U.bP.RData')
+  save(exp.U.bH_U.bP, file = 'data/4_exp.U.bH_U.bP.RData')
 }
 ```
 
 ```{r 5_exp.U.bH_U.bP-load, include=FALSE}
 # load
-load('data/exp.U.bH_U.bP.RData')
+load('data/4_exp.U.bH_U.bP.RData')
 ```
 
-```{r 4UbHUbPtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bH_U.bP')}
+```{r 4UbHUbPtablehtml, eval=!params$ispdf, cache=TRUE, dependson='4_U.bH_U.bP'}
 exp.table(exp.U.bH_U.bP, caption = 'Parameter setting')
 ```
-```{r 4UbHUbPtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bH_U.bP')}
+```{r 4UbHUbPtablepdf, eval=params$ispdf, cache=TRUE, dependson='4_U.bH_U.bP'}
 exp.table(exp.U.bH_U.bP, caption = 'Parameter setting', output = "latex")
 ```
 
 \newpage
 
-```{r 4_U.bH_U.bP-plot, include=FALSE, cache=TRUE, dependson=c('4_plot-functions','4_U.bH_U.bP')}
+```{r 4_U.bH_U.bP-plot, include=FALSE, cache=TRUE, dependson='4_U.bH_U.bP'}
 plotScale = 10#100 / length(SEQ.U.bPn)
 
 png(paste0("plots/4_fourPar-", exp.U.bH_U.bP.name, "_plot.png"),
@@ -335,7 +335,7 @@ SEQ.mU.P1H <- seq(0, 3, length.out = 5)
 ```
 
 ```{r 4_U.bH_U.PH, cache=TRUE, dependson=c('4_default-values','4_U.bH_U.PH-values'), results = 'hide'}
-if(!file.exists('data/exp.U.bH_U.PH.RData'))
+if(!file.exists('data/4_exp.U.bH_U.PH.RData'))
 {
   exp.U.bH_U.PH <- hpcModel.exploration(
     iniH = iniH.default,
@@ -361,25 +361,25 @@ if(!file.exists('data/exp.U.bH_U.PH.RData'))
     messages = FALSE
   )
   # save
-  save(exp.U.bH_U.PH, file = 'data/exp.U.bH_U.PH.RData')
+  save(exp.U.bH_U.PH, file = 'data/4_exp.U.bH_U.PH.RData')
 }
 ```
 
 ```{r 5_exp.U.bH_U.PH-load, include=FALSE}
 # load
-load('data/exp.U.bH_U.PH.RData')
+load('data/4_exp.U.bH_U.PH.RData')
 ```
 
-```{r 4UbHUPHtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bH_U.PH')}
+```{r 4UbHUPHtablehtml, eval=!params$ispdf, cache=TRUE, dependson='4_U.bH_U.PH'}
 exp.table(exp.U.bH_U.PH, caption = 'Parameter setting')
 ```
-```{r 4UbHUPHtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bH_U.PH')}
+```{r 4UbHUPHtablepdf, eval=params$ispdf, cache=TRUE, dependson='4_U.bH_U.PH'}
 exp.table(exp.U.bH_U.PH, caption = 'Parameter setting', output = "latex")
 ```
 
 \newpage
 
-```{r 4_U.bH_U.PH-plot, include=FALSE, cache=TRUE, dependson=c('4_plot-functions','4_U.bH_U.PH')}
+```{r 4_U.bH_U.PH-plot, include=FALSE, cache=TRUE, dependson='4_U.bH_U.PH'}
 plotScale = 10
 
 png(paste0("plots/4_fourPar-", exp.U.bH_U.PH.name, "_plot.png"),
@@ -413,7 +413,7 @@ SEQ.mU.H1P <- seq(0, 3, length.out = 5)
 ```
 
 ```{r 4_U.bP_mU.HP, cache=TRUE, dependson=c('4_default-values','4_U.bP_mU.HP-values'), results = 'hide'}
-if(!file.exists('data/exp.U.bP_mU.HP.RData'))
+if(!file.exists('data/4_exp.U.bP_mU.HP.RData'))
 {
   exp.U.bP_mU.HP <- hpcModel.exploration(
     iniH = iniH.default,
@@ -439,25 +439,25 @@ if(!file.exists('data/exp.U.bP_mU.HP.RData'))
     messages = FALSE
   )
   # save
-  save(exp.U.bP_mU.HP, file = 'data/exp.U.bP_mU.HP.RData')
+  save(exp.U.bP_mU.HP, file = 'data/4_exp.U.bP_mU.HP.RData')
 }
 ```
 
 ```{r 5_exp.U.bP_mU.HP-load, include=FALSE}
 # load
-load('data/exp.U.bP_mU.HP.RData')
+load('data/4_exp.U.bP_mU.HP.RData')
 ```
 
-```{r 4UbPUHPtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bP_mU.HP')}
+```{r 4UbPUHPtablehtml, eval=!params$ispdf, cache=TRUE, dependson='4_U.bP_mU.HP'}
 exp.table(exp.U.bP_mU.HP, caption = 'Parameter setting')
 ```
-```{r 4UbPUHPtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bP_mU.HP')}
+```{r 4UbPUHPtablepdf, eval=params$ispdf, cache=TRUE, dependson='4_U.bP_mU.HP'}
 exp.table(exp.U.bP_mU.HP, caption = 'Parameter setting', output = "latex")
 ```
 
 \newpage
 
-```{r 4_U.bP_mU.HP-plot, include=FALSE, cache=TRUE, dependson=c('4_plot-functions','4_U.bP_mU.HP')}
+```{r 4_U.bP_mU.HP-plot, include=FALSE, cache=TRUE, dependson='4_U.bP_mU.HP'}
 plotScale = 10
 
 png(paste0("plots/4_fourPar-", exp.U.bP_mU.HP.name, "_plot.png"),
@@ -491,7 +491,7 @@ SEQ.mU.P1H <- seq(0, 3, length.out = 5)
 ```
 
 ```{r 4_U.b1_mU1, cache=TRUE, dependson=c('4_default-values','4_U.b1_mU1-values'), results = 'hide'}
-if(!file.exists('data/exp.U.b1_mU1.RData'))
+if(!file.exists('data/4_exp.U.b1_mU1.RData'))
 {
   exp.U.b1_mU1 <- hpcModel.exploration(
     iniH = iniH.default,
@@ -517,25 +517,25 @@ if(!file.exists('data/exp.U.b1_mU1.RData'))
     messages = FALSE
   )
   # save
-  save(exp.U.b1_mU1, file = 'data/exp.U.b1_mU1.RData')
+  save(exp.U.b1_mU1, file = 'data/4_exp.U.b1_mU1.RData')
 }
 ```
 
 ```{r 5_exp.U.b1_mU1-load, include=FALSE}
 # load
-load('data/exp.U.b1_mU1.RData')
+load('data/4_exp.U.b1_mU1.RData')
 ```
 
-```{r 4Ub1mU1tablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.b1_mU1')}
+```{r 4Ub1mU1tablehtml, eval=!params$ispdf, cache=TRUE, dependson='4_U.b1_mU1'}
 exp.table(exp.U.b1_mU1, caption = 'Parameter setting')
 ```
-```{r 4Ub1mU1tablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.b1_mU1')}
+```{r 4Ub1mU1tablepdf, eval=params$ispdf, cache=TRUE, dependson='4_U.b1_mU1'}
 exp.table(exp.U.b1_mU1, caption = 'Parameter setting', output = "latex")
 ```
 
 \newpage
 
-```{r 4_U.b1_mU1-plot, include=FALSE, cache=TRUE, dependson=c('4_plot-functions','4_U.b1_mU1')}
+```{r 4_U.b1_mU1-plot, include=FALSE, cache=TRUE, dependson='4_U.b1_mU1'}
 plotScale = 10
 
 png(paste0("plots/4_fourPar-", exp.U.b1_mU1.name, "_plot.png"),
@@ -569,7 +569,7 @@ SEQ.mU.PnH <- seq(0, 3, length.out = 5)
 ```
 
 ```{r 4_U.bn_mUn, cache=TRUE, dependson=c('4_default-values','4_U.bn_mUn-values'), results = 'hide'}
-if(!file.exists('data/exp.U.bn_mUn.RData'))
+if(!file.exists('data/4_exp.U.bn_mUn.RData'))
 {
   exp.U.bn_mUn <- hpcModel.exploration(
     iniH = iniH.default,
@@ -595,25 +595,25 @@ if(!file.exists('data/exp.U.bn_mUn.RData'))
     messages = FALSE
   )
   # save
-  save(exp.U.bn_mUn, file = 'data/exp.U.bn_mUn.RData')
+  save(exp.U.bn_mUn, file = 'data/4_exp.U.bn_mUn.RData')
 }
 ```
 
 ```{r 5_exp.U.bn_mUn-load, include=FALSE}
 # load
-load('data/exp.U.bn_mUn.RData')
+load('data/4_exp.U.bn_mUn.RData')
 ```
 
-```{r 4UbnmUntablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bn_mUn')}
+```{r 4UbnmUntablehtml, eval=!params$ispdf, cache=TRUE, dependson='4_U.bn_mUn'}
 exp.table(exp.U.bn_mUn, caption = 'Parameter setting')
 ```
-```{r 4UbnmUntablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bn_mUn')}
+```{r 4UbnmUntablepdf, eval=params$ispdf, cache=TRUE, dependson='4_U.bn_mUn'}
 exp.table(exp.U.bn_mUn, caption = 'Parameter setting', output = "latex")
 ```
 
 \newpage
 
-```{r 4_U.bn_mUn-plot, include=FALSE, cache=TRUE, dependson=c('4_plot-functions','4_U.bn_mUn')}
+```{r 4_U.bn_mUn-plot, include=FALSE, cache=TRUE, dependson='4_U.bn_mUn'}
 plotScale = 10
 
 png(paste0("plots/4_fourPar-", exp.U.bn_mUn.name, "_plot.png"),
@@ -645,7 +645,7 @@ SEQ.mU.PnH <- seq(0, 3, length.out = 5)
 ```
 
 ```{r 4_U.b1_mUn, cache=TRUE, dependson=c('4_default-values','4_U.b1_mUn-values'), results = 'hide'}
-if(!file.exists('data/exp.U.b1_mUn.RData'))
+if(!file.exists('data/4_exp.U.b1_mUn.RData'))
 {
   exp.U.b1_mUn <- hpcModel.exploration(
     iniH = iniH.default,
@@ -671,25 +671,25 @@ if(!file.exists('data/exp.U.b1_mUn.RData'))
     messages = FALSE
   )
   # save
-  save(exp.U.b1_mUn, file = 'data/exp.U.b1_mUn.RData')
+  save(exp.U.b1_mUn, file = 'data/4_exp.U.b1_mUn.RData')
 }
 ```
 
 ```{r 5_exp.U.b1_mUn-load, include=FALSE}
 # load
-load('data/exp.U.b1_mUn.RData')
+load('data/4_exp.U.b1_mUn.RData')
 ```
 
-```{r 4Ub1mUntablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.b1_mUn')}
+```{r 4Ub1mUntablehtml, eval=!params$ispdf, cache=TRUE, dependson='4_U.b1_mUn'}
 exp.table(exp.U.b1_mUn, caption = 'Parameter setting')
 ```
-```{r 4Ub1mUntablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.b1_mUn')}
+```{r 4Ub1mUntablepdf, eval=params$ispdf, cache=TRUE, dependson='4_U.b1_mUn'}
 exp.table(exp.U.b1_mUn, caption = 'Parameter setting', output = "latex")
 ```
 
 \newpage
 
-```{r 4_U.b1_mUn-plot, include=FALSE, cache=TRUE, dependson=c('4_plot-functions','4_U.b1_mUn')}
+```{r 4_U.b1_mUn-plot, include=FALSE, cache=TRUE, dependson='4_U.b1_mUn'}
 plotScale = 10
 
 png(paste0("plots/4_fourPar-", exp.U.b1_mUn.name, "_plot.png"),
@@ -721,7 +721,7 @@ SEQ.mU.P1H <- seq(0, 3, length.out = 5)
 ```
 
 ```{r 4_U.bn_mU1, cache=TRUE, dependson=c('4_default-values','4_U.bn_mU1-values'), results = 'hide'}
-if(!file.exists('data/exp.U.bn_mU1.RData'))
+if(!file.exists('data/4_exp.U.bn_mU1.RData'))
 {
   exp.U.bn_mU1 <- hpcModel.exploration(
     iniH = iniH.default,
@@ -747,25 +747,25 @@ if(!file.exists('data/exp.U.bn_mU1.RData'))
     messages = FALSE
   )
   # save
-  save(exp.U.bn_mU1, file = 'data/exp.U.bn_mU1.RData')
+  save(exp.U.bn_mU1, file = 'data/4_exp.U.bn_mU1.RData')
 }
 ```
 
 ```{r 5_exp.U.bn_mU1-load, include=FALSE}
 # load
-load('data/exp.U.bn_mU1.RData')
+load('data/4_exp.U.bn_mU1.RData')
 ```
 
-```{r 4UbnmU1tablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bn_mU1')}
+```{r 4UbnmU1tablehtml, eval=!params$ispdf, cache=TRUE, dependson='4_U.bn_mU1'}
 exp.table(exp.U.bn_mU1, caption = 'Parameter setting')
 ```
-```{r 4UbnmU1tablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_U.bn_mU1')}
+```{r 4UbnmU1tablepdf, eval=params$ispdf, cache=TRUE, dependson='4_U.bn_mU1'}
 exp.table(exp.U.bn_mU1, caption = 'Parameter setting', output = "latex")
 ```
 
 \newpage
 
-```{r 4_U.bn_mU1-plot, include=FALSE, cache=TRUE, dependson=c('4_plot-functions','4_U.bn_mU1')}
+```{r 4_U.bn_mU1-plot, include=FALSE, cache=TRUE, dependson='4_U.bn_mU1'}
 plotScale = 10
 
 png(paste0("plots/4_fourPar-", exp.U.bn_mU1.name, "_plot.png"),

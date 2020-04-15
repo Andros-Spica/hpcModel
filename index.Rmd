@@ -1,23 +1,29 @@
 ---
-title: "Human-Plant Coevolution (HPC) model<br>General exploration and parameter sensitivity analysis"
-authors: "Andreas Angourakis & Jonàs Alcaina"
+title: Human-Plant Coevolution (HPC) model<br>General exploration and parameter sensitivity
+  analysis
+authors: Andreas Angourakis & Jonàs Alcaina
 date: "`r Sys.Date()`"
-site: bookdown::bookdown_site
-description: "The Human-Plant Coevolution (HPC) model represents the dynamics of coevolution between a human and a plant population. The model consists of an ecological positive feedback system (mutualism), which can be reinforced by positive evolutionary feedback (coevolution). The model is the result of wiring together relatively simple simulation models of population ecology and evolution, through a computational implementation in R."
-url: 'https://andros-spica.github.io/hpcModel/'
-github-repo: Andros-Spica/hpcModel
 cover-image: images/hpcModel-logo_v2.png
+description: The Human-Plant Coevolution (HPC) model represents the dynamics of coevolution
+  between a human and a plant population. The model consists of an ecological positive
+  feedback system (mutualism), which can be reinforced by positive evolutionary feedback
+  (coevolution). The model is the result of wiring together relatively simple simulation
+  models of population ecology and evolution, through a computational implementation
+  in R.
 documentclass: book
-always_allow_html: yes
-urlcolor: blue
+github-repo: Andros-Spica/hpcModel
 params:
-  ispdf: TRUE
+  ispdf: yes
+site: bookdown::bookdown_site
+always_allow_html: yes
+url: https://andros-spica.github.io/hpcModel/
+urlcolor: blue
 ---
 
 # _______ { - }
 
 ```{r cover-logo, echo=FALSE, eval=!params$ispdf, out.width = '100%'}
-knitr::include_graphics("images/hpcModel-logo_v2.png")
+knitr::include_graphics("images/hpcModel-logo_v3.png")
 ```
 
 # Model overview { - }
@@ -42,7 +48,7 @@ The Human-Plant Coevolution (HPC) model represents the dynamics of coevolution b
  `U.bP1`       | $U_{bP_{1}}$ | utility of **other resources** to **type** $1$ **plants** or the baseline carrying capacity for plants of type $1$; i.e. that independent of humans.   (non-anthropic space)  
  `U.bHn`       | $U_{bH_{n}}$ | utility of **other resources** to **type** $n$ **humans** or the baseline carrying capacity for humans of type $n$, i.e. that independent of plants  
  `U.bPn`       | $U_{bP_{n}}$ | utility of **other resources** to **type** $n$ **plants** or the baseline carrying capacity for plants of type $n$; i.e. that independent of humans.  
- `MaxArea`      | $MaxArea$ | **Maximum contiguous area to be used by plants**. It is used as the maximum carrying capacity for plants.  
+ `MaxArea`      | $MaxArea$ | **Maximum number of plant population units fitting the contiguous area available**. It is used as the maximum carrying capacity for plants.  
 
 Table: Parameters
 
@@ -52,7 +58,7 @@ R notation              | Math notation | Description
  ---------------------- | ------------- | ---------------------
  `H`, `P`               | $H[t],\,P[t]$ | **Human and plant populations** at time $t$. Population units are abstract, arbitrarily defined units that can express individuals, working hours, households, etc. (humans), and sprouts, certain amount of biomass, soil surface, etc. (plants)  
  `K.H`, `K.P`           | $K_{H}[t],\,K_{P}[t]$ | **Carrying capacity** to human and plant populations or maximum population at time $t$, expressed in population units  
- `U.HP`, `U.PH`         | $U_{HP}[t],\,U_{PH}[t]$ | **Utility of one population to the other** or the total contribution of a population to the maximum population at time $t$, expressed in population units  
+ `U.HP`, `U.PH`         | $U_{HP}[t],\,U_{PH}[t]$ | **Utility of one population to the other** or the total contribution of a population to the carrying capacity of the other population at time $t$, expressed in population units  
  `U.bH`, `U.bP`         | $U_{bH}[t],\,U_{bP}[t]$ | **Utility of other resources to a population** at time $t$, expressed in population units (baseline carrying capacity)  
  `types.H`, `types.P`         | $types_{H},\,types_{P}$ | Population types, arbitrarily ordered from $1$ to $n$ (vector or array).  
  `pop.H`, `pop.P`         | $pop_{H_{i}}[t],\,pop_{P_{i}}[t]$ | **Proportion of a population** belonging to type $i$ at time $t$ (vector or array).  

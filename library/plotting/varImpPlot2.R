@@ -1,6 +1,6 @@
 varImpPlot2 <- function(RF, cex = 1)
 {
-  imp <- importance(RF)
+  imp <- randomForest::importance(RF)
   imp <- imp[nrow(imp):1, ] # invert row order for plotting top-downwards
   
   # set negative values as the minimum positive values

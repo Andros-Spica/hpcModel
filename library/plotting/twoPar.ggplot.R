@@ -36,7 +36,7 @@ twoPar.ggplot <- function(twoPar.exp, par1, par2, var1, var2,
       values = rescale(c(var2min, var2max)),
       limits = c(var2min, var2max)
     ) +
-    scale_size(range = c(plotScale * 0.5, plotScale * 2)) +
+    scale_size(range = c(plotScale * 0.2, plotScale * 2)) +
     labs(x = xlab,
          y = ylab,
          fill = var1lab,

@@ -33,7 +33,7 @@ hpcModel.plot <-
     ),
     heights = c(1, 1, 1, 1, 1, 0.1, 0.7))
     
-    par(mar = c(3, 5, 0.4, 0.3), 
+    par(mar = c(3, 5, 2, 0.3), 
         cex.axis = scaleMultiplier * 1,
         cex.lab = scaleMultiplier * 1.2)
     

@@ -137,8 +137,9 @@ run.LHS.experiment2 <- function(experimentSettings, cluster)
 # this chunk is specific for this exploration
 source("library/plotting/collapsed.ggplot.R")
 source("library/plotting/trajectories.ggplot.R")
-source("library/plotting/parameter.x.scenario.ggplot.R")
 source("library/plotting/varImpPlot2.R")
+source("library/plotting/parameters.effect.ggplot.R")
+source("library/plotting/parameter.x.scenario.ggplot.R")
 ```
 
 \newpage
@@ -188,7 +189,7 @@ Table: Ranges of parameter exploration
 
 ```{r 5_LHS, include=FALSE}
 ### generate LHS design (strauss method, with 0.2 radious interaction)
-if (!file.exists('data/LHS.RData')) # you must delete "LHS.RData" to create a new file
+if (!file.exists('data/5_LHS.RData')) # you must delete "LHS.RData" to create a new file
 {
   LHS <- DoE.wrapper::lhs.design(
     nruns = 10000, # probably should be greater
@@ -201,22 +202,22 @@ if (!file.exists('data/LHS.RData')) # you must delete "LHS.RData" to create a ne
   )
 
   # save
-  save(LHS, file = 'data/LHS.RData')
+  save(LHS, file = 'data/5_LHS.RData')
 }
 ```
 
 ```{r 5_LHS-load, include=FALSE}
 # load
-load('data/LHS.RData')
+load('data/5_LHS.RData')
 
 # build PARS
 PARS <- as.data.frame(LHS)
 ```
 
-```{r 5LHStablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_LHS-load')}
+```{r 5LHStablehtml, eval=!params$ispdf, cache=TRUE, dependson='5_LHS-load'}
 exp.table.multiple(PARS, numberOfParameters = 15, caption = 'ACTUAL parameter values')
 ```
-```{r 5LHStablepdf, eval=params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_LHS-load')}
+```{r 5LHStablepdf, eval=params$ispdf, cache=TRUE, dependson='5_LHS-load'}
 exp.table.multiple(PARS, numberOfParameters = 15, caption = 'ACTUAL parameter values', output = "latex")
 ```
 
@@ -241,7 +242,7 @@ knitr::include_graphics("plots/5_multiplePar-LHS_pairs-plot.png")
 
 ```{r 5_run-experiments, include=FALSE}
 ### run the model for every setting according to the LHS design
-if(!file.exists('data/exp.LHS.RData')) # you must delete "exp.LHS.RData" to create a new file
+if(!file.exists('data/5_exp.LHS.RData')) # you must delete "exp.LHS.RData" to create a new file
 {
   
   # build cluster
@@ -267,368 +268,149 @@ if(!file.exists('data/exp.LHS.RData')) # you must delete "exp.LHS.RData" to crea
   exp.LHS <- cbind(PARS, exp.LHS)
   
   # save
-  save(exp.LHS, file = 'data/exp.LHS.RData')
+  save(exp.LHS, file = 'data/5_exp.LHS.RData')
 }
 ```
 
 ```{r 5_run-experiments-load, include=FALSE, dependson='5_run-experiments'}
 # load
-load('data/exp.LHS.RData')
+load('data/5_exp.LHS.RData')
 
-H.evolved <- exp.LHS$timing.H > 0
-P.evolved <- exp.LHS$timing.P > 0
-H.exist <- !is.na(exp.LHS$H) & exp.LHS$H > 0
-P.exist <- !is.na(exp.LHS$P) & exp.LHS$P > 0
-```
+H.exists <- !is.na(exp.LHS$H) & exp.LHS$H > 0
+P.exists <- !is.na(exp.LHS$P) & exp.LHS$P > 0
+H.fullEvolved <- exp.LHS$coevo.H > 0.5 & H.exists
+P.fullEvolved <- exp.LHS$coevo.P > 0.5 & P.exists
+H.mildEvolved <- exp.LHS$coevo.H > 0 & exp.LHS$coevo.H <= 0.5 & H.exists
+P.mildEvolved <-  exp.LHS$coevo.P > 0 & exp.LHS$coevo.P <= 0.5 & P.exists
+H.notByFarEvolved <- exp.LHS$coevo.H < -0.5 & H.exists
+P.notByFarEvolved <- exp.LHS$coevo.P < -0.5 & P.exists
 
-```{r 5existHtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_run-experiments-load')}
-knitr::kable(table(H.exist), "html")
-```
-```{r 5existHtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_run-experiments-load')}
-knitr::kable(table(H.exist), "latex")
-```
-```{r 5existPtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_run-experiments-load')}
-knitr::kable(table(P.exist), "html")
-```
-```{r 5existPtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_run-experiments-load')}
-knitr::kable(table(P.exist), "latex")
-```
-```{r 5evolvedHtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_run-experiments-load')}
-knitr::kable(table(H.evolved), "html")
-```
-```{r 5evolvedHtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_run-experiments-load')}
-knitr::kable(table(H.evolved), "latex")
-```
-```{r 5evolvedPtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_run-experiments-load')}
-knitr::kable(table(P.evolved), "html")
-```
-```{r 5evolvedPtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('5_table-functions','5_run-experiments-load')}
-knitr::kable(table(P.evolved), "latex")
 ```
 
-```{r 5_overview-collapsed-plot, include=FALSE, cache=TRUE}
-overview.variable.name = 'coevo'
+### End-states
+
+**_Are there any humans?_**
+```{r 5existHtablehtml, eval=!params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
+knitr::kable(table(H.exists), "html")
+```
+```{r 5existHtablepdf, eval=params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
+knitr::kable(table(H.exists), "latex")
+```
+
+**_Are there any plants?_**
+```{r 5existPtablehtml, eval=!params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
+knitr::kable(table(P.exists), "html")
+```
+```{r 5existPtablepdf, eval=params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
+knitr::kable(table(P.exists), "latex")
+```
+
+**_Did humans not evolved by far? (coevolution coefficient is less than -0.5)_**
+```{r 5notEvolvedHtablehtml, eval=!params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
+knitr::kable(table(H.notByFarEvolved), "html")
+```
+```{r 5notEvolvedHtablepdf, eval=params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
+knitr::kable(table(H.notByFarEvolved), "latex")
+```
+
+**_Did plants not evolved by far? (coevolution coefficient is less than -0.5)_**
+```{r 5notEvolvedPtablehtml, eval=!params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
+knitr::kable(table(P.notByFarEvolved), "html")
+```
+```{r 5notEvolvedPtablepdf, eval=params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
+knitr::kable(table(P.notByFarEvolved), "latex")
+```
+
+**_Did humans evolved mildly? (coevolution coefficient is positive, but less than 0.5)_**
+```{r 5mildEvolvedHtablehtml, eval=!params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
+knitr::kable(table(H.mildEvolved), "html")
+```
+```{r 5mildEvolvedHtablepdf, eval=params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
+knitr::kable(table(H.mildEvolved), "latex")
+```
+
+**_Did plants evolved mildly? (coevolution coefficient is positive, but less than 0.5)_**
+```{r 5mildEvolvedPtablehtml, eval=!params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
+knitr::kable(table(P.mildEvolved), "html")
+```
+```{r 5mildEvolvedPtablepdf, eval=params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
+knitr::kable(table(P.mildEvolved), "latex")
+```
+
+**_Did humans evolved fully? (coevolution coefficient is greater than 0.5)_**
+```{r 5evolvedHtablehtml, eval=!params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
+knitr::kable(table(H.fullEvolved), "html")
+```
+```{r 5evolvedHtablepdf, eval=params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
+knitr::kable(table(H.fullEvolved), "latex")
+```
+
+**_Did plants evolved fully? (coevolution coefficient is greater than 0.5)_**
+```{r 5evolvedPtablehtml, eval=!params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
+knitr::kable(table(P.fullEvolved), "html")
+```
+```{r 5evolvedPtablepdf, eval=params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
+knitr::kable(table(P.fullEvolved), "latex")
+```
+
+**_Population and output variables_**
+
+```{r 5_variables-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+
 plotScale = 10
 
-#svg('plots/5_collapsed.svg', width=10, height=10)
-png(paste0("plots/5_multiplePar-", overview.variable.name, "_collapsed-ggplot.png"),
-    width = 100 * plotScale, height = 100 * plotScale)
-collapsed.ggplot(exp.LHS,
-                 'mU.HnP', 'coevo.H', 'coevo.P',
-                 ylab = "coevolution coefficient",
-                 plotScale = plotScale)
+png("plots/5_multiplePar-variables-ggplot.png",
+    width = 100 * plotScale,
+    height = 100 * plotScale
+)
+
+varsSummary1.data <- melt(exp.LHS[, c('H', 'P', 'coevo.H', 'coevo.P', 'depend.H', 'depend.P')])
+
+g1 <- ggplot(data = varsSummary1.data, aes(value)) +
+  geom_histogram() +
+  facet_wrap(.~variable, ncol = 2, scales = "free")
+
+varsSummary2.data <- melt(exp.LHS[, c('time', 'timing.H', 'timing.P')])
+
+g2 <- ggplot(data = varsSummary2.data, aes(value)) +
+  geom_histogram() +
+  facet_wrap(.~variable, scales = "free")
+
+ggpubr::ggarrange(g1, g2, nrow = 2, heights = c(3, 1))
+
 dev.off()
 ```
 
-```{r 5_overview-collapsed-plot-print, dependson='5_overview-collapsed-plot', out.width = '100%'}
-knitr::include_graphics(paste0("plots/5_multiplePar-", overview.variable.name, "_collapsed-ggplot.png"))
+```{r 5_variables-plot-print, dependson='5_variables-plots', out.width = '100%'}
+knitr::include_graphics("plots/5_multiplePar-variables-ggplot.png")
 ```
-
-\newpage
-
-### Random forest
-
-**_Optimisation_** 
-
-```{r 5_RF.tunning.preparation, include=FALSE}
-set.seed(777)
-
-exp.LHS.r <- exp.LHS[P.exist,]
-
-exp.LHS.r <- exp.LHS.r[sample(1:nrow(exp.LHS.r), nrow(exp.LHS.r)),]
-
-exp.LHS.spl <- split(as.data.frame(exp.LHS.r), 
-                     f = factor(ceiling(seq_along(1:nrow(exp.LHS.r)) / 1000)))
-
-Grid <- expand.grid(mtry = c(2:10), ntree = seq(500, 2000, 500))
-```
-
-```{r 5_RF.tunning.H, include=FALSE}
-if (!file.exists('data/RF.coevo.H-tunning.RData')) # you must delete "RF.coevo.H-tunning.RData" to create a new file
-{
-  # cluster and loop
-  cl <- makeCluster(6)
-  clusterExport(cl, 
-                list('randomForest', 'Grid', 'LHS.parameter.names', 'exp.LHS.spl'), 
-                envir = environment())
-  
-  RF.coevo.H.tunning <- parSapply(cl, 1:nrow(Grid), function(p) {
-    aux <- c()
-    for (i in 1:10) {
-      X <- do.call(rbind, exp.LHS.spl[-i])
-      RF.coevo.H <- randomForest(
-        as.formula(paste0("coevo.H ~ ", paste(LHS.parameter.names, collapse = '+'))),
-        data = X,
-        mtry = Grid[p, 1],
-        ntree = Grid[p, 2]
-      )
-      acc.coevo.H <- 
-        mean((predict(RF.coevo.H, exp.LHS.spl[[i]][, 1:15]) - exp.LHS.spl[[i]]$coevo.H) ^ 2)
-      
-      rm(RF.coevo.H)
-      gc()
-      
-      aux[i] <- acc.coevo.H
-    }
-    
-    return(mean(aux))
-  })
-
-  RF.coevo.H.tunning <- cbind(Grid, mean.predict = RF.coevo.H.tunning)
-  # save
-  save(RF.coevo.H.tunning, file = 'data/RF.coevo.H-tunning.RData')
-}
-```
-
-```{r 5_RF.coevo.H.tunning-load, include=FALSE}
-# load
-load('data/RF.coevo.H-tunning.RData')
-```
-
-```{r 5_RF.tunning.P, include=FALSE, eval=FALSE}
-if (!file.exists('data/RF.coevo.P-tunning.RData')) # you must delete "RF.coevo.P-tunning.RData" to create a new file
-{
-  # cluster and loop
-  cl <- makeCluster(6)
-  clusterExport(cl, 
-                list('randomForest', 'Grid', 'LHS.parameter.names', 'exp.LHS.spl'), 
-                envir = environment())
-  
-  RF.coevo.P.tunning <- parSapply(cl, 1:nrow(Grid), function(p) {
-    aux <- c()
-    for (i in 1:10) {
-      exp.LHS.leftOneOut <- do.call(rbind, exp.LHS.spl[-i])
-      RF.coevo.P <- randomForest(
-        as.formula(paste0("coevo.P ~ ", paste(LHS.parameter.names, collapse = '+'))),
-        data = exp.LHS.leftOneOut,
-        mtry = Grid[p, 1],
-        ntree = Grid[p, 2]
-      )
-      acc.coevo.P <- 
-        mean((predict(RF.coevo.P, exp.LHS.spl[[i]][, 1:15]) - exp.LHS.spl[[i]]$coevo.P) ^ 2)
-      
-      rm(RF.coevo.p)
-      gc()
-      
-      aux[i] <- acc.coevo.P
-    }
-    
-    return(mean(aux))
-  })
-
-  RF.coevo.P.tunning <- cbind(Grid, mean.predict = RF.coevo.P.tunning)
-  # save
-  save(RF.coevo.P.tunning, file = 'data/RF.coevo.P-tunning.RData')
-}
-```
-
-```{r 5_RF.coevo.P.tunning-load, include=FALSE}
-# load
-load('data/RF.coevo.P-tunning.RData')
-```
-
-```{r 5_RF.coevo.tunning-plot, dependson=c('5_RF.coevo.H.tunning-load', '5_RF.coevo.P.tunning-load'), out.width = '100%'}
-temp <- cbind(
-  output.var = c(
-    rep('coevo.H', nrow(RF.coevo.H.tunning)), 
-    rep('coevo.P', nrow(RF.coevo.P.tunning))
-    ),
-  rbind(RF.coevo.H.tunning, RF.coevo.P.tunning)
-  )
-
-ggplot(temp, aes(x = ntree, y = mtry)) + 
-  geom_tile(aes(fill = mean.predict), colour = "white") + 
-  scale_fill_gradient(low = "white", high = "black") +
-  geom_text(aes(label = round(mean.predict, 5)), color = "steelblue") +
-  facet_wrap(.~output.var) + theme_bw()
-```
-
-\newpage
-
-**_Coevolution coefficients_**
-
-Only using those runs with any humans (coevo.H) and plants (coevo.P) at the end-state.
-
-```{r 5_RF-coevo.H, include=FALSE, cache=TRUE, dependson='5_setup_plus'}
-if(!file.exists('data/RF.coevo.H.RData'))
-{
-  RF.coevo.H <-
-  randomForest::randomForest(
-    as.formula(paste0("coevo.H ~ ", paste(LHS.parameter.names, collapse = '+'))),
-    data = exp.LHS[H.exist,],
-    mtry = 5,
-    ntree = 1000,
-    importance = T
-  )
-  #RF.coevo.H$error <- mean((predict(RF.coevo.H, exp.LHS[, 1:12]) - exp.LHS$coevo.H) ^ 2)
-  # save
-  save(RF.coevo.H, file = 'data/RF.coevo.H.RData')
-}
-```
-
-```{r 5_RF-coevo.P, include=FALSE, cache=TRUE, dependson='5_setup_plus'}
-if(!file.exists('data/RF.coevo.P.RData'))
-{
-  RF.coevo.P <-
-    randomForest::randomForest(
-      as.formula(paste0("coevo.P ~ ", paste(LHS.parameter.names, collapse = '+'))),
-      data = exp.LHS[P.exist,],
-      mtry = 5,
-      ntree = 1000,
-      importance = T
-    )
-  #RF.coevo.P$error <- mean((predict(RF.coevo.P, exp.LHS[, 1:12]) - exp.LHS$coevo.P) ^ 2)
-  # save
-  save(RF.coevo.P, file = 'data/RF.coevo.P.RData')
-}
-```
-
-```{r 5_RF.coevo-load, include=FALSE}
-# load
-load('data/RF.coevo.H.RData')
-load('data/RF.coevo.P.RData')
-```
-
-```{r 5_RF-coevo-plots, include=FALSE, cache=TRUE}
-plotScale = 2
-
-png("plots/5_multiplePar-RF-coevo.png", width = 640 * plotScale, height = 360 * plotScale)
-varImpPlot2Pair(RF.coevo.H, RF.coevo.P, cex = plotScale)
-dev.off()
-```
-
-```{r 5_RF-coevo-plot-print, dependson='5_RF-coevo-plots', out.width = '100%'}
-knitr::include_graphics(paste0("plots/5_multiplePar-RF-coevo.png"))
-```
-
-\newpage
-
-**_Dependency coefficients_**
-
-Only using those runs with any humans (depend.H) and plants (depend.P) at the end-state.
-
-```{r 5_RF-depend.H, include=FALSE, cache=TRUE, dependson='5_setup_plus'}
-if(!file.exists('data/RF.depend.H.RData'))
-{
-  RF.depend.H <-
-    randomForest::randomForest(
-      as.formula(paste0("depend.H ~ ", paste(LHS.parameter.names, collapse = '+'))),
-      data = exp.LHS[H.exist,],
-      mtry = 5,
-      ntree = 1000,
-      importance = T
-    )
-  #RF.depend.H$error <- mean((predict(RF.depend.H, exp.LHS[, 1:12]) - exp.LHS$depend.H) ^ 2)
-  # save
-  save(RF.depend.H, file = 'data/RF.depend.H.RData')
-}
-```
-
-```{r 5_RF-depend.P, include=FALSE, cache=TRUE, dependson='5_setup_plus'}
-if(!file.exists('data/RF.depend.P.RData'))
-{
-  RF.depend.P <-
-    randomForest::randomForest(
-      as.formula(paste0("depend.P ~ ", paste(LHS.parameter.names, collapse = '+'))),
-      data = exp.LHS[P.exist,],
-      mtry = 5,
-      ntree = 1000,
-      importance = T
-    )
-  #RF.depend.P$error <- mean((predict(RF.depend.P, exp.LHS[, 1:12]) - exp.LHS$depend.P) ^ 2)
-  # save
-  save(RF.depend.P, file = 'data/RF.depend.P.RData')
-}
-```
-
-```{r 5_RF.depend-load, include=FALSE}
-# load
-load('data/RF.depend.H.RData')
-load('data/RF.depend.P.RData')
-```
-
-```{r 5_RF-depend-plots, include=FALSE, cache=TRUE}
-plotScale = 2
-
-png("plots/5_multiplePar-RF-depend.png", width = 640 * plotScale, height = 360 * plotScale)
-varImpPlot2Pair(RF.depend.H, RF.depend.P, cex = plotScale)
-dev.off()
-```
-
-```{r 5_RF-depend.H-plot-print, dependson='5_RF-depend-plots', out.width = '100%'}
-knitr::include_graphics(paste0("plots/5_multiplePar-RF-depend.png"))
-```
-
-**_Timings_**
-
-Only using those runs with successful human (timing.H) and plant (timing.P) evolution.
-
-```{r 5_RF-timing.H, include=FALSE, cache=TRUE, dependson='5_setup_plus'}
-if(!file.exists('data/RF.timing.H.RData'))
-{
-  RF.timing.H <-
-    randomForest::randomForest(
-      as.formula(paste0("timing.H ~ ", paste(LHS.parameter.names, collapse = '+'))),
-      data = exp.LHS[H.evolved,], # filter out cases where humans did not evolved towards n
-      mtry = 5,
-      ntree = 1000,
-      importance = T
-    )
-  #RF.timing.H$error <- mean((predict(RF.timing.H, exp.LHS[, 1:12]) - exp.LHS$timing.H) ^ 2)
-  # save
-  save(RF.timing.H, file = 'data/RF.timing.H.RData')
-}
-```
-
-```{r 5_RF-timing.P, include=FALSE, cache=TRUE, dependson='5_setup_plus'}
-if(!file.exists('data/RF.timing.P.RData'))
-{
-  RF.timing.P <-
-    randomForest::randomForest(
-      as.formula(paste0("timing.P ~ ", paste(LHS.parameter.names, collapse = '+'))),
-      data = exp.LHS[P.evolved,], # filter out cases where plants did not evolved towards n
-      mtry = 5,
-      ntree = 1000,
-      importance = T
-    )
-  #RF.timing.P$error <- mean((predict(RF.timing.P, exp.LHS[, 1:12]) - exp.LHS$timing.P) ^ 2)
-  # save
-  save(RF.timing.P, file = 'data/RF.timing.P.RData')
-}
-```
-
-```{r 5_RF.timing-load, include=FALSE}
-# load
-load('data/RF.timing.H.RData')
-load('data/RF.timing.P.RData')
-```
-
-```{r 5_RF-timing-plots, include=FALSE, cache=TRUE}
-plotScale = 2
-
-png("plots/5_multiplePar-RF-timing.png", width = 640 * plotScale, height = 360 * plotScale)
-varImpPlot2Pair(RF.timing.H, RF.timing.P, cex = plotScale)
-dev.off()
-```
-
-```{r 5_RF-timing.H-plot-print, dependson='5_RF-timing-plots', out.width = '100%'}
-knitr::include_graphics(paste0("plots/5_multiplePar-RF-timing.png"))
-```
-
-\newpage
 
 ### Trajectories
 
 ```{r 5_exp.LHS.trajectories, include=FALSE}
-if(!file.exists('data/exp.LHS.trajectories.RData'))
+if(!file.exists('data/5_exp.LHS.trajectories.RData'))
 {
+  set.seed(0)
+  
   number.trajectories = 5
   
-  set.seed(777)
-  
-  randomSample <- sample(1:nrow(PARS), number.trajectories)
-  
-  PARS.sample <- PARS[randomSample,]
+  PARS.sample <- PARS[
+    ## for sampling random trajectories
+    #sample(1:nrow(PARS), number.trajectories)
+    ### for selecting one random run of each of the following types:
+    c(
+      # No coevolution (not evolved, not mild evolved, but exists)
+      sample((1:nrow(PARS))[H.notByFarEvolved & P.notByFarEvolved], 1),
+      # Domestication without cultivation
+      sample((1:nrow(PARS))[H.notByFarEvolved & P.fullEvolved], 1),
+      # Cultivation without domestication
+      sample((1:nrow(PARS))[H.fullEvolved & P.notByFarEvolved], 1),
+      # Mild coevolution
+      sample((1:nrow(PARS))[H.mildEvolved & P.mildEvolved], 1),
+      # Coevolution
+      sample((1:nrow(PARS))[H.fullEvolved & P.fullEvolved], 1)
+    )
+    ,]
   
   # build cluster
   cl <- makeCluster(6)
@@ -666,12 +448,12 @@ if(!file.exists('data/exp.LHS.trajectories.RData'))
   rm(exp.LHS.trajectories.list)
   
   # save
-  save(exp.LHS.trajectories, file = 'data/exp.LHS.trajectories.RData')
+  save(exp.LHS.trajectories, file = 'data/5_exp.LHS.trajectories.RData')
 }
 ```
 
 ```{r 5_overview-trajectories-plot, include=FALSE, cache=TRUE}
-load('data/exp.LHS.trajectories.RData')
+load('data/5_exp.LHS.trajectories.RData')
 
 overview.variable.name = 'pop'
 
@@ -694,7 +476,418 @@ knitr::include_graphics(paste0("plots/5_multiplePar-", overview.variable.name, "
 
 \newpage
 
-## Scenarios
+```{r 5_overview-endstates-plot, include=FALSE, cache=TRUE}
+plotScale = 10
+
+png(paste0("plots/5_multiplePar-coevo_endstates-ggplot.png"),
+    width = 50 * plotScale, height = 50 * plotScale)
+
+ggplot(data = exp.LHS, aes(x = coevo.H, y = coevo.P)) +
+  geom_point(alpha = 0.3) +
+  geom_hline(yintercept = 0) + geom_vline(xintercept = 0) +
+  geom_hline(yintercept = -1) + geom_vline(xintercept = -1) +
+  geom_hline(yintercept = 1) + geom_vline(xintercept = 1)
+
+dev.off()
+```
+
+```{r 5_overview-endstates-plot-print, dependson='5_overview-endstates-plot', out.width = '100%'}
+knitr::include_graphics(paste0("plots/5_multiplePar-coevo_endstates-ggplot.png"))
+```
+
+\newpage
+
+## Random forest
+
+### Optimisation 
+
+```{r 5_RF.tunning.preparation, include=FALSE}
+set.seed(777)
+
+exp.LHS.r <- exp.LHS[P.exists,]
+
+exp.LHS.r <- exp.LHS.r[sample(1:nrow(exp.LHS.r), nrow(exp.LHS.r)),]
+
+exp.LHS.spl <- split(as.data.frame(exp.LHS.r), 
+                     f = factor(ceiling(seq_along(1:nrow(exp.LHS.r)) / 1000)))
+
+Grid <- expand.grid(mtry = c(2:10), ntree = seq(500, 2000, 500))
+```
+
+```{r 5_RF.tunning.H, include=FALSE}
+if (!file.exists('data/5_RF.coevo.H-tunning.RData')) # you must delete "RF.coevo.H-tunning.RData" to create a new file
+{
+  # cluster and loop
+  cl <- makeCluster(6)
+  clusterExport(cl, 
+                list('randomForest', 'Grid', 'LHS.parameter.names', 'exp.LHS.spl'), 
+                envir = environment())
+  
+  RF.coevo.H.tunning <- parSapply(cl, 1:nrow(Grid), function(p) {
+    aux <- c()
+    for (i in 1:10) {
+      X <- do.call(rbind, exp.LHS.spl[-i])
+      RF.coevo.H <- randomForest(
+        as.formula(paste0("coevo.H ~ ", paste(LHS.parameter.names, collapse = '+'))),
+        data = X,
+        mtry = Grid[p, 1],
+        ntree = Grid[p, 2]
+      )
+      acc.coevo.H <- 
+        mean((predict(RF.coevo.H, exp.LHS.spl[[i]][, 1:15]) - exp.LHS.spl[[i]]$coevo.H) ^ 2)
+      
+      rm(RF.coevo.H)
+      gc()
+      
+      aux[i] <- acc.coevo.H
+    }
+    
+    return(mean(aux))
+  })
+
+  RF.coevo.H.tunning <- cbind(Grid, mean.predict = RF.coevo.H.tunning)
+  # save
+  save(RF.coevo.H.tunning, file = 'data/5_RF.coevo.H-tunning.RData')
+}
+```
+
+```{r 5_RF.coevo.H.tunning-load, include=FALSE}
+# load
+load('data/5_RF.coevo.H-tunning.RData')
+```
+
+```{r 5_RF.tunning.P, include=FALSE, eval=FALSE}
+if (!file.exists('data/5_RF.coevo.P-tunning.RData')) # you must delete "RF.coevo.P-tunning.RData" to create a new file
+{
+  # cluster and loop
+  cl <- makeCluster(6)
+  clusterExport(cl, 
+                list('randomForest', 'Grid', 'LHS.parameter.names', 'exp.LHS.spl'), 
+                envir = environment())
+  
+  RF.coevo.P.tunning <- parSapply(cl, 1:nrow(Grid), function(p) {
+    aux <- c()
+    for (i in 1:10) {
+      exp.LHS.leftOneOut <- do.call(rbind, exp.LHS.spl[-i])
+      RF.coevo.P <- randomForest(
+        as.formula(paste0("coevo.P ~ ", paste(LHS.parameter.names, collapse = '+'))),
+        data = exp.LHS.leftOneOut,
+        mtry = Grid[p, 1],
+        ntree = Grid[p, 2]
+      )
+      acc.coevo.P <- 
+        mean((predict(RF.coevo.P, exp.LHS.spl[[i]][, 1:15]) - exp.LHS.spl[[i]]$coevo.P) ^ 2)
+      
+      rm(RF.coevo.p)
+      gc()
+      
+      aux[i] <- acc.coevo.P
+    }
+    
+    return(mean(aux))
+  })
+
+  RF.coevo.P.tunning <- cbind(Grid, mean.predict = RF.coevo.P.tunning)
+  # save
+  save(RF.coevo.P.tunning, file = 'data/5_RF.coevo.P-tunning.RData')
+}
+```
+
+```{r 5_RF.coevo.P.tunning-load, include=FALSE}
+# load
+load('data/5_RF.coevo.P-tunning.RData')
+```
+
+```{r 5_RF.coevo.tunning-plot, dependson=c('5_RF.coevo.H.tunning-load', '5_RF.coevo.P.tunning-load'), out.width = '100%'}
+temp <- cbind(
+  output.var = c(
+    rep('coevo.H', nrow(RF.coevo.H.tunning)), 
+    rep('coevo.P', nrow(RF.coevo.P.tunning))
+    ),
+  rbind(RF.coevo.H.tunning, RF.coevo.P.tunning)
+  )
+
+ggplot(temp, aes(x = ntree, y = mtry)) + 
+  geom_tile(aes(fill = mean.predict), colour = "white") + 
+  scale_fill_gradient(low = "white", high = "black") +
+  geom_text(aes(label = round(mean.predict, 5)), color = "steelblue", size = 2.5) +
+  facet_wrap(.~output.var) + theme_bw()
+```
+
+\newpage
+
+### Coevolution coefficients
+
+Only using those runs with any humans (coevo.H) and plants (coevo.P) at the end-state.
+
+```{r 5_RF-coevo.H, include=FALSE, cache=TRUE}
+if(!file.exists('data/5_RF.coevo.H.RData'))
+{
+  RF.coevo.H <-
+  randomForest::randomForest(
+    as.formula(paste0("coevo.H ~ ", paste(LHS.parameter.names, collapse = '+'))),
+    data = exp.LHS[H.exists,],
+    mtry = 5,
+    ntree = 1000,
+    importance = T
+  )
+  #RF.coevo.H$error <- mean((predict(RF.coevo.H, exp.LHS[, 1:12]) - exp.LHS$coevo.H) ^ 2)
+  # save
+  save(RF.coevo.H, file = 'data/5_RF.coevo.H.RData')
+}
+```
+
+```{r 5_RF-coevo.P, include=FALSE, cache=TRUE}
+if(!file.exists('data/5_RF.coevo.P.RData'))
+{
+  RF.coevo.P <-
+    randomForest::randomForest(
+      as.formula(paste0("coevo.P ~ ", paste(LHS.parameter.names, collapse = '+'))),
+      data = exp.LHS[P.exists,],
+      mtry = 5,
+      ntree = 1000,
+      importance = T
+    )
+  #RF.coevo.P$error <- mean((predict(RF.coevo.P, exp.LHS[, 1:12]) - exp.LHS$coevo.P) ^ 2)
+  # save
+  save(RF.coevo.P, file = 'data/5_RF.coevo.P.RData')
+}
+```
+
+```{r 5_RF.coevo-load, include=FALSE}
+# load
+load('data/5_RF.coevo.H.RData')
+load('data/5_RF.coevo.P.RData')
+```
+
+```{r 5_RF-coevo-plots, include=FALSE, cache=TRUE}
+plotScale = 2
+
+png("plots/5_multiplePar-RF-coevo.png", width = 640 * plotScale, height = 360 * plotScale)
+varImpPlot2Pair(RF.coevo.H, RF.coevo.P, cex = plotScale)
+dev.off()
+```
+
+```{r 5_RF-coevo-plot-print, dependson='5_RF-coevo-plots', out.width = '100%'}
+knitr::include_graphics(paste0("plots/5_multiplePar-RF-coevo.png"))
+```
+
+\newpage
+
+### Dependency coefficients
+
+Only using those runs with any humans (depend.H) and plants (depend.P) at the end-state.
+
+```{r 5_RF-depend.H, include=FALSE, cache=TRUE}
+if(!file.exists('data/5_RF.depend.H.RData'))
+{
+  RF.depend.H <-
+    randomForest::randomForest(
+      as.formula(paste0("depend.H ~ ", paste(LHS.parameter.names, collapse = '+'))),
+      data = exp.LHS[H.exists,],
+      mtry = 5,
+      ntree = 1000,
+      importance = T
+    )
+  #RF.depend.H$error <- mean((predict(RF.depend.H, exp.LHS[, 1:12]) - exp.LHS$depend.H) ^ 2)
+  # save
+  save(RF.depend.H, file = 'data/5_RF.depend.H.RData')
+}
+```
+
+```{r 5_RF-depend.P, include=FALSE, cache=TRUE}
+if(!file.exists('data/5_RF.depend.P.RData'))
+{
+  RF.depend.P <-
+    randomForest::randomForest(
+      as.formula(paste0("depend.P ~ ", paste(LHS.parameter.names, collapse = '+'))),
+      data = exp.LHS[P.exists,],
+      mtry = 5,
+      ntree = 1000,
+      importance = T
+    )
+  #RF.depend.P$error <- mean((predict(RF.depend.P, exp.LHS[, 1:12]) - exp.LHS$depend.P) ^ 2)
+  # save
+  save(RF.depend.P, file = 'data/5_RF.depend.P.RData')
+}
+```
+
+```{r 5_RF.depend-load, include=FALSE}
+# load
+load('data/5_RF.depend.H.RData')
+load('data/5_RF.depend.P.RData')
+```
+
+```{r 5_RF-depend-plots, include=FALSE, cache=TRUE}
+plotScale = 2
+
+png("plots/5_multiplePar-RF-depend.png", width = 640 * plotScale, height = 360 * plotScale)
+varImpPlot2Pair(RF.depend.H, RF.depend.P, cex = plotScale)
+dev.off()
+```
+
+```{r 5_RF-depend.H-plot-print, dependson='5_RF-depend-plots', out.width = '100%'}
+knitr::include_graphics(paste0("plots/5_multiplePar-RF-depend.png"))
+```
+
+### Timings
+
+Only using those runs with successful human (timing.H) and plant (timing.P) evolution.
+
+```{r 5_RF-timing.H, include=FALSE, cache=TRUE}
+if(!file.exists('data/5_RF.timing.H.RData'))
+{
+  RF.timing.H <-
+    randomForest::randomForest(
+      as.formula(paste0("timing.H ~ ", paste(LHS.parameter.names, collapse = '+'))),
+      data = exp.LHS[H.fullEvolved,], # filter out cases where humans did not evolved towards n
+      mtry = 5,
+      ntree = 1000,
+      importance = T
+    )
+  #RF.timing.H$error <- mean((predict(RF.timing.H, exp.LHS[, 1:12]) - exp.LHS$timing.H) ^ 2)
+  # save
+  save(RF.timing.H, file = 'data/5_RF.timing.H.RData')
+}
+```
+
+```{r 5_RF-timing.P, include=FALSE, cache=TRUE}
+if(!file.exists('data/5_RF.timing.P.RData'))
+{
+  RF.timing.P <-
+    randomForest::randomForest(
+      as.formula(paste0("timing.P ~ ", paste(LHS.parameter.names, collapse = '+'))),
+      data = exp.LHS[P.fullEvolved,], # filter out cases where plants did not evolved towards n
+      mtry = 5,
+      ntree = 1000,
+      importance = T
+    )
+  #RF.timing.P$error <- mean((predict(RF.timing.P, exp.LHS[, 1:12]) - exp.LHS$timing.P) ^ 2)
+  # save
+  save(RF.timing.P, file = 'data/5_RF.timing.P.RData')
+}
+```
+
+```{r 5_RF.timing-load, include=FALSE}
+# load
+load('data/5_RF.timing.H.RData')
+load('data/5_RF.timing.P.RData')
+```
+
+```{r 5_RF-timing-plots, include=FALSE, cache=TRUE}
+plotScale = 2
+
+png("plots/5_multiplePar-RF-timing.png", width = 640 * plotScale, height = 360 * plotScale)
+varImpPlot2Pair(RF.timing.H, RF.timing.P, cex = plotScale)
+dev.off()
+```
+
+```{r 5_RF-timing.H-plot-print, dependson='5_RF-timing-plots', out.width = '100%'}
+knitr::include_graphics(paste0("plots/5_multiplePar-RF-timing.png"))
+```
+
+\newpage
+
+## Visualisation of parameter effect
+
+### The effect on coevolution coefficients of the utility per capita of type n humans to plants ($\bar{U}_{H_{n}P}$)
+\sectionmark{Visualising effect of $\bar{U}_{H_{n}P}$}
+
+```{r 5_overview-collapsed-plot, include=FALSE, cache=TRUE}
+parEffect.variable.name = 'coevo'
+plotScale = 10
+
+#svg('plots/5_collapsed.svg', width=10, height=10)
+png(paste0("plots/5_multiplePar-", parEffect.variable.name, "_collapsed-ggplot.png"),
+    width = 100 * plotScale, height = 100 * plotScale)
+collapsed.ggplot(exp.LHS,
+                 'mU.HnP', 'coevo.H', 'coevo.P',
+                 ylab = "coevolution coefficient",
+                 plotScale = plotScale)
+dev.off()
+```
+
+```{r 5_overview-collapsed-plot-print, dependson='5_overview-collapsed-plot', out.width = '100%'}
+knitr::include_graphics(paste0("plots/5_multiplePar-", parEffect.variable.name, "_collapsed-ggplot.png"))
+```
+
+\newpage
+
+### All parameters
+
+**_Coevolution coefficients_**
+
+```{r 5_scenarios-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+
+plotScale = 10
+
+png("plots/5_multiplePar-coevo-ggplot.png",
+    width = 200 * plotScale,
+    height = 50 * plotScale
+)
+parameters.effect.ggplot(exp.LHS, 
+                            LHS.parameter.names,
+                            'coevo.H', 'coevo.P',
+                            ylab = "coevolution coefficient",
+                            plotScale = plotScale)
+dev.off()
+```
+
+```{r 5_scenarios-coevo-plot-print, dependson='5_scenarios-humanImprove-coevo-plot', out.width = '100%'}
+knitr::include_graphics("plots/5_multiplePar-coevo-ggplot.png")
+```
+
+**_Dependency coefficients_**
+
+```{r 5_scenarios-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+
+plotScale = 10
+
+#svg('plots/5_collapsed.svg', width=10, height=10)
+png("plots/5_multiplePar-depend-ggplot.png",
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+parameters.effect.ggplot(exp.LHS, 
+                            LHS.parameter.names,
+                            'depend.H', 'depend.P',
+                            ylab = "dependency coefficient",
+                            plotScale = plotScale,
+                            y.log = TRUE)
+dev.off()
+```
+
+```{r 5_scenarios-depend-plot-print, dependson='5_scenarios-humanImprove-depend-plot', out.width = '100%'}
+knitr::include_graphics("plots/5_multiplePar-depend-ggplot.png")
+```
+
+**_Timings_**
+
+```{r 5_scenarios-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+
+plotScale = 10
+
+#svg('plots/5_collapsed.svg', width=10, height=10)
+png("plots/5_multiplePar-timing-ggplot.png",
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+parameters.effect.ggplot(exp.LHS, 
+                            LHS.parameter.names,
+                            'timing.H', 'timing.P',
+                            ylab = "Timing",
+                            plotScale = plotScale,
+                            y.log = TRUE)
+dev.off()
+```
+
+```{r 5_scenarios-timing-plot-print, dependson='5_scenarios-humanImprove-timing-plot', out.width = '100%'}
+knitr::include_graphics("plots/5_multiplePar-timing-ggplot.png")
+```
+
+\newpage
+
+## Parameter effect split by scenarios
 
 ```{r 5_split-scenarios, include=FALSE, cache=TRUE, dependson='5_run-experiments-load'}
 # exp.LHS.scenarios.names <- c(

@@ -47,7 +47,7 @@ bifurcation.plot.pair <- function(result.H, result.P,
   )
   
   plot(result.H,
-       pch = '·',
+       pch = '.',
        xlab = parameterLabel,
        ylab = variableLabelH,
        cex = plotScale,
@@ -56,7 +56,7 @@ bifurcation.plot.pair <- function(result.H, result.P,
   )
   
   plot(result.P,
-       pch = '·',
+       pch = '.',
        xlab = parameterLabel,
        ylab = variableLabelP,
        cex = plotScale,

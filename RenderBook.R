@@ -5,7 +5,7 @@
 
 bookdown::render_book("index.Rmd", 
                       output_format = 'bookdown::gitbook',
-                      output_dir = "docs", 
+                      output_dir = "docs", encoding="UTF-8",
                       params = list(ispdf = FALSE))
 
 # It is posible to obtain the pdf version using the following code OR 
@@ -16,7 +16,7 @@ bookdown::render_book("index.Rmd",
 
 bookdown::render_book("index.Rmd",
                       output_format = 'bookdown::pdf_book',
-                      output_dir = "pdf",
+                      output_dir = "pdf", encoding="UTF-8",
                       params = list(ispdf = TRUE))
 
 # to preview a single chapter

@@ -24,7 +24,7 @@ source("library/plotting/run.table.R")
 source("library/plotting/exp.table.R")
 ```
 
-```{r 2_default-values}
+```{r 2_default-values, cache=TRUE}
 # this is the 'default' parameter setting (end state is 'fast coevolution'):
 # initial populations
 iniH.default = 10
@@ -104,15 +104,15 @@ exp.mU.PnH <- hpcModel.exploration(
 )
 ```
 
-```{r 2mUPnHtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('2_table-functions', '2_mU.PnH')}
+```{r 2mUPnHtablehtml, eval=!params$ispdf, cache=TRUE, dependson='2_mU.PnH'}
 exp.table(exp.mU.PnH, caption = 'Parameter setting')
 ```
 
-```{r 2mUPnHtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('2_table-functions', '2_mU.PnH')}
+```{r 2mUPnHtablepdf, eval=params$ispdf, cache=TRUE, dependson='2_mU.PnH'}
 exp.table(exp.mU.PnH, caption = 'Parameter setting', output = "latex")
 ```
 
-```{r 2_mU.PnH-bifplot1, cache=TRUE, dependson=c('2_plot-functions', '2_mU.PnH'), include=FALSE}
+```{r 2_mU.PnH-bifplot1, cache=TRUE, dependson='2_mU.PnH', include=FALSE}
 plotScale = 10
 #svg('paste0("plots/2_onePar-", exp1.name, "_ggbifplot.png"), width=plotScale, height=plotScale)
 png(paste0("plots/2_onePar-", exp.mU.PnH.name, "_ggbifplot.png"),
@@ -132,7 +132,7 @@ dev.off()
 knitr::include_graphics(paste0("plots/2_onePar-", exp.mU.PnH.name, "_ggbifplot.png"))
 ```
 
-```{r 2_mU.PnH-bifplot2, cache=TRUE, dependson=c('2_plot-functions', '2_mU.PnH'), results='hide'}
+```{r 2_mU.PnH-bifplot2, cache=TRUE, dependson='2_mU.PnH', results='hide'}
 plotScale = 10
 
 #svg(paste0("plots/2_onePar-", exp.mU.PnH.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
@@ -216,7 +216,7 @@ exp.init.P <- hpcModel.exploration(
 )
 ```
 
-```{r 2_init.H-bifplot2, cache=TRUE, dependson=c('2_plot-functions', '2_init.H'), results='hide'}
+```{r 2_init.H-bifplot2, cache=TRUE, dependson='2_init.H', results='hide'}
 plotScale = 10
 
 #svg(paste0("plots/2_onePar-", exp.init.H.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
@@ -317,7 +317,7 @@ exp.n.P <- hpcModel.exploration(
 )
 ```
 
-```{r 2_n.H-bifplot2, cache=TRUE, dependson=c('2_plot-functions', '2_n.H'), results='hide'}
+```{r 2_n.H-bifplot2, cache=TRUE, dependson='2_n.H', results='hide'}
 plotScale = 10
 
 #svg(paste0("plots/2_onePar-", exp1.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
@@ -333,7 +333,7 @@ bifurcation.plot.pair(cbind(SEQ.n.H, exp.n.H$coevo.H),
 dev.off()
 ```
 
-```{r 2_n.P-bifplot2, cache=TRUE, dependson=c('2_plot-functions', '2_n.P'), results='hide'}
+```{r 2_n.P-bifplot2, cache=TRUE, dependson='2_n.P', results='hide'}
 plotScale = 10
 
 #svg(paste0("plots/2_onePar-", exp.n.P.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
@@ -418,7 +418,7 @@ exp.v.P <- hpcModel.exploration(
 )
 ```
 
-```{r 2_v.H-bifplot2, cache=TRUE, dependson=c('2_plot-functions', '2_v.H'), results='hide'}
+```{r 2_v.H-bifplot2, cache=TRUE, dependson='2_v.H', results='hide'}
 plotScale = 10
 
 #svg(paste0("plots/2_onePar-", exp.v.H.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
@@ -434,7 +434,7 @@ bifurcation.plot.pair(cbind(SEQ.v.H, exp.v.H$coevo.H),
 dev.off()
 ```
 
-```{r 2_v.P-bifplot2, cache=TRUE, dependson=c('2_plot-functions', '2_v.P'), results='hide'}
+```{r 2_v.P-bifplot2, cache=TRUE, dependson='2_v.P', results='hide'}
 plotScale = 10
 
 #svg(paste0("plots/2_onePar-", exp.v.P.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
@@ -519,7 +519,7 @@ exp.r.P <- hpcModel.exploration(
 )
 ```
 
-```{r 2_r.H-bifplot2, cache=TRUE, dependson=c('2_plot-functions', '2_r.H'), results='hide'}
+```{r 2_r.H-bifplot2, cache=TRUE, dependson='2_r.H', results='hide'}
 plotScale = 10
 
 #svg(paste0("plots/2_onePar-", exp.r.H.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
@@ -535,7 +535,7 @@ bifurcation.plot.pair(cbind(SEQ.r.H, exp.r.H$coevo.H),
 dev.off()
 ```
 
-```{r 2_r.P-bifplot2, cache=TRUE, dependson=c('2_plot-functions', '2_r.P'), results='hide'}
+```{r 2_r.P-bifplot2, cache=TRUE, dependson='2_r.P', results='hide'}
 plotScale = 10
 
 #svg(paste0("plots/2_onePar-", exp.r.P.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
@@ -598,7 +598,7 @@ exp.mU.HnP <- hpcModel.exploration(
 )
 ```
 
-```{r 2_mU.HnP-bifplot2, cache=TRUE, dependson=c('2_plot-functions', '2_mU.HnP'), results='hide'}
+```{r 2_mU.HnP-bifplot2, cache=TRUE, dependson='2_mU.HnP', results='hide'}
 plotScale = 10
 
 #svg(paste0("plots/2_onePar-", exp.mU.HnP.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
@@ -650,7 +650,7 @@ exp.mU.P1H <- hpcModel.exploration(
 )
 ```
 
-```{r 2_mU.P1H-bifplot2, cache=TRUE, dependson=c('2_plot-functions', '2_mU.P1H'), results='hide'}
+```{r 2_mU.P1H-bifplot2, cache=TRUE, dependson='2_mU.P1H', results='hide'}
 plotScale = 10
 
 #svg(paste0("plots/2_onePar-", exp.mU.P1H.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
@@ -702,7 +702,7 @@ exp.mU.H1P <- hpcModel.exploration(
 )
 ```
 
-```{r 2_mU.H1P-bifplot2, cache=TRUE, dependson=c('2_plot-functions', '2_mU.H1P'), results='hide'}
+```{r 2_mU.H1P-bifplot2, cache=TRUE, dependson='2_mU.H1P', results='hide'}
 plotScale = 10
 
 #svg(paste0("plots/2_onePar-", exp.mU.H1P.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
@@ -754,7 +754,7 @@ exp.U.bH1 <- hpcModel.exploration(
 )
 ```
 
-```{r 2_U.bH1-bifplot2, cache=TRUE, dependson=c('2_plot-functions', '2_U.bH1-exp1'), results='hide'}
+```{r 2_U.bH1-bifplot2, cache=TRUE, dependson='2_U.bH1-exp1', results='hide'}
 plotScale = 10
 
 #svg(paste0("plots/2_onePar-", exp1.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
@@ -806,7 +806,7 @@ exp.U.bP1 <- hpcModel.exploration(
 )
 ```
 
-```{r 2_U.bP1-bifplot2, cache=TRUE, dependson=c('2_plot-functions', '2_U.bP1'), results='hide'}
+```{r 2_U.bP1-bifplot2, cache=TRUE, dependson='2_U.bP1', results='hide'}
 plotScale = 10
 
 #svg(paste0("plots/2_onePar-", exp.U.bP1.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
@@ -858,7 +858,7 @@ exp.U.bHn <- hpcModel.exploration(
 )
 ```
 
-```{r 2_U.bHn-bifplot2, cache=TRUE, dependson=c('2_plot-functions', '2_U.bHn'), results='hide'}
+```{r 2_U.bHn-bifplot2, cache=TRUE, dependson='2_U.bHn', results='hide'}
 plotScale = 10
 
 #svg(paste0("plots/2_onePar-", exp.U.bHn.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
@@ -910,7 +910,7 @@ exp.U.bPn <- hpcModel.exploration(
 )
 ```
 
-```{r 2_U.bPn-bifplot2, cache=TRUE, dependson=c('2_plot-functions', '2_U.bPn'), results='hide'}
+```{r 2_U.bPn-bifplot2, cache=TRUE, dependson='2_U.bPn', results='hide'}
 plotScale = 10
 
 #svg(paste0("plots/2_onePar-", exp.U.bPn.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
@@ -962,7 +962,7 @@ exp.MaxArea <- hpcModel.exploration(
 )
 ```
 
-```{r 2_MaxArea-bifplot2, cache=TRUE, dependson=c('2_plot-functions', '2_MaxArea'), results='hide'}
+```{r 2_MaxArea-bifplot2, cache=TRUE, dependson='2_MaxArea', results='hide'}
 plotScale = 10
 
 #svg(paste0("plots/2_onePar-", exp.MaxArea.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
@@ -1014,49 +1014,61 @@ tol.osc = Inf
 Bifurcation plot with last 100 time steps (of `r maxIt.osc`) to capture oscillations or 'slow' asymptotic stability
 
 
-```{r 2_mU.HnP.osc, cache=TRUE, dependson=c('2_setup','2_osc-values'), include=FALSE}
-result.mU.HnP.H <- data.frame()
-result.mU.HnP.P <- data.frame()
-
-for (i in SEQ.mU.HnP.osc)
+```{r 2_mU.HnP.osc, cache=TRUE, dependson='2_osc-values', include=FALSE}
+if(!file.exists('data/2_mU.HnP.osc.RData'))
 {
-  temp <- hpcModel.run(
-    iniH = iniH.osc,
-    iniP = iniP.osc,
-    n.H = n.H.osc,         
-    n.P = n.P.osc,        
-    v.H = v.H.osc,
-    v.P = v.P.osc,
-    r.H = r.H.osc, 
-    r.P = r.P.osc, 
-    mU.PnH = mU.PnH.osc,
-    mU.HnP = i, ###
-    mU.P1H = mU.P1H.osc,                                  
-    mU.H1P = mU.H1P.osc,                                   
-    U.bHn = U.bHn.osc,                                
-    U.bPn = U.bPn.osc, 
-    U.bH1 = U.bH1.osc,                               
-    U.bP1 = U.bP1.osc,                                 
-    MaxArea = MaxArea.osc, 
-    # settings 
-    # simulation flow & data
-    maxIt = maxIt.osc,
-    tol = tol.osc,
-    timing.threshold = timing.threshold.default,
-    saveTrajectories = saveTrajectories.default,
-    messages = messages.default
-  )
+  result.mU.HnP.H <- data.frame()
+  result.mU.HnP.P <- data.frame()
   
-  # store the result
-  result.mU.HnP.H <-
-    rbind(result.mU.HnP.H, data.frame(i, temp$TRAJECTORIES$coevo.H[(maxIt.osc - 100):(maxIt.osc - 1)]))
-  result.mU.HnP.P <-
-    rbind(result.mU.HnP.P, data.frame(i, temp$TRAJECTORIES$coevo.P[(maxIt.osc - 100):(maxIt.osc - 1)]))
-  
+  for (i in SEQ.mU.HnP.osc)
+  {
+    temp <- hpcModel.run(
+      iniH = iniH.osc,
+      iniP = iniP.osc,
+      n.H = n.H.osc,         
+      n.P = n.P.osc,        
+      v.H = v.H.osc,
+      v.P = v.P.osc,
+      r.H = r.H.osc, 
+      r.P = r.P.osc, 
+      mU.PnH = mU.PnH.osc,
+      mU.HnP = i, ###
+      mU.P1H = mU.P1H.osc,                                  
+      mU.H1P = mU.H1P.osc,                                   
+      U.bHn = U.bHn.osc,                                
+      U.bPn = U.bPn.osc, 
+      U.bH1 = U.bH1.osc,                               
+      U.bP1 = U.bP1.osc,                                 
+      MaxArea = MaxArea.osc, 
+      # settings 
+      # simulation flow & data
+      maxIt = maxIt.osc,
+      tol = tol.osc,
+      timing.threshold = timing.threshold.default,
+      saveTrajectories = saveTrajectories.default,
+      messages = messages.default
+    )
+    
+    # store the result
+    result.mU.HnP.H <-
+      rbind(result.mU.HnP.H, data.frame(i, temp$TRAJECTORIES$coevo.H[(maxIt.osc - 100):(maxIt.osc - 1)]))
+    result.mU.HnP.P <-
+      rbind(result.mU.HnP.P, data.frame(i, temp$TRAJECTORIES$coevo.P[(maxIt.osc - 100):(maxIt.osc - 1)]))
+    
+  }
+  # save
+  save(result.mU.HnP.H, file = 'data/2_mU.HnP.H.osc.RData')
+  save(result.mU.HnP.P, file = 'data/2_mU.HnP.P.osc.RData')
 }
 ```
 
-```{r 2_mU.HnP.osc-bifplot2, cache=TRUE, dependson=c('2_plot-functions', '2_mU.HnP.osc'), results='hide'}
+```{r 2_mU.HnP.osc-load, include=FALSE}
+# load
+load('data/2_mU.HnP.H.osc.RData')
+load('data/2_mU.HnP.P.osc.RData')
+```
+
+```{r 2_mU.HnP.osc-bifplot2, cache=TRUE, dependson='2_mU.HnP_mU.PnH.osc-load', results='hide'}
 plotScale = 10
 
 #svg(paste0("plots/2_onePar-", exp.osc.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
@@ -1071,7 +1083,9 @@ bifurcation.plot.pair(result.mU.HnP.H, result.mU.HnP.P,
 dev.off()
 ```
 
-```{r 2_mU.PnH.osc, cache=TRUE, dependson=c('2_setup','2_osc-values'), include=FALSE}
+```{r 2_mU.PnH.osc, cache=TRUE, dependson='2_osc-values', include=FALSE}
+if(!file.exists('data/2_mU.PnH.osc.RData'))
+{
 result.mU.PnH.H <- data.frame()
 result.mU.PnH.P <- data.frame()
 
@@ -1111,9 +1125,20 @@ for (i in SEQ.mU.PnH.osc)
     rbind(result.mU.PnH.P, data.frame(i, temp$TRAJECTORIES$coevo.P[(maxIt.osc - 100):(maxIt.osc - 1)]))
   
 }
+
+# save
+  save(result.mU.HnP.H, file = 'data/2_mU.PnH.H.osc.RData')
+  save(result.mU.HnP.P, file = 'data/2_mU.PnH.P.osc.RData')
+}
 ```
 
-```{r 2_mU.PnH.osc-bifplot2, cache=TRUE, dependson=c('2_plot-functions', '2_mU.PnH.osc'), results='hide'}
+```{r 2_mU.PnH.osc-load, include=FALSE}
+# load
+load('data/2_mU.PnH.H.osc.RData')
+load('data/2_mU.PnH.P.osc.RData')
+```
+
+```{r 2_mU.PnH.osc-bifplot2, cache=TRUE, dependson='2_mU.PnH.osc', results='hide'}
 plotScale = 10
 
 #svg(paste0("plots/2_onePar-", exp.osc.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
