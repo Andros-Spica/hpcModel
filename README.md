@@ -12,7 +12,7 @@ Alternatively, explore the following online features:
 
 - Explore single simulation runs using the Shiny App hosted in ShinyApps.io: https://andros-spica.shinyapps.io/HPCShinyApp/
 
-- Consult the results of an extensive sensitivity analysis: https://andros-spica.github.io/hpcModel
+- Consult the HTML version of the sensitivity analysis report: https://andros-spica.github.io/hpcModel
 
 - See our a presentation overviewing the model hosted in another repository: https://github.com/Andros-Spica/ENE-Angourakis-et-al-2019
 
