@@ -1,0 +1,19 @@
+# Human-Plant Coevolution model 
+
+Contents related to the Human-Plant Coevolution model implemented in R. 
+
+![images/hpcModel-logo_v3.png](images/hpcModel-logo_v3.png)
+
+This repository includes documentation, sensitive analysis report (Rmarkdown), and a user interface (Shiny app). 
+
+The entire repository is the directory of an R Project that runs in RStudio. Download it to consult and use all files locally. 
+
+Alternatively, explore the following online features:
+
+- Explore single simulation runs using the Shiny App hosted in ShinyApps.io: https://andros-spica.shinyapps.io/HPCShinyApp/
+
+- Consult the results of an extensive sensitivity analysis: https://andros-spica.github.io/hpcModel
+
+- See our a presentation overviewing the model hosted in another repository: https://github.com/Andros-Spica/ENE-Angourakis-et-al-2019
+
+<Publication info>
