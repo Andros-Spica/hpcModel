@@ -4,7 +4,7 @@ Contents related to the Human-Plant Coevolution model implemented in R.
 
 ![images/hpcModel-logo_v3.png](images/hpcModel-logo_v3.png)
 
-This repository includes documentation, sensitive analysis report (Rmarkdown), and a user interface (Shiny app). 
+This repository includes the source files and documentation of the HPC model, the sensitive analysis report (Rmarkdown), and a user interface for running and visualising simulations (Shiny app). 
 
 The entire repository is the directory of an R Project that runs in RStudio. Download it to consult and use all files locally. 
 
@@ -14,6 +14,6 @@ Alternatively, explore the following online features:
 
 - Consult the HTML version of the sensitivity analysis report: https://andros-spica.github.io/hpcModel
 
-- See our a presentation overviewing the model, hosted in another repository: https://github.com/Andros-Spica/ENE-Angourakis-et-al-2019
+- See our a presentation overviewing the model and its results, hosted in another repository: https://github.com/Andros-Spica/ENE-Angourakis-et-al-2019
 
 <Publication info>
