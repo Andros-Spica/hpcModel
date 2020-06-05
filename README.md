@@ -16,4 +16,5 @@ Alternatively, explore the following online features:
 
 - See our a presentation overviewing the model and its results, hosted in another repository: https://github.com/Andros-Spica/ENE-Angourakis-et-al-2019
 
-<Publication info>
+Dedicated article: 
+>Angourakis, A., Alcaina-Mateos, J., Madella, M., and Zurro, D. (to be anounced) *Human-Plant Coevolution: a modelling framework for theory building on the origin of agriculture*.
