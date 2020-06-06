@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/181035810.svg)](https://zenodo.org/badge/latestdoi/181035810)
+
 # Human-Plant Coevolution model 
 
 Contents related to the Human-Plant Coevolution model implemented in R. 
