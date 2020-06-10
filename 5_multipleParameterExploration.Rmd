@@ -663,7 +663,7 @@ load('data/5_RF.coevo.H.RData')
 load('data/5_RF.coevo.P.RData')
 ```
 
-```{r 5_RF-coevo-plots, include=FALSE, cache=TRUE}
+```{r 5_RF-coevo-plots, include=FALSE, cache=TRUE, dependson='5_RF.coevo-load'}
 source("library/plotting/varImpPlot2.R") # sometimes bookdown rendering will act up and ignore the chunks loading functions
 
 plotScale = 2
@@ -723,7 +723,7 @@ load('data/5_RF.depend.H.RData')
 load('data/5_RF.depend.P.RData')
 ```
 
-```{r 5_RF-depend-plots, include=FALSE, cache=TRUE}
+```{r 5_RF-depend-plots, include=FALSE, cache=TRUE, dependson='5_RF.depend-load'}
 plotScale = 2
 
 png("plots/5_multiplePar-RF-depend.png", width = 640 * plotScale, height = 360 * plotScale)
@@ -779,7 +779,7 @@ load('data/5_RF.timing.H.RData')
 load('data/5_RF.timing.P.RData')
 ```
 
-```{r 5_RF-timing-plots, include=FALSE, cache=TRUE}
+```{r 5_RF-timing-plots, include=FALSE, cache=TRUE, dependson='5_RF.timing-load'}
 plotScale = 2
 
 png("plots/5_multiplePar-RF-timing.png", width = 640 * plotScale, height = 360 * plotScale)
