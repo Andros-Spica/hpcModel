@@ -1,7 +1,17 @@
 hpcModel.plot <-
   function(RESULTS,
            device.sleep = 0.05,
-           scale.override = NULL) {
+           layout = "A",
+           legend.verbose = FALSE,
+           scale.override = NULL,
+           lwd = 2,
+           cex.axis = 1.3,
+           cex.lab = 2,
+           cex.legend = 1.5,
+           cex.rightPlots.titles = 1.2,
+           cex.rightPlots.subtitles = 1.2,
+           cex.title = 2,
+           cex.pars = 1.5) {
     
     PARS <- RESULTS$PARS
     TRAJ <- RESULTS$TRAJECTORIES
@@ -13,29 +23,86 @@ hpcModel.plot <-
     scaleMultiplier = (dev.size('px')[1] / 480)
     if (!is.null(scale.override)) { scaleMultiplier = scale.override }
     
-    time.axis.limit <- c(0, t + ceiling(t * 0.45))
+    legend.labels <- list(
+      pop = c("P", "H", "K.P", "K.H"),
+      pop.delta = c("d.P", "d.H"),
+      util = c("U.PH", "U.HP", "U.bH", "U.bP"),
+      coevo = c("coevo.H", "coevo.P", "depend.H", "depend.P"),
+      timing = c("timing.H", "timing.P")
+    )
+    xaxis.overhead = 0.27 * cex.legend
+    legend.timing.horiz = TRUE
+    
+    if (legend.verbose)
+    {
+      legend.labels <- list(
+        pop = c("Plants (P)",
+                "Humans (H)",
+                "Plants (K.P)",
+                "Humans (K.H)"),
+        pop.delta = c("Plants (d.P)",
+                      "Humans (d.H)"),
+        util = c("Plants to Humans (U.PH)",
+                 "Humans to Plants (U.HP))",
+                 "Other to Humans (U.bH)",
+                 "Other to Plants (U.bP)"),
+        coevo = c("Human change (coevo.H)",
+                  "Plant change (coevo.P)",
+                  "Human dependency (depend.H)",
+                  "Plant dependency (depend.P)"),
+        timing = c("Time of human change (timing.H)",
+                   "Time of plant change (timing.P)")
+      )
+      xaxis.overhead = 0.9 * cex.legend
+      legend.timing.horiz = FALSE
+    }
+    
+    time.axis.limit <- c(0, t + ceiling(t * xaxis.overhead))
     
     ### set plot positions
-    layout(matrix(
-      c(
-        1,   1,  1,  9,
-        1,   1,  1,  5,
-        2,   2,  2,  6,
-        3,   3,  3,  7,
-        4,   4,  4,  8,
-        10, 10, 10, 11,
-        12, 12, 12, 12
+    if (layout == "A")
+    {
+      layout(matrix(
+        c(
+          1,   1,  1,  5,
+          2,   2,  2,  6,
+          3,   3,  3,  7,
+          4,   4,  4,  8,
+          9,   9,  9, 10,
+          11, 11, 11, 11
+        ),
+        # last row with x axis title
+        nrow = 6,
+        ncol = 4,
+        byrow = TRUE
       ),
-      # last row with x axis title
-      nrow = 7,
-      ncol = 4,
-      byrow = TRUE
-    ),
-    heights = c(1, 1, 1, 1, 1, 0.1, 0.7))
+      heights = c(1, 1, 1, 1, (0.1 + 0.07 * legend.verbose) * cex.legend, (0.7 - 0.05 * legend.verbose)))
+    }
+    else if (layout == "B")
+    {
+      layout(matrix(
+        c(
+          1,   1,  1,  9,
+          1,   1,  1,  5,
+          2,   2,  2,  6,
+          3,   3,  3,  7,
+          4,   4,  4,  8,
+          10, 10, 10, 11,
+          12, 12, 12, 12
+        ),
+        # last row with x axis title
+        nrow = 7,
+        ncol = 4,
+        byrow = TRUE
+      ),
+      heights = c(1, 1, 1, 1, 1, (0.1 + 0.07 * legend.verbose) * cex.legend, (0.7 - 0.05 * legend.verbose)))
+    }
+    else { errorCondition('Select a valid layout: "A" or "B"') }
     
-    par(mar = c(3, 5, 2, 0.3), 
-        cex.axis = scaleMultiplier * 1,
-        cex.lab = scaleMultiplier * 1.2)
+    par(mar = c(5, 7, 2, 0.3), 
+        lwd = lwd,
+        cex.axis = scaleMultiplier * cex.axis,
+        cex.lab = scaleMultiplier * cex.lab)
     
     ### 1. population
     plot(
@@ -61,20 +128,17 @@ hpcModel.plot <-
            lty = 2)
     
     if (timing.H != 0)
-    { abline(v = timing.H, col = 'cyan', lty = 2) }
+    { abline(v = timing.H, col = 'dodgerblue', lty = 2) }
     if (timing.P != 0)
-    { abline(v = timing.P, col = 'pink', lty = 2) }
+    { abline(v = timing.P, col = 'deeppink', lty = 2) }
     
     # legend
     legend(
       'right',
-      legend = c("Plants (P)",
-                 "Humans (H)",
-                 "Plants (K.P)",
-                 "Humans (K.H)"),
+      legend = legend.labels$pop,
       col = c('red', 'blue', 'darkred', 'darkblue'),
       lty = c(1, 1, 2, 2),
-      cex = scaleMultiplier * 0.8
+      cex = scaleMultiplier * cex.legend
     )
     
     ### 2. Increments (delta)
@@ -93,21 +157,20 @@ hpcModel.plot <-
     )
     points(TRAJ$d.P, type = 'l', col = 'red')
     
-    abline(h = 0, lty = 2)
+    lines(c(0, t), c(0, 0), lty = 2)
     
     if (timing.H != 0)
-    { abline(v = timing.H, col = 'cyan', lty = 2) }
+    { abline(v = timing.H, col = 'dodgerblue', lty = 2) }
     if (timing.P != 0)
-    { abline(v = timing.P, col = 'pink', lty = 2) }
+    { abline(v = timing.P, col = 'deeppink', lty = 2) }
     
     # legend
     legend(
       'right',
-      legend = c("Plants (d.P)",
-                 "Humans (d.H)"),
+      legend = legend.labels$pop.delta,
       lty = c(1, 1),
       col = c('red', 'blue'),
-      cex = scaleMultiplier * 0.8
+      cex = scaleMultiplier * cex.legend
     )
     
     ### 3. Utility
@@ -133,22 +196,17 @@ hpcModel.plot <-
            lty = 2)
     
     if (timing.H != 0)
-    { abline(v = timing.H, col = 'cyan', lty = 2) }
+    { abline(v = timing.H, col = 'dodgerblue', lty = 2) }
     if (timing.P != 0)
-    { abline(v = timing.P, col = 'pink', lty = 2) }
+    { abline(v = timing.P, col = 'deeppink', lty = 2) }
     
     # legend
     legend(
       'right',
-      legend = c(
-        "Plants to Humans (U.PH)",
-        "Humans to Plants (U.HP))",
-        "Other to Humans (U.bH)",
-        "Other to Plants (U.bP)"
-      ),
+      legend = legend.labels$util,
       col = c('blue', 'red', 'darkblue', 'darkred'),
       lty = c(1, 1, 2, 2),
-      cex = scaleMultiplier * 0.8
+      cex = scaleMultiplier * cex.legend
     )
     
     # 4. Coevolution and dependency coefficients
@@ -169,27 +227,24 @@ hpcModel.plot <-
     points(TRAJ$depend.H, type = 'l', lty = 2, col = 'darkblue')
     points(TRAJ$depend.P, type = 'l', lty = 2, col = 'darkred')
     
-    abline(h = 0, lty = 2)
+    lines(c(0, t), c(0, 0), lty = 2)
     
     if (timing.H != 0)
-    { abline(v = timing.H, col = 'cyan', lty = 2) }
+    { abline(v = timing.H, col = 'dodgerblue', lty = 2) }
     if (timing.P != 0)
-    { abline(v = timing.P, col = 'pink', lty = 2) }
+    { abline(v = timing.P, col = 'deeppink', lty = 2) }
     
     # legend
     legend(
       'right',
-      legend = c("Human change (coevo.H)",
-                 "Plant change (coevo.P)",
-                 "Human dependency (depend.H)",
-                 "Plant dependency (depend.P)"),
+      legend = legend.labels$coevo,
       lty = c(1, 1, 2, 2),
       col = c('blue', 'red', 'darkblue', 'darkred'),
-      cex = scaleMultiplier * 0.8
+      cex = scaleMultiplier * cex.legend
     )
     
     ### 6. & 7. population types
-    par(mar = c(2, 3, 2, 0.3), cex.main = scaleMultiplier)
+    par(mar = c(2, 3, 2, 0.3), cex.main = scaleMultiplier * cex.rightPlots.titles)
     
     barplot(TYPES$pop.H[t,],
             main = 'population per type',
@@ -197,7 +252,7 @@ hpcModel.plot <-
             width = 0.86,
             ylim = c(0, 1))
     text(PARS$n.H/2, 0.9, labels = 'humans', 
-         font = 4, cex = scaleMultiplier)
+         font = 4, cex = scaleMultiplier * cex.rightPlots.subtitles)
     
     par(mar = c(3, 3, 1, 0.3))
     barplot(TYPES$pop.P[t,],
@@ -206,7 +261,7 @@ hpcModel.plot <-
             ylim = c(0, 1),
             xlab = '')
     text(PARS$n.P/2, 0.9, labels = 'plants', 
-         font = 4, cex = scaleMultiplier)
+         font = 4, cex = scaleMultiplier * cex.rightPlots.subtitles)
     
     # 8. & 9. fitness
     par(mar = c(2, 3, 2, 0.3))
@@ -222,7 +277,7 @@ hpcModel.plot <-
       xlab = ''
     )
     text(PARS$n.H/2, max(1E-6, TYPES$fitness.H[t,], na.rm = T), labels = 'humans', 
-         font = 4, cex = scaleMultiplier)
+         font = 4, cex = scaleMultiplier * cex.rightPlots.subtitles)
     
     par(mar = c(3, 3, 1, 0.3))
     plot(
@@ -235,27 +290,30 @@ hpcModel.plot <-
       xlab = ''
     )
     text(PARS$n.P/2, max(1E-6, TYPES$fitness.P[t,], na.rm = T), labels = 'plants', 
-         font = 4, cex = scaleMultiplier)
+         font = 4, cex = scaleMultiplier * cex.rightPlots.subtitles)
     
     par(mar = c(0, 0, 0, 0))
     
-    ### add title plot
-    plot(
-      c(0, 1),
-      c(0, 1),
-      ann = F,
-      bty = 'n',
-      type = 'n',
-      xaxt = 'n',
-      yaxt = 'n'
-    )
-    text(
-      0.5,
-      0.55,
-      labels = 'Human-Plant\nCoevolution\nmodel',
-      cex = 2 * scaleMultiplier,
-      font = 2
-    )
+    if (layout == "B")
+    {
+      ### add title plot
+      plot(
+        c(0, 1),
+        c(0, 1),
+        ann = F,
+        bty = 'n',
+        type = 'n',
+        xaxt = 'n',
+        yaxt = 'n'
+      )
+      text(
+        0.5,
+        0.55,
+        labels = 'Human-Plant\nCoevolution\nmodel',
+        cex = scaleMultiplier * cex.title,
+        font = 2
+      )
+    }
     
     ### add t axis title plot
     plot(
@@ -267,7 +325,17 @@ hpcModel.plot <-
       xaxt = 'n',
       yaxt = 'n'
     )
-    text(0.6, 0.8, labels = 'time', cex = scaleMultiplier)
+    text(0.6, 0.8, labels = 'time', cex = scaleMultiplier * cex.lab)
+    
+    legend(
+      -0.02, 1.5,
+      legend = legend.labels$timing,
+      lty = c(2, 2),
+      col = c('dodgerblue', 'deeppink'),
+      cex = scaleMultiplier * cex.legend,
+      horiz = legend.timing.horiz,
+      bty = "n"
+    )
     
     ### add types axis title plot
     plot(
@@ -279,7 +347,7 @@ hpcModel.plot <-
       xaxt = 'n',
       yaxt = 'n'
     )
-    text(0.6, 0.65, labels = '"wild" <---> "domesticated"', cex = scaleMultiplier)
+    text(0.6, 0.65, labels = 'types', cex = scaleMultiplier * cex.lab)
     
     ### add parameters values
     plot(
@@ -295,14 +363,15 @@ hpcModel.plot <-
     text(0.5,
          0.75,
          labels = 'Parameter setting:',
-         cex = scaleMultiplier * 1.2,
+         cex = scaleMultiplier * cex.pars,
          font = 2)
     
     parNameAndValue1 <- ''
     parNameAndValue2 <- ''
+    parNameAndValue3 <- ''
     for (i in 1:length(PARS))
     {
-      if (i < 12)
+      if (i < 9)
       {
         parNameAndValue1 <-
           paste(parNameAndValue1, names(PARS)[i], ' = ', PARS[[i]], sep = '')
@@ -310,21 +379,36 @@ hpcModel.plot <-
       }
       else
       {
-        parNameAndValue2 <-
-          paste(parNameAndValue2, names(PARS)[i], ' = ', PARS[[i]], sep = '')
-        if (i < length(PARS))
+        if (i < 15)
         {
-          parNameAndValue2 <- paste0(parNameAndValue2, ', ')
+          parNameAndValue2 <-
+            paste(parNameAndValue2, names(PARS)[i], ' = ', PARS[[i]], sep = '')
+          if (i < length(PARS))
+          {
+            parNameAndValue2 <- paste0(parNameAndValue2, ', ')
+          }
+        }
+        else
+        {
+          parNameAndValue3 <-
+            paste(parNameAndValue3, names(PARS)[i], ' = ', PARS[[i]], sep = '')
+          if (i < length(PARS))
+          {
+            parNameAndValue3 <- paste0(parNameAndValue3, ', ')
+          }
         }
       }
     }
     
     text(0.5, 0.5,
          labels = parNameAndValue1,
-         cex = scaleMultiplier)
-    text(0.5, 0.25,
+         cex = scaleMultiplier * cex.pars)
+    text(0.5, 0.3,
          labels = parNameAndValue2,
-         cex = scaleMultiplier)
+         cex = scaleMultiplier * cex.pars)
+    text(0.5, 0.1,
+         labels = parNameAndValue3,
+         cex = scaleMultiplier * cex.pars)
     
     # sleep
     Sys.sleep(device.sleep)

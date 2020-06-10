@@ -17,6 +17,8 @@ require(reshape2)
 require(ggplot2)
 require(scales)
 require(kableExtra)
+require(purrr)
+require(magick)
 ```
 
 ```{r 1_table-functions}
@@ -125,7 +127,7 @@ if(!file.exists('plots/runPlot/run.coevo.coeta-anim.gif'))
 }
 
 # load
-load('data/1_run.coevo.coeta.RData')
+load(file = 'data/1_run.coevo.coeta.RData')
 ```
 
 ```{r 1runcoevocoetaparshtml, eval=!params$ispdf, cache=TRUE, dependson='run.coevo.coeta', fig.align='center', results='asis'}

@@ -215,6 +215,7 @@ PARS <- as.data.frame(LHS)
 ```
 
 ```{r 5LHStablehtml, eval=!params$ispdf, cache=TRUE, dependson='5_LHS-load'}
+source("library/plotting/exp.table.multiple.R") # sometimes bookdown rendering will act up and ignore the chunks loading functions
 exp.table.multiple(PARS, numberOfParameters = 15, caption = 'ACTUAL parameter values')
 ```
 ```{r 5LHStablepdf, eval=params$ispdf, cache=TRUE, dependson='5_LHS-load'}
@@ -455,6 +456,8 @@ if(!file.exists('data/5_exp.LHS.trajectories.RData'))
 ```{r 5_overview-trajectories-plot, include=FALSE, cache=TRUE}
 load('data/5_exp.LHS.trajectories.RData')
 
+source("library/plotting/trajectories.ggplot.R")
+
 overview.variable.name = 'pop'
 
 plotScale = 10
@@ -661,6 +664,8 @@ load('data/5_RF.coevo.P.RData')
 ```
 
 ```{r 5_RF-coevo-plots, include=FALSE, cache=TRUE}
+source("library/plotting/varImpPlot2.R") # sometimes bookdown rendering will act up and ignore the chunks loading functions
+
 plotScale = 2
 
 png("plots/5_multiplePar-RF-coevo.png", width = 640 * plotScale, height = 360 * plotScale)
@@ -794,6 +799,8 @@ knitr::include_graphics(paste0("plots/5_multiplePar-RF-timing.png"))
 \sectionmark{Visualising effect of $\bar{U}_{H_{n}P}$}
 
 ```{r 5_overview-collapsed-plot, include=FALSE, cache=TRUE}
+source("library/plotting/collapsed.ggplot.R")
+
 parEffect.variable.name = 'coevo'
 plotScale = 10
 
@@ -818,6 +825,7 @@ knitr::include_graphics(paste0("plots/5_multiplePar-", parEffect.variable.name, 
 **_Coevolution coefficients_**
 
 ```{r 5_scenarios-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/parameters.effect.ggplot.R")
 
 plotScale = 10
 
@@ -840,6 +848,7 @@ knitr::include_graphics("plots/5_multiplePar-coevo-ggplot.png")
 **_Dependency coefficients_**
 
 ```{r 5_scenarios-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/parameters.effect.ggplot.R")
 
 plotScale = 10
 
@@ -939,6 +948,7 @@ exp.LHS_bothLessBase <- factor(as.character(exp.LHS$U.bP1 > exp.LHS$U.bPn & exp.
 **_Coevolution coefficients_**
 
 ```{r 5_scenarios-humanImprove-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/parameter.x.scenario.ggplot.R")
 
 plotScale = 10
 
@@ -963,6 +973,7 @@ knitr::include_graphics("plots/5_multiplePar-coevo-humanImprove-ggplot.png")
 **_Dependency coefficients_**
 
 ```{r 5_scenarios-humanImprove-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/parameter.x.scenario.ggplot.R")
 
 plotScale = 10
 
@@ -988,6 +999,7 @@ knitr::include_graphics("plots/5_multiplePar-depend-humanImprove-ggplot.png")
 **_Timings_**
 
 ```{r 5_scenarios-humanImprove-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/parameter.x.scenario.ggplot.R")
 
 plotScale = 10
 
@@ -1018,6 +1030,7 @@ knitr::include_graphics("plots/5_multiplePar-timing-humanImprove-ggplot.png")
 **_Coevolution coefficients_**
 
 ```{r 5_scenarios-plantImprove-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/parameter.x.scenario.ggplot.R")
 
 plotScale = 10
 
@@ -1042,6 +1055,7 @@ knitr::include_graphics("plots/5_multiplePar-coevo-plantImprove-ggplot.png")
 **_Dependency coefficients_**
 
 ```{r 5_scenarios-plantImprove-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/parameter.x.scenario.ggplot.R")
 
 plotScale = 10
 
@@ -1067,6 +1081,7 @@ knitr::include_graphics("plots/5_multiplePar-depend-plantImprove-ggplot.png")
 **_Timings_**
 
 ```{r 5_scenarios-plantImprove-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/parameter.x.scenario.ggplot.R")
 
 plotScale = 10
 
@@ -1097,6 +1112,7 @@ knitr::include_graphics("plots/5_multiplePar-timing-plantImprove-ggplot.png")
 **_Coevolution coefficients_**
 
 ```{r 5_scenarios-bothImprove-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/parameter.x.scenario.ggplot.R")
 
 plotScale = 10
 
@@ -1121,6 +1137,7 @@ knitr::include_graphics("plots/5_multiplePar-coevo-bothImprove-ggplot.png")
 **_Dependency coefficients_**
 
 ```{r 5_scenarios-bothImprove-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/parameter.x.scenario.ggplot.R")
 
 plotScale = 10
 
@@ -1146,6 +1163,7 @@ knitr::include_graphics("plots/5_multiplePar-depend-bothImprove-ggplot.png")
 **_Timings_**
 
 ```{r 5_scenarios-bothImprove-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/parameter.x.scenario.ggplot.R")
 
 plotScale = 10
 
@@ -1176,6 +1194,7 @@ knitr::include_graphics("plots/5_multiplePar-timing-bothImprove-ggplot.png")
 **_Coevolution coefficients_**
 
 ```{r 5_scenarios-humanLessBase-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/parameter.x.scenario.ggplot.R")
 
 plotScale = 10
 
@@ -1200,6 +1219,7 @@ knitr::include_graphics("plots/5_multiplePar-coevo-humanLessBase-ggplot.png")
 **_Dependency coefficients_**
 
 ```{r 5_scenarios-humanLessBase-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/parameter.x.scenario.ggplot.R")
 
 plotScale = 10
 
@@ -1225,6 +1245,7 @@ knitr::include_graphics("plots/5_multiplePar-depend-humanLessBase-ggplot.png")
 **_Timings_**
 
 ```{r 5_scenarios-humanLessBase-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/parameter.x.scenario.ggplot.R")
 
 plotScale = 10
 
@@ -1255,6 +1276,7 @@ knitr::include_graphics("plots/5_multiplePar-timing-humanLessBase-ggplot.png")
 **_Coevolution coefficients_**
 
 ```{r 5_scenarios-plantLessBase-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/parameter.x.scenario.ggplot.R")
 
 plotScale = 10
 
@@ -1279,6 +1301,7 @@ knitr::include_graphics("plots/5_multiplePar-coevo-plantLessBase-ggplot.png")
 **_Dependency coefficients_**
 
 ```{r 5_scenarios-plantLessBase-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/parameter.x.scenario.ggplot.R")
 
 plotScale = 10
 
@@ -1304,6 +1327,7 @@ knitr::include_graphics("plots/5_multiplePar-depend-plantLessBase-ggplot.png")
 **_Timings_**
 
 ```{r 5_scenarios-plantLessBase-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/parameter.x.scenario.ggplot.R")
 
 plotScale = 10
 
@@ -1334,6 +1358,7 @@ knitr::include_graphics("plots/5_multiplePar-timing-plantLessBase-ggplot.png")
 **_Coevolution coefficients_**
 
 ```{r 5_scenarios-bothLessBase-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/parameter.x.scenario.ggplot.R")
 
 plotScale = 10
 
@@ -1358,6 +1383,7 @@ knitr::include_graphics("plots/5_multiplePar-coevo-bothLessBase-ggplot.png")
 **_Dependency coefficients_**
 
 ```{r 5_scenarios-bothLessBase-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/parameter.x.scenario.ggplot.R")
 
 plotScale = 10
 
@@ -1383,6 +1409,7 @@ knitr::include_graphics("plots/5_multiplePar-depend-bothLessBase-ggplot.png")
 **_Timings_**
 
 ```{r 5_scenarios-bothLessBase-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/parameter.x.scenario.ggplot.R")
 
 plotScale = 10
 

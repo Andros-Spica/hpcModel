@@ -24,6 +24,11 @@ source("library/plotting/varImpPlot2.R")
 source("library/plotting/trajectories.ggplot.R")
 source("library/plotting/fourPar.ggplot.R")
 
+## Select output type (png or eps)
+## ----------------------
+outputType = "png"
+# outputType = "eps"
+
 ## this is the 'default' parameter setting (end state is 'fast coevolution')
 ## ----------------------
 ### initial populations
@@ -70,23 +75,26 @@ load('data/5_exp.LHS.trajectories.RData')
 
 plotName = "Fig3"
 
-plotScale = 10
-png(paste0("plots/figures/", plotName, ".png"),
-    width = 100 * plotScale, height = 50 * plotScale)
-#---------
-# alternatively, to create eps file:
-# plotScale = 8
-# extrafont::loadfonts(device = "postscript")
-# grDevices::postscript(file = paste0("plots/figures/", plotName, ".eps"),
-#                       pointsize = 10,
-#                       width = 10,
-#                       height = 10,
-#                       horizontal = FALSE,
-#                       paper = "special",
-#                       onefile = FALSE,
-#                       family = "sans",
-#                       colormodel = "cmyk")
-#---------
+if (outputType == "png")
+{
+  plotScale = 10
+  png(paste0("plots/figures/", plotName, ".png"),
+      width = 100 * plotScale, height = 50 * plotScale)
+}
+if (outputType == "eps")
+{
+  plotScale = 8
+  extrafont::loadfonts(device = "postscript")
+  grDevices::postscript(file = paste0("plots/figures/", plotName, ".eps"),
+                        pointsize = 10,
+                        width = 10,
+                        height = 10,
+                        horizontal = FALSE,
+                        paper = "special",
+                        onefile = FALSE,
+                        family = "sans",
+                        colormodel = "cmyk")
+}
 
 trajectories.ggplot(exp.LHS.trajectories, 
                     c('H', 'P'), c('coevo.H', 'coevo.P'),
@@ -129,21 +137,25 @@ run.coevo.coeta <- hpcModel.run(
 
 plotName = "Fig5"
 
-png(paste0("plots/figures/", plotName, ".png"),
-    width = 1000, height = 1000)
-#---------
-# alternatively, to create eps file:
-# extrafont::loadfonts(device = "postscript")
-# grDevices::postscript(file = paste0("plots/figures/", plotName, ".eps"),
-#                       pointsize = 10,
-#                       width = 10,
-#                       height = 10,
-#                       horizontal = FALSE,
-#                       paper = "special",
-#                       onefile = FALSE,
-#                       family = "sans",
-#                       colormodel = "cmyk")
-#---------
+if (outputType == "png")
+{
+  png(paste0("plots/figures/", plotName, ".png"),
+      width = 1000, height = 1000)
+}
+if (outputType == "eps")
+{
+  extrafont::loadfonts(device = "postscript")
+  grDevices::postscript(file = paste0("plots/figures/", plotName, ".eps"),
+                        pointsize = 10,
+                        width = 10,
+                        height = 10,
+                        horizontal = FALSE,
+                        paper = "special",
+                        onefile = FALSE,
+                        family = "sans",
+                        colormodel = "cmyk")
+}
+
 hpcModel.plot(run.coevo.coeta)
 dev.off()
 
@@ -181,21 +193,25 @@ run.no.coevo <- hpcModel.run(
 
 plotName = "Fig4"
 
-png(paste0("plots/figures/", plotName, ".png"),
-    width = 1000, height = 1000)
-#---------
-# alternatively, to create eps file:
-# extrafont::loadfonts(device = "postscript")
-# grDevices::postscript(file = paste0("plots/figures/", plotName, ".eps"),
-#                       pointsize = 10,
-#                       width = 10,
-#                       height = 10,
-#                       horizontal = FALSE,
-#                       paper = "special",
-#                       onefile = FALSE,
-#                       family = "sans",
-#                       colormodel = "cmyk")
-#---------
+if (outputType == "png")
+{
+  png(paste0("plots/figures/", plotName, ".png"),
+      width = 1000, height = 1000)
+}
+if (outputType == "eps")
+{
+  extrafont::loadfonts(device = "postscript")
+  grDevices::postscript(file = paste0("plots/figures/", plotName, ".eps"),
+                        pointsize = 10,
+                        width = 10,
+                        height = 10,
+                        horizontal = FALSE,
+                        paper = "special",
+                        onefile = FALSE,
+                        family = "sans",
+                        colormodel = "cmyk")
+}
+
 hpcModel.plot(run.no.coevo)
 dev.off()
 
@@ -233,21 +249,25 @@ run.semicoevo <- hpcModel.run(
 
 plotName = "Fig-partialCoevo"
 
-png(paste0("plots/figures/", plotName, ".png"),
-    width = 1000, height = 1000)
-#---------
-# alternatively, to create eps file:
-# extrafont::loadfonts(device = "postscript")
-# grDevices::postscript(file = paste0("plots/figures/", plotName, ".eps"),
-#                       pointsize = 10,
-#                       width = 10,
-#                       height = 10,
-#                       horizontal = FALSE,
-#                       paper = "special",
-#                       onefile = FALSE,
-#                       family = "sans",
-#                       colormodel = "cmyk")
-#---------
+if (outputType == "png")
+{
+  png(paste0("plots/figures/", plotName, ".png"),
+      width = 1000, height = 1000)
+}
+if (outputType == "eps")
+{
+  extrafont::loadfonts(device = "postscript")
+  grDevices::postscript(file = paste0("plots/figures/", plotName, ".eps"),
+                        pointsize = 10,
+                        width = 10,
+                        height = 10,
+                        horizontal = FALSE,
+                        paper = "special",
+                        onefile = FALSE,
+                        family = "sans",
+                        colormodel = "cmyk")
+}
+
 hpcModel.plot(run.semicoevo)
 dev.off()
 
@@ -283,21 +303,25 @@ run.semicoevo.osc2 <- hpcModel.run(
 
 plotName = "Fig-partialCoevo-osc"
 
-png(paste0("plots/figures/", plotName, ".png"),
-    width = 1000, height = 1000)
-#---------
-# alternatively, to create eps file:
-# extrafont::loadfonts(device = "postscript")
-# grDevices::postscript(file = paste0("plots/figures/", plotName, ".eps"),
-#                       pointsize = 10,
-#                       width = 10,
-#                       height = 10,
-#                       horizontal = FALSE,
-#                       paper = "special",
-#                       onefile = FALSE,
-#                       family = "sans",
-#                       colormodel = "cmyk")
-#---------
+if (outputType == "png")
+{
+  png(paste0("plots/figures/", plotName, ".png"),
+      width = 1000, height = 1000)
+}
+if (outputType == "eps")
+{
+  extrafont::loadfonts(device = "postscript")
+  grDevices::postscript(file = paste0("plots/figures/", plotName, ".eps"),
+                        pointsize = 10,
+                        width = 10,
+                        height = 10,
+                        horizontal = FALSE,
+                        paper = "special",
+                        onefile = FALSE,
+                        family = "sans",
+                        colormodel = "cmyk")
+}
+
 hpcModel.plot(run.semicoevo.osc2)
 dev.off()
 
@@ -311,23 +335,27 @@ load('data/5_RF.coevo.P.RData')
 
 plotName = "Fig6"
 
-plotScale = 2
-png(paste0("plots/figures/", plotName, ".png"),
-    width = 640 * plotScale, height = 360 * plotScale)
-#---------
-# alternatively, to create eps file:
-# plotScale = 1.2
-# extrafont::loadfonts(device = "postscript")
-# grDevices::postscript(file = paste0("plots/figures/", plotName, ".eps"),
-#                       pointsize = 10,
-#                       width = 7,
-#                       height = 7,
-#                       horizontal = FALSE,
-#                       paper = "special",
-#                       onefile = FALSE,
-#                       family = "sans",
-#                       colormodel = "cmyk")
-#---------
+if (outputType == "png")
+{
+  plotScale = 2
+  png(paste0("plots/figures/", plotName, ".png"),
+      width = 640 * plotScale, height = 360 * plotScale)
+}
+if (outputType == "eps")
+{
+  plotScale = 1.2
+  extrafont::loadfonts(device = "postscript")
+  grDevices::postscript(file = paste0("plots/figures/", plotName, ".eps"),
+                        pointsize = 10,
+                        width = 7,
+                        height = 7,
+                        horizontal = FALSE,
+                        paper = "special",
+                        onefile = FALSE,
+                        family = "sans",
+                        colormodel = "cmyk")
+}
+
 varImpPlot2Pair(RF.coevo.H, RF.coevo.P, cex = plotScale)
 dev.off()
 
@@ -340,23 +368,26 @@ load('data/4_exp.n_v.RData')
 
 plotName = "Fig-nxv"
 
-# plotScale = 10
-# png(paste0("plots/figures/", plotName, ".png"),
-#     width = 100 * plotScale, height = 100 * plotScale)
-#---------
-# alternatively, to create eps file:
-plotScale = 6
-extrafont::loadfonts(device = "postscript")
-grDevices::postscript(file = paste0("plots/figures/", plotName, ".eps"),
-                      pointsize = 10,
-                      width = 10,
-                      height = 10,
-                      horizontal = FALSE,
-                      paper = "special",
-                      onefile = FALSE,
-                      family = "sans",
-                      colormodel = "cmyk")
-#---------
+if (outputType == "png")
+{
+  plotScale = 10
+  png(paste0("plots/figures/", plotName, ".png"),
+      width = 100 * plotScale, height = 100 * plotScale)
+}
+if (outputType == "eps")
+{
+  plotScale = 6
+  extrafont::loadfonts(device = "postscript")
+  grDevices::postscript(file = paste0("plots/figures/", plotName, ".eps"),
+                        pointsize = 10,
+                        width = 10,
+                        height = 10,
+                        horizontal = FALSE,
+                        paper = "special",
+                        onefile = FALSE,
+                        family = "sans",
+                        colormodel = "cmyk")
+}
 
 fourPar.ggplot(exp.n_v, 'v.H', 'v.P', 'n.H', 'n.P', 'coevo.H', 'coevo.P', 
                xlab = expression(v['H']),
@@ -375,23 +406,26 @@ load('data/4_exp.U.bH_U.PH.RData')
 
 plotName = "Fig7"
 
-plotScale = 10
-png(paste0("plots/figures/", plotName, ".png"),
-    width = 100 * plotScale, height = 100 * plotScale)
-#---------
-# alternatively, to create eps file:
-# plotScale = 7
-# extrafont::loadfonts(device = "postscript")
-# grDevices::postscript(file = paste0("plots/figures/", plotName, ".eps"),
-#                       pointsize = 10,
-#                       width = 10,
-#                       height = 10,
-#                       horizontal = FALSE,
-#                       paper = "special",
-#                       onefile = FALSE,
-#                       family = "sans",
-#                       colormodel = "cmyk")
-#---------
+if (outputType == "png")
+{
+  plotScale = 10
+  png(paste0("plots/figures/", plotName, ".png"),
+      width = 100 * plotScale, height = 100 * plotScale)
+}
+if (outputType == "eps")
+{
+  plotScale = 7
+  extrafont::loadfonts(device = "postscript")
+  grDevices::postscript(file = paste0("plots/figures/", plotName, ".eps"),
+                        pointsize = 10,
+                        width = 10,
+                        height = 10,
+                        horizontal = FALSE,
+                        paper = "special",
+                        onefile = FALSE,
+                        family = "sans",
+                        colormodel = "cmyk")
+}
 
 fourPar.ggplot(exp.U.bH_U.PH, 'U.bH1', 'U.bHn', 'mU.P1H', 'mU.PnH', 'coevo.H', 'coevo.P', 
                xlab = expression(U['bH1']),

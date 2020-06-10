@@ -114,13 +114,14 @@ if(!file.exists('data/3_exp.mU.HnP_mU.PnH.RData'))
 ```
 
 
-```{r 5_exp.mU.HnP_mU.PnH-load, include=FALSE}
+```{r 3_exp.mU.HnP_mU.PnH-load, include=FALSE}
 # load
 load('data/3_exp.mU.HnP_mU.PnH.RData')
 ```
 
 
 ```{r 3mUHnPmUPnHtablehtml, eval=!params$ispdf, cache=TRUE, dependson='3_mU.HnP_mU.PnH'}
+source("library/plotting/exp.table.R") # sometimes bookdown rendering will act up and ignore the chunks loading functions
 exp.table(exp.mU.HnP_mU.PnH, caption = 'Parameter setting')
 ```
 
@@ -195,7 +196,7 @@ if(!file.exists('data/3_exp.n.H_n.P.RData'))
 ```
 
 
-```{r 5_exp.n.H_n.P-load, include=FALSE}
+```{r 3_exp.n.H_n.P-load, include=FALSE}
 # load
 load('data/3_exp.n.H_n.P.RData')
 ```
@@ -263,7 +264,7 @@ if(!file.exists('data/3_exp.v.H_v.P.RData'))
 ```
 
 
-```{r 5_exp.v.H_v.P-load, include=FALSE}
+```{r 3_exp.v.H_v.P-load, include=FALSE}
 # load
 load('data/3_exp.v.H_v.P.RData')
 ```
@@ -330,7 +331,7 @@ if(!file.exists('data/3_exp.mU.H1P_mU.P1H.RData'))
 }
 ```
 
-```{r 5_exp.mU.H1P_mU.P1H-load, include=FALSE}
+```{r 3_exp.mU.H1P_mU.P1H-load, include=FALSE}
 # load
 load('data/3_exp.mU.H1P_mU.P1H.RData')
 ```
@@ -406,7 +407,7 @@ if(!file.exists('data/3_exp.mU.H1P_mU.HnP.RData'))
 }
 ```
 
-```{r 5_exp.mU.H1P_mU.HnP-load, include=FALSE}
+```{r 3_exp.mU.H1P_mU.HnP-load, include=FALSE}
 # load
 load('data/3_exp.mU.H1P_mU.HnP.RData')
 ```
@@ -473,7 +474,7 @@ if(!file.exists('data/3_exp.mU.P1H_mU.PnH.RData'))
 }
 ```
 
-```{r 5_exp.mU.P1H_mU.PnH-load, include=FALSE}
+```{r 3_exp.mU.P1H_mU.PnH-load, include=FALSE}
 # load
 load('data/3_exp.mU.P1H_mU.PnH.RData')
 ```
@@ -540,7 +541,7 @@ if(!file.exists('data/3_exp.U.bH1_U.bP1.RData'))
 }
 ```
 
-```{r 5_exp.U.bH1_U.bP1-load, include=FALSE}
+```{r 3_exp.U.bH1_U.bP1-load, include=FALSE}
 # load
 load('data/3_exp.U.bH1_U.bP1.RData')
 ```
@@ -607,7 +608,7 @@ if(!file.exists('data/3_exp.U.bHn_U.bPn.RData'))
 }
 ```
 
-```{r 5_exp.U.bHn_U.bPn-load, include=FALSE}
+```{r 3_exp.U.bHn_U.bPn-load, include=FALSE}
 # load
 load('data/3_exp.U.bHn_U.bPn.RData')
 ```
@@ -674,7 +675,7 @@ if(!file.exists('data/3_exp.U.bH1_U.bHn.RData'))
 }
 ```
 
-```{r 5_exp.U.bH1_U.bHn-load, include=FALSE}
+```{r 3_exp.U.bH1_U.bHn-load, include=FALSE}
 # load
 load('data/3_exp.U.bH1_U.bHn.RData')
 ```
@@ -741,7 +742,7 @@ if(!file.exists('data/3_exp.U.bP1_U.bPn.RData'))
 }
 ```
 
-```{r 5_exp.U.bP1_U.bPn-load, include=FALSE}
+```{r 3_exp.U.bP1_U.bPn-load, include=FALSE}
 # load
 load('data/3_exp.U.bP1_U.bPn.RData')
 ```
@@ -806,7 +807,7 @@ if(!file.exists('data/3_exp.U.bH1_mU.H1P.RData'))
 }
 ```
 
-```{r 5_exp.U.bH1_mU.H1P-load, include=FALSE}
+```{r 3_exp.U.bH1_mU.H1P-load, include=FALSE}
 # load
 load('data/3_exp.U.bH1_mU.H1P.RData')
 ```
@@ -872,7 +873,7 @@ if(!file.exists('data/3_exp.U.bP1_mU.P1H.RData'))
 }
 ```
 
-```{r 5_exp.U.bP1_mU.P1H-load, include=FALSE}
+```{r 3_exp.U.bP1_mU.P1H-load, include=FALSE}
 # load
 load('data/3_exp.U.bP1_mU.P1H.RData')
 ```
@@ -938,7 +939,7 @@ if(!file.exists('data/3_exp.U.bHn_mU.HnP.RData'))
 }
 ```
 
-```{r 5_exp.U.bHn_mU.HnPload, include=FALSE}
+```{r 3_exp.U.bHn_mU.HnPload, include=FALSE}
 # load
 load('data/3_exp.U.bHn_mU.HnP.RData')
 ```
@@ -1004,7 +1005,7 @@ if(!file.exists('data/3_exp.U.bPn_mU.PnH.RData'))
 }
 ```
 
-```{r 5_exp.U.bPn_mU.PnH.HnPload, include=FALSE}
+```{r 3_exp.U.bPn_mU.PnH.HnPload, include=FALSE}
 # load
 load('data/3_exp.U.bPn_mU.PnH.RData')
 ```
