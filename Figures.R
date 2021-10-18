@@ -27,7 +27,7 @@ source("library/plotting/fourPar.ggplot.R")
 ## Select output type (png or eps)
 ## ----------------------
 outputType = "png"
-# outputType = "eps"
+#outputType = "eps"
 
 ## this is the 'default' parameter setting (end state is 'fast coevolution')
 ## ----------------------
@@ -301,7 +301,7 @@ run.semicoevo.osc2 <- hpcModel.run(
   plot.save = FALSE
 )
 
-plotName = "Fig-partialCoevo-osc"
+plotName = "Fig6"#"Fig-partialCoevo-osc"
 
 if (outputType == "png")
 {
@@ -333,13 +333,13 @@ dev.off()
 load('data/5_RF.coevo.H.RData')
 load('data/5_RF.coevo.P.RData')
 
-plotName = "Fig6"
+plotName = "Fig7"
 
 if (outputType == "png")
 {
-  plotScale = 2
+  plotScale = 4
   png(paste0("plots/figures/", plotName, ".png"),
-      width = 640 * plotScale, height = 360 * plotScale)
+      width = 350 * plotScale, height = 350 * plotScale)
 }
 if (outputType == "eps")
 {
@@ -347,8 +347,8 @@ if (outputType == "eps")
   extrafont::loadfonts(device = "postscript")
   grDevices::postscript(file = paste0("plots/figures/", plotName, ".eps"),
                         pointsize = 10,
-                        width = 7,
-                        height = 7,
+                        width = 7 * plotScale,
+                        height = 7 * plotScale,
                         horizontal = FALSE,
                         paper = "special",
                         onefile = FALSE,
@@ -357,6 +357,44 @@ if (outputType == "eps")
 }
 
 varImpPlot2Pair(RF.coevo.H, RF.coevo.P, cex = plotScale)
+dev.off()
+
+#########################
+# Figure - mutual utility
+# -----------------------
+
+# load
+load('data/4_exp.U.bH_U.PH.RData')
+
+plotName = "Fig8"
+
+if (outputType == "png")
+{
+  plotScale = 10
+  png(paste0("plots/figures/", plotName, ".png"),
+      width = 100 * plotScale, height = 100 * plotScale)
+}
+if (outputType == "eps")
+{
+  plotScale = 7
+  extrafont::loadfonts(device = "postscript")
+  grDevices::postscript(file = paste0("plots/figures/", plotName, ".eps"),
+                        pointsize = 10,
+                        width = 10,
+                        height = 10,
+                        horizontal = FALSE,
+                        paper = "special",
+                        onefile = FALSE,
+                        family = "sans",
+                        colormodel = "cmyk")
+}
+
+fourPar.ggplot(exp.U.bH_U.PH, 'U.bH1', 'U.bHn', 'mU.P1H', 'mU.PnH', 'coevo.H', 'coevo.P', 
+               xlab = expression(U['bH1']),
+               ylab = expression(U['bHn']),
+               var1lab = expression('coevo'[H]),
+               var2lab = expression('coevo'[P]),
+               plotScale = plotScale)
 dev.off()
 
 #########################
@@ -392,44 +430,6 @@ if (outputType == "eps")
 fourPar.ggplot(exp.n_v, 'v.H', 'v.P', 'n.H', 'n.P', 'coevo.H', 'coevo.P', 
                xlab = expression(v['H']),
                ylab = expression(v['P']),
-               var1lab = expression('coevo'[H]),
-               var2lab = expression('coevo'[P]),
-               plotScale = plotScale)
-dev.off()
-
-#########################
-# Figure - mutual utility
-# -----------------------
-
-# load
-load('data/4_exp.U.bH_U.PH.RData')
-
-plotName = "Fig7"
-
-if (outputType == "png")
-{
-  plotScale = 10
-  png(paste0("plots/figures/", plotName, ".png"),
-      width = 100 * plotScale, height = 100 * plotScale)
-}
-if (outputType == "eps")
-{
-  plotScale = 7
-  extrafont::loadfonts(device = "postscript")
-  grDevices::postscript(file = paste0("plots/figures/", plotName, ".eps"),
-                        pointsize = 10,
-                        width = 10,
-                        height = 10,
-                        horizontal = FALSE,
-                        paper = "special",
-                        onefile = FALSE,
-                        family = "sans",
-                        colormodel = "cmyk")
-}
-
-fourPar.ggplot(exp.U.bH_U.PH, 'U.bH1', 'U.bHn', 'mU.P1H', 'mU.PnH', 'coevo.H', 'coevo.P', 
-               xlab = expression(U['bH1']),
-               ylab = expression(U['bHn']),
                var1lab = expression('coevo'[H]),
                var2lab = expression('coevo'[P]),
                plotScale = plotScale)
