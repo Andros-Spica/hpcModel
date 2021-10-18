@@ -29,7 +29,7 @@ varImpPlot2Pair <- function(RF1, RF2, cex = 1)
   par(mar=c(0, 0, 0, 0))
   plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
   text(x = 0.3, y = 0.8, expression(paste(log[10], x)), 
-       cex = 1.6, col = "black", font = 4)
+       cex = 1.6 * cex, col = "black", font = 4)
   text(x = 0.83, y = 0.8, expression(paste(log[10], x)), 
-       cex = 1.6, col = "black", font = 4)
+       cex = 1.6 * cex, col = "black", font = 4)
 }
