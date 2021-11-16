@@ -4,11 +4,11 @@
 
 Contents related to the Human-Plant Coevolution model implemented in R. 
 
-![images/hpcModel-logo_v3.png](images/hpcModel-logo_v3.png)
+<img src="images/hpcModel-logo_v3.png" alt="Human-Plant Coevolution model logo" width="500"/>
 
 This repository includes the source files (library) and documentation of the HPC model, the sensitive analysis report (Rmarkdown), and a user interface for running and visualising simulations (Shiny app). 
 
-The entire repository is the directory of an R Project that runs in RStudio. Download it to consult and use all files locally. 
+The entire repository is the directory of an R Project that runs in RStudio. Download it to consult and use all files locally. Created and tested with R 3.6.2 and should be mostly compatible with later versions.
 
 Alternatively, explore the following online features:
 
