@@ -13,6 +13,7 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE, # hide code and messages
 source("library/hpcModel.run.R")
 source("library/hpcModel.exploration.R")
 source("library/hpcModel.plot.R")
+# pre-load packages used in this script or in source code
 require(reshape2)
 require(ggplot2)
 require(scales)
@@ -22,46 +23,50 @@ require(magick)
 ```
 
 ```{r 1_table-functions}
-source("library/plotting/run.table.R")
-source("library/plotting/exp.table.R")
+source("library/plotting/printTableRun.R")
 ```
 
 ```{r 1_default-values, cache=TRUE}
 # this is the 'default' parameter setting (end state is 'fast coevolution'):
 # initial populations
-iniH.default = 10
-iniP.default = 10
+initial_population_humans_default = 10
+initial_population_plants_default = 10
 # number of discrete types
-n.H.default = 30
-n.P.default = 30    
+number_types_humans_default = 30
+number_types_plants_default = 30    
 # undirected variation 
-v.H.default = 0.15
-v.P.default = 0.15
+undirected_variation_humans_default = 0.15
+undirected_variation_plants_default = 0.15
 # intrinsic growth rate 
-r.H.default = 0.04
-r.P.default = 0.1
+intrinsic_growth_rate_humans_default = 0.04
+intrinsic_growth_rate_plants_default = 0.1
 # Utility per capita of individuals of type N
-mU.PnH.default = 1.5
-mU.HnP.default = 1
+utility_per_capita_type_n_plants_to_humans_default = 1.5
+utility_per_capita_type_n_humans_to_plants_default = 1
 # Utility per capita of individuals of type 1
-mU.P1H.default = 0.15                           
-mU.H1P.default = 0                               
+utility_per_capita_type_1_plants_to_humans_default = 0.15                           
+utility_per_capita_type_1_humans_to_plants_default = 0                               
 # basic resources:
 # population of type N that can be sustained by resources independent of HP relationship
-U.bHn.default = 10                               
-U.bPn.default = 20
+utility_other_to_type_n_humans_default = 10                               
+utility_other_to_type_n_plants_default = 20
 # population of type 1 that can be sustained by resources independent of HP relationship
-U.bH1.default = 80                               
-U.bP1.default = 100                                 
+utility_other_to_type_1_humans_default = 80                               
+utility_other_to_type_1_plants_default = 100                                 
 # maximum local area to be used by populations (multiplier or scaling effect)
-MaxArea.default = 200
+max_area_default = 200
 # settings 
 # simulation flow & data
-maxIt.default = 5000
-tol.default = 6
-timing.threshold.default = 0.5
-saveTrajectories.default = TRUE
-messages.default = TRUE
+max_iterations_default = 5000
+relreltol_exponential_exponential_default = 6
+coevolution_threshold_default = 0.5
+save_trajectories_default = TRUE
+messages_default = TRUE
+# plotting and other
+plot_preview_default = FALSE
+plot_sleep_default = 0.05
+plot_save_default = TRUE
+plot_save_every_default = 5
 ```
 
 ```{r 1_plot-functions, include=FALSE}
@@ -69,10 +74,11 @@ messages.default = TRUE
 
 # for creating animates GIF, you need to install purrr and magick packages.
 
-runPlot.dir <- "plots/runPlot/" # directory holding animation files
+runPlotDirectory <- "plots/runPlot/" # directory holding animation files
+dataDirectory <- "data/1_run_"
 
-source("library/plotting/plot.trajectory.R")
-source("library/plotting/animate.trajectory.R")
+source("library/plotting/plotTrajectory.R")
+source("library/plotting/animateTrajectory.R")
 ```
 
 Attractors are system stable states, in which all variables become, at some level, predictable (i.e., they attract trajectories). For most of the conditions explored, the HPC model displays stationary points, which are attractors where variables converge and do not change unless the system is perturbed.
@@ -84,119 +90,129 @@ Another kind of attractor, oscillations, exists. A special case of oscillation o
 
 ## Fast coevolution (default)
 
-```{r 1_run.coevo.coeta-name, cache=TRUE}
-run.coevo.coeta.name <- "run.coevo.coeta"
+```{r 1_run_coevolution_sameTiming-name, cache=TRUE}
+run_coevolution_sameTiming_name <- "coevolution-sameTiming"
+
+run_coevolution_sameTiming_runDataFileName = paste0(dataDirectory, run_coevolution_sameTiming_name,'.RData')
+run_coevolution_sameTiming_animationFileName = paste0(runPlotDirectory, run_coevolution_sameTiming_name, "-anim.gif")
 ```
 
-```{r 1_run.coevo.coeta, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.coevo.coeta-name')}
-if(!file.exists('plots/runPlot/run.coevo.coeta-anim.gif'))
+```{r 1_run_coevolution_sameTiming, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run_coevolution_sameTiming-name')}
+if(!file.exists(run_coevolution_sameTiming_runDataFileName) | !file.exists(run_coevolution_sameTiming_animationFileName))
 {
-  run.coevo.coeta <- hpcModel.run(
-    iniH = iniH.default,
-    iniP = iniP.default,
-    n.H = n.H.default,         
-    n.P = n.P.default,        
-    v.H = v.H.default,
-    v.P = v.P.default,
-    r.H = r.H.default, 
-    r.P = r.P.default, 
-    mU.PnH = mU.PnH.default,
-    mU.HnP = mU.HnP.default,
-    mU.P1H = mU.P1H.default,                                  
-    mU.H1P = mU.H1P.default,                                   
-    U.bHn = U.bHn.default,                                
-    U.bPn = U.bPn.default, 
-    U.bH1 = U.bH1.default,                               
-    U.bP1 = U.bP1.default,                                 
-    MaxArea = MaxArea.default,
-    maxIt = maxIt.default,
-    tol = tol.default,
-    timing.threshold = timing.threshold.default,
-    saveTrajectories = saveTrajectories.default,
-    messages = messages.default, 
+  run_coevolution_sameTiming <- hpcModel.run(
+    initial_population_humans = initial_population_humans_default,
+    initial_population_plants = initial_population_plants_default,
+    number_types_humans = number_types_humans_default,         
+    number_types_plants = number_types_plants_default,        
+    undirected_variation_humans = undirected_variation_humans_default,
+    undirected_variation_plants = undirected_variation_plants_default,
+    intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+    intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+    utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_default,
+    utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+    utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_default,                                  
+    utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+    utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+    utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+    utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+    utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+    max_area = max_area_default,
+    max_iterations = max_iterations_default,
+    reltol_exponential = relreltol_exponential_exponential_default,
+    coevolution_threshold = coevolution_threshold_default,
+    save_trajectories = save_trajectories_default,
+    messages = messages_default, 
     # plotting
-    plot.preview = FALSE, 
-    plot.sleep = 0.05,
-    plot.save = TRUE,
-    plot.saveEvery = 5,
-    plot.directory = runPlot.dir,
-    plot.fileName = paste0(run.coevo.coeta.name, "-runPlot")
+    plot_preview = plot_preview_default, 
+    plot_sleep = plot_sleep_default,
+    plot_save = plot_save_default,
+    plot_save_every = plot_save_every_default,
+    plot_directory = runPlotDirectory,
+    plot_file_name = paste0(run_coevolution_sameTiming_name, "-runPlot")
   )
   # save
-  save(run.coevo.coeta, file = 'data/1_run.coevo.coeta.RData')
+  save(run_coevolution_sameTiming, file = run_coevolution_sameTiming_runDataFileName)
 }
 
 # load
-load(file = 'data/1_run.coevo.coeta.RData')
+load(file = run_coevolution_sameTiming_runDataFileName)
 ```
 
-```{r 1runcoevocoetaparshtml, eval=!params$ispdf, cache=TRUE, dependson='run.coevo.coeta', fig.align='center', results='asis'}
-run.table(run.coevo.coeta, caption = 'Parameter setting')
+```{r 1runcoevolutionsametimingparshtml, eval=!params$ispdf, cache=TRUE, dependson='run_coevolution_sameTiming', fig.align='center', results='asis'}
+printTableRun(run_coevolution_sameTiming, caption = 'Parameter setting')
 ```
 
-```{r 1runcoevocoetaparspdf, eval=params$ispdf, cache=TRUE, dependson=c('1_table-functions', 'run.coevo.coeta'), fig.align='center', results='asis'}
-run.table(run.coevo.coeta, caption = 'Parameter setting', output = "latex")
+```{r 1runcoevolutionsametimingparspdf, eval=params$ispdf, cache=TRUE, dependson=c('1_table-functions', 'run_coevolution_sameTiming'), fig.align='center', results='asis'}
+printTableRun(run_coevolution_sameTiming, caption = 'Parameter setting', output = "latex")
 ```
 
 \vspace{1cm}
 
  Abbreviation | Value                                                            
  ------------ | ---------------------
- `time`       | `r run.coevo.coeta$END$time`
- `coevo.H`    | `r run.coevo.coeta$END$coevo.H`
- `coevo.P`    | `r run.coevo.coeta$END$coevo.P`
- `depend.H`   | `r run.coevo.coeta$END$depend.H`
- `depend.P`   | `r run.coevo.coeta$END$depend.P`
- `timing.H`   | `r run.coevo.coeta$END$timing.H`
- `timing.P`   | `r run.coevo.coeta$END$timing.P`
+ `time_end`       | `r run_coevolution_sameTiming$END$time_end`
+ `coevolution_coefficient_humans`    | `r run_coevolution_sameTiming$END$coevolution_coefficient_humans`
+ `coevolution_coefficient_plants`    | `r run_coevolution_sameTiming$END$coevolution_coefficient_plants`
+ `dependency_coefficient_humans`   | `r run_coevolution_sameTiming$END$dependency_coefficient_humans`
+ `dependency_coefficient_plants`   | `r run_coevolution_sameTiming$END$dependency_coefficient_plants`
+ `timing_humans`   | `r run_coevolution_sameTiming$END$timing_humans`
+ `timing_plants`   | `r run_coevolution_sameTiming$END$timing_plants`
 
 Table: Output variables (values at end state)
 
 \newpage
 
-```{r 1runcoevocoetaplot, cache=TRUE, dependson='run.coevo.coeta', fig.width=8, fig.height=8, fig.cap='Plotting the end state, i.e. both populations become stationary'}
-hpcModel.plot(run.coevo.coeta, scale.override = 1)
-```
-
-\newpage
-
-```{r 1_run.coevo.coeta-ggplot, warning=FALSE, cache=TRUE, dependson='run.coevo.coeta'}
-run.coevo.coeta.melted <-
-  data.frame(H = run.coevo.coeta$TRAJECTORIES$H, 
-             P = run.coevo.coeta$TRAJECTORIES$P)[!is.na(run.coevo.coeta$TRAJECTORIES$H), ]
-
-run.coevo.coeta.melted$time <- 1:nrow(run.coevo.coeta.melted)
-
-run.coevo.coeta.melted <- melt(run.coevo.coeta.melted, measure.vars = c('H', 'P'))
-
-plotScale = 10
-#svg('plots/1_singleRun-ggplot.svg', width=plotScale, height=plotScale)
-png(paste0("plots/1_singleRun-ggplot-", run.coevo.coeta.name, ".png"), 
-    width = 200 * plotScale, height = 100 * plotScale)
-plot.trajectory(run.coevo.coeta.melted, plotScale = plotScale)
+```{r 1_run_coevolution_sameTiming-defaultPlot, warning=FALSE, dependson='1_run_coevolution_sameTiming'}
+png(paste0("plots/1_singleRun_", run_coevolution_sameTiming_name, "_defaultPlot.png"), 
+    width = 1000, height = 1000)
+hpcModel.plot(run_coevolution_sameTiming)
 invisible(dev.off())
 ```
 
-```{r 1runcoevocoetaggplotprint, echo=FALSE, dependson='run.coevo.coeta-ggplot', out.width = '100%', fig.cap='Plotting population trajectories with ggplot2'}
-knitr::include_graphics(paste0("plots/1_singleRun-ggplot-", run.coevo.coeta.name, ".png"))
+```{r 1runcoevolutionsametimingdefaultplot, echo=FALSE, cache=TRUE, dependson='run_coevolution_sameTiming', out.width = '100%', fig.cap='Plotting the end state, i.e. both populations become stationary'}
+knitr::include_graphics(paste0("plots/1_singleRun_", run_coevolution_sameTiming_name, "_defaultPlot.png"))
 ```
 
 \newpage
 
-```{r 1_run.coevo.coeta-frames, include=FALSE, dependson=c('1_default-values', '1_run.coevo.coeta-name')}
-if(!file.exists(paste0(runPlot.dir, run.coevo.coeta.name, "-anim.gif")))
+```{r 1_run_coevolution_sameTiming-ggplot, warning=FALSE, cache=TRUE, dependson='run_coevolution_sameTiming'}
+run_coevolution_sameTiming_melted <-
+  data.frame(humans = run_coevolution_sameTiming$TRAJECTORIES$humans, 
+             plants = run_coevolution_sameTiming$TRAJECTORIES$plants)[!is.na(run_coevolution_sameTiming$TRAJECTORIES$humans), ]
+
+run_coevolution_sameTiming_melted$time <- 1:nrow(run_coevolution_sameTiming_melted)
+
+run_coevolution_sameTiming_melted <- melt(run_coevolution_sameTiming_melted, measure.vars = c('humans', 'plants'))
+
+plotScale = 10
+#svg('plots/1_singleRun-ggplot.svg', width=plotScale, height=plotScale)
+png(paste0("plots/1_singleRun_", run_coevolution_sameTiming_name, "_ggplot.png"), 
+    width = 200 * plotScale, height = 100 * plotScale)
+plotTrajectory(run_coevolution_sameTiming_melted, plot_scale = plotScale)
+invisible(dev.off())
+```
+
+```{r 1runcoevolutionsametimingggplotprint, echo=FALSE, dependson='run_coevolution_sameTiming-ggplot', out.width = '100%', fig.cap='Plotting population trajectories with ggplot2'}
+knitr::include_graphics(paste0("plots/1_singleRun_", run_coevolution_sameTiming_name, "_ggplot.png"))
+```
+
+\newpage
+
+```{r 1_run_coevolution_sameTiming-clear, include=FALSE}
+rm(run_coevolution_sameTiming, run_coevolution_sameTiming_melted)
+```
+
+```{r 1_run_coevolution_sameTiming-frames, include=FALSE, dependson=c('1_default-values', '1_run_coevolution_sameTiming-name')}
+if(!file.exists(run_coevolution_sameTiming_animationFileName))
 {
-  # Generate an animated GIF using the images in plot.directory folder
-  animate.trajectory(runPlot.dir, run.coevo.coeta.name)
+  # Generate an animated GIF using the images in plot_directory folder
+  animateTrajectory(runPlotDirectory, run_coevolution_sameTiming_name)
 }
 ```
 
-```{r 1runcoevocoetaanimation, eval=!params$ispdf, dependson='run.coevo.coeta-frames', fig.cap='Animated GIF showing the sequence of states throughout the simulation (only on the html version)'}
-knitr::include_graphics(paste0(runPlot.dir, run.coevo.coeta.name, "-anim.gif"))
-```
-
-```{r 1_run.coevo.coeta-clear, include=FALSE}
-rm(run.coevo.coeta)
+```{r 1runcoevolutionsametiminganimation, eval=!params$ispdf, dependson='run_coevolution_sameTiming-frames', fig.cap='Animated GIF showing the sequence of states throughout the simulation (only on the html version)'}
+knitr::include_graphics(paste0(runPlotDirectory, run_coevolution_sameTiming_name, "-anim.gif"))
 ```
 
 \FloatBarrier
@@ -204,653 +220,713 @@ rm(run.coevo.coeta)
 
 ## No coevolution
 
-```{r 1_run.no.coevo-name, cache=TRUE}
-run.no.coevo.name <- "run.no.coevo"
+```{r 1_run_noCoevolution-name, cache=TRUE}
+run_noCoevolution_name <- "no-coevolution"
+
+run_noCoevolution_runDataFileName = paste0(dataDirectory, run_noCoevolution_name,'.RData')
+run_noCoevolution_animationFileName = paste0(runPlotDirectory, run_noCoevolution_name, "-anim.gif")
 ```
 
-```{r 1_run.no.coevo, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.no.coevo-name')}
-if(!file.exists('plots/runPlot/run.no.coevo-anim.gif'))
+```{r 1_run_noCoevolution, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run_noCoevolution-name')}
+if(!file.exists(run_noCoevolution_runDataFileName) | !file.exists(run_noCoevolution_animationFileName))
 {
-  run.no.coevo <- hpcModel.run(
-    iniH = iniH.default,
-    iniP = iniP.default,
-    n.H = n.H.default,         
-    n.P = n.P.default,        
-    v.H = v.H.default,
-    v.P = v.P.default,
-    r.H = r.H.default, 
-    r.P = r.P.default, 
-    mU.PnH = mU.PnH.default,
-    mU.HnP = mU.HnP.default,
-    mU.P1H = 0, # utility of type 1 plants has utility zero                      
-    mU.H1P = mU.H1P.default,                                   
-    U.bHn = U.bHn.default,                                
-    U.bPn = U.bPn.default, 
-    U.bH1 = U.bH1.default,                               
-    U.bP1 = U.bP1.default,                                 
-    MaxArea = MaxArea.default,
-    maxIt = maxIt.default,
-    tol = tol.default,
-    timing.threshold = timing.threshold.default,
-    saveTrajectories = saveTrajectories.default,
-    messages = messages.default, 
+  run_noCoevolution <- hpcModel.run(
+    initial_population_humans = initial_population_humans_default,
+    initial_population_plants = initial_population_plants_default,
+    number_types_humans = number_types_humans_default,         
+    number_types_plants = number_types_plants_default,        
+    undirected_variation_humans = undirected_variation_humans_default,
+    undirected_variation_plants = undirected_variation_plants_default,
+    intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+    intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+    utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_default,
+    utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+    utility_per_capita_type_1_plants_to_humans = 0, # utility of type 1 plants has utility zero                      
+    utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+    utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+    utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+    utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+    utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+    max_area = max_area_default,
+    max_iterations = max_iterations_default,
+    reltol_exponential = relreltol_exponential_exponential_default,
+    coevolution_threshold = coevolution_threshold_default,
+    save_trajectories = save_trajectories_default,
+    messages = messages_default, 
     # plotting
-    plot.preview = FALSE, 
-    plot.sleep = 0.05,
-    plot.save = TRUE,
-    plot.saveEvery = 5,
-    plot.directory = runPlot.dir,
-    plot.fileName = paste0(run.no.coevo.name, "-runPlot")
+    plot_preview = plot_preview_default, 
+    plot_sleep = plot_sleep_default,
+    plot_save = plot_save_default,
+    plot_save_every = plot_save_every_default,
+    plot_directory = runPlotDirectory,
+    plot_file_name = paste0(run_noCoevolution_name, "-runPlot")
   )
   # save
-  save(run.no.coevo, file = 'data/1_run.no.coevo.RData')
+  save(run_noCoevolution, file = run_noCoevolution_runDataFileName)
+  
+  # clear memory so image magick won't get stuck
+  rm(run_noCoevolution)
 
-  # Generate an animated GIF using the images in plot.directory folder
-  animate.trajectory(runPlot.dir, run.no.coevo.name)
+  # Generate an animated GIF using the images in plot_directory folder
+  animateTrajectory(runPlotDirectory, run_noCoevolution_name)
 }
 ```
 
-```{r 1_run.no.coevo-animation, eval=!params$ispdf, dependson='run.no.coevo'}
-knitr::include_graphics(paste0(runPlot.dir, run.no.coevo.name, "-anim.gif"))
+```{r 1_run_noCoevolution-animation, eval=!params$ispdf, dependson='run_noCoevolution'}
+knitr::include_graphics(run_noCoevolution_animationFileName)
 ```
 
-```{r 1_run.no.coevo-plot, cache=TRUE, eval=params$ispdf, dependson='run.no.coevo', fig.width=8, fig.height=8}
+```{r 1_run_noCoevolution-plot, cache=TRUE, eval=params$ispdf, dependson='run_noCoevolution', fig.width=8, fig.height=8}
 # load
-load('data/1_run.no.coevo.RData')
+load(run_noCoevolution_runDataFileName)
 
-hpcModel.plot(run.no.coevo, scale.override = 1)
+hpcModel.plot(run_noCoevolution, scale_override = 1)
 ```
 
-```{r 1_run.no.coevo-clear, include=FALSE}
-rm(run.no.coevo)
+```{r 1_run_noCoevolution-clear, include=FALSE}
+rm(run_noCoevolution)
 ```
 
 \newpage
 
 ## Coevolution with early cultivation
 
-```{r 1_run.coevo.early.cult-name, cache=TRUE}
-run.coevo.early.cult.name <- "run.coevo.early.cult"
+```{r 1_run_coevolution_earlyHumanChange-name, cache=TRUE}
+run_coevolution_earlyHumanChange_name <- "coevolution-early-cultivation"
+
+run_coevolution_earlyHumanChange_runDataFileName = paste0(dataDirectory, run_coevolution_earlyHumanChange_name,'.RData')
+run_coevolution_earlyHumanChange_animationFileName = paste0(runPlotDirectory, run_coevolution_earlyHumanChange_name, "-anim.gif")
 ```
 
-```{r 1_run.coevo.early.cult, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.coevo.early.cult-name')}
-if(!file.exists('plots/runPlot/run.coevo.early.cult-anim.gif'))
+```{r 1_run_coevolution_earlyHumanChange, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run_coevolution_earlyHumanChange-name')}
+if(!file.exists(run_coevolution_earlyHumanChange_runDataFileName) | !file.exists(run_coevolution_earlyHumanChange_animationFileName))
 {
-  run.coevo.early.cult <- hpcModel.run(
-    iniH = iniH.default,
-    iniP = iniP.default,
-    n.H = n.H.default,         
-    n.P = n.P.default,        
-    v.H = v.H.default,
-    v.P = v.P.default,
-    r.H = r.H.default, 
-    r.P = r.P.default, 
-    mU.PnH = 2, # utility type n plant is higher than default
-    mU.HnP = mU.HnP.default,
-    mU.P1H = 1, # lutility type 1 plant is higher than default
-    mU.H1P = mU.H1P.default,                                   
-    U.bHn = U.bHn.default,                                
-    U.bPn = U.bPn.default, 
-    U.bH1 = U.bH1.default,                               
-    U.bP1 = U.bP1.default,                                 
-    MaxArea = MaxArea.default,
-    maxIt = maxIt.default,
-    tol = tol.default,
-    timing.threshold = timing.threshold.default,
-    saveTrajectories = saveTrajectories.default,
-    messages = messages.default, 
+  run_coevolution_earlyHumanChange <- hpcModel.run(
+    initial_population_humans = initial_population_humans_default,
+    initial_population_plants = initial_population_plants_default,
+    number_types_humans = number_types_humans_default,         
+    number_types_plants = number_types_plants_default,        
+    undirected_variation_humans = undirected_variation_humans_default,
+    undirected_variation_plants = undirected_variation_plants_default,
+    intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+    intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+    utility_per_capita_type_n_plants_to_humans = 2, # utility type n plant is higher than default
+    utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+    utility_per_capita_type_1_plants_to_humans = 1, # lutility type 1 plant is higher than default
+    utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+    utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+    utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+    utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+    utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+    max_area = max_area_default,
+    max_iterations = max_iterations_default,
+    reltol_exponential = relreltol_exponential_exponential_default,
+    coevolution_threshold = coevolution_threshold_default,
+    save_trajectories = save_trajectories_default,
+    messages = messages_default, 
     # plotting
-    plot.preview = FALSE, 
-    plot.sleep = 0.05,
-    plot.save = TRUE,
-    plot.saveEvery = 5,
-    plot.directory = runPlot.dir,
-    plot.fileName = paste0(run.coevo.early.cult.name, "-runPlot")
+    plot_preview = plot_preview_default, 
+    plot_sleep = plot_sleep_default,
+    plot_save = plot_save_default,
+    plot_save_every = plot_save_every_default,
+    plot_directory = runPlotDirectory,
+    plot_file_name = paste0(run_coevolution_earlyHumanChange_name, "-runPlot")
   )
   
   # save
-  save(run.coevo.early.cult, file = 'data/1_run.coevo.early.cult.RData')
+  save(run_coevolution_earlyHumanChange, file = run_coevolution_earlyHumanChange_runDataFileName)
+  
+  # clear memory so image magick won't get stuck
+  rm(run_coevolution_earlyHumanChange)
 
-  # Generate an animated GIF using the images in plot.directory folder
-  animate.trajectory(runPlot.dir, run.coevo.early.cult.name)
+  # Generate an animated GIF using the images in plot_directory folder
+  animateTrajectory(runPlotDirectory, run_coevolution_earlyHumanChange_name)
 }
 ```
 
-```{r 1_run.coevo.early.cult-animation, eval=!params$ispdf, dependson='run.coevo.early.cult'}
-knitr::include_graphics(paste0(runPlot.dir, run.coevo.early.cult.name, "-anim.gif"))
+```{r 1_run_coevolution_earlyHumanChange-animation, eval=!params$ispdf, dependson='run_coevolution_earlyHumanChange'}
+knitr::include_graphics(run_coevolution_earlyHumanChange_animationFileName)
 ```
 
-```{r 1_run.coevo.early.cult-plot, cache=TRUE, eval=params$ispdf, dependson='run.coevo.early.cult', fig.width=8, fig.height=8}
+```{r 1_run_coevolution_earlyHumanChange-plot, cache=TRUE, eval=params$ispdf, dependson='run_coevolution_earlyHumanChange', fig.width=8, fig.height=8}
 # load
-load('data/1_run.coevo.early.cult.RData')
+load(run_coevolution_earlyHumanChange_runDataFileName)
 
-hpcModel.plot(run.coevo.early.cult, scale.override = 1)
+hpcModel.plot(run_coevolution_earlyHumanChange, scale_override = 1)
 ```
 
-```{r 1_run.coevo.early.cult-clear, include=FALSE}
-rm(run.coevo.early.cult)
+```{r 1_run_coevolution_earlyHumanChange-clear, include=FALSE}
+rm(run_coevolution_earlyHumanChange)
 ```
 
 \newpage
 
 ## Coevolution with early domestication
 
-```{r 1_run.coevo.early.dom-name, cache=TRUE}
-run.coevo.early.dom.name <- "run.coevo.early.dom"
+```{r 1_run_coevolution_earlyPlantChange-name, cache=TRUE}
+run_coevolution_earlyPlantChange_name <- "coevolution-early-domestication"
+
+run_coevolution_earlyPlantChange_runDataFileName = paste0(dataDirectory, run_coevolution_earlyPlantChange_name,'.RData')
+run_coevolution_earlyPlantChange_animationFileName = paste0(runPlotDirectory, run_coevolution_earlyPlantChange_name, "-anim.gif")
 ```
 
-```{r 1_run.coevo.early.dom, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.coevo.early.dom-name')}
-if(!file.exists('plots/runPlot/run.coevo.early.dom-anim.gif'))
+```{r 1_run_coevolution_earlyPlantChange, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run_coevolution_earlyPlantChange-name')}
+if(!file.exists(run_coevolution_earlyPlantChange_runDataFileName) | !file.exists(run_coevolution_earlyPlantChange_animationFileName))
 {
-  run.coevo.early.dom <- hpcModel.run(
-    iniH = iniH.default,
-    iniP = iniP.default,
-    n.H = n.H.default,         
-    n.P = n.P.default,        
-    v.H = v.H.default,
-    v.P = v.P.default,
-    r.H = r.H.default, 
-    r.P = r.P.default, 
-    mU.PnH = 1, # utility type n plant is the same than type 1 plants
-    mU.HnP = mU.HnP.default,
-    mU.P1H = 1, # utility type 1 plant is the same than type n plants
-    mU.H1P = mU.H1P.default,                                   
-    U.bHn = U.bHn.default,                                
-    U.bPn = U.bPn.default, 
-    U.bH1 = U.bH1.default,                               
-    U.bP1 = 20, # baseline carrying capacity of type 1 plant is the same than type n plants
-    MaxArea = MaxArea.default,
-    maxIt = maxIt.default,
-    tol = tol.default,
-    timing.threshold = timing.threshold.default,
-    saveTrajectories = saveTrajectories.default,
-    messages = messages.default, 
+  run_coevolution_earlyPlantChange <- hpcModel.run(
+    initial_population_humans = initial_population_humans_default,
+    initial_population_plants = initial_population_plants_default,
+    number_types_humans = number_types_humans_default,         
+    number_types_plants = number_types_plants_default,        
+    undirected_variation_humans = undirected_variation_humans_default,
+    undirected_variation_plants = undirected_variation_plants_default,
+    intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+    intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+    utility_per_capita_type_n_plants_to_humans = 1, # utility type n plant is the same than type 1 plants
+    utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+    utility_per_capita_type_1_plants_to_humans = 1, # utility type 1 plant is the same than type n plants
+    utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+    utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+    utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+    utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+    utility_other_to_type_1_plants = 20, # baseline carrying capacity of type 1 plant is the same than type n plants
+    max_area = max_area_default,
+    max_iterations = max_iterations_default,
+    reltol_exponential = relreltol_exponential_exponential_default,
+    coevolution_threshold = coevolution_threshold_default,
+    save_trajectories = save_trajectories_default,
+    messages = messages_default, 
     # plotting
-    plot.preview = FALSE, 
-    plot.sleep = 0.05,
-    plot.save = TRUE,
-    plot.saveEvery = 5,
-    plot.directory = runPlot.dir,
-    plot.fileName = paste0(run.coevo.early.dom.name, "-runPlot")
+    plot_preview = plot_preview_default, 
+    plot_sleep = plot_sleep_default,
+    plot_save = plot_save_default,
+    plot_save_every = plot_save_every_default,
+    plot_directory = runPlotDirectory,
+    plot_file_name = paste0(run_coevolution_earlyPlantChange_name, "-runPlot")
   )
   
   # save
-  save(run.coevo.early.dom, file = 'data/1_run.coevo.early.dom.RData')
+  save(run_coevolution_earlyPlantChange, file = run_coevolution_earlyPlantChange_runDataFileName)
   
-  # Generate an animated GIF using the images in plot.directory folder
-  animate.trajectory(runPlot.dir, run.coevo.early.dom.name)
+  # clear memory so image magick won't get stuck
+  rm(run_coevolution_earlyPlantChange)
+  
+  # Generate an animated GIF using the images in plot_directory folder
+  animateTrajectory(runPlotDirectory, run_coevolution_earlyPlantChange_name)
 }
 ```
 
-```{r 1_run.coevo.early.dom-animation, eval=!params$ispdf, dependson='run.coevo.early.dom'}
-knitr::include_graphics(paste0(runPlot.dir, run.coevo.early.dom.name, "-anim.gif"))
+```{r 1_run_coevolution_earlyPlantChange-animation, eval=!params$ispdf, dependson='run_coevolution_earlyPlantChange'}
+knitr::include_graphics(run_coevolution_earlyPlantChange_animationFileName)
 ```
 
-```{r 1_run.coevo.early.dom-plot, cache=TRUE, eval=params$ispdf, dependson='run.coevo.early.dom', fig.width=8, fig.height=8}
+```{r 1_run_coevolution_earlyPlantChange-plot, cache=TRUE, eval=params$ispdf, dependson='run_coevolution_earlyPlantChange', fig.width=8, fig.height=8}
 # load
-load('data/1_run.coevo.early.dom.RData')
+load(run_coevolution_earlyPlantChange_runDataFileName)
 
-hpcModel.plot(run.coevo.early.dom, scale.override = 1)
+hpcModel.plot(run_coevolution_earlyPlantChange, scale_override = 1)
 ```
 
-```{r 1_run.coevo.early.dom-clear, include=FALSE}
-rm(run.coevo.early.dom)
+```{r 1_run_coevolution_earlyPlantChange-clear, include=FALSE}
+rm(run_coevolution_earlyPlantChange)
 ```
 
 \newpage
 
 ## Cultivation without domestication
 
-```{r 1_run.cult.without.dom-name, cache=TRUE}
-run.cult.without.dom.name <- "run.cult.without.dom"
+```{r 1_run_partialCoevolution_noPlantChange-name, cache=TRUE}
+run_partialCoevolution_noPlantChange_name <- "coevolution-no-plant-change"
+
+run_partialCoevolution_noPlantChange_runDataFileName = paste0(dataDirectory, run_partialCoevolution_noPlantChange_name,'.RData')
+run_partialCoevolution_noPlantChange_animationFileName = paste0(runPlotDirectory, run_partialCoevolution_noPlantChange_name, "-anim.gif")
 ```
 
-```{r 1_run.cult.without.dom, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.cult.without.dom-name')}
-if(!file.exists('plots/runPlot/run.cult.without.dom-anim.gif'))
+```{r 1_run_partialCoevolution_noPlantChange, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run_partialCoevolution_noPlantChange-name')}
+if(!file.exists(run_partialCoevolution_noPlantChange_runDataFileName) | !file.exists(run_partialCoevolution_noPlantChange_animationFileName))
 {
-  run.cult.without.dom <- hpcModel.run(
-    iniH = iniH.default,
-    iniP = iniP.default,
-    n.H = n.H.default,         
-    n.P = n.P.default,        
-    v.H = v.H.default,
-    v.P = v.P.default,
-    r.H = r.H.default, 
-    r.P = r.P.default, 
-    mU.PnH = 2.5, # utility type n plant is higher than default
-    mU.HnP = 0.45, # utility type n humans is lower than default
-    mU.P1H = mU.P1H.default,                                  
-    mU.H1P = mU.H1P.default,                                   
-    U.bHn = U.bHn.default,                                
-    U.bPn = U.bPn.default, 
-    U.bH1 = U.bH1.default,                               
-    U.bP1 = U.bP1.default,                                 
-    MaxArea = MaxArea.default,
-    maxIt = maxIt.default,
-    tol = tol.default,
-    timing.threshold = timing.threshold.default,
-    saveTrajectories = saveTrajectories.default,
-    messages = messages.default, 
+  run_partialCoevolution_noPlantChange <- hpcModel.run(
+    initial_population_humans = initial_population_humans_default,
+    initial_population_plants = initial_population_plants_default,
+    number_types_humans = number_types_humans_default,         
+    number_types_plants = number_types_plants_default,        
+    undirected_variation_humans = undirected_variation_humans_default,
+    undirected_variation_plants = undirected_variation_plants_default,
+    intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+    intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+    utility_per_capita_type_n_plants_to_humans = 2.5, # utility type n plant is higher than default
+    utility_per_capita_type_n_humans_to_plants = 0.45, # utility type n humans is lower than default
+    utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_default,                                  
+    utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+    utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+    utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+    utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+    utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+    max_area = max_area_default,
+    max_iterations= max_iterations_default,
+    reltol_exponential = relreltol_exponential_exponential_default,
+    coevolution_threshold = coevolution_threshold_default,
+    save_trajectories = save_trajectories_default,
+    messages = messages_default, 
     # plotting
-    plot.preview = FALSE, 
-    plot.sleep = 0.05,
-    plot.save = TRUE,
-    plot.saveEvery = 5,
-    plot.directory = runPlot.dir,
-    plot.fileName = paste0(run.cult.without.dom.name, "-runPlot")
+    plot_preview = plot_preview_default, 
+    plot_sleep = plot_sleep_default,
+    plot_save = plot_save_default,
+    plot_save_every = plot_save_every_default,
+    plot_directory = runPlotDirectory,
+    plot_file_name = paste0(run_partialCoevolution_noPlantChange_name, "-runPlot")
   )
   
   # save
-  save(run.cult.without.dom, file = 'data/1_run.cult.without.dom.RData')
+  save(run_partialCoevolution_noPlantChange, file = run_partialCoevolution_noPlantChange_runDataFileName)
   
-  # Generate an animated GIF using the images in plot.directory folder
-  animate.trajectory(runPlot.dir, run.cult.without.dom.name)
+  # clear memory so image magick won't get stuck
+  rm(run_partialCoevolution_noPlantChange)
+  
+  # Generate an animated GIF using the images in plot_directory folder
+  animateTrajectory(runPlotDirectory, run_partialCoevolution_noPlantChange_name)
 }
 ```
 
-```{r 1_run.cult.without.dom-animation, eval=!params$ispdf, dependson='run.cult.without.dom'}
-knitr::include_graphics(paste0(runPlot.dir, run.cult.without.dom.name, "-anim.gif"))
+```{r 1_run_partialCoevolution_noPlantChange-animation, eval=!params$ispdf, dependson='run_partialCoevolution_noPlantChange'}
+knitr::include_graphics(run_partialCoevolution_noPlantChange_animationFileName)
 ```
 
-```{r 1_run.cult.without.dom-plot, cache=TRUE, eval=params$ispdf, dependson='run.cult.without.dom', fig.width=8, fig.height=8}
+```{r 1_run_partialCoevolution_noPlantChange-plot, cache=TRUE, eval=params$ispdf, dependson='run_partialCoevolution_noPlantChange', fig.width=8, fig.height=8}
 # load
-load('data/1_run.cult.without.dom.RData')
+load(run_partialCoevolution_noPlantChange_runDataFileName)
 
-hpcModel.plot(run.cult.without.dom, scale.override = 1)
+hpcModel.plot(run_partialCoevolution_noPlantChange, scale_override = 1)
 ```
 
-```{r 1_run.cult.without.dom-clear, include=FALSE}
-rm(run.cult.without.dom)
+```{r 1_run_partialCoevolution_noPlantChange-clear, include=FALSE}
+rm(run_partialCoevolution_noPlantChange)
 ```
 
 \newpage
 
 ## Coevolution with population "bleep"
 
-```{r 1_run.coevo.bleep-name, cache=TRUE}
-run.coevo.bleep.name <- "run.coevo.bleep"
+```{r 1_run_coevolution_bleep-name, cache=TRUE}
+run_coevolution_bleep_name <- "coevolution-bleep"
+
+run_coevolution_bleep_runDataFileName = paste0(dataDirectory, run_coevolution_bleep_name,'.RData')
+run_coevolution_bleep_animationFileName = paste0(runPlotDirectory, run_coevolution_bleep_name, "-anim.gif")
 ```
 
-```{r 1_run.coevo.bleep, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.coevo.bleep-name')}
-if(!file.exists('plots/runPlot/run.coevo.bleep-anim.gif'))
+```{r 1_run_coevolution_bleep, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run_coevolution_bleep-name')}
+if(!file.exists(run_coevolution_bleep_runDataFileName) | !file.exists(run_coevolution_bleep_animationFileName))
 {
-  run.coevo.bleep <- hpcModel.run(
-    iniH = iniH.default,
-    iniP = iniP.default,
-    n.H = n.H.default,         
-    n.P = n.P.default,        
-    v.H = v.H.default,
-    v.P = v.P.default,
-    r.H = r.H.default, 
-    r.P = r.P.default, 
-    mU.PnH = mU.PnH.default,
-    mU.HnP = mU.HnP.default,
-    mU.P1H = mU.P1H.default,                                  
-    mU.H1P = mU.H1P.default,                                   
-    U.bHn = U.bHn.default,                                
-    U.bPn = U.bPn.default, 
-    U.bH1 = U.bH1.default,                               
-    U.bP1 = U.bP1.default,                                 
-    MaxArea = 115, # MaxArea is lower than default
-    maxIt = maxIt.default,
-    tol = tol.default,
-    timing.threshold = timing.threshold.default,
-    saveTrajectories = saveTrajectories.default,
-    messages = messages.default, 
+  run_coevolution_bleep <- hpcModel.run(
+    initial_population_humans = initial_population_humans_default,
+    initial_population_plants = initial_population_plants_default,
+    number_types_humans = number_types_humans_default,         
+    number_types_plants = number_types_plants_default,        
+    undirected_variation_humans = undirected_variation_humans_default,
+    undirected_variation_plants = undirected_variation_plants_default,
+    intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+    intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+    utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_default,
+    utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+    utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_default,                                  
+    utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+    utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+    utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+    utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+    utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+    max_area = 115, # max_area is lower than default
+    max_iterations = max_iterations_default,
+    reltol_exponential = relreltol_exponential_exponential_default,
+    coevolution_threshold = coevolution_threshold_default,
+    save_trajectories = save_trajectories_default,
+    messages = messages_default, 
     # plotting
-    plot.preview = FALSE, 
-    plot.sleep = 0.05,
-    plot.save = TRUE,
-    plot.saveEvery = 5,
-    plot.directory = runPlot.dir,
-    plot.fileName = paste0(run.coevo.bleep.name, "-runPlot")
+    plot_preview = plot_preview_default, 
+    plot_sleep = plot_sleep_default,
+    plot_save = plot_save_default,
+    plot_save_every = plot_save_every_default,
+    plot_directory = runPlotDirectory,
+    plot_file_name = paste0(run_coevolution_bleep_name, "-runPlot")
   )
   
   # save
-  save(run.coevo.bleep, file = 'data/1_run.coevo.bleep.RData')
+  save(run_coevolution_bleep, file = run_coevolution_bleep_runDataFileName)
   
-  # Generate an animated GIF using the images in plot.directory folder
-  animate.trajectory(runPlot.dir, run.coevo.bleep.name)
+  # clear memory so image magick won't get stuck
+  rm(run_coevolution_bleep)
+  
+  # Generate an animated GIF using the images in plot_directory folder
+  animateTrajectory(runPlotDirectory, run_coevolution_bleep_name)
 }
 ```
 
-```{r 1_run.coevo.bleep-animation, eval=!params$ispdf, dependson='run.coevo.bleep'}
-knitr::include_graphics(paste0(runPlot.dir, run.coevo.bleep.name, "-anim.gif"))
+```{r 1_run_coevolution_bleep-animation, eval=!params$ispdf, dependson='run_coevolution_bleep'}
+knitr::include_graphics(run_coevolution_bleep_animationFileName)
 ```
 
-```{r 1_run.coevo.bleep-plot, cache=TRUE, eval=params$ispdf, dependson='run.coevo.bleep', fig.width=8, fig.height=8}
+```{r 1_run_coevolution_bleep-plot, cache=TRUE, eval=params$ispdf, dependson='run_coevolution_bleep', fig.width=8, fig.height=8}
 # load
-load('data/1_run.coevo.bleep.RData')
+load(run_coevolution_bleep_runDataFileName)
 
-hpcModel.plot(run.coevo.bleep, scale.override = 1)
+hpcModel.plot(run_coevolution_bleep, scale_override = 1)
 ```
 
-```{r 1_run.coevo.bleep-clear, include=FALSE}
-rm(run.coevo.bleep)
+```{r 1_run_coevolution_bleep-clear, include=FALSE}
+rm(run_coevolution_bleep)
 ```
 
 \newpage
 
 ## Coevolution with population "boom"
 
-```{r 1_run.coevo.boom-name, cache=TRUE}
-run.coevo.boom.name <- "run.coevo.boom"
+```{r 1_run_coevolution_boom-name, cache=TRUE}
+run_coevolution_boom_name <- "coevolution-boom"
+
+run_coevolution_boom_runDataFileName = paste0(dataDirectory, run_coevolution_boom_name,'.RData')
+run_coevolution_boom_animationFileName = paste0(runPlotDirectory, run_coevolution_boom_name, "-anim.gif")
 ```
 
-```{r 1_run.coevo.boom, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.coevo.boom-name')}
-if(!file.exists('plots/runPlot/run.coevo.boom-anim.gif'))
+```{r 1_run_coevolution_boom, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run_coevolution_boom-name')}
+if(!file.exists(run_coevolution_boom_runDataFileName) | !file.exists(run_coevolution_boom_animationFileName))
 {
-  run.coevo.boom <- hpcModel.run(
-    iniH = iniH.default,
-    iniP = iniP.default,
-    n.H = n.H.default,         
-    n.P = n.P.default,        
-    v.H = v.H.default,
-    v.P = v.P.default,
-    r.H = r.H.default, 
-    r.P = r.P.default, 
-    mU.PnH = 2, # utility type n plant is higher than default
-    mU.HnP = mU.HnP.default,
-    mU.P1H = mU.P1H.default,                                  
-    mU.H1P = mU.H1P.default,                                   
-    U.bHn = U.bHn.default,                                
-    U.bPn = U.bPn.default, 
-    U.bH1 = U.bH1.default,                               
-    U.bP1 = U.bP1.default,                                 
-    MaxArea = 500, # MaxArea is higher than default
-    maxIt = maxIt.default,
-    tol = tol.default,
-    timing.threshold = timing.threshold.default,
-    saveTrajectories = saveTrajectories.default,
-    messages = messages.default, 
+  run_coevolution_boom <- hpcModel.run(
+    initial_population_humans = initial_population_humans_default,
+    initial_population_plants = initial_population_plants_default,
+    number_types_humans = number_types_humans_default,         
+    number_types_plants = number_types_plants_default,        
+    undirected_variation_humans = undirected_variation_humans_default,
+    undirected_variation_plants = undirected_variation_plants_default,
+    intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+    intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+    utility_per_capita_type_n_plants_to_humans = 2, # utility type n plant is higher than default
+    utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+    utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_default,                                  
+    utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+    utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+    utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+    utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+    utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+    max_area = 500, # max_area is higher than default
+    max_iterations = max_iterations_default,
+    reltol_exponential = relreltol_exponential_exponential_default,
+    coevolution_threshold = coevolution_threshold_default,
+    save_trajectories = save_trajectories_default,
+    messages = messages_default, 
     # plotting
-    plot.preview = FALSE, 
-    plot.sleep = 0.05,
-    plot.save = TRUE,
-    plot.saveEvery = 5,
-    plot.directory = runPlot.dir,
-    plot.fileName = paste0(run.coevo.boom.name, "-runPlot")
+    plot_preview = plot_preview_default, 
+    plot_sleep = plot_sleep_default,
+    plot_save = plot_save_default,
+    plot_save_every = plot_save_every_default,
+    plot_directory = runPlotDirectory,
+    plot_file_name = paste0(run_coevolution_boom_name, "-runPlot")
   )
   
   # save
-  save(run.coevo.boom, file = 'data/1_run.coevo.boom.RData')
+  save(run_coevolution_boom, file = run_coevolution_boom_runDataFileName)
   
-  # Generate an animated GIF using the images in plot.directory folder
-  animate.trajectory(runPlot.dir, run.coevo.boom.name)
+  # clear memory so image magick won't get stuck
+  rm(run_coevolution_boom)
+  
+  # Generate an animated GIF using the images in plot_directory folder
+  animateTrajectory(runPlotDirectory, run_coevolution_boom_name)
 }
 ```
 
-```{r 1_run.coevo.boom-animation, eval=!params$ispdf, dependson='run.coevo.boom'}
-knitr::include_graphics(paste0(runPlot.dir, run.coevo.boom.name, "-anim.gif"))
+```{r 1_run_coevolution_boom-animation, eval=!params$ispdf, dependson='run_coevolution_boom'}
+knitr::include_graphics(run_coevolution_boom_animationFileName)
 ```
 
-```{r 1_run.coevo.boom-plot, cache=TRUE, eval=params$ispdf, dependson='run.coevo.boom', fig.width=8, fig.height=8}
+```{r 1_run_coevolution_boom-plot, cache=TRUE, eval=params$ispdf, dependson='run_coevolution_boom', fig.width=8, fig.height=8}
 # load
-load('data/1_run.coevo.boom.RData')
+load(run_coevolution_boom_runDataFileName)
 
-hpcModel.plot(run.coevo.boom, scale.override = 1)
+hpcModel.plot(run_coevolution_boom, scale_override = 1)
 ```
 
-```{r 1_run.coevo.boom-clear, include=FALSE}
-rm(run.coevo.boom)
+```{r 1_run_coevolution_boom-clear, include=FALSE}
+rm(run_coevolution_boom)
 ```
 
 \newpage
 
 ## Coevolution with long population "boom"
 
-```{r 1_run.coevo.long.boom-name, cache=TRUE}
-run.coevo.long.boom.name <- "run.coevo.long.boom"
+```{r 1_run_coevolution_longBoom-name, cache=TRUE}
+run_coevolution_longBoom_name <- "coevolution-long-boom"
+
+run_coevolution_longBoom_runDataFileName = paste0(dataDirectory, run_coevolution_longBoom_name,'.RData')
+run_coevolution_longBoom_animationFileName = paste0(runPlotDirectory, run_coevolution_longBoom_name, "-anim.gif")
 ```
 
-```{r 1_run.coevo.long.boom, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.coevo.long.boom-name')}
-if(!file.exists('plots/runPlot/run.coevo.long.boom-anim.gif'))
+```{r 1_run_coevolution_longBoom, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run_coevolution_longBoom-name')}
+if(!file.exists(run_coevolution_longBoom_runDataFileName) | !file.exists(run_coevolution_longBoom_animationFileName))
 {
-  run.coevo.long.boom <- hpcModel.run(
-    iniH = iniH.default,
-    iniP = iniP.default,
-    n.H = n.H.default,         
-    n.P = n.P.default,        
-    v.H = v.H.default,
-    v.P = v.P.default,
-    r.H = r.H.default, 
-    r.P = r.P.default, 
-    mU.PnH = 1, # utility type n plant is the same than type 1 plants
-    mU.HnP = mU.HnP.default,
-    mU.P1H = 1, # utility type 1 plant is the same than type n plants
-    mU.H1P = mU.H1P.default,                                   
-    U.bHn = U.bHn.default,                                
-    U.bPn = U.bPn.default, 
-    U.bH1 = U.bH1.default,                               
-    U.bP1 = U.bP1.default,                                 
-    MaxArea = 1000, # MaxArea is much higher than default
-    maxIt = 2000, # this is a dangerously long simulation!!!
-    tol = tol.default,
-    timing.threshold = timing.threshold.default,
-    saveTrajectories = saveTrajectories.default,
-    messages = messages.default, 
+  run_coevolution_longBoom <- hpcModel.run(
+    initial_population_humans = initial_population_humans_default,
+    initial_population_plants = initial_population_plants_default,
+    number_types_humans = number_types_humans_default,         
+    number_types_plants = number_types_plants_default,        
+    undirected_variation_humans = undirected_variation_humans_default,
+    undirected_variation_plants = undirected_variation_plants_default,
+    intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+    intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+    utility_per_capita_type_n_plants_to_humans = 1, # utility type n plant is the same than type 1 plants
+    utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+    utility_per_capita_type_1_plants_to_humans = 1, # utility type 1 plant is the same than type n plants
+    utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+    utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+    utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+    utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+    utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+    max_area = 1000, # max_area is much higher than default
+    max_iterations = 1000, # this is a dangerously long simulation!!!
+    reltol_exponential = relreltol_exponential_exponential_default,
+    coevolution_threshold = coevolution_threshold_default,
+    save_trajectories = save_trajectories_default,
+    messages = messages_default, 
     # plotting
-    plot.preview = FALSE, 
-    plot.sleep = 0.05,
-    plot.save = TRUE,
-    plot.saveEvery = 5,
-    plot.directory = runPlot.dir,
-    plot.fileName = paste0(run.coevo.long.boom.name, "-runPlot")
+    plot_preview = plot_preview_default, 
+    plot_sleep = plot_sleep_default,
+    plot_save = plot_save_default,
+    plot_save_every = plot_save_every_default,
+    plot_directory = runPlotDirectory,
+    plot_file_name = paste0(run_coevolution_longBoom_name, "-runPlot")
   )
   
   # save
-  save(run.coevo.long.boom, file = 'data/1_run.coevo.long.boom.RData')
+  save(run_coevolution_longBoom, file = run_coevolution_longBoom_runDataFileName)
   
-  # Generate an animated GIF using the images in plot.directory folder
-  animate.trajectory(runPlot.dir, run.coevo.long.boom.name)
+  # clear memory so image magick won't get stuck
+  rm(run_coevolution_longBoom)
+  
+  # Generate an animated GIF using the images in plot_directory folder
+  animateTrajectory(runPlotDirectory, run_coevolution_longBoom_name)
 }
 ```
 
-```{r 1_run.coevo.long.boom-animation, eval=!params$ispdf, dependson='run.coevo.long.boom'}
-knitr::include_graphics(paste0(runPlot.dir, run.coevo.long.boom.name, "-anim.gif"))
+```{r 1_run_coevolution_longBoom-animation, eval=!params$ispdf, dependson='run_coevolution_longBoom'}
+knitr::include_graphics(run_coevolution_longBoom_animationFileName)
 ```
 
-```{r 1_run.coevo.long.boom-plot, cache=TRUE, eval=params$ispdf, dependson='run.coevo.long.boom', fig.width=8, fig.height=8}
+```{r 1_run_coevolution_longBoom-plot, cache=TRUE, eval=params$ispdf, dependson='run_coevolution_longBoom', fig.width=8, fig.height=8}
 # load
-load('data/1_run.coevo.long.boom.RData')
+load(run_coevolution_longBoom_runDataFileName)
 
-hpcModel.plot(run.coevo.long.boom, scale.override = 1)
+hpcModel.plot(run_coevolution_longBoom, scale_override = 1)
 ```
 
-```{r 1_run.coevo.long.boom-clear, include=FALSE}
-rm(run.coevo.long.boom)
+```{r 1_run_coevolution_longBoom-clear, include=FALSE}
+rm(run_coevolution_longBoom)
 ```
 
 \newpage
 
 ## Semi-coevolution (stationary point)
 
-```{r 1_run.semicoevo-name, cache=TRUE}
-run.semicoevo.name <- "run.semicoevo"
+```{r 1_run_partialCoevolution-name, cache=TRUE}
+run_partialCoevolution_name <- "partial-coevolution"
+
+run_partialCoevolution_runDataFileName = paste0(dataDirectory, run_partialCoevolution_name,'.RData')
+run_partialCoevolution_animationFileName = paste0(runPlotDirectory, run_partialCoevolution_name, "-anim.gif")
 ```
 
-```{r 1_run.semicoevo, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run.semicoevo-name')}
-if(!file.exists('plots/runPlot/run.semicoevo-anim.gif'))
+```{r 1_run_partialCoevolution, cache=TRUE, include=FALSE, dependson=c('1_default-values', 'run_partialCoevolution-name')}
+if(!file.exists(run_partialCoevolution_runDataFileName) | !file.exists(run_partialCoevolution_animationFileName))
 {
-  run.semicoevo <- hpcModel.run(
-    iniH = iniH.default,
-    iniP = iniP.default,
-    n.H = n.H.default,         
-    n.P = n.P.default,        
-    v.H = v.H.default,
-    v.P = v.P.default,
-    r.H = r.H.default, 
-    r.P = r.P.default, 
-    mU.PnH = 0.5, # utility type n plant is the same than type 1 plants and lower than default
-    mU.HnP = mU.HnP.default,
-    mU.P1H = 0.5, # utility type 1 plant is the same than type n plants and higher than default
-    mU.H1P = mU.H1P.default,                                   
-    U.bHn = U.bHn.default,                                
-    U.bPn = U.bPn.default, 
-    U.bH1 = U.bH1.default,                               
-    U.bP1 = U.bP1.default,                                 
-    MaxArea = MaxArea.default,
-    maxIt = maxIt.default,
-    tol = tol.default,
-    timing.threshold = timing.threshold.default,
-    saveTrajectories = saveTrajectories.default,
-    messages = messages.default, 
+  run_partialCoevolution <- hpcModel.run(
+    initial_population_humans = initial_population_humans_default,
+    initial_population_plants = initial_population_plants_default,
+    number_types_humans = number_types_humans_default,         
+    number_types_plants = number_types_plants_default,        
+    undirected_variation_humans = undirected_variation_humans_default,
+    undirected_variation_plants = undirected_variation_plants_default,
+    intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+    intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+    utility_per_capita_type_n_plants_to_humans = 0.5, # utility type n plant is the same than type 1 plants and lower than default
+    utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+    utility_per_capita_type_1_plants_to_humans = 0.5, # utility type 1 plant is the same than type n plants and higher than default
+    utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+    utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+    utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+    utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+    utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+    max_area = max_area_default,
+    max_iterations = max_iterations_default,
+    reltol_exponential = relreltol_exponential_exponential_default,
+    coevolution_threshold = coevolution_threshold_default,
+    save_trajectories = save_trajectories_default,
+    messages = messages_default, 
     # plotting
-    plot.preview = FALSE, 
-    plot.sleep = 0.05,
-    plot.save = TRUE,
-    plot.saveEvery = 5,
-    plot.directory = runPlot.dir,
-    plot.fileName = paste0(run.semicoevo.name, "-runPlot")
+    plot_preview = plot_preview_default, 
+    plot_sleep = plot_sleep_default,
+    plot_save = plot_save_default,
+    plot_save_every = plot_save_every_default,
+    plot_directory = runPlotDirectory,
+    plot_file_name = paste0(run_partialCoevolution_name, "-runPlot")
   )
   
   # save
-  save(run.semicoevo, file = 'data/1_run.semicoevo.RData')
+  save(run_partialCoevolution, file = run_partialCoevolution_runDataFileName)
   
-  # Generate an animated GIF using the images in plot.directory folder
-  animate.trajectory(runPlot.dir, run.semicoevo.name)
+  # clear memory so image magick won't get stuck
+  rm(run_partialCoevolution)
+  
+  # Generate an animated GIF using the images in plot_directory folder
+  animateTrajectory(runPlotDirectory, run_partialCoevolution_name)
 }
 ```
 
-```{r 1_run.semicoevo-animation, eval=!params$ispdf, dependson='run.semicoevo'}
-knitr::include_graphics(paste0(runPlot.dir, run.semicoevo.name, "-anim.gif"))
+```{r 1_run_partialCoevolution-animation, eval=!params$ispdf, dependson='run_partialCoevolution'}
+knitr::include_graphics(run_partialCoevolution_animationFileName)
 ```
 
-```{r 1_run.semicoevo-plot, cache=TRUE, eval=params$ispdf, dependson='run.semicoevo', fig.width=8, fig.height=8}
+```{r 1_run_partialCoevolution-plot, cache=TRUE, eval=params$ispdf, dependson='run_partialCoevolution', fig.width=8, fig.height=8}
 # load
-load('data/1_run.semicoevo.RData')
+load(run_partialCoevolution_runDataFileName)
 
-hpcModel.plot(run.semicoevo, scale.override = 1)
+hpcModel.plot(run_partialCoevolution, scale_override = 1)
 ```
 
-```{r 1_run.semicoevo-clear, include=FALSE}
-rm(run.semicoevo)
+```{r 1_run_partialCoevolution-clear, include=FALSE}
+rm(run_partialCoevolution)
 ```
 
 \newpage
 
 ## Semi-coevolution (oscillations)
 
-```{r 1_run.semicoevo.osc1-name, cache=TRUE}
-run.semicoevo.osc1.name <- "run.semicoevo.osc1"
+```{r 1_run_partialCoevolution_oscillation1-name, cache=TRUE}
+run_partialCoevolution_oscillation1_name <- "partial-coevolution-oscillation1"
+
+run_partialCoevolution_oscillation1_runDataFileName = paste0(dataDirectory, run_partialCoevolution_oscillation1_name,'.RData')
+run_partialCoevolution_oscillation1_animationFileName = paste0(runPlotDirectory, run_partialCoevolution_oscillation1_name, "-anim.gif")
 ```
 
-```{r 1_run.semicoevo.osc1-frames, include=FALSE, dependson=c('1_default-values', '1_run.semicoevo.osc1-name')}
-if(!file.exists('plots/runPlot/run.semicoevo.osc1-anim.gif'))
+```{r 1_run_partialCoevolution_oscillation1-frames, include=FALSE, dependson=c('1_default-values', '1_run_partialCoevolution_oscillation1-name')}
+if(!file.exists(run_partialCoevolution_oscillation1_runDataFileName) | !file.exists(run_partialCoevolution_oscillation1_animationFileName))
 {
-  run.semicoevo.osc1 <- hpcModel.run(
-    iniH = iniH.default,
-    iniP = iniP.default,
-    n.H = n.H.default,#10,         
-    n.P = n.P.default,#10,        
-    v.H = v.H.default,
-    v.P = v.P.default, 
-    r.H = r.H.default,
-    r.P = r.P.default, 
-    mU.PnH = 0.5, # utility type n plant is the same than type 1 plants and lower than default
-    mU.HnP = 0.9, # utility type n humans is lower than default
-    mU.P1H = 0.5, # utility type 1 plant is the same than type n plants and higher than default
-    mU.H1P = mU.H1P.default,                                   
-    U.bHn = 20, # baseline carrying capacity for type n humans is higher than default
-    U.bPn = U.bPn.default, 
-    U.bH1 = 100, # baseline carrying capacity for type 1 humans is higher than default
-    U.bP1 = U.bP1.default,                                 
-    MaxArea = MaxArea.default, 
-    maxIt = 600, # limit iterations
-    tol = tol.default,
-    timing.threshold = timing.threshold.default,
-    saveTrajectories = saveTrajectories.default,
-    messages = messages.default, 
+  run_partialCoevolution_oscillation1 <- hpcModel.run(
+    initial_population_humans = initial_population_humans_default,
+    initial_population_plants = initial_population_plants_default,
+    number_types_humans = number_types_humans_default,#10,         
+    number_types_plants = number_types_plants_default,#10,        
+    undirected_variation_humans = undirected_variation_humans_default,
+    undirected_variation_plants = undirected_variation_plants_default, 
+    intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default,
+    intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+    utility_per_capita_type_n_plants_to_humans = 0.5, # utility type n plant is the same than type 1 plants and lower than default
+    utility_per_capita_type_n_humans_to_plants = 0.9, # utility type n humans is lower than default
+    utility_per_capita_type_1_plants_to_humans = 0.5, # utility type 1 plant is the same than type n plants and higher than default
+    utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+    utility_other_to_type_n_humans = 20, # baseline carrying capacity for type n humans is higher than default
+    utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+    utility_other_to_type_1_humans = 100, # baseline carrying capacity for type 1 humans is higher than default
+    utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+    max_area = max_area_default, 
+    max_iterations = 600, # limit iterations
+    reltol_exponential = relreltol_exponential_exponential_default,
+    coevolution_threshold = coevolution_threshold_default,
+    save_trajectories = save_trajectories_default,
+    messages = messages_default, 
     # plotting
-    plot.preview = FALSE, 
-    plot.sleep = 0.05,
-    plot.save = TRUE,
-    plot.saveEvery = 5,
-    plot.directory = runPlot.dir,
-    plot.fileName = paste0(run.semicoevo.osc1.name, "-runPlot")
+    plot_preview = plot_preview_default, 
+    plot_sleep = plot_sleep_default,
+    plot_save = plot_save_default,
+    plot_save_every = plot_save_every_default,
+    plot_directory = runPlotDirectory,
+    plot_file_name = paste0(run_partialCoevolution_oscillation1_name, "-runPlot")
   )
   
   # save
-  save(run.semicoevo.osc1, file = 'data/1_run.semicoevo.osc1.RData')
+  save(run_partialCoevolution_oscillation1, file = run_partialCoevolution_oscillation1_runDataFileName)
   
-  # Generate an animated GIF using the images in plot.directory folder
-  animate.trajectory(runPlot.dir, run.semicoevo.osc1.name)
+  # clear memory so image magick won't get stuck
+  rm(run_partialCoevolution_oscillation1)
+  
+  # Generate an animated GIF using the images in plot_directory folder
+  animateTrajectory(runPlotDirectory, run_partialCoevolution_oscillation1_name)
 }
 ```
 
-```{r 1_run.semicoevo.osc1-animation, eval=!params$ispdf, dependson='run.semicoevo.osc1'}
-knitr::include_graphics(paste0(runPlot.dir, run.semicoevo.osc1.name, "-anim.gif"))
+```{r 1_run_partialCoevolution_oscillation1-animation, eval=!params$ispdf, dependson='run_partialCoevolution_oscillation1'}
+knitr::include_graphics(run_partialCoevolution_oscillation1_animationFileName)
 ```
 
-```{r 1_run.semicoevo.osc1-plot, cache=TRUE, eval=params$ispdf, dependson='run.semicoevo.osc1', fig.width=8, fig.height=8}
+```{r 1_run_partialCoevolution_oscillation1-plot, cache=TRUE, eval=params$ispdf, dependson='run_partialCoevolution_oscillation1', fig.width=8, fig.height=8}
 # load
-load('data/1_run.semicoevo.osc1.RData')
+load(run_partialCoevolution_oscillation1_runDataFileName)
 
-hpcModel.plot(run.semicoevo.osc1, scale.override = 1)
+hpcModel.plot(run_partialCoevolution_oscillation1, scale_override = 1)
 ```
 
-```{r 1_run.semicoevo.osc1-clear, include=FALSE}
-rm(run.semicoevo.osc1)
+```{r 1_run_partialCoevolution_oscillation1-clear, include=FALSE}
+rm(run_partialCoevolution_oscillation1)
 ```
 
-```{r 1_run.semicoevo.osc2-name, cache=TRUE}
-run.semicoevo.osc2.name <- "run.semicoevo.osc2"
+```{r 1_run_partialCoevolution_oscillation2-name, cache=TRUE}
+run_partialCoevolution_oscillation2_name <- "partial-coevolution-oscillation2"
+
+run_partialCoevolution_oscillation2_runDataFileName = paste0(dataDirectory, run_partialCoevolution_oscillation2_name,'.RData')
+run_partialCoevolution_oscillation2_animationFileName = paste0(runPlotDirectory, run_partialCoevolution_oscillation2_name, "-anim.gif")
 ```
 
-```{r 1_run.semicoevo.osc2-frames, include=FALSE, dependson=c('1_default-values', '1_run.semicoevo.osc2-name')}
-if(!file.exists('plots/runPlot/run.semicoevo.osc2-anim.gif'))
+```{r 1_run_partialCoevolution_oscillation2-frames, include=FALSE, dependson=c('1_default-values', '1_run_partialCoevolution_oscillation2-name')}
+if(!file.exists(run_partialCoevolution_oscillation2_runDataFileName) | !file.exists(run_partialCoevolution_oscillation2_animationFileName))
 {
-  run.semicoevo.osc2 <- hpcModel.run(
-    iniH = iniH.default,
-    iniP = iniP.default,
-    n.H = 10,         
-    n.P = 10,        
-    v.H = v.H.default,
-    v.P = v.P.default, 
-    r.H = 0.15,
-    r.P = 0.15, 
-    mU.PnH = 1,
-    mU.HnP = 0.5, # utility type n humans is the same than type 1
-    mU.P1H = 0.2,
-    mU.H1P = 0.5,
-    U.bHn = 10,
-    U.bPn = 10, 
-    U.bH1 = 100,
-    U.bP1 = 100,
-    MaxArea = MaxArea.default, 
-    maxIt = 600, # limit iterations
-    tol = tol.default,
-    timing.threshold = timing.threshold.default,
-    saveTrajectories = saveTrajectories.default,
-    messages = messages.default, 
+  run_partialCoevolution_oscillation2 <- hpcModel.run(
+    initial_population_humans = initial_population_humans_default,
+    initial_population_plants = initial_population_plants_default,
+    number_types_humans = 10,         
+    number_types_plants = 10,        
+    undirected_variation_humans = undirected_variation_humans_default,
+    undirected_variation_plants = undirected_variation_plants_default, 
+    intrinsic_growth_rate_humans = 0.15,
+    intrinsic_growth_rate_plants = 0.15, 
+    utility_per_capita_type_n_plants_to_humans = 1,
+    utility_per_capita_type_n_humans_to_plants = 0.5, # utility type n humans is the same than type 1
+    utility_per_capita_type_1_plants_to_humans = 0.2,
+    utility_per_capita_type_1_humans_to_plants = 0.5,
+    utility_other_to_type_n_humans = 10,
+    utility_other_to_type_n_plants = 10, 
+    utility_other_to_type_1_humans = 100,
+    utility_other_to_type_1_plants = 100,
+    max_area = max_area_default, 
+    max_iterations = 600, # limit iterations
+    reltol_exponential = relreltol_exponential_exponential_default,
+    coevolution_threshold = coevolution_threshold_default,
+    save_trajectories = save_trajectories_default,
+    messages = messages_default, 
     # plotting
-    plot.preview = FALSE, 
-    plot.sleep = 0.05,
-    plot.save = TRUE,
-    plot.saveEvery = 5,
-    plot.directory = runPlot.dir,
-    plot.fileName = paste0(run.semicoevo.osc2.name, "-runPlot")
+    plot_preview = plot_preview_default, 
+    plot_sleep = plot_sleep_default,
+    plot_save = plot_save_default,
+    plot_save_every = plot_save_every_default,
+    plot_directory = runPlotDirectory,
+    plot_file_name = paste0(run_partialCoevolution_oscillation2_name, "-runPlot")
   )
   
   # save
-  save(run.semicoevo.osc2, file = 'data/1_run.semicoevo.osc2.RData')
+  save(run_partialCoevolution_oscillation2, file = run_partialCoevolution_oscillation2_runDataFileName)
   
-  # Generate an animated GIF using the images in plot.directory folder
-  animate.trajectory(runPlot.dir, run.semicoevo.osc2.name)
+  # clear memory so image magick won't get stuck
+  rm(run_partialCoevolution_oscillation2)
+  
+  # Generate an animated GIF using the images in plot_directory folder
+  animateTrajectory(runPlotDirectory, run_partialCoevolution_oscillation2_name)
 }
 ```
 
-```{r 1_run.semicoevo.osc2-animation, eval=!params$ispdf, dependson='run.semicoevo.osc2'}
-knitr::include_graphics(paste0(runPlot.dir, run.semicoevo.osc2.name, "-anim.gif"))
+```{r 1_run_partialCoevolution_oscillation2-animation, eval=!params$ispdf, dependson='run_partialCoevolution_oscillation2'}
+knitr::include_graphics(run_partialCoevolution_oscillation2_animationFileName)
 ```
 
-```{r 1_run.semicoevo.osc2-plot, cache=TRUE, eval=params$ispdf, dependson='run.semicoevo.osc2', fig.width=8, fig.height=8}
+```{r 1_run_partialCoevolution_oscillation2-plot, cache=TRUE, eval=params$ispdf, dependson='run_partialCoevolution_oscillation2', fig.width=8, fig.height=8}
 # load
-load('data/1_run.semicoevo.osc2.RData')
+load(run_partialCoevolution_oscillation2_runDataFileName)
 
-hpcModel.plot(run.semicoevo.osc2, scale.override = 1)
+hpcModel.plot(run_partialCoevolution_oscillation2, scale_override = 1)
 ```
 
-```{r 1_run.semicoevo.osc2-clear, include=FALSE}
-rm(run.semicoevo.osc2)
+```{r 1_run_partialCoevolution_oscillation2-clear, include=FALSE}
+rm(run_partialCoevolution_oscillation2)
 ```

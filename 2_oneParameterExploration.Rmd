@@ -20,51 +20,53 @@ require(kableExtra)
 ```
 
 ```{r 2_table-functions}
-source("library/plotting/run.table.R")
-source("library/plotting/exp.table.R")
+source("library/plotting/printTableRun.R")
+source("library/plotting/printTableExperiment.R")
 ```
 
 ```{r 2_default-values, cache=TRUE}
 # this is the 'default' parameter setting (end state is 'fast coevolution'):
 # initial populations
-iniH.default = 10
-iniP.default = 10
+initial_population_humans_default = 10
+initial_population_plants_default = 10
 # number of discrete types
-n.H.default = 30
-n.P.default = 30    
+number_types_humans_default = 30
+number_types_plants_default = 30    
 # undirected variation 
-v.H.default = 0.15
-v.P.default = 0.15
+undirected_variation_humans_default = 0.15
+undirected_variation_plants_default = 0.15
 # intrinsic growth rate 
-r.H.default = 0.04
-r.P.default = 0.1
+intrinsic_growth_rate_humans_default = 0.04
+intrinsic_growth_rate_plants_default = 0.1
 # Utility per capita of individuals of type N
-mU.PnH.default = 1.5
-mU.HnP.default = 1
+utility_per_capita_type_n_plants_to_humans_default = 1.5
+utility_per_capita_type_n_humans_to_plants_default = 1
 # Utility per capita of individuals of type 1
-mU.P1H.default = 0.15                           
-mU.H1P.default = 0                               
+utility_per_capita_type_1_plants_to_humans_default = 0.15                           
+utility_per_capita_type_1_humans_to_plants_default = 0                               
 # basic resources:
 # population of type N that can be sustained by resources independent of HP relationship
-U.bHn.default = 10                               
-U.bPn.default = 20
+utility_other_to_type_n_humans_default = 10                               
+utility_other_to_type_n_plants_default = 20
 # population of type 1 that can be sustained by resources independent of HP relationship
-U.bH1.default = 80                               
-U.bP1.default = 100                                 
+utility_other_to_type_1_humans_default = 80                               
+utility_other_to_type_1_plants_default = 100                                 
 # maximum local area to be used by populations (multiplier or scaling effect)
-MaxArea.default = 200
+max_area_default = 200
 # settings 
 # simulation flow & data
-maxIt.default = 5000
-tol.default = 6
-timing.threshold.default = 0.5
-saveTrajectories.default = TRUE
-messages.default = TRUE
+max_iterations_default = 5000
+reltol_exponential_default = 6
+coevolution_threshold_default = 0.5
+messages_default = TRUE
 ```
 
 ```{r 2_plot-functions, include=FALSE}
 # this chunk is specific for this exploration 
-source("library/plotting/bifurcation.plot.R")
+
+plotDirectory <- "plots/2_exp_"
+
+source("library/plotting/bifurcationPlot.R")
 ```
 
 \newpage
@@ -73,82 +75,82 @@ source("library/plotting/bifurcation.plot.R")
 
 ### utility per capita **of** type n plants **to** humans ($\bar{U}_{P_{n}H}$):
 
-```{r 2_mU.PnH-values, cache=TRUE}
-exp.mU.PnH.name <- "mU.PnH"
-SEQ.mU.PnH <- seq(0.5, 2.5, length.out = 100)
+```{r 2_utility_per_capita_type_n_plants_to_humans-values, cache=TRUE}
+exp_utility_per_capita_type_n_plants_to_humans_name <- "utility_per_capita_type_n_plants_to_humans"
+exp_utility_per_capita_type_n_plants_to_humans_values <- seq(0.5, 2.5, length.out = 100)
 ```
 
-```{r 2_mU.PnH, cache=TRUE, dependson=c('2_default-values', '2_mU.PnH-values'), include=FALSE}
-exp.mU.PnH <- hpcModel.exploration(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = n.H.default,         
-  n.P = n.P.default,        
-  v.H = v.H.default,
-  v.P = v.P.default,
-  r.H = r.H.default, 
-  r.P = r.P.default, 
-  mU.PnH = SEQ.mU.PnH, ###
-  mU.HnP = mU.HnP.default,
-  mU.P1H = mU.P1H.default,                                  
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = MaxArea.default, 
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  messages = messages.default
+```{r 2_utility_per_capita_type_n_plants_to_humans, cache=TRUE, dependson=c('2_default-values', '2_utility_per_capita_type_n_plants_to_humans-values'), include=FALSE}
+exp_utility_per_capita_type_n_plants_to_humans <- hpcModel.exploration(
+  initial_population_humans = initial_population_humans_default,
+  initial_population_plants = initial_population_plants_default,
+  number_types_humans = number_types_humans_default,         
+  number_types_plants = number_types_plants_default,        
+  undirected_variation_humans = undirected_variation_humans_default,
+  undirected_variation_plants = undirected_variation_plants_default,
+  intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+  intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+  utility_per_capita_type_n_plants_to_humans = exp_utility_per_capita_type_n_plants_to_humans_values, ###
+  utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+  utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_default,                                  
+  utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+  utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+  utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+  utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+  utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+  max_area = max_area_default, 
+  max_iterations = max_iterations_default,
+  reltol_exponential = reltol_exponential_default,
+  coevolution_threshold = coevolution_threshold_default,
+  messages = messages_default
 )
 ```
 
-```{r 2mUPnHtablehtml, eval=!params$ispdf, cache=TRUE, dependson='2_mU.PnH'}
-exp.table(exp.mU.PnH, caption = 'Parameter setting')
+```{r 2mUPnHtablehtml, eval=!params$ispdf, cache=TRUE, dependson='2_utility_per_capita_type_n_plants_to_humans'}
+printTableExperiment(exp_utility_per_capita_type_n_plants_to_humans, caption = 'Parameter setting')
 ```
 
-```{r 2mUPnHtablepdf, eval=params$ispdf, cache=TRUE, dependson='2_mU.PnH'}
-exp.table(exp.mU.PnH, caption = 'Parameter setting', output = "latex")
+```{r 2mUPnHtablepdf, eval=params$ispdf, cache=TRUE, dependson='2_utility_per_capita_type_n_plants_to_humans'}
+printTableExperiment(exp_utility_per_capita_type_n_plants_to_humans, caption = 'Parameter setting', output = "latex")
 ```
 
-```{r 2_mU.PnH-bifplot1, cache=TRUE, dependson='2_mU.PnH', include=FALSE}
+```{r 2_utility_per_capita_type_n_plants_to_humans-bifplot1, cache=TRUE, dependson='2_utility_per_capita_type_n_plants_to_humans', include=FALSE}
 plotScale = 10
-#svg('paste0("plots/2_onePar-", exp1.name, "_ggbifplot.png"), width=plotScale, height=plotScale)
-png(paste0("plots/2_onePar-", exp.mU.PnH.name, "_ggbifplot.png"),
+#svg('paste0(plotDirectory, exp1_name, "_ggbifplot.png"), width=plotScale, height=plot_scale)
+png(paste0(plotDirectory, exp_utility_per_capita_type_n_plants_to_humans_name, "_bifurcationPlotSimple.png"),
     width = 200 * plotScale, height = 100 * plotScale)
-bifurcation.plot.simple(SEQ.mU.PnH, 
-                        cbind(exp.mU.PnH$coevo.H, exp.mU.PnH$coevo.P),
-                        legendPos = c(2.2, 0),
-                        xlab = expression(paste('utility per capita of type n plants to humans (', bar('U')['PnH'], ')')),
-                        ylab = "coevolution coefficient",
-                        variableNames = c("Humans", "Plants"),
-                        cex = plotScale
-                        )
+bifurcationPlotSimple(exp_utility_per_capita_type_n_plants_to_humans_values, 
+                      cbind(exp_utility_per_capita_type_n_plants_to_humans$coevolution_coefficient_humans, 
+                            exp_utility_per_capita_type_n_plants_to_humans$coevolution_coefficient_plants),
+                      legend_position = c(2.2, 0),
+                      parameter_x_label = expression(paste('utility per capita of type n plants to humans (', bar('U')['PnH'], ')')),
+                      variable_y_label = "coevolution coefficient",
+                      variable_names = c("Humans", "Plants"),
+                      cex = plotScale)
 dev.off()
 ```
 
-```{r 2mUPnHbifplot1print, echo=FALSE, dependson='2_mU.PnH-bifplot1', out.width = '100%', fig.cap='Bifurcation plot (ggplot2)'}
-knitr::include_graphics(paste0("plots/2_onePar-", exp.mU.PnH.name, "_ggbifplot.png"))
+```{r 2mUPnHbifplot1print, echo=FALSE, dependson='2_utility_per_capita_type_n_plants_to_humans-bifplot1', out.width = '100%', fig.cap='Bifurcation plot (ggplot2)'}
+knitr::include_graphics(paste0(plotDirectory, exp_utility_per_capita_type_n_plants_to_humans_name, "_bifurcationPlotSimple.png"))
 ```
 
-```{r 2_mU.PnH-bifplot2, cache=TRUE, dependson='2_mU.PnH', results='hide'}
+```{r 2_utility_per_capita_type_n_plants_to_humans-bifplot2, cache=TRUE, dependson='2_utility_per_capita_type_n_plants_to_humans', results='hide'}
 plotScale = 10
 
-#svg(paste0("plots/2_onePar-", exp.mU.PnH.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
-png(paste0("plots/2_onePar-", exp.mU.PnH.name, "_bifplot-pair.png"),
+#svg(paste0(plotDirectory, exp_utility_per_capita_type_n_plants_to_humans_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
+png(paste0(plotDirectory, exp_utility_per_capita_type_n_plants_to_humans_name, "_bifurcationPlotPair.png"),
     width = 400 * plotScale, height = 100 * plotScale)
-bifurcation.plot.pair(cbind(SEQ.mU.PnH, exp.mU.PnH$coevo.H), 
-                      cbind(SEQ.mU.PnH, exp.mU.PnH$coevo.P), 
-                      parameterLabel = expression(paste('utility per capita of type n plants to humans (', bar('U')['PnH'], ')')),
-                      variableLabelH = expression('coevo'['H']),
-                      variableLabelP = expression('coevo'['P']),
-                      plotScale = plotScale)
+bifurcationPlotPair(cbind(exp_utility_per_capita_type_n_plants_to_humans_values, exp_utility_per_capita_type_n_plants_to_humans$coevolution_coefficient_humans), 
+                    cbind(exp_utility_per_capita_type_n_plants_to_humans_values, exp_utility_per_capita_type_n_plants_to_humans$coevolution_coefficient_plants), 
+                    parameter_x_label = expression(paste('utility per capita of type n plants to humans (', bar('U')['PnH'], ')')),
+                    variable_y_label_A = expression(paste('coevolution coefficient of humans (', 'coevo'['H'], ')')),
+                    variable_y_label_B = expression(paste('coevolution coefficient of plants (', 'coevo'['P'], ')')),
+                    plot_scale = plotScale)
 dev.off()
 ```
 
-```{r 2_mU.PnH-bifplot2-print, echo=FALSE, dependson='2_mU.PnH-bifplot2', out.width = '100%'}
-knitr::include_graphics(paste0("plots/2_onePar-", exp.mU.PnH.name, "_bifplot-pair.png"))
+```{r 2_utility_per_capita_type_n_plants_to_humans-bifplot2-print, echo=FALSE, dependson='2_utility_per_capita_type_n_plants_to_humans-bifplot2', out.width = '100%'}
+knitr::include_graphics(paste0(plotDirectory, exp_utility_per_capita_type_n_plants_to_humans_name, "_bifurcationPlotPair.png"))
 ```
 
 \newpage
@@ -158,1005 +160,1015 @@ knitr::include_graphics(paste0("plots/2_onePar-", exp.mU.PnH.name, "_bifplot-pai
 ### Initial populations of humans and plants ($init_{H},\,init_{P}$)
 
 ```{r 2_init-values, cache=TRUE}
-exp.init.H.name <- "init.H"
-exp.init.P.name <- "init.P"
-SEQ.init.H <- 5:100
-SEQ.init.P <- 5:100
+exp_initial_population_humans_name <- "initial_population_humans"
+exp_initial_population_plants_name <- "initial_population_plants"
+exp_initial_population_humans_values <- 5:100
+exp_initial_population_plants_values <- 5:100
 ```
 
-```{r 2_init.H, cache=TRUE, dependson=c('2_default-values', '2_init-values'), include=FALSE}
-exp.init.H <- hpcModel.exploration(
-  iniH = SEQ.init.H, ###
-  iniP = iniP.default,
-  n.H = n.H.default,         
-  n.P = n.P.default,        
-  v.H = v.H.default,
-  v.P = v.P.default,
-  r.H = r.H.default, 
-  r.P = r.P.default, 
-  mU.PnH = mU.PnH.default,
-  mU.HnP = mU.HnP.default,
-  mU.P1H = mU.P1H.default,                                  
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = MaxArea.default, 
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  messages = messages.default
+```{r 2_initial_population_humans, cache=TRUE, dependson=c('2_default-values', '2_init-values'), include=FALSE}
+exp_initial_population_humans <- hpcModel.exploration(
+  initial_population_humans = exp_initial_population_humans_values, ###
+  initial_population_plants = initial_population_plants_default,
+  number_types_humans = number_types_humans_default,         
+  number_types_plants = number_types_plants_default,        
+  undirected_variation_humans = undirected_variation_humans_default,
+  undirected_variation_plants = undirected_variation_plants_default,
+  intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+  intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+  utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_default,
+  utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+  utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_default,                                  
+  utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+  utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+  utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+  utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+  utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+  max_area = max_area_default, 
+  max_iterations = max_iterations_default,
+  reltol_exponential = reltol_exponential_default,
+  coevolution_threshold = coevolution_threshold_default,
+  messages = messages_default
 )
 ```
 
-```{r 2_init.P, cache=TRUE, dependson=c('2_default-values', '2_init-values'), include=FALSE}
-exp.init.P <- hpcModel.exploration(
-  iniH = iniH.default,
-  iniP = SEQ.init.P, ###
-  n.H = n.H.default,         
-  n.P = n.P.default,        
-  v.H = v.H.default,
-  v.P = v.P.default,
-  r.H = r.H.default, 
-  r.P = r.P.default, 
-  mU.PnH = mU.PnH.default,
-  mU.HnP = mU.HnP.default,
-  mU.P1H = mU.P1H.default,                                  
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = MaxArea.default, 
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  messages = messages.default
+```{r 2_initial_population_plants, cache=TRUE, dependson=c('2_default-values', '2_init-values'), include=FALSE}
+exp_initial_population_plants <- hpcModel.exploration(
+  initial_population_humans = initial_population_humans_default,
+  initial_population_plants = exp_initial_population_plants_values, ###
+  number_types_humans = number_types_humans_default,         
+  number_types_plants = number_types_plants_default,        
+  undirected_variation_humans = undirected_variation_humans_default,
+  undirected_variation_plants = undirected_variation_plants_default,
+  intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+  intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+  utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_default,
+  utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+  utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_default,                                  
+  utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+  utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+  utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+  utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+  utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+  max_area = max_area_default, 
+  max_iterations = max_iterations_default,
+  reltol_exponential = reltol_exponential_default,
+  coevolution_threshold = coevolution_threshold_default,
+  messages = messages_default
 )
 ```
 
-```{r 2_init.H-bifplot2, cache=TRUE, dependson='2_init.H', results='hide'}
+```{r 2_initial_population_humans-bifplot2, cache=TRUE, dependson='2_initial_population_humans', results='hide'}
 plotScale = 10
 
-#svg(paste0("plots/2_onePar-", exp.init.H.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
-png(paste0("plots/2_onePar-", exp.init.H.name, "_bifplot-pair.png"),
+#svg(paste0(plotDirectory, exp_initial_population_humans_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
+png(paste0(plotDirectory, exp_initial_population_humans_name, "_bifurcationPlotPair.png"),
     width = 400 * plotScale, height = 100 * plotScale)
-bifurcation.plot.pair(cbind(SEQ.init.H, exp.init.H$coevo.H), 
-                      cbind(SEQ.init.H, exp.init.H$coevo.P), 
-                      parameterLabel = expression(paste('Initial human population (',
-                                                'ini'['H'], ')')),
-                      variableLabelH = expression('coevo'['H']),
-                      variableLabelP = expression('coevo'['P']),
-                      plotScale = plotScale)
+bifurcationPlotPair(cbind(exp_initial_population_humans_values, exp_initial_population_humans$coevolution_coefficient_humans), 
+                    cbind(exp_initial_population_humans_values, exp_initial_population_humans$coevolution_coefficient_plants), 
+                    parameter_x_label = expression(paste('Initial human population (',
+                                                       'ini'['H'], ')')),
+                    variable_y_label_A = expression(paste('coevolution coefficient of humans (', 'coevo'['H'], ')')),
+                    variable_y_label_B = expression(paste('coevolution coefficient of plants (', 'coevo'['P'], ')')),
+                    plot_scale = plotScale)
 dev.off()
 ```
 
-```{r 2_init.P-bifplot2, cache=TRUE, dependson='2_init.P', results='hide'}
+```{r 2_initial_population_plants-bifplot2, cache=TRUE, dependson='2_initial_population_plants', results='hide'}
 plotScale = 10
 
-#svg(paste0("plots/2_onePar-", exp.init.P.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
-png(paste0("plots/2_onePar-", exp.init.P.name, "_bifplot-pair.png"),
+#svg(paste0(plotDirectory, exp_initial_population_plants_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
+png(paste0(plotDirectory, exp_initial_population_plants_name, "_bifurcationPlotPair.png"),
     width = 400 * plotScale, height = 100 * plotScale)
-bifurcation.plot.pair(cbind(SEQ.init.P, exp.init.P$coevo.H), 
-                      cbind(SEQ.init.P, exp.init.P$coevo.P), 
-                      parameterLabel = expression(paste('Initial plant population (',
-                                                'ini'['P'], ')')),
-                      variableLabelH = expression('coevo'['H']),
-                      variableLabelP = expression('coevo'['P']),
-                      plotScale = plotScale)
+bifurcationPlotPair(cbind(exp_initial_population_plants_values, exp_initial_population_plants$coevolution_coefficient_humans), 
+                    cbind(exp_initial_population_plants_values, exp_initial_population_plants$coevolution_coefficient_plants), 
+                    parameter_x_label = expression(paste('Initial plant population (',
+                                                       'ini'['P'], ')')),
+                    variable_y_label_A = expression(paste('coevolution coefficient of humans (', 'coevo'['H'], ')')),
+                    variable_y_label_B = expression(paste('coevolution coefficient of plants (', 'coevo'['P'], ')')),
+                    plot_scale = plotScale)
 dev.off()
 ```
 
-```{r 2_init.H-bifplot2-print, echo=FALSE, dependson='2_init.H-bifplot2', out.width = '100%'}
-knitr::include_graphics(paste0("plots/2_onePar-", exp.init.H.name, "_bifplot-pair.png"))
+```{r 2_initial_population_humans-bifplot2-print, echo=FALSE, dependson='2_initial_population_humans-bifplot2', out.width = '100%'}
+knitr::include_graphics(paste0(plotDirectory, exp_initial_population_humans_name, "_bifurcationPlotPair.png"))
 ```
 
-```{r 2_init.P-bifplot2-print, echo=FALSE, dependson='2_init.P-bifplot2', out.width = '100%'}
-knitr::include_graphics(paste0("plots/2_onePar-", exp.init.P.name, "_bifplot-pair.png"))
+```{r 2_initial_population_plants-bifplot2-print, echo=FALSE, dependson='2_initial_population_plants-bifplot2', out.width = '100%'}
+knitr::include_graphics(paste0(plotDirectory, exp_initial_population_plants_name, "_bifurcationPlotPair.png"))
 ```
 
 ### Number of types of humans and plants ($n_{H},\,n_{P}$):
 
-```{r 2_n-values, cache=TRUE}
-exp.n.H.name <- "n.H"
-exp.n.P.name <- "n.P"
-SEQ.n.H <- 5:40
-SEQ.n.P <- 5:40
+```{r 2_number_types-values, cache=TRUE}
+exp_number_types_humans_name <- "number_types_humans"
+exp_number_types_plants_name <- "number_types_plants"
+exp_number_types_humans_values <- 5:40
+exp_number_types_plants_values <- 5:40
 ```
 
-```{r 2_n.H, cache=TRUE, dependson=c('2_default-values','2_n-values'), include=FALSE}
-exp.n.H <- hpcModel.exploration(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = SEQ.n.H, ###
-  n.P = n.P.default,        
-  v.H = v.H.default,
-  v.P = v.P.default,
-  r.H = r.H.default, 
-  r.P = r.P.default, 
-  mU.PnH = mU.PnH.default,
-  mU.HnP = mU.HnP.default,
-  mU.P1H = mU.P1H.default,                                  
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = MaxArea.default, 
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  messages = messages.default
+```{r 2_number_types_humans, cache=TRUE, dependson=c('2_default-values','2_number_types-values'), include=FALSE}
+exp_number_types_humans <- hpcModel.exploration(
+  initial_population_humans = initial_population_humans_default,
+  initial_population_plants = initial_population_plants_default,
+  number_types_humans = exp_number_types_humans_values, ###
+  number_types_plants = number_types_plants_default,        
+  undirected_variation_humans = undirected_variation_humans_default,
+  undirected_variation_plants = undirected_variation_plants_default,
+  intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+  intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+  utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_default,
+  utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+  utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_default,                                  
+  utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+  utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+  utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+  utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+  utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+  max_area = max_area_default, 
+  max_iterations = max_iterations_default,
+  reltol_exponential = reltol_exponential_default,
+  coevolution_threshold = coevolution_threshold_default,
+  messages = messages_default
 )
 ```
 
-```{r 2_n.P, cache=TRUE, dependson=c('2_default-values', '2_n-values'), include=FALSE}
-exp.n.P <- hpcModel.exploration(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = n.H.default,         
-  n.P = SEQ.n.P, ###
-  v.H = v.H.default,
-  v.P = v.P.default,
-  r.H = r.H.default, 
-  r.P = r.P.default, 
-  mU.PnH = mU.PnH.default,
-  mU.HnP = mU.HnP.default,
-  mU.P1H = mU.P1H.default,                                  
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = MaxArea.default, 
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  messages = messages.default
+```{r 2_number_types_plants, cache=TRUE, dependson=c('2_default-values', '2_number_types-values'), include=FALSE}
+exp_number_types_plants <- hpcModel.exploration(
+  initial_population_humans = initial_population_humans_default,
+  initial_population_plants = initial_population_plants_default,
+  number_types_humans = number_types_humans_default,         
+  number_types_plants = exp_number_types_plants_values, ###
+  undirected_variation_humans = undirected_variation_humans_default,
+  undirected_variation_plants = undirected_variation_plants_default,
+  intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+  intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+  utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_default,
+  utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+  utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_default,                                  
+  utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+  utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+  utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+  utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+  utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+  max_area = max_area_default, 
+  max_iterations = max_iterations_default,
+  reltol_exponential = reltol_exponential_default,
+  coevolution_threshold = coevolution_threshold_default,
+  messages = messages_default
 )
 ```
 
-```{r 2_n.H-bifplot2, cache=TRUE, dependson='2_n.H', results='hide'}
+```{r 2_number_types_humans-bifplot2, cache=TRUE, dependson='2_number_types_humans', results='hide'}
 plotScale = 10
 
-#svg(paste0("plots/2_onePar-", exp1.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
-png(paste0("plots/2_onePar-", exp.n.H.name, "_bifplot-pair.png"),
+#svg(paste0(plotDirectory, exp1_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
+png(paste0(plotDirectory, exp_number_types_humans_name, "_bifurcationPlotPair.png"),
     width = 400 * plotScale, height = 100 * plotScale)
-bifurcation.plot.pair(cbind(SEQ.n.H, exp.n.H$coevo.H), 
-                      cbind(SEQ.n.H, exp.n.H$coevo.P), 
-                      parameterLabel = expression(paste('number of human types (',
-                                                'n'['H'], ')')),
-                      variableLabelH = expression('coevo'['H']),
-                      variableLabelP = expression('coevo'['P']),
-                      plotScale = plotScale)
+bifurcationPlotPair(cbind(exp_number_types_humans_values, exp_number_types_humans$coevolution_coefficient_humans), 
+                    cbind(exp_number_types_humans_values, exp_number_types_humans$coevolution_coefficient_plants), 
+                    parameter_x_label = expression(paste('number of human types (',
+                                                       'n'['H'], ')')),
+                    variable_y_label_A = expression(paste('coevolution coefficient of humans (', 'coevo'['H'], ')')),
+                    variable_y_label_B = expression(paste('coevolution coefficient of plants (', 'coevo'['P'], ')')),
+                    plot_scale = plotScale)
 dev.off()
 ```
 
-```{r 2_n.P-bifplot2, cache=TRUE, dependson='2_n.P', results='hide'}
+```{r 2_number_types_plants-bifplot2, cache=TRUE, dependson='2_number_types_plants', results='hide'}
 plotScale = 10
 
-#svg(paste0("plots/2_onePar-", exp.n.P.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
-png(paste0("plots/2_onePar-", exp.n.P.name, "_bifplot-pair.png"),
+#svg(paste0(plotDirectory, exp_number_types_plants_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
+png(paste0(plotDirectory, exp_number_types_plants_name, "_bifurcationPlotPair.png"),
     width = 400 * plotScale, height = 100 * plotScale)
-bifurcation.plot.pair(cbind(SEQ.n.P, exp.n.P$coevo.H), 
-                      cbind(SEQ.n.P, exp.n.P$coevo.P), 
-                      parameterLabel = expression(paste('number of plant types (',
-                                                'n'['P'], ')')),
-                      variableLabelH = expression('coevo'['H']),
-                      variableLabelP = expression('coevo'['P']),
-                      plotScale = plotScale)
+bifurcationPlotPair(cbind(exp_number_types_plants_values, exp_number_types_plants$coevolution_coefficient_humans), 
+                    cbind(exp_number_types_plants_values, exp_number_types_plants$coevolution_coefficient_plants), 
+                    parameter_x_label = expression(paste('number of plant types (',
+                                                       'n'['P'], ')')),
+                    variable_y_label_A = expression(paste('coevolution coefficient of humans (', 'coevo'['H'], ')')),
+                    variable_y_label_B = expression(paste('coevolution coefficient of plants (', 'coevo'['P'], ')')),
+                    plot_scale = plotScale)
 dev.off()
 ```
 
-```{r 2_n.H-bifplot2-print, echo=FALSE, dependson='2_n.H-bifplot2', out.width = '100%'}
-knitr::include_graphics(paste0("plots/2_onePar-", exp.n.H.name, "_bifplot-pair.png"))
+```{r 2_number_types_humans-bifplot2-print, echo=FALSE, dependson='2_number_types_humans-bifplot2', out.width = '100%'}
+knitr::include_graphics(paste0(plotDirectory, exp_number_types_humans_name, "_bifurcationPlotPair.png"))
 ```
 
-```{r 2_n.P-bifplot2-print, echo=FALSE, dependson='2_n.P-bifplot2', out.width = '100%'}
-knitr::include_graphics(paste0("plots/2_onePar-", exp.n.P.name, "_bifplot-pair.png"))
+```{r 2_number_types_plants-bifplot2-print, echo=FALSE, dependson='2_number_types_plants-bifplot2', out.width = '100%'}
+knitr::include_graphics(paste0(plotDirectory, exp_number_types_plants_name, "_bifurcationPlotPair.png"))
 ```
 
 ### level of undirected variation in humans and plants ($v_{H},\,v_{P}$):
 
-```{r 2_v-values, cache=TRUE}
-exp.v.H.name <- "v.H"
-exp.v.P.name <- "v.P"
-SEQ.v.H <- seq(0.05, 0.25, length.out = 100)
-SEQ.v.P <- seq(0.05, 0.25, length.out = 100)
+```{r 2_undirected_variation-values, cache=TRUE}
+exp_undirected_variation_humans_name <- "undirected_variation_humans"
+exp_undirected_variation_plants_name <- "undirected_variation_plants"
+exp_undirected_variation_humans_values <- seq(0.05, 0.25, length.out = 100)
+exp_undirected_variation_plants_values <- seq(0.05, 0.25, length.out = 100)
 ```
 
-```{r 2_v.H, cache=TRUE, dependson=c('2_default-values', '2_v-values'), include=FALSE}
-exp.v.H <- hpcModel.exploration(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = n.H.default,         
-  n.P = n.P.default,        
-  v.H = SEQ.v.H, ###
-  v.P = v.P.default,
-  r.H = r.H.default, 
-  r.P = r.P.default, 
-  mU.PnH = mU.PnH.default,
-  mU.HnP = mU.HnP.default,
-  mU.P1H = mU.P1H.default,                                  
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = MaxArea.default, 
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  messages = messages.default
+```{r 2_undirected_variation_humans, cache=TRUE, dependson=c('2_default-values', '2_undirected_variation-values'), include=FALSE}
+exp_undirected_variation_humans <- hpcModel.exploration(
+  initial_population_humans = initial_population_humans_default,
+  initial_population_plants = initial_population_plants_default,
+  number_types_humans = number_types_humans_default,         
+  number_types_plants = number_types_plants_default,        
+  undirected_variation_humans = exp_undirected_variation_humans_values, ###
+  undirected_variation_plants = undirected_variation_plants_default,
+  intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+  intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+  utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_default,
+  utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+  utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_default,                                  
+  utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+  utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+  utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+  utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+  utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+  max_area = max_area_default, 
+  max_iterations = max_iterations_default,
+  reltol_exponential = reltol_exponential_default,
+  coevolution_threshold = coevolution_threshold_default,
+  messages = messages_default
 )
 ```
 
-```{r 2_v.P, cache=TRUE, dependson=c('2_default-values', '2_v-values'), include=FALSE}
-exp.v.P <- hpcModel.exploration(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = n.H.default,         
-  n.P = n.P.default,        
-  v.H = v.H.default,
-  v.P = SEQ.v.P, ###
-  r.H = r.H.default, 
-  r.P = r.P.default, 
-  mU.PnH = mU.PnH.default,
-  mU.HnP = mU.HnP.default,
-  mU.P1H = mU.P1H.default,                                  
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = MaxArea.default, 
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  messages = messages.default
+```{r 2_undirected_variation_plants, cache=TRUE, dependson=c('2_default-values', '2_undirected_variation-values'), include=FALSE}
+exp_undirected_variation_plants <- hpcModel.exploration(
+  initial_population_humans = initial_population_humans_default,
+  initial_population_plants = initial_population_plants_default,
+  number_types_humans = number_types_humans_default,         
+  number_types_plants = number_types_plants_default,        
+  undirected_variation_humans = undirected_variation_humans_default,
+  undirected_variation_plants = exp_undirected_variation_plants_values, ###
+  intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+  intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+  utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_default,
+  utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+  utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_default,                                  
+  utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+  utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+  utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+  utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+  utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+  max_area = max_area_default, 
+  max_iterations = max_iterations_default,
+  reltol_exponential = reltol_exponential_default,
+  coevolution_threshold = coevolution_threshold_default,
+  messages = messages_default
 )
 ```
 
-```{r 2_v.H-bifplot2, cache=TRUE, dependson='2_v.H', results='hide'}
+```{r 2_undirected_variation_humans-bifplot2, cache=TRUE, dependson='2_undirected_variation_humans', results='hide'}
 plotScale = 10
 
-#svg(paste0("plots/2_onePar-", exp.v.H.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
-png(paste0("plots/2_onePar-", exp.v.H.name, "_bifplot-pair.png"),
+#svg(paste0(plotDirectory, exp_undirected_variation_humans_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
+png(paste0(plotDirectory, exp_undirected_variation_humans_name, "_bifurcationPlotPair.png"),
     width = 400 * plotScale, height = 100 * plotScale)
-bifurcation.plot.pair(cbind(SEQ.v.H, exp.v.H$coevo.H), 
-                      cbind(SEQ.v.H, exp.v.H$coevo.P), 
-                      parameterLabel = expression(paste('undirected variation in humans (',
-                                                'v'['H'], ')')),
-                      variableLabelH = expression('coevo'['H']),
-                      variableLabelP = expression('coevo'['P']),
-                      plotScale = plotScale)
+bifurcationPlotPair(cbind(exp_undirected_variation_humans_values, exp_undirected_variation_humans$coevolution_coefficient_humans), 
+                    cbind(exp_undirected_variation_humans_values, exp_undirected_variation_humans$coevolution_coefficient_plants), 
+                    parameter_x_label = expression(paste('undirected variation in humans (',
+                                                       'v'['H'], ')')),
+                    variable_y_label_A = expression(paste('coevolution coefficient of humans (', 'coevo'['H'], ')')),
+                    variable_y_label_B = expression(paste('coevolution coefficient of plants (', 'coevo'['P'], ')')),
+                    plot_scale = plotScale)
 dev.off()
 ```
 
-```{r 2_v.P-bifplot2, cache=TRUE, dependson='2_v.P', results='hide'}
+```{r 2_undirected_variation_plants-bifplot2, cache=TRUE, dependson='2_undirected_variation_plants', results='hide'}
 plotScale = 10
 
-#svg(paste0("plots/2_onePar-", exp.v.P.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
-png(paste0("plots/2_onePar-", exp.v.P.name, "_bifplot-pair.png"),
+#svg(paste0(plotDirectory, exp_undirected_variation_plants_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
+png(paste0(plotDirectory, exp_undirected_variation_plants_name, "_bifurcationPlotPair.png"),
     width = 400 * plotScale, height = 100 * plotScale)
-bifurcation.plot.pair(cbind(SEQ.v.P, exp.v.P$coevo.H), 
-                      cbind(SEQ.v.P, exp.v.P$coevo.P), 
-                      parameterLabel = expression(paste('undirected variation in plants (',
-                                                'v'['P'], ')')),
-                      variableLabelH = expression('coevo'['H']),
-                      variableLabelP = expression('coevo'['P']),
-                      plotScale = plotScale)
+bifurcationPlotPair(cbind(exp_undirected_variation_plants_values, exp_undirected_variation_plants$coevolution_coefficient_humans), 
+                    cbind(exp_undirected_variation_plants_values, exp_undirected_variation_plants$coevolution_coefficient_plants), 
+                    parameter_x_label = expression(paste('undirected variation in plants (',
+                                                       'v'['P'], ')')),
+                    variable_y_label_A = expression(paste('coevolution coefficient of humans (', 'coevo'['H'], ')')),
+                    variable_y_label_B = expression(paste('coevolution coefficient of plants (', 'coevo'['P'], ')')),
+                    plot_scale = plotScale)
 dev.off()
 ```
 
-```{r 2_v.H-bifplot2-print, echo=FALSE, dependson='2_v.H-bifplot2', out.width = '100%'}
-knitr::include_graphics(paste0("plots/2_onePar-", exp.v.H.name, "_bifplot-pair.png"))
+```{r 2_undirected_variation_humans-bifplot2-print, echo=FALSE, dependson='2_undirected_variation_humans-bifplot2', out.width = '100%'}
+knitr::include_graphics(paste0(plotDirectory, exp_undirected_variation_humans_name, "_bifurcationPlotPair.png"))
 ```
 
-```{r 2_v.P-bifplot2-print, echo=FALSE, dependson='2_v.P-bifplot2', out.width = '100%'}
-knitr::include_graphics(paste0("plots/2_onePar-", exp.v.P.name, "_bifplot-pair.png"))
+```{r 2_undirected_variation_plants-bifplot2-print, echo=FALSE, dependson='2_undirected_variation_plants-bifplot2', out.width = '100%'}
+knitr::include_graphics(paste0(plotDirectory, exp_undirected_variation_plants_name, "_bifurcationPlotPair.png"))
 ```
 
 ### intrinsic growth rates for human and plant populations ($r_{H},\,r_{P}$):
 
-```{r 2_r-values, cache=TRUE}
-exp.r.H.name <- "r.H"
-exp.r.P.name <- "r.P"
-SEQ.r.H <- seq(0.01, 0.25, length.out = 100)
-SEQ.r.P <- seq(0.01, 0.25, length.out = 100)
+```{r 2_intrinsic_growth_rate-values, cache=TRUE}
+exp_intrinsic_growth_rate_humans_name <- "intrinsic_growth_rate_humans"
+exp_intrinsic_growth_rate_plants_name <- "intrinsic_growth_rate_plants"
+exp_intrinsic_growth_rate_humans_values <- seq(0.01, 0.25, length.out = 100)
+exp_intrinsic_growth_rate_plants_values <- seq(0.01, 0.25, length.out = 100)
 ```
 
-```{r 2_r.H, cache=TRUE, dependson=c('2_default-values', '2_r-values'), include=FALSE}
-exp.r.H <- hpcModel.exploration(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = n.H.default,         
-  n.P = n.P.default,        
-  v.H = v.H.default,
-  v.P = v.P.default,
-  r.H = SEQ.r.H, ###
-  r.P = r.P.default, 
-  mU.PnH = mU.PnH.default,
-  mU.HnP = mU.HnP.default,
-  mU.P1H = mU.P1H.default,                                  
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = MaxArea.default, 
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  messages = messages.default
+```{r 2_intrinsic_growth_rate_humans, cache=TRUE, dependson=c('2_default-values', '2_intrinsic_growth_rate-values'), include=FALSE}
+exp_intrinsic_growth_rate_humans <- hpcModel.exploration(
+  initial_population_humans = initial_population_humans_default,
+  initial_population_plants = initial_population_plants_default,
+  number_types_humans = number_types_humans_default,         
+  number_types_plants = number_types_plants_default,        
+  undirected_variation_humans = undirected_variation_humans_default,
+  undirected_variation_plants = undirected_variation_plants_default,
+  intrinsic_growth_rate_humans = exp_intrinsic_growth_rate_humans_values, ###
+  intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+  utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_default,
+  utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+  utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_default,                                  
+  utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+  utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+  utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+  utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+  utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+  max_area = max_area_default, 
+  max_iterations = max_iterations_default,
+  reltol_exponential = reltol_exponential_default,
+  coevolution_threshold = coevolution_threshold_default,
+  messages = messages_default
 )
 ```
 
-```{r 2_r.P, cache=TRUE, dependson=c('2_default-values', '2_r-values'), include=FALSE}
-exp.r.P <- hpcModel.exploration(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = n.H.default,         
-  n.P = n.P.default,        
-  v.H = v.H.default,
-  v.P = v.P.default,
-  r.H = r.H.default, 
-  r.P = SEQ.r.P, ###
-  mU.PnH = mU.PnH.default,
-  mU.HnP = mU.HnP.default,
-  mU.P1H = mU.P1H.default,                                  
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = MaxArea.default, 
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  messages = messages.default
+```{r 2_intrinsic_growth_rate_plants, cache=TRUE, dependson=c('2_default-values', '2_intrinsic_growth_rate-values'), include=FALSE}
+exp_intrinsic_growth_rate_plants <- hpcModel.exploration(
+  initial_population_humans = initial_population_humans_default,
+  initial_population_plants = initial_population_plants_default,
+  number_types_humans = number_types_humans_default,         
+  number_types_plants = number_types_plants_default,        
+  undirected_variation_humans = undirected_variation_humans_default,
+  undirected_variation_plants = undirected_variation_plants_default,
+  intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+  intrinsic_growth_rate_plants = exp_intrinsic_growth_rate_plants_values, ###
+  utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_default,
+  utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+  utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_default,                                  
+  utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+  utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+  utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+  utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+  utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+  max_area = max_area_default, 
+  max_iterations = max_iterations_default,
+  reltol_exponential = reltol_exponential_default,
+  coevolution_threshold = coevolution_threshold_default,
+  messages = messages_default
 )
 ```
 
-```{r 2_r.H-bifplot2, cache=TRUE, dependson='2_r.H', results='hide'}
+```{r 2_intrinsic_growth_rate_humans-bifplot2, cache=TRUE, dependson='2_intrinsic_growth_rate_humans', results='hide'}
 plotScale = 10
 
-#svg(paste0("plots/2_onePar-", exp.r.H.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
-png(paste0("plots/2_onePar-", exp.r.H.name, "_bifplot-pair.png"),
+#svg(paste0(plotDirectory, exp_intrinsic_growth_rate_humans_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
+png(paste0(plotDirectory, exp_intrinsic_growth_rate_humans_name, "_bifurcationPlotPair.png"),
     width = 400 * plotScale, height = 100 * plotScale)
-bifurcation.plot.pair(cbind(SEQ.r.H, exp.r.H$coevo.H), 
-                      cbind(SEQ.r.H, exp.r.H$coevo.P), 
-                      parameterLabel = expression(paste('human instrinsic growth rate (',
-                                                'r'['H'], ')')),
-                      variableLabelH = expression('coevo'['H']),
-                      variableLabelP = expression('coevo'['P']),
-                      plotScale = plotScale)
+bifurcationPlotPair(cbind(exp_intrinsic_growth_rate_humans_values, exp_intrinsic_growth_rate_humans$coevolution_coefficient_humans), 
+                    cbind(exp_intrinsic_growth_rate_humans_values, exp_intrinsic_growth_rate_humans$coevolution_coefficient_plants), 
+                    parameter_x_label = expression(paste('human instrinsic growth rate (',
+                                                       'r'['H'], ')')),
+                    variable_y_label_A = expression(paste('coevolution coefficient of humans (', 'coevo'['H'], ')')),
+                    variable_y_label_B = expression(paste('coevolution coefficient of plants (', 'coevo'['P'], ')')),
+                    plot_scale = plotScale)
 dev.off()
 ```
 
-```{r 2_r.P-bifplot2, cache=TRUE, dependson='2_r.P', results='hide'}
+```{r 2_intrinsic_growth_rate_plants-bifplot2, cache=TRUE, dependson='2_intrinsic_growth_rate_plants', results='hide'}
 plotScale = 10
 
-#svg(paste0("plots/2_onePar-", exp.r.P.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
-png(paste0("plots/2_onePar-", exp.r.P.name, "_bifplot-pair.png"),
+#svg(paste0(plotDirectory, exp_intrinsic_growth_rate_plants_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
+png(paste0(plotDirectory, exp_intrinsic_growth_rate_plants_name, "_bifurcationPlotPair.png"),
     width = 400 * plotScale, height = 100 * plotScale)
-bifurcation.plot.pair(cbind(SEQ.r.P, exp.r.P$coevo.H), 
-                      cbind(SEQ.r.P, exp.r.P$coevo.P), 
-                      parameterLabel = expression(paste('plant instrinsic growth rate (',
-                                                'r'['P'], ')')),
-                      variableLabelH = expression('coevo'['H']),
-                      variableLabelP = expression('coevo'['P']),
-                      plotScale = plotScale)
+bifurcationPlotPair(cbind(exp_intrinsic_growth_rate_plants_values, exp_intrinsic_growth_rate_plants$coevolution_coefficient_humans), 
+                    cbind(exp_intrinsic_growth_rate_plants_values, exp_intrinsic_growth_rate_plants$coevolution_coefficient_plants), 
+                    parameter_x_label = expression(paste('plant instrinsic growth rate (',
+                                                       'r'['P'], ')')),
+                    variable_y_label_A = expression(paste('coevolution coefficient of humans (', 'coevo'['H'], ')')),
+                    variable_y_label_B = expression(paste('coevolution coefficient of plants (', 'coevo'['P'], ')')),
+                    plot_scale = plotScale)
 dev.off()
 ```
 
-```{r 2_r.H-bifplot2-print, echo=FALSE, dependson='2_r.H-bifplot2', out.width = '100%'}
-knitr::include_graphics(paste0("plots/2_onePar-", exp.r.H.name, "_bifplot-pair.png"))
+```{r 2_intrinsic_growth_rate_humans-bifplot2-print, echo=FALSE, dependson='2_intrinsic_growth_rate_humans-bifplot2', out.width = '100%'}
+knitr::include_graphics(paste0(plotDirectory, exp_intrinsic_growth_rate_humans_name, "_bifurcationPlotPair.png"))
 ```
 
-```{r 2_r.P-bifplot2-print, echo=FALSE, dependson='2_r.P-bifplot2', out.width = '100%'}
-knitr::include_graphics(paste0("plots/2_onePar-", exp.r.P.name, "_bifplot-pair.png"))
+```{r 2_intrinsic_growth_rate_plants-bifplot2-print, echo=FALSE, dependson='2_intrinsic_growth_rate_plants-bifplot2', out.width = '100%'}
+knitr::include_graphics(paste0(plotDirectory, exp_intrinsic_growth_rate_plants_name, "_bifurcationPlotPair.png"))
 ```
 
 ### utility per capita **of** type n plants **to** humans ($\bar{U}_{P_{n}H}$):
 
-```{r 2_mU.PnH-bifplot2-print2, echo=FALSE, dependson='2_mU.PnH-bifplot2', out.width = '100%'}
-knitr::include_graphics(paste0("plots/2_onePar-", exp.mU.PnH.name, "_bifplot-pair.png"))
+```{r 2_utility_per_capita_type_n_plants_to_humans-bifplot2-print2, echo=FALSE, dependson='2_utility_per_capita_type_n_plants_to_humans-bifplot2', out.width = '100%'}
+knitr::include_graphics(paste0(plotDirectory, exp_utility_per_capita_type_n_plants_to_humans_name, "_bifurcationPlotPair.png"))
 ```
 
 ### utility per capita **of** type n human **to** plants ($\bar{U}_{H_{n}P}$):
 
-```{r 2_mU.HnP-values, cache=TRUE}
-exp.mU.HnP.name <- "mU.HnP"
-SEQ.mU.HnP <- seq(0, 1.5, length.out = 100)
+```{r 2_utility_per_capita_type_n_humans_to_plants-values, cache=TRUE}
+exp_utility_per_capita_type_n_humans_to_plants_name <- "utility_per_capita_type_n_humans_to_plants"
+exp_utility_per_capita_type_n_humans_to_plants_values <- seq(0, 1.5, length.out = 100)
 ```
 
-```{r 2_mU.HnP, cache=TRUE, dependson=c('2_default-values', '2_mU.HnP-values'), include=FALSE}
-exp.mU.HnP <- hpcModel.exploration(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = n.H.default,         
-  n.P = n.P.default,        
-  v.H = v.H.default,
-  v.P = v.P.default,
-  r.H = r.H.default, 
-  r.P = r.P.default, 
-  mU.PnH = mU.PnH.default,
-  mU.HnP = SEQ.mU.HnP, ###
-  mU.P1H = mU.P1H.default,                                  
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = MaxArea.default, 
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  messages = messages.default
+```{r 2_utility_per_capita_type_n_humans_to_plants, cache=TRUE, dependson=c('2_default-values', '2_utility_per_capita_type_n_humans_to_plants-values'), include=FALSE}
+exp_utility_per_capita_type_n_humans_to_plants <- hpcModel.exploration(
+  initial_population_humans = initial_population_humans_default,
+  initial_population_plants = initial_population_plants_default,
+  number_types_humans = number_types_humans_default,         
+  number_types_plants = number_types_plants_default,        
+  undirected_variation_humans = undirected_variation_humans_default,
+  undirected_variation_plants = undirected_variation_plants_default,
+  intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+  intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+  utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_default,
+  utility_per_capita_type_n_humans_to_plants = exp_utility_per_capita_type_n_humans_to_plants_values, ###
+  utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_default,                                  
+  utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+  utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+  utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+  utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+  utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+  max_area = max_area_default, 
+  max_iterations = max_iterations_default,
+  reltol_exponential = reltol_exponential_default,
+  coevolution_threshold = coevolution_threshold_default,
+  messages = messages_default
 )
 ```
 
-```{r 2_mU.HnP-bifplot2, cache=TRUE, dependson='2_mU.HnP', results='hide'}
+```{r 2_utility_per_capita_type_n_humans_to_plants-bifplot2, cache=TRUE, dependson='2_utility_per_capita_type_n_humans_to_plants', results='hide'}
 plotScale = 10
 
-#svg(paste0("plots/2_onePar-", exp.mU.HnP.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
-png(paste0("plots/2_onePar-", exp.mU.HnP.name, "_bifplot-pair.png"),
+#svg(paste0(plotDirectory, exp_utility_per_capita_type_n_humans_to_plants_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
+png(paste0(plotDirectory, exp_utility_per_capita_type_n_humans_to_plants_name, "_bifurcationPlotPair.png"),
     width = 400 * plotScale, height = 100 * plotScale)
-bifurcation.plot.pair(cbind(SEQ.mU.HnP, exp.mU.HnP$coevo.H), 
-                      cbind(SEQ.mU.HnP, exp.mU.HnP$coevo.P), 
-                      parameterLabel = expression(paste('utility per capita of type n human to plants (', bar('U')['HnP'], ')')),
-                      variableLabelH = expression('coevo'['H']),
-                      variableLabelP = expression('coevo'['P']),
-                      plotScale = plotScale)
+bifurcationPlotPair(cbind(exp_utility_per_capita_type_n_humans_to_plants_values, 
+                          exp_utility_per_capita_type_n_humans_to_plants$coevolution_coefficient_humans), 
+                    cbind(exp_utility_per_capita_type_n_humans_to_plants_values, 
+                          exp_utility_per_capita_type_n_humans_to_plants$coevolution_coefficient_plants), 
+                    parameter_x_label = expression(paste('utility per capita of type n human to plants (', bar('U')['HnP'], ')')),
+                    variable_y_label_A = expression(paste('coevolution coefficient of humans (', 'coevo'['H'], ')')),
+                    variable_y_label_B = expression(paste('coevolution coefficient of plants (', 'coevo'['P'], ')')),
+                    plot_scale = plotScale)
 dev.off()
 ```
 
-```{r 2_mU.HnP-bifplot2-print, echo=FALSE, dependson='2_mU.HnP-bifplot2', out.width = '100%'}
-knitr::include_graphics(paste0("plots/2_onePar-", exp.mU.HnP.name, "_bifplot-pair.png"))
+```{r 2_utility_per_capita_type_n_humans_to_plants-bifplot2-print, echo=FALSE, dependson='2_utility_per_capita_type_n_humans_to_plants-bifplot2', out.width = '100%'}
+knitr::include_graphics(paste0(plotDirectory, exp_utility_per_capita_type_n_humans_to_plants_name, "_bifurcationPlotPair.png"))
 ```
 
 ### utility per capita **of** type 1 plants **to** humans ($\bar{U}_{P_{1}H}$):
 
-```{r 2_mU.P1H-values, cache=TRUE}
-exp.mU.P1H.name <- "mU.P1H"
-SEQ.mU.P1H <- seq(0, 0.5, length.out = 100)
+```{r 2_utility_per_capita_type_1_plants_to_humans-values, cache=TRUE}
+exp_utility_per_capita_type_1_plants_to_humans_name <- "utility_per_capita_type_1_plants_to_humans"
+exp_utility_per_capita_type_1_plants_to_humans_values <- seq(0, 0.5, length.out = 100)
 ```
 
-```{r 2_mU.P1H, cache=TRUE, dependson=c('2_default-values', '2_mU.P1H-values'), include=FALSE}
-exp.mU.P1H <- hpcModel.exploration(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = n.H.default,         
-  n.P = n.P.default,        
-  v.H = v.H.default,
-  v.P = v.P.default,
-  r.H = r.H.default, 
-  r.P = r.P.default, 
-  mU.PnH = mU.PnH.default,
-  mU.HnP = mU.HnP.default,
-  mU.P1H = SEQ.mU.P1H, ###
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = MaxArea.default, 
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  messages = messages.default
+```{r 2_utility_per_capita_type_1_plants_to_humans, cache=TRUE, dependson=c('2_default-values', '2_utility_per_capita_type_1_plants_to_humans-values'), include=FALSE}
+exp_utility_per_capita_type_1_plants_to_humans <- hpcModel.exploration(
+  initial_population_humans = initial_population_humans_default,
+  initial_population_plants = initial_population_plants_default,
+  number_types_humans = number_types_humans_default,         
+  number_types_plants = number_types_plants_default,        
+  undirected_variation_humans = undirected_variation_humans_default,
+  undirected_variation_plants = undirected_variation_plants_default,
+  intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+  intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+  utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_default,
+  utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+  utility_per_capita_type_1_plants_to_humans = exp_utility_per_capita_type_1_plants_to_humans_values, ###
+  utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+  utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+  utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+  utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+  utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+  max_area = max_area_default, 
+  max_iterations = max_iterations_default,
+  reltol_exponential = reltol_exponential_default,
+  coevolution_threshold = coevolution_threshold_default,
+  messages = messages_default
 )
 ```
 
-```{r 2_mU.P1H-bifplot2, cache=TRUE, dependson='2_mU.P1H', results='hide'}
+```{r 2_utility_per_capita_type_1_plants_to_humans-bifplot2, cache=TRUE, dependson='2_utility_per_capita_type_1_plants_to_humans', results='hide'}
 plotScale = 10
 
-#svg(paste0("plots/2_onePar-", exp.mU.P1H.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
-png(paste0("plots/2_onePar-", exp.mU.P1H.name, "_bifplot-pair.png"),
+#svg(paste0(plotDirectory, exp_utility_per_capita_type_1_plants_to_humans_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
+png(paste0(plotDirectory, exp_utility_per_capita_type_1_plants_to_humans_name, "_bifurcationPlotPair.png"),
     width = 400 * plotScale, height = 100 * plotScale)
-bifurcation.plot.pair(cbind(SEQ.mU.P1H, exp.mU.P1H$coevo.H), 
-                      cbind(SEQ.mU.P1H, exp.mU.P1H$coevo.P), 
-                      parameterLabel = expression(paste('utility per capita of type 1 plants to humans (', bar('U')['P1H'], ')')),
-                      variableLabelH = expression('coevo'['H']),
-                      variableLabelP = expression('coevo'['P']),
-                      plotScale = plotScale)
+bifurcationPlotPair(cbind(exp_utility_per_capita_type_1_plants_to_humans_values, 
+                          exp_utility_per_capita_type_1_plants_to_humans$coevolution_coefficient_humans), 
+                    cbind(exp_utility_per_capita_type_1_plants_to_humans_values, 
+                          exp_utility_per_capita_type_1_plants_to_humans$coevolution_coefficient_plants), 
+                    parameter_x_label = expression(paste('utility per capita of type 1 plants to humans (', bar('U')['P1H'], ')')),
+                    variable_y_label_A = expression(paste('coevolution coefficient of humans (', 'coevo'['H'], ')')),
+                    variable_y_label_B = expression(paste('coevolution coefficient of plants (', 'coevo'['P'], ')')),
+                    plot_scale = plotScale)
 dev.off()
 ```
 
-```{r 2_mU.P1H-bifplot2-print, echo=FALSE, dependson='2_mU.P1H-bifplot2', out.width = '100%'}
-knitr::include_graphics(paste0("plots/2_onePar-", exp.mU.P1H.name, "_bifplot-pair.png"))
+```{r 2_utility_per_capita_type_1_plants_to_humans-bifplot2-print, echo=FALSE, dependson='2_utility_per_capita_type_1_plants_to_humans-bifplot2', out.width = '100%'}
+knitr::include_graphics(paste0(plotDirectory, exp_utility_per_capita_type_1_plants_to_humans_name, "_bifurcationPlotPair.png"))
 ```
 
 ### utility per capita **of** type 1 humans **to** plants ($\bar{U}_{H_{1}P}$):
 
-```{r 2_mU.H1P-values, cache=TRUE}
-exp.mU.H1P.name <- "mU.H1P"
-SEQ.mU.H1P <- seq(0, 2, length.out = 100)
+```{r 2_utility_per_capita_type_1_humans_to_plants-values, cache=TRUE}
+exp_utility_per_capita_type_1_humans_to_plants_name <- "utility_per_capita_type_1_humans_to_plants"
+exp_utility_per_capita_type_1_humans_to_plants_values <- seq(0, 2, length.out = 100)
 ```
 
-```{r 2_mU.H1P, cache=TRUE, dependson=c('2_default-values', '2_mU.H1P-values'), include=FALSE}
-exp.mU.H1P <- hpcModel.exploration(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = n.H.default,         
-  n.P = n.P.default,        
-  v.H = v.H.default,
-  v.P = v.P.default,
-  r.H = r.H.default, 
-  r.P = r.P.default, 
-  mU.PnH = mU.PnH.default,
-  mU.HnP = mU.HnP.default,
-  mU.P1H = mU.P1H.default,                                  
-  mU.H1P = SEQ.mU.H1P, ###
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = MaxArea.default, 
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  messages = messages.default
+```{r 2_utility_per_capita_type_1_humans_to_plants, cache=TRUE, dependson=c('2_default-values', '2_utility_per_capita_type_1_humans_to_plants-values'), include=FALSE}
+exp_utility_per_capita_type_1_humans_to_plants <- hpcModel.exploration(
+  initial_population_humans = initial_population_humans_default,
+  initial_population_plants = initial_population_plants_default,
+  number_types_humans = number_types_humans_default,         
+  number_types_plants = number_types_plants_default,        
+  undirected_variation_humans = undirected_variation_humans_default,
+  undirected_variation_plants = undirected_variation_plants_default,
+  intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+  intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+  utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_default,
+  utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+  utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_default,                                  
+  utility_per_capita_type_1_humans_to_plants = exp_utility_per_capita_type_1_humans_to_plants_values, ###
+  utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+  utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+  utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+  utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+  max_area = max_area_default, 
+  max_iterations = max_iterations_default,
+  reltol_exponential = reltol_exponential_default,
+  coevolution_threshold = coevolution_threshold_default,
+  messages = messages_default
 )
 ```
 
-```{r 2_mU.H1P-bifplot2, cache=TRUE, dependson='2_mU.H1P', results='hide'}
+```{r 2_utility_per_capita_type_1_humans_to_plants-bifplot2, cache=TRUE, dependson='2_utility_per_capita_type_1_humans_to_plants', results='hide'}
 plotScale = 10
 
-#svg(paste0("plots/2_onePar-", exp.mU.H1P.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
-png(paste0("plots/2_onePar-", exp.mU.H1P.name, "_bifplot-pair.png"),
+#svg(paste0(plotDirectory, exp_utility_per_capita_type_1_humans_to_plants_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
+png(paste0(plotDirectory, exp_utility_per_capita_type_1_humans_to_plants_name, "_bifurcationPlotPair.png"),
     width = 400 * plotScale, height = 100 * plotScale)
-bifurcation.plot.pair(cbind(SEQ.mU.H1P, exp.mU.H1P$coevo.H), 
-                      cbind(SEQ.mU.H1P, exp.mU.H1P$coevo.P), 
-                      parameterLabel = expression(paste('utility per capita of type 1 humans to plants (', bar('U')['H1P'], ')')),
-                      variableLabelH = expression('coevo'['H']),
-                      variableLabelP = expression('coevo'['P']),
-                      plotScale = plotScale)
+bifurcationPlotPair(cbind(exp_utility_per_capita_type_1_humans_to_plants_values, 
+                          exp_utility_per_capita_type_1_humans_to_plants$coevolution_coefficient_humans), 
+                    cbind(exp_utility_per_capita_type_1_humans_to_plants_values, 
+                          exp_utility_per_capita_type_1_humans_to_plants$coevolution_coefficient_plants), 
+                    parameter_x_label = expression(paste('utility per capita of type 1 humans to plants (', bar('U')['H1P'], ')')),
+                    variable_y_label_A = expression(paste('coevolution coefficient of humans (', 'coevo'['H'], ')')),
+                    variable_y_label_B = expression(paste('coevolution coefficient of plants (', 'coevo'['P'], ')')),
+                    plot_scale = plotScale)
 dev.off()
 ```
 
-```{r 2_mU.H1P-bifplot2-print, echo=FALSE, dependson='2_mU.H1P-bifplot2', out.width = '100%'}
-knitr::include_graphics(paste0("plots/2_onePar-", exp.mU.H1P.name, "_bifplot-pair.png"))
+```{r 2_utility_per_capita_type_1_humans_to_plants-bifplot2-print, echo=FALSE, dependson='2_utility_per_capita_type_1_humans_to_plants-bifplot2', out.width = '100%'}
+knitr::include_graphics(paste0(plotDirectory, exp_utility_per_capita_type_1_humans_to_plants_name, "_bifurcationPlotPair.png"))
 ```
 
 ### utility **of** other resources **to** humans of type 1 ($U_{bH_{1}}$):
 
-```{r 2_U.bH1-values, cache=TRUE}
-exp.U.bH1.name <- "U.bH1"
-SEQ.U.bH1 <- seq(5, 400, length.out = 100)
+```{r 2_utility_other_to_type_1_humans-values, cache=TRUE}
+exp_utility_other_to_type_1_humans_name <- "utility_other_to_type_1_humans"
+exp_utility_other_to_type_1_humans_values <- seq(5, 400, length.out = 100)
 ```
 
-```{r 2_U.bH1, cache=TRUE, dependson=c('2_default-values', '2_U.bH1-values'), include=FALSE}
-exp.U.bH1 <- hpcModel.exploration(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = n.H.default,         
-  n.P = n.P.default,        
-  v.H = v.H.default,
-  v.P = v.P.default,
-  r.H = r.H.default, 
-  r.P = r.P.default, 
-  mU.PnH = mU.PnH.default,
-  mU.HnP = mU.HnP.default,
-  mU.P1H = mU.P1H.default,                                  
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = SEQ.U.bH1, ###
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = MaxArea.default, 
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  messages = messages.default
+```{r 2_utility_other_to_type_1_humans, cache=TRUE, dependson=c('2_default-values', '2_utility_other_to_type_1_humans-values'), include=FALSE}
+exp_utility_other_to_type_1_humans <- hpcModel.exploration(
+  initial_population_humans = initial_population_humans_default,
+  initial_population_plants = initial_population_plants_default,
+  number_types_humans = number_types_humans_default,         
+  number_types_plants = number_types_plants_default,        
+  undirected_variation_humans = undirected_variation_humans_default,
+  undirected_variation_plants = undirected_variation_plants_default,
+  intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+  intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+  utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_default,
+  utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+  utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_default,                                  
+  utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+  utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+  utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+  utility_other_to_type_1_humans = exp_utility_other_to_type_1_humans_values, ###
+  utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+  max_area = max_area_default, 
+  max_iterations = max_iterations_default,
+  reltol_exponential = reltol_exponential_default,
+  coevolution_threshold = coevolution_threshold_default,
+  messages = messages_default
 )
 ```
 
-```{r 2_U.bH1-bifplot2, cache=TRUE, dependson='2_U.bH1-exp1', results='hide'}
+```{r 2_utility_other_to_type_1_humans-bifplot2, cache=TRUE, dependson='2_utility_other_to_type_1_humans-exp1', results='hide'}
 plotScale = 10
 
-#svg(paste0("plots/2_onePar-", exp1.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
-png(paste0("plots/2_onePar-", exp.U.bH1.name, "_bifplot-pair.png"),
+#svg(paste0(plotDirectory, exp1_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
+png(paste0(plotDirectory, exp_utility_other_to_type_1_humans_name, "_bifurcationPlotPair.png"),
     width = 400 * plotScale, height = 100 * plotScale)
-bifurcation.plot.pair(cbind(SEQ.U.bH1, exp.U.bH1$coevo.H), 
-                      cbind(SEQ.U.bH1, exp.U.bH1$coevo.P), 
-                      parameterLabel = expression(paste('Baseline carrying capacity for type 1 humans (', bar(U)['bH'[1]], ')')),
-                      variableLabelH = expression('coevo'['H']),
-                      variableLabelP = expression('coevo'['P']),
-                      plotScale = plotScale)
+bifurcationPlotPair(cbind(exp_utility_other_to_type_1_humans_values, exp_utility_other_to_type_1_humans$coevolution_coefficient_humans), 
+                    cbind(exp_utility_other_to_type_1_humans_values, exp_utility_other_to_type_1_humans$coevolution_coefficient_plants), 
+                    parameter_x_label = expression(paste('Baseline carrying capacity for type 1 humans (', bar(U)['bH'[1]], ')')),
+                    variable_y_label_A = expression(paste('coevolution coefficient of humans (', 'coevo'['H'], ')')),
+                    variable_y_label_B = expression(paste('coevolution coefficient of plants (', 'coevo'['P'], ')')),
+                    plot_scale = plotScale)
 dev.off()
 ```
 
-```{r 2_U.bH1-bifplot2-print, echo=FALSE, dependson='2_U.bH1-bifplot2', out.width = '100%'}
-knitr::include_graphics(paste0("plots/2_onePar-", exp.U.bH1.name, "_bifplot-pair.png"))
+```{r 2_utility_other_to_type_1_humans-bifplot2-print, echo=FALSE, dependson='2_utility_other_to_type_1_humans-bifplot2', out.width = '100%'}
+knitr::include_graphics(paste0(plotDirectory, exp_utility_other_to_type_1_humans_name, "_bifurcationPlotPair.png"))
 ```
 
 ### utility **of** non-anthropic space **to** type 1 plants ($U_{bP_{1}}$):
 
-```{r 2_U.bP1-values, cache=TRUE}
-exp.U.bP1.name <- "U.bP1"
-SEQ.U.bP1 <- seq(5, 400, length.out = 100)
+```{r 2_utility_other_to_type_1_plants-values, cache=TRUE}
+exp_utility_other_to_type_1_plants_name <- "utility_other_to_type_1_plants"
+exp_utility_other_to_type_1_plants_values <- seq(5, 400, length.out = 100)
 ```
 
-```{r 2_U.bP1, cache=TRUE, dependson=c('2_default-values', '2_U.bP1-values'), include=FALSE}
-exp.U.bP1 <- hpcModel.exploration(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = n.H.default,         
-  n.P = n.P.default,        
-  v.H = v.H.default,
-  v.P = v.P.default,
-  r.H = r.H.default, 
-  r.P = r.P.default, 
-  mU.PnH = mU.PnH.default,
-  mU.HnP = mU.HnP.default,
-  mU.P1H = mU.P1H.default,                                  
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = SEQ.U.bP1, ###
-  MaxArea = MaxArea.default, 
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  messages = messages.default
+```{r 2_utility_other_to_type_1_plants, cache=TRUE, dependson=c('2_default-values', '2_utility_other_to_type_1_plants-values'), include=FALSE}
+exp_utility_other_to_type_1_plants <- hpcModel.exploration(
+  initial_population_humans = initial_population_humans_default,
+  initial_population_plants = initial_population_plants_default,
+  number_types_humans = number_types_humans_default,         
+  number_types_plants = number_types_plants_default,        
+  undirected_variation_humans = undirected_variation_humans_default,
+  undirected_variation_plants = undirected_variation_plants_default,
+  intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+  intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+  utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_default,
+  utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+  utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_default,                                  
+  utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+  utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+  utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+  utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+  utility_other_to_type_1_plants = exp_utility_other_to_type_1_plants_values, ###
+  max_area = max_area_default, 
+  max_iterations = max_iterations_default,
+  reltol_exponential = reltol_exponential_default,
+  coevolution_threshold = coevolution_threshold_default,
+  messages = messages_default
 )
 ```
 
-```{r 2_U.bP1-bifplot2, cache=TRUE, dependson='2_U.bP1', results='hide'}
+```{r 2_utility_other_to_type_1_plants-bifplot2, cache=TRUE, dependson='2_utility_other_to_type_1_plants', results='hide'}
 plotScale = 10
 
-#svg(paste0("plots/2_onePar-", exp.U.bP1.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
-png(paste0("plots/2_onePar-", exp.U.bP1.name, "_bifplot-pair.png"),
+#svg(paste0(plotDirectory, exp_utility_other_to_type_1_plants_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
+png(paste0(plotDirectory, exp_utility_other_to_type_1_plants_name, "_bifurcationPlotPair.png"),
     width = 400 * plotScale, height = 100 * plotScale)
-bifurcation.plot.pair(cbind(SEQ.U.bP1, exp.U.bP1$coevo.H), 
-                      cbind(SEQ.U.bP1, exp.U.bP1$coevo.P), 
-                      parameterLabel = expression(paste('utility of non-anthropic space to type 1 plants (', bar('U')['bP1'], ')')),
-                      variableLabelH = expression('coevo'['H']),
-                      variableLabelP = expression('coevo'['P']),
-                      plotScale = plotScale)
+bifurcationPlotPair(cbind(exp_utility_other_to_type_1_plants_values, exp_utility_other_to_type_1_plants$coevolution_coefficient_humans), 
+                    cbind(exp_utility_other_to_type_1_plants_values, exp_utility_other_to_type_1_plants$coevolution_coefficient_plants), 
+                    parameter_x_label = expression(paste('utility of non-anthropic space to type 1 plants (', bar('U')['bP1'], ')')),
+                    variable_y_label_A = expression(paste('coevolution coefficient of humans (', 'coevo'['H'], ')')),
+                    variable_y_label_B = expression(paste('coevolution coefficient of plants (', 'coevo'['P'], ')')),
+                    plot_scale = plotScale)
 dev.off()
 ```
 
-```{r 2_U.bP1-bifplot2-print, echo=FALSE, dependson='2_U.bP1-bifplot2', out.width = '100%'}
-knitr::include_graphics(paste0("plots/2_onePar-", exp.U.bP1.name, "_bifplot-pair.png"))
+```{r 2_utility_other_to_type_1_plants-bifplot2-print, echo=FALSE, dependson='2_utility_other_to_type_1_plants-bifplot2', out.width = '100%'}
+knitr::include_graphics(paste0(plotDirectory, exp_utility_other_to_type_1_plants_name, "_bifurcationPlotPair.png"))
 ```
 
 ### utility **of** other resources **to** type n humans ($U_{bH_{n}}$):
 
-```{r 2_U.bHn-values, cache=TRUE}
-exp.U.bHn.name <- "U.bHn"
-SEQ.U.bHn <- seq(5, 400, length.out = 100)
+```{r 2_utility_other_to_type_n_humans-values, cache=TRUE}
+exp_utility_other_to_type_n_humans_name <- "utility_other_to_type_n_humans"
+exp_utility_other_to_type_n_humans_values <- seq(5, 400, length.out = 100)
 ```
 
-```{r 2_U.bHn, cache=TRUE, dependson=c('2_default-values', '2_U.bHn-values'), include=FALSE}
-exp.U.bHn <- hpcModel.exploration(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = n.H.default,         
-  n.P = n.P.default,        
-  v.H = v.H.default,
-  v.P = v.P.default,
-  r.H = r.H.default, 
-  r.P = r.P.default, 
-  mU.PnH = mU.PnH.default,
-  mU.HnP = mU.HnP.default,
-  mU.P1H = mU.P1H.default,                                  
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = SEQ.U.bHn, ###
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = MaxArea.default, 
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  messages = messages.default
+```{r 2_utility_other_to_type_n_humans, cache=TRUE, dependson=c('2_default-values', '2_utility_other_to_type_n_humans-values'), include=FALSE}
+exp_utility_other_to_type_n_humans <- hpcModel.exploration(
+  initial_population_humans = initial_population_humans_default,
+  initial_population_plants = initial_population_plants_default,
+  number_types_humans = number_types_humans_default,         
+  number_types_plants = number_types_plants_default,        
+  undirected_variation_humans = undirected_variation_humans_default,
+  undirected_variation_plants = undirected_variation_plants_default,
+  intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+  intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+  utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_default,
+  utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+  utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_default,                                  
+  utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+  utility_other_to_type_n_humans = exp_utility_other_to_type_n_humans_values, ###
+  utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+  utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+  utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+  max_area = max_area_default, 
+  max_iterations = max_iterations_default,
+  reltol_exponential = reltol_exponential_default,
+  coevolution_threshold = coevolution_threshold_default,
+  messages = messages_default
 )
 ```
 
-```{r 2_U.bHn-bifplot2, cache=TRUE, dependson='2_U.bHn', results='hide'}
+```{r 2_utility_other_to_type_n_humans-bifplot2, cache=TRUE, dependson='2_utility_other_to_type_n_humans', results='hide'}
 plotScale = 10
 
-#svg(paste0("plots/2_onePar-", exp.U.bHn.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
-png(paste0("plots/2_onePar-", exp.U.bHn.name, "_bifplot-pair.png"),
+#svg(paste0(plotDirectory, exp_utility_other_to_type_n_humans_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
+png(paste0(plotDirectory, exp_utility_other_to_type_n_humans_name, "_bifurcationPlotPair.png"),
     width = 400 * plotScale, height = 100 * plotScale)
-bifurcation.plot.pair(cbind(SEQ.U.bHn, exp.U.bHn$coevo.H), 
-                      cbind(SEQ.U.bHn, exp.U.bHn$coevo.P), 
-                      parameterLabel = expression(paste('utility of other resources to type n humans (', bar('U')['bHn'], ')')),
-                      variableLabelH = expression('coevo'['H']),
-                      variableLabelP = expression('coevo'['P']),
-                      plotScale = plotScale)
+bifurcationPlotPair(cbind(exp_utility_other_to_type_n_humans_values, exp_utility_other_to_type_n_humans$coevolution_coefficient_humans), 
+                    cbind(exp_utility_other_to_type_n_humans_values, exp_utility_other_to_type_n_humans$coevolution_coefficient_plants), 
+                    parameter_x_label = expression(paste('utility of other resources to type n humans (', bar('U')['bHn'], ')')),
+                    variable_y_label_A = expression(paste('coevolution coefficient of humans (', 'coevo'['H'], ')')),
+                    variable_y_label_B = expression(paste('coevolution coefficient of plants (', 'coevo'['P'], ')')),
+                    plot_scale = plotScale)
 dev.off()
 ```
 
-```{r 2_U.bHn-bifplot2-print, echo=FALSE, dependson='2_U.bHn-bifplot2', out.width = '100%'}
-knitr::include_graphics(paste0("plots/2_onePar-", exp.U.bHn.name, "_bifplot-pair.png"))
+```{r 2_utility_other_to_type_n_humans-bifplot2-print, echo=FALSE, dependson='2_utility_other_to_type_n_humans-bifplot2', out.width = '100%'}
+knitr::include_graphics(paste0(plotDirectory, exp_utility_other_to_type_n_humans_name, "_bifurcationPlotPair.png"))
 ```
 
 ### utility **of** non-anthropic space **to** type n plants ($U_{bP_{n}}$):
 
-```{r 2_U.bPn-values, cache=TRUE}
-exp.U.bPn.name <- "U.bPn"
-SEQ.U.bPn <- seq(5, 400, length.out = 100)
+```{r 2_utility_other_to_type_n_plants-values, cache=TRUE}
+exp_utility_other_to_type_n_plants_name <- "utility_other_to_type_n_plants"
+exp_utility_other_to_type_n_plants_values <- seq(5, 400, length.out = 100)
 ```
 
-```{r 2_U.bPn, cache=TRUE, dependson=c('2_default-values', '2_U.bPn-values'), include=FALSE}
-exp.U.bPn <- hpcModel.exploration(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = n.H.default,         
-  n.P = n.P.default,        
-  v.H = v.H.default,
-  v.P = v.P.default,
-  r.H = r.H.default, 
-  r.P = r.P.default, 
-  mU.PnH = mU.PnH.default,
-  mU.HnP = mU.HnP.default,
-  mU.P1H = mU.P1H.default,                                  
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = SEQ.U.bPn, ###
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = MaxArea.default, 
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  messages = messages.default
+```{r 2_utility_other_to_type_n_plants, cache=TRUE, dependson=c('2_default-values', '2_utility_other_to_type_n_plants-values'), include=FALSE}
+exp_utility_other_to_type_n_plants <- hpcModel.exploration(
+  initial_population_humans = initial_population_humans_default,
+  initial_population_plants = initial_population_plants_default,
+  number_types_humans = number_types_humans_default,         
+  number_types_plants = number_types_plants_default,        
+  undirected_variation_humans = undirected_variation_humans_default,
+  undirected_variation_plants = undirected_variation_plants_default,
+  intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+  intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+  utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_default,
+  utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+  utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_default,                                  
+  utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+  utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+  utility_other_to_type_n_plants = exp_utility_other_to_type_n_plants_values, ###
+  utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+  utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+  max_area = max_area_default, 
+  max_iterations = max_iterations_default,
+  reltol_exponential = reltol_exponential_default,
+  coevolution_threshold = coevolution_threshold_default,
+  messages = messages_default
 )
 ```
 
-```{r 2_U.bPn-bifplot2, cache=TRUE, dependson='2_U.bPn', results='hide'}
+```{r 2_utility_other_to_type_n_plants-bifplot2, cache=TRUE, dependson='2_utility_other_to_type_n_plants', results='hide'}
 plotScale = 10
 
-#svg(paste0("plots/2_onePar-", exp.U.bPn.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
-png(paste0("plots/2_onePar-", exp.U.bPn.name, "_bifplot-pair.png"),
+#svg(paste0(plotDirectory, exp_utility_other_to_type_n_plants_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
+png(paste0(plotDirectory, exp_utility_other_to_type_n_plants_name, "_bifurcationPlotPair.png"),
     width = 400 * plotScale, height = 100 * plotScale)
-bifurcation.plot.pair(cbind(SEQ.U.bPn, exp.U.bPn$coevo.H), 
-                      cbind(SEQ.U.bPn, exp.U.bPn$coevo.P), 
-                      parameterLabel = expression(paste('utility of non-anthropic space to type n plants (', bar('U')['bPn'], ')')),
-                      variableLabelH = expression('coevo'['H']),
-                      variableLabelP = expression('coevo'['P']),
-                      plotScale = plotScale)
+bifurcationPlotPair(cbind(exp_utility_other_to_type_n_plants_values, exp_utility_other_to_type_n_plants$coevolution_coefficient_humans), 
+                    cbind(exp_utility_other_to_type_n_plants_values, exp_utility_other_to_type_n_plants$coevolution_coefficient_plants), 
+                    parameter_x_label = expression(paste('utility of non-anthropic space to type n plants (', bar('U')['bPn'], ')')),
+                    variable_y_label_A = expression(paste('coevolution coefficient of humans (', 'coevo'['H'], ')')),
+                    variable_y_label_B = expression(paste('coevolution coefficient of plants (', 'coevo'['P'], ')')),
+                    plot_scale = plotScale)
 dev.off()
 ```
 
-```{r 2_U.bPn-bifplot2-print, echo=FALSE, dependson='2_U.bPn-bifplot2', out.width = '100%'}
-knitr::include_graphics(paste0("plots/2_onePar-", exp.U.bPn.name, "_bifplot-pair.png"))
+```{r 2_utility_other_to_type_n_plants-bifplot2-print, echo=FALSE, dependson='2_utility_other_to_type_n_plants-bifplot2', out.width = '100%'}
+knitr::include_graphics(paste0(plotDirectory, exp_utility_other_to_type_n_plants_name, "_bifurcationPlotPair.png"))
 ```
 
-### maximum contiguous area to be used by plants ($MaxArea$):
+### maximum contiguous area to be used by plants ($max_area$):
 
-```{r 2_maxArea-values, cache=TRUE}
-exp.MaxArea.name <- "MaxArea"
-SEQ.MaxArea <- seq(5, 400, length.out = 100)
+```{r 2_max_area-values, cache=TRUE}
+exp_max_area_name <- "max_area"
+exp_max_area_values <- seq(5, 400, length.out = 100)
 ```
 
-```{r 2_MaxArea, cache=TRUE, dependson=c('2_default-values', '2_MaxArea-values'), include=FALSE}
-exp.MaxArea <- hpcModel.exploration(
-  iniH = iniH.default,
-  iniP = iniP.default,
-  n.H = n.H.default,         
-  n.P = n.P.default,        
-  v.H = v.H.default,
-  v.P = v.P.default,
-  r.H = r.H.default, 
-  r.P = r.P.default, 
-  mU.PnH = mU.PnH.default,
-  mU.HnP = mU.HnP.default,
-  mU.P1H = mU.P1H.default,                                  
-  mU.H1P = mU.H1P.default,                                   
-  U.bHn = U.bHn.default,                                
-  U.bPn = U.bPn.default, 
-  U.bH1 = U.bH1.default,                               
-  U.bP1 = U.bP1.default,                                 
-  MaxArea = SEQ.MaxArea, ###
-  maxIt = maxIt.default,
-  tol = tol.default,
-  timing.threshold = timing.threshold.default,
-  messages = messages.default
+```{r 2_max_area, cache=TRUE, dependson=c('2_default-values', '2_max_area-values'), include=FALSE}
+exp_max_area <- hpcModel.exploration(
+  initial_population_humans = initial_population_humans_default,
+  initial_population_plants = initial_population_plants_default,
+  number_types_humans = number_types_humans_default,         
+  number_types_plants = number_types_plants_default,        
+  undirected_variation_humans = undirected_variation_humans_default,
+  undirected_variation_plants = undirected_variation_plants_default,
+  intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+  intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+  utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_default,
+  utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+  utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_default,                                  
+  utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+  utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+  utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+  utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+  utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+  max_area = exp_max_area_values, ###
+  max_iterations = max_iterations_default,
+  reltol_exponential = reltol_exponential_default,
+  coevolution_threshold = coevolution_threshold_default,
+  messages = messages_default
 )
 ```
 
-```{r 2_MaxArea-bifplot2, cache=TRUE, dependson='2_MaxArea', results='hide'}
+```{r 2_max_area-bifplot2, cache=TRUE, dependson='2_max_area', results='hide'}
 plotScale = 10
 
-#svg(paste0("plots/2_onePar-", exp.MaxArea.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
-png(paste0("plots/2_onePar-", exp.MaxArea.name, "_bifplot-pair.png"),
+png(paste0(plotDirectory, exp_max_area_name, "_bifurcationPlotPair.png"),
     width = 400 * plotScale, height = 100 * plotScale)
-bifurcation.plot.pair(cbind(SEQ.MaxArea, exp.MaxArea$coevo.H), 
-                      cbind(SEQ.MaxArea, exp.MaxArea$coevo.P), 
-                      parameterLabel = expression('MaxArea'),
-                      variableLabelH = expression('coevo'['H']),
-                      variableLabelP = expression('coevo'['P']),
-                      plotScale = plotScale)
+bifurcationPlotPair(cbind(exp_max_area_values, exp_max_area$coevolution_coefficient_humans), 
+                    cbind(exp_max_area_values, exp_max_area$coevolution_coefficient_plants), 
+                    parameter_x_label = expression('max_area'),
+                    variable_y_label_A = expression(paste('coevolution coefficient of humans (', 'coevo'['H'], ')')),
+                    variable_y_label_B = expression(paste('coevolution coefficient of plants (', 'coevo'['P'], ')')),
+                    plot_scale = plotScale)
 dev.off()
 ```
 
-```{r 2_MaxArea-bifplot2-print, echo=FALSE, dependson='2_MaxArea-bifplot2', out.width = '100%'}
-knitr::include_graphics(paste0("plots/2_onePar-", exp.MaxArea.name, "_bifplot-pair.png"))
+```{r 2_max_area-bifplot2-print, echo=FALSE, dependson='2_max_area-bifplot2', out.width = '100%'}
+knitr::include_graphics(paste0(plotDirectory, exp_max_area_name, "_bifurcationPlotPair.png"))
 ```
 
 ---
 
 ## Oscilations
 
-```{r 2_osc-values, cache=TRUE, dependson='2_default-values'}
-exp.mU.HnP.osc.name <- "mU.HnP.osc"
-exp.mU.PnH.osc.name <- "mU.PnH.osc"
-SEQ.mU.HnP.osc <- seq(0.1, 1.5, length.out = 100)
-SEQ.mU.PnH.osc <- seq(0.1, 1, length.out = 100)
-iniH.osc = iniH.default
-iniP.osc = iniP.default
-n.H.osc = n.H.default
-n.P.osc = n.P.default
-v.H.osc = v.H.default
-v.P.osc = v.P.default
-r.H.osc = r.H.default
-r.P.osc = r.P.default
-mU.PnH.osc = 0.5 ### value for getting oscillation
-mU.HnP.osc = 0.9 ### value for getting oscillation
-mU.P1H.osc = 0.5 # utility type 1 plant is the same than type n plants and higher than default                            
-mU.H1P.osc = mU.H1P.default#0.1                                 
-U.bHn.osc = 20 # baseline carrying capacity for type n humans is higher than default
-U.bPn.osc = U.bPn.default
-U.bH1.osc = 100 # baseline carrying capacity for type 1 humans is higher than default 
-U.bP1.osc = U.bP1.default                              
-MaxArea.osc = MaxArea.default
-maxIt.osc = 1000
-tol.osc = Inf
+```{r 2_oscillation-values, cache=TRUE, dependson='2_default-values'}
+exp_utility_per_capita_type_n_humans_to_plants_oscillation_name <- "utility_per_capita_type_n_humans_to_plants_oscillation"
+exp_utility_per_capita_type_n_plants_to_humans_oscillation_name <- "utility_per_capita_type_n_plants_to_humans_oscillation"
+exp_utility_per_capita_type_n_humans_to_plants_oscillation_values <- seq(0.1, 1.5, length.out = 100)
+exp_utility_per_capita_type_n_plants_to_humans_oscillation_values <- seq(0.1, 1, length.out = 100)
+initial_population_humans_oscillation = initial_population_humans_default
+initial_population_plants_oscillation = initial_population_plants_default
+number_types_humans_oscillation = number_types_humans_default
+number_types_plants_oscillation = number_types_plants_default
+undirected_variation_humans_oscillation = undirected_variation_humans_default
+undirected_variation_plants_oscillation = undirected_variation_plants_default
+intrinsic_growth_rate_humans_oscillation = intrinsic_growth_rate_humans_default
+intrinsic_growth_rate_plants_oscillation = intrinsic_growth_rate_plants_default
+utility_per_capita_type_n_plants_to_humans_oscillation = 0.5 ### value for getting oscillation
+utility_per_capita_type_n_humans_to_plants_oscillation = 0.9 ### value for getting oscillation
+utility_per_capita_type_1_plants_to_humans_oscillation = 0.5 # utility type 1 plant is the same than type n plants and higher than default
+utility_per_capita_type_1_humans_to_plants_oscillation = utility_per_capita_type_1_humans_to_plants_default#0.1                                 
+utility_other_to_type_n_humans_oscillation = 20 # baseline carrying capacity for type n humans is higher than default
+utility_other_to_type_n_plants_oscillation = utility_other_to_type_n_plants_default
+utility_other_to_type_1_humans_oscillation = 100 # baseline carrying capacity for type 1 humans is higher than default 
+utility_other_to_type_1_plants_oscillation = utility_other_to_type_1_plants_default                              
+max_area_oscillation = max_area_default
+max_iterations_oscillation = 1000
+reltol_exponential_oscillation = Inf
+save_trajectories_oscillation = TRUE
 ```
 
-Bifurcation plot with last 100 time steps (of `r maxIt.osc`) to capture oscillations or 'slow' asymptotic stability
+Bifurcation plot with last 100 time steps (of `r max_iterations_oscillation`) to capture oscillations or 'slow' asymptotic stability
 
 
-```{r 2_mU.HnP.osc, cache=TRUE, dependson='2_osc-values', include=FALSE}
-if(!file.exists('data/2_mU.HnP.osc.RData'))
+```{r 2_utility_per_capita_type_n_humans_to_plants_oscillation, cache=TRUE, dependson='2_oscillation-values', include=FALSE}
+if(!file.exists('data/2_utility_per_capita_type_n_humans_to_plants_oscillation_humans.RData'))
 {
-  result.mU.HnP.H <- data.frame()
-  result.mU.HnP.P <- data.frame()
+  exp_utility_per_capita_type_n_humans_to_plants_oscillation_humans <- data.frame()
+  exp_utility_per_capita_type_n_humans_to_plants_oscillation_plants <- data.frame()
   
-  for (i in SEQ.mU.HnP.osc)
+  for (i in exp_utility_per_capita_type_n_humans_to_plants_oscillation_values)
   {
     temp <- hpcModel.run(
-      iniH = iniH.osc,
-      iniP = iniP.osc,
-      n.H = n.H.osc,         
-      n.P = n.P.osc,        
-      v.H = v.H.osc,
-      v.P = v.P.osc,
-      r.H = r.H.osc, 
-      r.P = r.P.osc, 
-      mU.PnH = mU.PnH.osc,
-      mU.HnP = i, ###
-      mU.P1H = mU.P1H.osc,                                  
-      mU.H1P = mU.H1P.osc,                                   
-      U.bHn = U.bHn.osc,                                
-      U.bPn = U.bPn.osc, 
-      U.bH1 = U.bH1.osc,                               
-      U.bP1 = U.bP1.osc,                                 
-      MaxArea = MaxArea.osc, 
+      initial_population_humans = initial_population_humans_oscillation,
+      initial_population_plants = initial_population_plants_oscillation,
+      number_types_humans = number_types_humans_oscillation,         
+      number_types_plants = number_types_plants_oscillation,        
+      undirected_variation_humans = undirected_variation_humans_oscillation,
+      undirected_variation_plants = undirected_variation_plants_oscillation,
+      intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_oscillation, 
+      intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_oscillation, 
+      utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_oscillation,
+      utility_per_capita_type_n_humans_to_plants = i, ###
+      utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_oscillation,                                  
+      utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_oscillation,                                   
+      utility_other_to_type_n_humans = utility_other_to_type_n_humans_oscillation,                                
+      utility_other_to_type_n_plants = utility_other_to_type_n_plants_oscillation, 
+      utility_other_to_type_1_humans = utility_other_to_type_1_humans_oscillation,                               
+      utility_other_to_type_1_plants = utility_other_to_type_1_plants_oscillation,                                 
+      max_area = max_area_oscillation, 
       # settings 
       # simulation flow & data
-      maxIt = maxIt.osc,
-      tol = tol.osc,
-      timing.threshold = timing.threshold.default,
-      saveTrajectories = saveTrajectories.default,
-      messages = messages.default
+      max_iterations = max_iterations_oscillation,
+      reltol_exponential = tol_oscillation,
+      coevolution_threshold = coevolution_threshold_default,
+      save_trajectories = save_trajectories_oscillation,
+      messages = messages_default
     )
     
     # store the result
-    result.mU.HnP.H <-
-      rbind(result.mU.HnP.H, data.frame(i, temp$TRAJECTORIES$coevo.H[(maxIt.osc - 100):(maxIt.osc - 1)]))
-    result.mU.HnP.P <-
-      rbind(result.mU.HnP.P, data.frame(i, temp$TRAJECTORIES$coevo.P[(maxIt.osc - 100):(maxIt.osc - 1)]))
+    exp_utility_per_capita_type_n_humans_to_plants_oscillation_humans <-
+      rbind(exp_utility_per_capita_type_n_humans_to_plants_oscillation_humans, 
+            data.frame(i, temp$TRAJECTORIES$coevolution_coefficient_humans[(max_iterations_oscillation - 100):(max_iterations_oscillation - 1)]))
+    exp_utility_per_capita_type_n_humans_to_plants_oscillation_plants <-
+      rbind(exp_utility_per_capita_type_n_humans_to_plants_oscillation_plants, 
+            data.frame(i, temp$TRAJECTORIES$coevolution_coefficient_plants[(max_iterations_oscillation - 100):(max_iterations_oscillation - 1)]))
     
   }
   # save
-  save(result.mU.HnP.H, file = 'data/2_mU.HnP.H.osc.RData')
-  save(result.mU.HnP.P, file = 'data/2_mU.HnP.P.osc.RData')
+  save(exp_utility_per_capita_type_n_humans_to_plants_oscillation_humans, file = 'data/2_utility_per_capita_type_n_humans_to_plants_oscillation_humans.RData')
+  save(exp_utility_per_capita_type_n_humans_to_plants_oscillation_plants, file = 'data/2_utility_per_capita_type_n_humans_to_plants_oscillation_plants.RData')
 }
 ```
 
-```{r 2_mU.HnP.osc-load, include=FALSE}
+```{r 2_utility_per_capita_type_n_humans_to_plants_oscillation-load, include=FALSE}
 # load
-load('data/2_mU.HnP.H.osc.RData')
-load('data/2_mU.HnP.P.osc.RData')
+load('data/2_utility_per_capita_type_n_humans_to_plants_oscillation_humans.RData')
+load('data/2_utility_per_capita_type_n_humans_to_plants_oscillation_plants.RData')
 ```
 
-```{r 2_mU.HnP.osc-bifplot2, cache=TRUE, dependson='2_mU.HnP_mU.PnH.osc-load', results='hide'}
+```{r 2_utility_per_capita_type_n_humans_to_plants_oscillation-bifplot2, cache=TRUE, dependson='2_utility_per_capita_type_n_humans_to_plants_utility_per_capita_type_n_plants_to_humans_oscillation-load', results='hide'}
 plotScale = 10
 
-#svg(paste0("plots/2_onePar-", exp.osc.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
-png(paste0("plots/2_onePar-", exp.mU.HnP.osc.name, "_bifplot-pair.png"),
+#svg(paste0(plotDirectory, exp_osc_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
+png(paste0(plotDirectory, exp_utility_per_capita_type_n_humans_to_plants_oscillation_name, "_bifurcationPlotPair.png"),
     width = 400 * plotScale, height = 100 * plotScale)
-bifurcation.plot.pair(result.mU.HnP.H, result.mU.HnP.P, 
-                      parameterLabel = expression(paste('utility per capita of type n humans to plants (', bar('U')['HnP'], ')')),
-                      variableLabelH = expression('coevo'['H']),
-                      variableLabelP = expression('coevo'['P']),
-                      plotScale = plotScale,
-                      type = 'p')
+bifurcationPlotPair(exp_utility_per_capita_type_n_humans_to_plants_oscillation_humans, exp_utility_per_capita_type_n_humans_to_plants_oscillation_plants, 
+                    parameter_x_label = expression(paste('utility per capita of type n humans to plants (', bar('U')['HnP'], ')')),
+                    variable_y_label_A = expression(paste('coevolution coefficient of humans (', 'coevo'['H'], ')')),
+                    variable_y_label_B = expression(paste('coevolution coefficient of plants (', 'coevo'['P'], ')')),
+                    plot_scale = plotScale,
+                    type = 'p')
 dev.off()
 ```
 
-```{r 2_mU.PnH.osc, cache=TRUE, dependson='2_osc-values', include=FALSE}
-if(!file.exists('data/2_mU.PnH.osc.RData'))
+```{r 2_utility_per_capita_type_n_plants_to_humans_oscillation, cache=TRUE, dependson='2_oscillation-values', include=FALSE}
+if(!file.exists('data/2_utility_per_capita_type_n_plants_to_humans_oscillation.RData'))
 {
-result.mU.PnH.H <- data.frame()
-result.mU.PnH.P <- data.frame()
+exp_utility_per_capita_type_n_plants_to_humans_oscillation_humans <- data.frame()
+exp_utility_per_capita_type_n_plants_to_humans_oscillation_plants <- data.frame()
 
-for (i in SEQ.mU.PnH.osc)
+for (i in exp_utility_per_capita_type_n_plants_to_humans_oscillation_values)
 {
   temp <- hpcModel.run(
-    iniH = iniH.osc,
-    iniP = iniP.osc,
-    n.H = n.H.osc,         
-    n.P = n.P.osc,        
-    v.H = v.H.osc,
-    v.P = v.P.osc,
-    r.H = r.H.osc, 
-    r.P = r.P.osc, 
-    mU.PnH = i, ###
-    mU.HnP = mU.HnP.osc,
-    mU.P1H = mU.P1H.osc,                                  
-    mU.H1P = mU.H1P.osc,                                   
-    U.bHn = U.bHn.osc,                                
-    U.bPn = U.bPn.osc, 
-    U.bH1 = U.bH1.osc,                               
-    U.bP1 = U.bP1.osc,                                 
-    MaxArea = MaxArea.osc, 
+    initial_population_humans = initial_population_humans_oscillation,
+    initial_population_plants = initial_population_plants_oscillation,
+    number_types_humans = number_types_humans_oscillation,         
+    number_types_plants = number_types_plants_oscillation,        
+    undirected_variation_humans = undirected_variation_humans_oscillation,
+    undirected_variation_plants = undirected_variation_plants_oscillation,
+    intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_oscillation, 
+    intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_oscillation, 
+    utility_per_capita_type_n_plants_to_humans = i, ###
+    utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_oscillation,
+    utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_oscillation,                                  
+    utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_oscillation,                                   
+    utility_other_to_type_n_humans = utility_other_to_type_n_humans_oscillation,                                
+    utility_other_to_type_n_plants = utility_other_to_type_n_plants_oscillation, 
+    utility_other_to_type_1_humans = utility_other_to_type_1_humans_oscillation,                               
+    utility_other_to_type_1_plants = utility_other_to_type_1_plants_oscillation,                                 
+    max_area = max_area_oscillation, 
     # settings 
     # simulation flow & data
-    maxIt = maxIt.osc,
-    tol = tol.osc,
-    timing.threshold = timing.threshold.default,
-    saveTrajectories = saveTrajectories.default,
-    messages = messages.default
+    max_iterations = max_iterations_oscillation,
+    reltol_exponential = reltol_exponential_oscillation,
+    coevolution_threshold = coevolution_threshold_default,
+    save_trajectories = save_trajectories_oscillation,
+    messages = messages_default
   )
   
   # store the result
-  result.mU.PnH.H <-
-    rbind(result.mU.PnH.H, data.frame(i, temp$TRAJECTORIES$coevo.H[(maxIt.osc - 100):(maxIt.osc - 1)]))
-  result.mU.PnH.P <-
-    rbind(result.mU.PnH.P, data.frame(i, temp$TRAJECTORIES$coevo.P[(maxIt.osc - 100):(maxIt.osc - 1)]))
+  exp_utility_per_capita_type_n_plants_to_humans_oscillation_humans <-
+    rbind(exp_utility_per_capita_type_n_plants_to_humans_oscillation_humans, 
+          data.frame(i, temp$TRAJECTORIES$coevolution_coefficient_humans[(max_iterations_oscillation - 100):(max_iterations_oscillation - 1)]))
+  exp_utility_per_capita_type_n_plants_to_humans_oscillation_plants <-
+    rbind(exp_utility_per_capita_type_n_plants_to_humans_oscillation_plants, 
+          data.frame(i, temp$TRAJECTORIES$coevolution_coefficient_plants[(max_iterations_oscillation - 100):(max_iterations_oscillation - 1)]))
   
 }
 
 # save
-  save(result.mU.HnP.H, file = 'data/2_mU.PnH.H.osc.RData')
-  save(result.mU.HnP.P, file = 'data/2_mU.PnH.P.osc.RData')
+  save(exp_utility_per_capita_type_n_plants_to_humans_oscillation_humans, file = 'data/2_utility_per_capita_type_n_plants_to_humans_oscillation_humans.RData')
+  save(exp_utility_per_capita_type_n_plants_to_humans_oscillation_plants, file = 'data/2_utility_per_capita_type_n_plants_to_humans_oscillation_plants.RData')
 }
 ```
 
-```{r 2_mU.PnH.osc-load, include=FALSE}
+```{r 2_utility_per_capita_type_n_plants_to_humans_oscillation-load, include=FALSE}
 # load
-load('data/2_mU.PnH.H.osc.RData')
-load('data/2_mU.PnH.P.osc.RData')
+load('data/2_utility_per_capita_type_n_plants_to_humans_oscillation_humans.RData')
+load('data/2_utility_per_capita_type_n_plants_to_humans_oscillation_plants.RData')
 ```
 
-```{r 2_mU.PnH.osc-bifplot2, cache=TRUE, dependson='2_mU.PnH.osc', results='hide'}
+```{r 2_utility_per_capita_type_n_plants_to_humans_oscillation-bifplot2, cache=TRUE, dependson='2_utility_per_capita_type_n_plants_to_humans_oscillation', results='hide'}
 plotScale = 10
 
-#svg(paste0("plots/2_onePar-", exp.osc.name, "_bifplot-pair.svg"), width=plotScale, height=plotScale)
-png(paste0("plots/2_onePar-", exp.mU.PnH.osc.name, "_bifplot-pair.png"),
+#svg(paste0(plotDirectory, exp_osc_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
+png(paste0(plotDirectory, exp_utility_per_capita_type_n_plants_to_humans_oscillation_name, "_bifurcationPlotPair.png"),
     width = 400 * plotScale, height = 100 * plotScale)
-bifurcation.plot.pair(result.mU.PnH.H, result.mU.PnH.P, 
-                      parameterLabel = expression(paste('utility per capita of type n plants to humans (', bar('U')['PnH'], ')')),
-                      variableLabelH = expression('coevo'['H']),
-                      variableLabelP = expression('coevo'['P']),
-                      plotScale = plotScale,
-                      type = 'p')
+bifurcationPlotPair(exp_utility_per_capita_type_n_plants_to_humans_oscillation_humans, exp_utility_per_capita_type_n_plants_to_humans_oscillation_plants, 
+                    parameter_x_label = expression(paste('utility per capita of type n plants to humans (', bar('U')['PnH'], ')')),
+                    variable_y_label_A = expression(paste('coevolution coefficient of humans (', 'coevo'['H'], ')')),
+                    variable_y_label_B = expression(paste('coevolution coefficient of plants (', 'coevo'['P'], ')')),
+                    plot_scale = plotScale,
+                    type = 'p')
 dev.off()
 ```
 
-```{r 2_mU.HnP.osc-bifplot2-print, echo=FALSE, dependson='2_mU.HnP.osc-bifplot2', out.width = '100%'}
-knitr::include_graphics(paste0("plots/2_onePar-", exp.mU.HnP.osc.name, "_bifplot-pair.png"))
+```{r 2_utility_per_capita_type_n_humans_to_plants_oscillation-bifplot2-print, echo=FALSE, dependson='2_utility_per_capita_type_n_humans_to_plants_oscillation-bifplot2', out.width = '100%'}
+knitr::include_graphics(paste0(plotDirectory, exp_utility_per_capita_type_n_humans_to_plants_oscillation_name, "_bifurcationPlotPair.png"))
 ```
 
-```{r 2_mU.PnH.osc-bifplot2-print, echo=FALSE, dependson='2_mU.PnH.osc-bifplot2', out.width = '100%'}
-knitr::include_graphics(paste0("plots/2_onePar-", exp.mU.PnH.osc.name, "_bifplot-pair.png"))
+```{r 2_utility_per_capita_type_n_plants_to_humans_oscillation-bifplot2-print, echo=FALSE, dependson='2_utility_per_capita_type_n_plants_to_humans_oscillation-bifplot2', out.width = '100%'}
+knitr::include_graphics(paste0(plotDirectory, exp_utility_per_capita_type_n_plants_to_humans_oscillation_name, "_bifurcationPlotPair.png"))
 ```

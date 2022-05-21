@@ -21,45 +21,46 @@ require(kableExtra)
 ```
 
 ```{r 5_table-functions}
-source("library/plotting/exp.table.multiple.R")
+source("library/plotting/printTableRun.R")
+source("library/plotting/printTableExperiment.R")
 ```
 
 ```{r 5_default-values}
 # this is the 'default' parameter setting (end state is 'fast coevolution'):
 # initial populations
-iniH.default = 10
-iniP.default = 10
+initial_population_humans_default = 10
+initial_population_plants_default = 10
 # number of discrete types
-n.H.default = 30
-n.P.default = 30    
+number_types_humans_default = 30
+number_types_plants_default = 30    
 # undirected variation 
-v.H.default = 0.15
-v.P.default = 0.15
+undirected_variation_humans_default = 0.15
+undirected_variation_plants_default = 0.15
 # intrinsic growth rate 
-r.H.default = 0.04
-r.P.default = 0.1
+intrinsic_growth_rate_humans_default = 0.04
+intrinsic_growth_rate_plants_default = 0.1
 # Utility per capita of individuals of type N
-mU.PnH.default = 1.5
-mU.HnP.default = 1
+utility_per_capita_type_n_plants_to_humans_default = 1.5
+utility_per_capita_type_n_humans_to_plants_default = 1
 # Utility per capita of individuals of type 1
-mU.P1H.default = 0.15                           
-mU.H1P.default = 0                               
+utility_per_capita_type_1_plants_to_humans_default = 0.15                           
+utility_per_capita_type_1_humans_to_plants_default = 0                               
 # basic resources:
 # population of type N that can be sustained by resources independent of HP relationship
-U.bHn.default = 10                               
-U.bPn.default = 20
+utility_other_to_type_n_humans_default = 10                               
+utility_other_to_type_n_plants_default = 20
 # population of type 1 that can be sustained by resources independent of HP relationship
-U.bH1.default = 80                               
-U.bP1.default = 100                                 
+utility_other_to_type_1_humans_default = 80                               
+utility_other_to_type_1_plants_default = 100                                 
 # maximum local area to be used by populations (multiplier or scaling effect)
-MaxArea.default = 200
+max_area_default = 200
 # settings 
 # simulation flow & data
-maxIt.default = 5000
-tol.default = 6
-timing.threshold.default = 0.5
-saveTrajectories.default = TRUE
-messages.default = TRUE
+max_iterations_default = 5000
+reltol_exponential_default = 6
+coevolution_threshold_default = 0.5
+save_trajectories_default = FALSE
+messages_default = TRUE
 ```
 
 ```{r 5_setup_plus, include=FALSE}
@@ -74,27 +75,27 @@ run.LHS.experiment <- function(experimentSettings, cluster)
   parallel::parLapply(cluster, 1:nrow(experimentSettings),
                       function(experimentIndex) {
                         RESULTS <- hpcModel.run(
-                          iniH = iniH.default,
-                          iniP = iniP.default,
-                          n.H = experimentSettings[experimentIndex,     1],         
-                          n.P = experimentSettings[experimentIndex,     2],        
-                          v.H = experimentSettings[experimentIndex,     3],
-                          v.P = experimentSettings[experimentIndex,     4],
-                          r.H = experimentSettings[experimentIndex,     5], 
-                          r.P = experimentSettings[experimentIndex,     6], 
-                          mU.PnH = experimentSettings[experimentIndex,  7],
-                          mU.HnP = experimentSettings[experimentIndex,  8],
-                          mU.P1H = experimentSettings[experimentIndex,  9],
-                          mU.H1P = experimentSettings[experimentIndex,  10],
-                          U.bHn = experimentSettings[experimentIndex,   11],
-                          U.bPn = experimentSettings[experimentIndex,   12], 
-                          U.bH1 = experimentSettings[experimentIndex,   13],
-                          U.bP1 = experimentSettings[experimentIndex,   14],
-                          MaxArea = experimentSettings[experimentIndex, 15],
-                          maxIt = maxIt.default,
-                          tol = tol.default,
-                          saveTrajectories = FALSE,
-                          messages = FALSE
+                          initial_population_humans = initial_population_humans_default,
+                          initial_population_plants = initial_population_plants_default,
+                          number_types_humans = experimentSettings[experimentIndex,                         1],         
+                          number_types_plants = experimentSettings[experimentIndex,                         2],        
+                          undirected_variation_humans = experimentSettings[experimentIndex,                 3],
+                          undirected_variation_plants = experimentSettings[experimentIndex,                 4],
+                          intrinsic_growth_rate_humans = experimentSettings[experimentIndex,                5], 
+                          intrinsic_growth_rate_plants = experimentSettings[experimentIndex,                 6], 
+                          utility_per_capita_type_n_plants_to_humans = experimentSettings[experimentIndex,  7],
+                          utility_per_capita_type_n_humans_to_plants = experimentSettings[experimentIndex,  8],
+                          utility_per_capita_type_1_plants_to_humans = experimentSettings[experimentIndex,  9],
+                          utility_per_capita_type_1_humans_to_plants = experimentSettings[experimentIndex, 10],
+                          utility_other_to_type_n_humans = experimentSettings[experimentIndex,             11],
+                          utility_other_to_type_n_plants = experimentSettings[experimentIndex,             12], 
+                          utility_other_to_type_1_humans = experimentSettings[experimentIndex,             13],
+                          utility_other_to_type_1_plants = experimentSettings[experimentIndex,             14],
+                          max_area = experimentSettings[experimentIndex,                                   15],
+                          max_iterations = max_iterations_default,
+                          reltol_exponential = reltol_exponential_default,
+                          save_trajectories = save_trajectories_default,
+                          messages = messages_default
                         )
                         return(as.data.frame(RESULTS$END))
                       })
@@ -106,40 +107,48 @@ run.LHS.experiment2 <- function(experimentSettings, cluster)
   parallel::parLapply(cluster, 1:nrow(experimentSettings),
                       function(experimentIndex) {
                         RESULTS <- hpcModel.run(
-                          iniH = iniH.default,
-                          iniP = iniP.default,
-                          n.H = experimentSettings[experimentIndex,     1],         
-                          n.P = experimentSettings[experimentIndex,     2],        
-                          v.H = experimentSettings[experimentIndex,     3],
-                          v.P = experimentSettings[experimentIndex,     4],
-                          r.H = experimentSettings[experimentIndex,     5], 
-                          r.P = experimentSettings[experimentIndex,     6], 
-                          mU.PnH = experimentSettings[experimentIndex,  7],
-                          mU.HnP = experimentSettings[experimentIndex,  8],
-                          mU.P1H = experimentSettings[experimentIndex,  9],
-                          mU.H1P = experimentSettings[experimentIndex,  10],
-                          U.bHn = experimentSettings[experimentIndex,   11],
-                          U.bPn = experimentSettings[experimentIndex,   12], 
-                          U.bH1 = experimentSettings[experimentIndex,   13],
-                          U.bP1 = experimentSettings[experimentIndex,   14],
-                          MaxArea = experimentSettings[experimentIndex, 15],
-                          maxIt = maxIt.default,
-                          tol = tol.default,
-                          saveTrajectories = TRUE,
-                          messages = FALSE
+                          initial_population_humans = initial_population_humans_default,
+                          initial_population_plants = initial_population_plants_default,
+                          number_types_humans = experimentSettings[experimentIndex,                         1],         
+                          number_types_plants = experimentSettings[experimentIndex,                         2],        
+                          undirected_variation_humans = experimentSettings[experimentIndex,                 3],
+                          undirected_variation_plants = experimentSettings[experimentIndex,                 4],
+                          intrinsic_growth_rate_humans = experimentSettings[experimentIndex,                5], 
+                          intrinsic_growth_rate_plants = experimentSettings[experimentIndex,                 6], 
+                          utility_per_capita_type_n_plants_to_humans = experimentSettings[experimentIndex,  7],
+                          utility_per_capita_type_n_humans_to_plants = experimentSettings[experimentIndex,  8],
+                          utility_per_capita_type_1_plants_to_humans = experimentSettings[experimentIndex,  9],
+                          utility_per_capita_type_1_humans_to_plants = experimentSettings[experimentIndex, 10],
+                          utility_other_to_type_n_humans = experimentSettings[experimentIndex,             11],
+                          utility_other_to_type_n_plants = experimentSettings[experimentIndex,             12], 
+                          utility_other_to_type_1_humans = experimentSettings[experimentIndex,             13],
+                          utility_other_to_type_1_plants = experimentSettings[experimentIndex,             14],
+                          max_area = experimentSettings[experimentIndex,                                   15],
+                          max_iterations = max_iterations_default,
+                          reltol_exponential = reltol_exponential_default,
+                          save_trajectories = TRUE,
+                          messages = messages_default
                         )
                         return(RESULTS$TRAJECTORIES)
                       })
 }
+
+plotDirectory <- "plots/5_"
+dataDirectory <- "data/5_"
+
+# set up color mapping for variable importance plots (variableImportancePlot())
+# assuming order to be: n, v, r, mU, U.b and MaxArea
+parameterColorMap <- c("black", rep("blue", 4), rep("green", 4), rep("red", 6))
 ```
 
 ```{r 5_plot-functions, include=FALSE}
 # this chunk is specific for this exploration
-source("library/plotting/collapsed.ggplot.R")
-source("library/plotting/trajectories.ggplot.R")
-source("library/plotting/varImpPlot2.R")
-source("library/plotting/parameters.effect.ggplot.R")
-source("library/plotting/parameter.x.scenario.ggplot.R")
+source("library/plotting/bifurcationPlot_twoVariables.R")
+source("library/plotting/bifurcationPlot_twoVariables_per_parameter.R")
+source("library/plotting/bifurcationPlot_twoVariables_per_parameter_and_scenario.R")
+
+source("library/plotting/plotTrajectoriesPerVariableGroup.R")
+source("library/plotting/variableImportancePlot.R")
 ```
 
 \newpage
@@ -147,94 +156,100 @@ source("library/plotting/parameter.x.scenario.ggplot.R")
 ## Sampling parameter values with Latin Hypercube Sampling (LHS)
 
 ```{r 5_LHS-values}
-LHS.parameter.names <- c(
-  'n.H', 'n.P',        
-  'v.H', 'v.P',
-  'r.H', 'r.P',
-  'mU.PnH', 'mU.HnP', 'mU.P1H', 'mU.H1P',                                   
-  'U.bHn', 'U.bPn', 'U.bH1', 'U.bP1',
-  'MaxArea'
+exp_LHS_parameter_sample_dataFileName <- paste0(dataDirectory, "LHS_parameter_values.RData")
+
+LHS_parameter_names <- c(
+  'number_types_humans', 'number_types_plants',        
+  'undirected_variation_humans', 'undirected_variation_plants',
+  'intrinsic_growth_rate_humans', 'intrinsic_growth_rate_plants',
+  'utility_per_capita_type_n_plants_to_humans', 'utility_per_capita_type_n_humans_to_plants', 
+  'utility_per_capita_type_1_plants_to_humans', 'utility_per_capita_type_1_humans_to_plants',                                   
+  'utility_other_to_type_n_humans', 'utility_other_to_type_n_plants', 
+  'utility_other_to_type_1_humans', 'utility_other_to_type_1_plants',
+  'max_area'
 )
-LHS.parameter.ranges <- list(
-  n.H = c(3, 50),         
-  n.P = c(3, 50),        
-  v.H = c(0.1, 0.3),
-  v.P = c(0.1, 0.3),
-  r.H = c(0.01, 0.3),
-  r.P = c(0.01, 0.3),
-  mU.PnH = c(0, 3),
-  mU.HnP = c(0, 3),
-  mU.P1H = c(0, 3),                                  
-  mU.H1P = c(0, 3),                                   
-  U.bHn = c(1, 300),                                
-  U.bPn = c(1, 300), 
-  U.bH1 = c(1, 300),                               
-  U.bP1 = c(1, 300),
-  MaxArea = c(1, 300)
+LHS_parameter_ranges <- list(
+  number_types_humans = c(3, 50),         
+  number_types_plants = c(3, 50),        
+  undirected_variation_humans = c(0.1, 0.3),
+  undirected_variation_plants = c(0.1, 0.3),
+  intrinsic_growth_rate_humans = c(0.01, 0.3),
+  intrinsic_growth_rate_plants = c(0.01, 0.3),
+  utility_per_capita_type_n_plants_to_humans = c(0, 3),
+  utility_per_capita_type_n_humans_to_plants = c(0, 3),
+  utility_per_capita_type_1_plants_to_humans = c(0, 3),                                  
+  utility_per_capita_type_1_humans_to_plants = c(0, 3),                                   
+  utility_other_to_type_n_humans = c(1, 300),                                
+  utility_other_to_type_n_plants = c(1, 300), 
+  utility_other_to_type_1_humans = c(1, 300),                               
+  utility_other_to_type_1_plants = c(1, 300),
+  max_area = c(1, 300)
 )
 ```
 
 **parameter**       | **value**
  ------------------ | ----------------------------------
- `n.H`, `n.P`       | [`r LHS.parameter.ranges$n.H[1]`, `r LHS.parameter.ranges$n.H[2]`], [`r LHS.parameter.ranges$n.P[1]`, `r LHS.parameter.ranges$n.P[2]`]
- `v.H`, `v.P`       | [`r LHS.parameter.ranges$v.H[1]`, `r LHS.parameter.ranges$v.H[2]`], [`r LHS.parameter.ranges$v.P[1]`, `r LHS.parameter.ranges$v.P[2]`]
-  `r.H`, `r.P`       | [`r LHS.parameter.ranges$r.H[1]`, `r LHS.parameter.ranges$r.H[2]`], [`r LHS.parameter.ranges$r.P[1]`, `r LHS.parameter.ranges$r.P[2]`]
- `mU.PnH`, `mU.HnP` | [`r LHS.parameter.ranges$mU.PnH[1]`, `r LHS.parameter.ranges$mU.PnH[2]`], [`r LHS.parameter.ranges$mU.HnP[1]`, `r LHS.parameter.ranges$mU.HnP[2]`]
- `mU.P1H`, `mU.H1P` | [`r LHS.parameter.ranges$mU.P1H[1]`, `r LHS.parameter.ranges$mU.P1H[2]`], [`r LHS.parameter.ranges$mU.H1P[1]`, `r LHS.parameter.ranges$mU.H1P[2]`]
- `U.bH1`, `U.bP1`   | [`r LHS.parameter.ranges$U.bH1[1]`, `r LHS.parameter.ranges$U.bH1[2]`], [`r LHS.parameter.ranges$U.bP1[1]`, `r LHS.parameter.ranges$U.bP1[2]`]
- `U.bHn`, `U.bPn`   | [`r LHS.parameter.ranges$U.bHn[1]`, `r LHS.parameter.ranges$U.bHn[2]`], [`r LHS.parameter.ranges$U.bPn[1]`, `r LHS.parameter.ranges$U.bPn[2]`]
- `MaxArea`   | [`r LHS.parameter.ranges$MaxArea[1]`, `r LHS.parameter.ranges$MaxArea[2]`]
+ `number_types_humans`, `number_types_plants`       | [`r LHS_parameter_ranges$number_types_humans[1]`, `r LHS_parameter_ranges$number_types_humans[2]`], [`r LHS_parameter_ranges$number_types_plants[1]`, `r LHS_parameter_ranges$number_types_plants[2]`]
+ `undirected_variation_humans`, `undirected_variation_plants`       | [`r LHS_parameter_ranges$undirected_variation_humans[1]`, `r LHS_parameter_ranges$undirected_variation_humans[2]`], [`r LHS_parameter_ranges$undirected_variation_plants[1]`, `r LHS_parameter_ranges$undirected_variation_plants[2]`]
+ `intrinsic_growth_rate_humans`, `intrinsic_growth_rate_plants`       | [`r LHS_parameter_ranges$intrinsic_growth_rate_humans[1]`, `r LHS_parameter_ranges$intrinsic_growth_rate_humans[2]`], [`r LHS_parameter_ranges$intrinsic_growth_rate_plants[1]`, `r LHS_parameter_ranges$intrinsic_growth_rate_plants[2]`]
+ `utility_per_capita_type_n_plants_to_humans`, `utility_per_capita_type_n_humans_to_plants` | [`r LHS_parameter_ranges$utility_per_capita_type_n_plants_to_humans[1]`, `r LHS_parameter_ranges$utility_per_capita_type_n_plants_to_humans[2]`], [`r LHS_parameter_ranges$utility_per_capita_type_n_humans_to_plants[1]`, `r LHS_parameter_ranges$utility_per_capita_type_n_humans_to_plants[2]`]
+ `utility_per_capita_type_1_plants_to_humans`, `utility_per_capita_type_1_humans_to_plants` | [`r LHS_parameter_ranges$utility_per_capita_type_1_plants_to_humans[1]`, `r LHS_parameter_ranges$utility_per_capita_type_1_plants_to_humans[2]`], [`r LHS_parameter_ranges$utility_per_capita_type_1_humans_to_plants[1]`, `r LHS_parameter_ranges$utility_per_capita_type_1_humans_to_plants[2]`]
+ `utility_other_to_type_n_humans`, `utility_other_to_type_n_plants`   | [`r LHS_parameter_ranges$utility_other_to_type_n_humans[1]`, `r LHS_parameter_ranges$utility_other_to_type_n_humans[2]`], [`r LHS_parameter_ranges$utility_other_to_type_n_plants[1]`, `r LHS_parameter_ranges$utility_other_to_type_n_plants[2]`]
+ `max_area`   | [`r LHS_parameter_ranges$MaxArea[1]`, `r LHS_parameter_ranges$MaxArea[2]`]
+ `utility_other_to_type_1_humans`, `utility_other_to_type_1_plants`   | [`r LHS_parameter_ranges$utility_other_to_type_1_humans[1]`, `r LHS_parameter_ranges$utility_other_to_type_1_humans[2]`], [`r LHS_parameter_ranges$utility_other_to_type_1_plants[1]`, `r LHS_parameter_ranges$utility_other_to_type_1_plants[2]`]
 
 Table: Ranges of parameter exploration
 
-```{r 5_LHS, include=FALSE}
+```{r 5_LHS, include=FALSE, dependson='5_LHS-values'}
 ### generate LHS design (strauss method, with 0.2 radious interaction)
-if (!file.exists('data/5_LHS.RData')) # you must delete "LHS.RData" to create a new file
+if (!file.exists(exp_LHS_parameter_sample_dataFileName)) # you must delete it to create a new file
 {
-  LHS <- DoE.wrapper::lhs.design(
+  LHS_parameter_values <- DoE.wrapper::lhs.design(
     nruns = 10000, # probably should be greater
     nfactors = 15,
     type = 'strauss',
     seed = 777,
-    factor.names = LHS.parameter.ranges,
+    factor.names = LHS_parameter_ranges,
     digits = c(0, 0, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4),
     RND = 0.2
   )
 
   # save
-  save(LHS, file = 'data/5_LHS.RData')
+  save(LHS_parameter_values, file = exp_LHS_parameter_sample_dataFileName)
 }
 ```
 
 ```{r 5_LHS-load, include=FALSE}
 # load
-load('data/5_LHS.RData')
+load(exp_LHS_parameter_sample_dataFileName)
 
-# build PARS
-PARS <- as.data.frame(LHS)
+# format LHS_parameter_values as a data frame
+LHS_parameter_values <- as.data.frame(LHS_parameter_values)
 ```
 
 ```{r 5LHStablehtml, eval=!params$ispdf, cache=TRUE, dependson='5_LHS-load'}
-source("library/plotting/exp.table.multiple.R") # sometimes bookdown rendering will act up and ignore the chunks loading functions
-exp.table.multiple(PARS, numberOfParameters = 15, caption = 'ACTUAL parameter values')
+source("library/plotting/printTableExperiment.R") # sometimes bookdown rendering will act up and ignore the chunks loading functions
+printTableExperiment(LHS_parameter_values, caption = 'ACTUAL parameter values')
 ```
 ```{r 5LHStablepdf, eval=params$ispdf, cache=TRUE, dependson='5_LHS-load'}
-exp.table.multiple(PARS, numberOfParameters = 15, caption = 'ACTUAL parameter values', output = "latex")
+printTableExperiment(LHS_parameter_values, caption = 'ACTUAL parameter values', output = "latex")
 ```
 
 \newpage
 
 ```{r 5_LHS-pairs-plot, cache=TRUE, dependson='5_LHS-load'}
+exp_LHS_pairsPlotName = paste0(plotDirectory, "LHS_parameter_values_pairsPlot.png")
+
 plotScale = 10
 
-png("plots/5_multiplePar-LHS_pairs-plot.png",
+png(exp_LHS_pairsPlotName,
     width = 100 * plotScale, height = 100 * plotScale)
-pairs(LHS, pch='·')
+pairs(LHS_parameter_values, pch='·')
 invisible(dev.off())
 ```
 
 ```{r 5_LHS-pairs-plot-print, dependson='5_LHS-pairs-plot', out.width = '100%'}
-knitr::include_graphics("plots/5_multiplePar-LHS_pairs-plot.png")
+knitr::include_graphics(exp_LHS_pairsPlotName)
 ```
 
 \newpage
@@ -242,49 +257,53 @@ knitr::include_graphics("plots/5_multiplePar-LHS_pairs-plot.png")
 ## Experiment overview
 
 ```{r 5_run-experiments, include=FALSE}
+exp_LHS_runs_dataFileName <- paste0(dataDirectory, "LHS_runs.RData")
+
 ### run the model for every setting according to the LHS design
-if(!file.exists('data/5_exp.LHS.RData')) # you must delete "exp.LHS.RData" to create a new file
+if(!file.exists(exp_LHS_runs_dataFileName)) # you must delete it to create a new file
 {
   
   # build cluster
-  cl <- makeCluster(6)
-  clusterExport(cl, 
-                list('hpcModel.run', 'Fitness', 'coevo.coef', 
-                     'PARS', 
-                     'iniH.default', 'iniP.default', 'maxIt.default', 'tol.default'), 
+  theCluster <- makeCluster(6)
+  clusterExport(theCluster, 
+                list('hpcModel.run', 'getFitness', 'getCoevolutionCoefficient', 
+                     'LHS_parameter_values', 
+                     'initial_population_humans_default', 'initial_population_plants_default', 
+                     'max_iterations_default', 'reltol_exponential_default', 
+                     'save_trajectories_default', 'messages_default'), 
                 envir = environment())
   
   # loop
-  exp.LHS <- run.LHS.experiment(PARS, cl)
+  exp_LHS <- run.LHS.experiment(LHS_parameter_values, theCluster)
   
   # stop cluster and clean
-  stopCluster(cl)
-  rm(cl)
+  stopCluster(theCluster)
+  rm(theCluster)
   gc()
   
   # bind result
-  exp.LHS <- do.call('rbind', exp.LHS)
+  exp_LHS <- do.call('rbind', exp_LHS)
   
   # build object
-  exp.LHS <- cbind(PARS, exp.LHS)
+  exp_LHS <- cbind(LHS_parameter_values, exp_LHS)
   
   # save
-  save(exp.LHS, file = 'data/5_exp.LHS.RData')
+  save(exp_LHS, file = exp_LHS_runs_dataFileName)
 }
 ```
 
 ```{r 5_run-experiments-load, include=FALSE, dependson='5_run-experiments'}
 # load
-load('data/5_exp.LHS.RData')
+load(exp_LHS_runs_dataFileName)
 
-H.exists <- !is.na(exp.LHS$H) & exp.LHS$H > 0
-P.exists <- !is.na(exp.LHS$P) & exp.LHS$P > 0
-H.fullEvolved <- exp.LHS$coevo.H > 0.5 & H.exists
-P.fullEvolved <- exp.LHS$coevo.P > 0.5 & P.exists
-H.mildEvolved <- exp.LHS$coevo.H > 0 & exp.LHS$coevo.H <= 0.5 & H.exists
-P.mildEvolved <-  exp.LHS$coevo.P > 0 & exp.LHS$coevo.P <= 0.5 & P.exists
-H.notByFarEvolved <- exp.LHS$coevo.H < -0.5 & H.exists
-P.notByFarEvolved <- exp.LHS$coevo.P < -0.5 & P.exists
+humans_exists <- !is.na(exp_LHS$humans) & exp_LHS$humans > 0
+plants_exists <- !is.na(exp_LHS$plants) & exp_LHS$plants > 0
+humans_fullEvolved <- exp_LHS$coevolution_coefficient_humans > 0.5 & humans_exists
+plants_fullEvolved <- exp_LHS$coevolution_coefficient_plants > 0.5 & plants_exists
+humans_mildEvolved <- exp_LHS$coevolution_coefficient_humans > 0 & exp_LHS$coevolution_coefficient_humans <= 0.5 & humans_exists
+plants_mildEvolved <-  exp_LHS$coevolution_coefficient_plants > 0 & exp_LHS$coevolution_coefficient_plants <= 0.5 & plants_exists
+humans_notByFarEvolved <- exp_LHS$coevolution_coefficient_humans < -0.5 & humans_exists
+plants_notByFarEvolved <- exp_LHS$coevolution_coefficient_plants < -0.5 & plants_exists
 
 ```
 
@@ -292,200 +311,218 @@ P.notByFarEvolved <- exp.LHS$coevo.P < -0.5 & P.exists
 
 **_Are there any humans?_**
 ```{r 5existHtablehtml, eval=!params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
-knitr::kable(table(H.exists), "html")
+knitr::kable(table(humans_exists), "html")
 ```
 ```{r 5existHtablepdf, eval=params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
-knitr::kable(table(H.exists), "latex")
+knitr::kable(table(humans_exists), "latex")
 ```
 
 **_Are there any plants?_**
 ```{r 5existPtablehtml, eval=!params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
-knitr::kable(table(P.exists), "html")
+knitr::kable(table(plants_exists), "html")
 ```
 ```{r 5existPtablepdf, eval=params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
-knitr::kable(table(P.exists), "latex")
+knitr::kable(table(plants_exists), "latex")
 ```
 
 **_Did humans not evolved by far? (coevolution coefficient is less than -0.5)_**
 ```{r 5notEvolvedHtablehtml, eval=!params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
-knitr::kable(table(H.notByFarEvolved), "html")
+knitr::kable(table(humans_notByFarEvolved), "html")
 ```
 ```{r 5notEvolvedHtablepdf, eval=params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
-knitr::kable(table(H.notByFarEvolved), "latex")
+knitr::kable(table(humans_notByFarEvolved), "latex")
 ```
 
 **_Did plants not evolved by far? (coevolution coefficient is less than -0.5)_**
 ```{r 5notEvolvedPtablehtml, eval=!params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
-knitr::kable(table(P.notByFarEvolved), "html")
+knitr::kable(table(plants_notByFarEvolved), "html")
 ```
 ```{r 5notEvolvedPtablepdf, eval=params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
-knitr::kable(table(P.notByFarEvolved), "latex")
+knitr::kable(table(plants_notByFarEvolved), "latex")
 ```
 
 **_Did humans evolved mildly? (coevolution coefficient is positive, but less than 0.5)_**
 ```{r 5mildEvolvedHtablehtml, eval=!params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
-knitr::kable(table(H.mildEvolved), "html")
+knitr::kable(table(humans_mildEvolved), "html")
 ```
 ```{r 5mildEvolvedHtablepdf, eval=params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
-knitr::kable(table(H.mildEvolved), "latex")
+knitr::kable(table(humans_mildEvolved), "latex")
 ```
 
 **_Did plants evolved mildly? (coevolution coefficient is positive, but less than 0.5)_**
 ```{r 5mildEvolvedPtablehtml, eval=!params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
-knitr::kable(table(P.mildEvolved), "html")
+knitr::kable(table(plants_mildEvolved), "html")
 ```
 ```{r 5mildEvolvedPtablepdf, eval=params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
-knitr::kable(table(P.mildEvolved), "latex")
+knitr::kable(table(plants_mildEvolved), "latex")
 ```
 
 **_Did humans evolved fully? (coevolution coefficient is greater than 0.5)_**
 ```{r 5evolvedHtablehtml, eval=!params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
-knitr::kable(table(H.fullEvolved), "html")
+knitr::kable(table(humans_fullEvolved), "html")
 ```
 ```{r 5evolvedHtablepdf, eval=params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
-knitr::kable(table(H.fullEvolved), "latex")
+knitr::kable(table(humans_fullEvolved), "latex")
 ```
 
 **_Did plants evolved fully? (coevolution coefficient is greater than 0.5)_**
 ```{r 5evolvedPtablehtml, eval=!params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
-knitr::kable(table(P.fullEvolved), "html")
+knitr::kable(table(plants_fullEvolved), "html")
 ```
 ```{r 5evolvedPtablepdf, eval=params$ispdf, cache=TRUE, dependson='5_run-experiments-load'}
-knitr::kable(table(P.fullEvolved), "latex")
+knitr::kable(table(plants_fullEvolved), "latex")
 ```
 
 **_Population and output variables_**
 
 ```{r 5_variables-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+exp_LHS_summaryPlotName = paste0(plotDirectory, "LHS_summary_plot.png")
 
 plotScale = 10
 
-png("plots/5_multiplePar-variables-ggplot.png",
+png(exp_LHS_summaryPlotName,
     width = 100 * plotScale,
     height = 100 * plotScale
 )
 
-varsSummary1.data <- melt(exp.LHS[, c('H', 'P', 'coevo.H', 'coevo.P', 'depend.H', 'depend.P')])
+summaryData1 <- melt(exp_LHS[, c('humans', 'plants', 
+                                 'coevolution_coefficient_humans', 'coevolution_coefficient_humans', 
+                                 'dependency_coefficient_humans', 'dependency_coefficient_plants')])
 
-g1 <- ggplot(data = varsSummary1.data, aes(value)) +
+summaryPlot1 <- ggplot(data = summaryData1, aes(value)) +
   geom_histogram() +
   facet_wrap(.~variable, ncol = 2, scales = "free")
 
-varsSummary2.data <- melt(exp.LHS[, c('time', 'timing.H', 'timing.P')])
+summaryData2 <- melt(exp_LHS[, c('time_end', 'timing_humans', 'timing_plants')])
 
-g2 <- ggplot(data = varsSummary2.data, aes(value)) +
+summaryPlot2 <- ggplot(data = summaryData2, aes(value)) +
   geom_histogram() +
   facet_wrap(.~variable, scales = "free")
 
-ggpubr::ggarrange(g1, g2, nrow = 2, heights = c(3, 1))
+ggpubr::ggarrange(summaryPlot1, summaryPlot2, nrow = 2, heights = c(3, 1))
 
 dev.off()
 ```
 
 ```{r 5_variables-plot-print, dependson='5_variables-plots', out.width = '100%'}
-knitr::include_graphics("plots/5_multiplePar-variables-ggplot.png")
+knitr::include_graphics(exp_LHS_summaryPlotName)
 ```
 
 ### Trajectories
 
-```{r 5_exp.LHS.trajectories, include=FALSE}
-if(!file.exists('data/5_exp.LHS.trajectories.RData'))
+```{r 5_exp_LHS_trajectories, include=FALSE}
+exp_LHS_trajectories_dataFileName <- paste0(dataDirectory, "LHS_trajectories.RData")
+
+if(!file.exists(exp_LHS_trajectories_dataFileName))
 {
   set.seed(0)
   
-  number.trajectories = 5
+  numberOfTrajectories = 5
   
-  PARS.sample <- PARS[
+  LHS_parameter_values_sample <- LHS_parameter_values[
     ## for sampling random trajectories
-    #sample(1:nrow(PARS), number.trajectories)
+    #sample(1:nrow(LHS_parameter_values), numberOfTrajectories)
     ### for selecting one random run of each of the following types:
     c(
       # No coevolution (not evolved, not mild evolved, but exists)
-      sample((1:nrow(PARS))[H.notByFarEvolved & P.notByFarEvolved], 1),
+      sample((1:nrow(LHS_parameter_values))[humans_notByFarEvolved & plants_notByFarEvolved], 1),
       # Domestication without cultivation
-      sample((1:nrow(PARS))[H.notByFarEvolved & P.fullEvolved], 1),
+      sample((1:nrow(LHS_parameter_values))[humans_notByFarEvolved & plants_fullEvolved], 1),
       # Cultivation without domestication
-      sample((1:nrow(PARS))[H.fullEvolved & P.notByFarEvolved], 1),
+      sample((1:nrow(LHS_parameter_values))[humans_fullEvolved & plants_notByFarEvolved], 1),
       # Mild coevolution
-      sample((1:nrow(PARS))[H.mildEvolved & P.mildEvolved], 1),
+      sample((1:nrow(LHS_parameter_values))[humans_mildEvolved & plants_mildEvolved], 1),
       # Coevolution
-      sample((1:nrow(PARS))[H.fullEvolved & P.fullEvolved], 1)
+      sample((1:nrow(LHS_parameter_values))[humans_fullEvolved & plants_fullEvolved], 1)
     )
     ,]
   
   # build cluster
-  cl <- makeCluster(6)
-  clusterExport(cl, 
-                list('hpcModel.run', 'Fitness', 'coevo.coef', 
-                     'PARS.sample', 
-                     'iniH.default', 'iniP.default', 'maxIt.default', 'tol.default'), 
+  theCluster <- makeCluster(6)
+  clusterExport(theCluster, 
+                list('hpcModel.run', 'getFitness', 'getCoevolutionCoefficient', 
+                     'LHS_parameter_values_sample', 
+                     'initial_population_humans_default', 'initial_population_plants_default', 
+                     'max_iterations_default', 'reltol_exponential_default', 
+                     'save_trajectories_default', 'messages_default'), 
                 envir = environment())
   
   # loop
-  exp.LHS.trajectories.list <- run.LHS.experiment2(PARS.sample, cl)
+  exp_LHS_trajectories_list <- run.LHS.experiment2(LHS_parameter_values_sample, theCluster)
   
   # stop cluster and clean
-  stopCluster(cl)
-  rm(cl)
+  stopCluster(theCluster)
+  rm(theCluster)
   gc()
   
   # build object
-  exp.LHS.trajectories <- c()
+  exp_LHS_trajectories <- c()
   
-  for (runIndex in 1:number.trajectories)
+  for (runIndex in 1:numberOfTrajectories)
   {
-    exp.LHS.trajectories <- rbind(
-      exp.LHS.trajectories,
+    exp_LHS_trajectories <- rbind(
+      exp_LHS_trajectories,
       cbind(
-        run = rep(runIndex, nrow(exp.LHS.trajectories.list[[runIndex]])),
-        time = 1:(nrow(exp.LHS.trajectories.list[[runIndex]])),
-        exp.LHS.trajectories.list[[runIndex]][,c('H', 'P', 'coevo.H', 'coevo.P')]
+        run = rep(runIndex, nrow(exp_LHS_trajectories_list[[runIndex]])),
+        time = 1:(nrow(exp_LHS_trajectories_list[[runIndex]])),
+        exp_LHS_trajectories_list[[runIndex]][,c('humans', 'plants', 'coevolution_coefficient_humans', 'coevolution_coefficient_plants')]
       )
     )
   }
   
-  exp.LHS.trajectories <- exp.LHS.trajectories[!is.na(exp.LHS.trajectories$H) & exp.LHS.trajectories$H > 0,]
+  exp_LHS_trajectories <- exp_LHS_trajectories[!is.na(exp_LHS_trajectories$humans) & exp_LHS_trajectories$humans > 0,]
   
-  rm(exp.LHS.trajectories.list)
+  rm(exp_LHS_trajectories_list)
   
   # save
-  save(exp.LHS.trajectories, file = 'data/5_exp.LHS.trajectories.RData')
+  save(exp_LHS_trajectories, file = exp_LHS_trajectories_dataFileName)
 }
 ```
 
-```{r 5_overview-trajectories-plot, include=FALSE, cache=TRUE}
-load('data/5_exp.LHS.trajectories.RData')
+```{r 5_overview-trajectories-plot, dependson=c('5_plot-functions', '5_exp_LHS_trajectories'), include=FALSE, cache=TRUE}
+load(exp_LHS_trajectories_dataFileName)
 
-source("library/plotting/trajectories.ggplot.R")
+source("library/plotting/plotTrajectoriesPerVariableGroup.R")
 
-overview.variable.name = 'pop'
+exp_LHS_trajectoriesOverviewPlotName = paste0(plotDirectory, "LHS_trajectoriesOverview.png")
 
 plotScale = 10
 
-png(paste0("plots/5_multiplePar-", overview.variable.name, "_trajectories-ggplot.png"),
+png(exp_LHS_trajectoriesOverviewPlotName,
     width = 100 * plotScale, height = 50 * plotScale)
 
-trajectories.ggplot(exp.LHS.trajectories, 
-                    c('H', 'P'), c('coevo.H', 'coevo.P'),
-                    'Populations', 'Coevolution coefficients',
-                    cex = plotScale)
+plotTrajectoriesPerVariableGroup(exp_LHS_trajectories, 
+                                 plot1_variables = c('humans', 'plants'),
+                                 plot2_variables = c('coevolution_coefficient_humans', 'coevolution_coefficient_plants'),
+                                 plot1_title = 'Populations', 
+                                 plot2_title = 'Coevolution coefficients',
+                                 plot1_colors = c('blue', 'red'),
+                                 plot2_colors = c('blue', 'red'),
+                                 plot_legend_labels = c('Humans', 'Humans', 'Plants', 'Plants'),
+                                 plot_legend_line_x_positions = c(35, 39, 57, 61),
+                                 plot_legend_label_x_positions = c(40, 40, 62, 62),
+                                 plot1_mark_y_zero = FALSE,
+                                 plot2_mark_y_zero = TRUE,
+                                 plot_scale = plotScale)
 
 dev.off()
 ```
 
 ```{r 5_overview-trajectories-plot-print, dependson='5_overview-trajectories-plot', out.width = '100%'}
-knitr::include_graphics(paste0("plots/5_multiplePar-", overview.variable.name, "_trajectories-ggplot.png"))
+knitr::include_graphics(exp_LHS_trajectoriesOverviewPlotName)
 ```
 
 \newpage
 
 ```{r 5_overview-endstates-plot, include=FALSE, cache=TRUE}
+exp_LHS_coevoEndStatePlotName = paste0(plotDirectory, "LHS_coevo_end_state.png")
+
 plotScale = 10
 
-png(paste0("plots/5_multiplePar-coevo_endstates-ggplot.png"),
+png(exp_LHS_coevoEndStatePlotName,
     width = 50 * plotScale, height = 50 * plotScale)
 
-ggplot(data = exp.LHS, aes(x = coevo.H, y = coevo.P)) +
+ggplot(data = exp_LHS, aes(x = coevolution_coefficient_humans, y = coevolution_coefficient_plants)) +
   geom_point(alpha = 0.3) +
   geom_hline(yintercept = 0) + geom_vline(xintercept = 0) +
   geom_hline(yintercept = -1) + geom_vline(xintercept = -1) +
@@ -495,7 +532,7 @@ dev.off()
 ```
 
 ```{r 5_overview-endstates-plot-print, dependson='5_overview-endstates-plot', out.width = '100%'}
-knitr::include_graphics(paste0("plots/5_multiplePar-coevo_endstates-ggplot.png"))
+knitr::include_graphics(exp_LHS_coevoEndStatePlotName)
 ```
 
 \newpage
@@ -504,291 +541,342 @@ knitr::include_graphics(paste0("plots/5_multiplePar-coevo_endstates-ggplot.png")
 
 ### Optimisation 
 
-```{r 5_RF.tunning.preparation, include=FALSE}
+```{r 5_RF_tunning.preparation, include=FALSE}
 set.seed(777)
 
-exp.LHS.r <- exp.LHS[P.exists,]
+exp_LHS_r <- exp_LHS[plants_exists,]
 
-exp.LHS.r <- exp.LHS.r[sample(1:nrow(exp.LHS.r), nrow(exp.LHS.r)),]
+exp_LHS_r <- exp_LHS_r[sample(1:nrow(exp_LHS_r), nrow(exp_LHS_r)),]
 
-exp.LHS.spl <- split(as.data.frame(exp.LHS.r), 
-                     f = factor(ceiling(seq_along(1:nrow(exp.LHS.r)) / 1000)))
+exp_LHS_spl <- split(as.data.frame(exp_LHS_r), 
+                     f = factor(ceiling(seq_along(1:nrow(exp_LHS_r)) / 1000)))
 
 Grid <- expand.grid(mtry = c(2:10), ntree = seq(500, 2000, 500))
 ```
 
-```{r 5_RF.tunning.H, include=FALSE}
-if (!file.exists('data/5_RF.coevo.H-tunning.RData')) # you must delete "RF.coevo.H-tunning.RData" to create a new file
+```{r 5_RF_tunning_humans, include=FALSE}
+exp_RF_coevolution_coefficient_humans_tunning_dataFileName <- paste0(dataDirectory, "RF_coevolution_coefficient_humans_tunning.RData")
+
+if (!file.exists(exp_RF_coevolution_coefficient_humans_tunning_dataFileName)) # you must delete it to create a new file
 {
   # cluster and loop
-  cl <- makeCluster(6)
-  clusterExport(cl, 
-                list('randomForest', 'Grid', 'LHS.parameter.names', 'exp.LHS.spl'), 
+  theCluster <- makeCluster(6)
+  clusterExport(theCluster, 
+                list('randomForest', 'Grid', 'LHS_parameter_names', 'exp_LHS_spl'), 
                 envir = environment())
   
-  RF.coevo.H.tunning <- parSapply(cl, 1:nrow(Grid), function(p) {
-    aux <- c()
+  RF_coevolution_coefficient_humans_tunning <- parSapply(theCluster, 1:nrow(Grid), function(rowInGrid) {
+    aggregateStatisticPerGridRow <- c()
     for (i in 1:10) {
-      X <- do.call(rbind, exp.LHS.spl[-i])
-      RF.coevo.H <- randomForest(
-        as.formula(paste0("coevo.H ~ ", paste(LHS.parameter.names, collapse = '+'))),
-        data = X,
-        mtry = Grid[p, 1],
-        ntree = Grid[p, 2]
+      exp_LHS_leftOneOut <- do.call(rbind, exp_LHS_spl[-i])
+      RF_coevolution_coefficient_humans <- randomForest(
+        as.formula(paste0("coevolution_coefficient_humans ~ ", paste(LHS_parameter_names, collapse = '+'))),
+        data = exp_LHS_leftOneOut,
+        mtry = Grid[rowInGrid, 1],
+        ntree = Grid[rowInGrid, 2]
       )
-      acc.coevo.H <- 
-        mean((predict(RF.coevo.H, exp.LHS.spl[[i]][, 1:15]) - exp.LHS.spl[[i]]$coevo.H) ^ 2)
+      aggregateStatistic_coevolution_coefficient_humans <- 
+        mean((predict(RF_coevolution_coefficient_humans, exp_LHS_spl[[i]][, 1:15]) - exp_LHS_spl[[i]]$coevolution_coefficient_humans) ^ 2)
       
-      rm(RF.coevo.H)
+      rm(RF_coevolution_coefficient_humans)
+      
       gc()
       
-      aux[i] <- acc.coevo.H
+      aggregateStatisticPerGridRow[i] <- aggregateStatistic_coevolution_coefficient_humans
     }
     
-    return(mean(aux))
+    return(mean(aggregateStatisticPerGridRow))
   })
 
-  RF.coevo.H.tunning <- cbind(Grid, mean.predict = RF.coevo.H.tunning)
+  RF_coevolution_coefficient_humans_tunning <- cbind(Grid, meanPredict = RF_coevolution_coefficient_humans_tunning)
   # save
-  save(RF.coevo.H.tunning, file = 'data/5_RF.coevo.H-tunning.RData')
+  save(RF_coevolution_coefficient_humans_tunning, file = exp_RF_coevolution_coefficient_humans_tunning_dataFileName)
+  
+  # stop cluster and clean
+  stopCluster(theCluster)
+  rm(theCluster)
 }
 ```
 
-```{r 5_RF.coevo.H.tunning-load, include=FALSE}
+```{r 5_RF_coevolution_coefficient_humans_tunning-load, include=FALSE}
 # load
-load('data/5_RF.coevo.H-tunning.RData')
+load(exp_RF_coevolution_coefficient_humans_tunning_dataFileName)
 ```
 
-```{r 5_RF.tunning.P, include=FALSE, eval=FALSE}
-if (!file.exists('data/5_RF.coevo.P-tunning.RData')) # you must delete "RF.coevo.P-tunning.RData" to create a new file
+```{r 5_RF_tunning_plants, include=FALSE, eval=FALSE}
+exp_RF_coevolution_coefficient_plants_tunning_dataFileName <- paste0(dataDirectory, "RF_coevolution_coefficient_plants_tunning.RData")
+
+if (!file.exists(exp_RF_coevolution_coefficient_plants_tunning_dataFileName)) # you must delete to create a new file
 {
   # cluster and loop
-  cl <- makeCluster(6)
-  clusterExport(cl, 
-                list('randomForest', 'Grid', 'LHS.parameter.names', 'exp.LHS.spl'), 
+  theCluster <- makeCluster(6)
+  clusterExport(theCluster, 
+                list('randomForest', 'Grid', 'LHS_parameter_names', 'exp_LHS_spl'), 
                 envir = environment())
   
-  RF.coevo.P.tunning <- parSapply(cl, 1:nrow(Grid), function(p) {
-    aux <- c()
+  RF_coevolution_coefficient_plants_tunning <- parSapply(theCluster, 1:nrow(Grid), function(rowInGrid) {
+    aggregateStatisticPerGridRow <- c()
     for (i in 1:10) {
-      exp.LHS.leftOneOut <- do.call(rbind, exp.LHS.spl[-i])
-      RF.coevo.P <- randomForest(
-        as.formula(paste0("coevo.P ~ ", paste(LHS.parameter.names, collapse = '+'))),
-        data = exp.LHS.leftOneOut,
-        mtry = Grid[p, 1],
-        ntree = Grid[p, 2]
+      exp_LHS_leftOneOut <- do.call(rbind, exp_LHS_spl[-i])
+      RF_coevolution_coefficient_plants <- randomForest(
+        as.formula(paste0("coevolution_coefficient_plants ~ ", paste(LHS_parameter_names, collapse = '+'))),
+        data = exp_LHS_leftOneOut,
+        mtry = Grid[rowInGrid, 1],
+        ntree = Grid[rowInGrid, 2]
       )
-      acc.coevo.P <- 
-        mean((predict(RF.coevo.P, exp.LHS.spl[[i]][, 1:15]) - exp.LHS.spl[[i]]$coevo.P) ^ 2)
+      aggregateStatistic_coevolution_coefficient_plants <- 
+        mean((predict(RF_coevolution_coefficient_plants, exp_LHS_spl[[i]][, 1:15]) - exp_LHS_spl[[i]]$coevolution_coefficient_plants) ^ 2)
       
-      rm(RF.coevo.p)
+      rm(RF_coevolution_coefficient_plants)
       gc()
       
-      aux[i] <- acc.coevo.P
+      aggregateStatisticPerGridRow[i] <- aggregateStatistic_coevolution_coefficient_plants
     }
     
-    return(mean(aux))
+    return(mean(aggregateStatisticPerGridRow))
   })
 
-  RF.coevo.P.tunning <- cbind(Grid, mean.predict = RF.coevo.P.tunning)
+  RF_coevolution_coefficient_plants_tunning <- cbind(Grid, meanPredict = RF_coevolution_coefficient_plants_tunning)
   # save
-  save(RF.coevo.P.tunning, file = 'data/5_RF.coevo.P-tunning.RData')
+  save(RF_coevolution_coefficient_plants_tunning, file = exp_RF_coevolution_coefficient_plants_tunning_dataFileName)
 }
 ```
 
-```{r 5_RF.coevo.P.tunning-load, include=FALSE}
+```{r 5_RF_coevolution_coefficient_plants_tunning-load, include=FALSE}
 # load
-load('data/5_RF.coevo.P-tunning.RData')
+load(exp_RF_coevolution_coefficient_plants_tunning_dataFileName)
 ```
 
-```{r 5_RF.coevo.tunning-plot, dependson=c('5_RF.coevo.H.tunning-load', '5_RF.coevo.P.tunning-load'), out.width = '100%'}
-temp <- cbind(
+```{r 5_RF_coevo_tunning-plot, dependson=c('5_RF_coevolution_coefficient_humans_tunning-load', '5_RF_coevolution_coefficient_humans_tunning-load'), out.width = '100%'}
+
+temporaryData <- cbind(
   output.var = c(
-    rep('coevo.H', nrow(RF.coevo.H.tunning)), 
-    rep('coevo.P', nrow(RF.coevo.P.tunning))
+    rep('coevolution_coefficient_humans', nrow(RF_coevolution_coefficient_humans_tunning)), 
+    rep('coevolution_coefficient_plants', nrow(RF_coevolution_coefficient_plants_tunning))
     ),
-  rbind(RF.coevo.H.tunning, RF.coevo.P.tunning)
+  rbind(RF_coevolution_coefficient_humans_tunning, RF_coevolution_coefficient_plants_tunning)
   )
 
-ggplot(temp, aes(x = ntree, y = mtry)) + 
-  geom_tile(aes(fill = mean.predict), colour = "white") + 
+exp_LHS_coevo_optimisationPlotName = paste0(plotDirectory, "LHS_coevo_optimisationPlot.png")
+
+plotScale = 2
+
+png(exp_LHS_coevo_optimisationPlotName, 
+    width = 320 * plotScale, height = 180 * plotScale)
+
+ggplot(temporaryData, aes(x = ntree, y = mtry)) + 
+  geom_tile(aes(fill = meanPredict), colour = "white") + 
   scale_fill_gradient(low = "white", high = "black") +
-  geom_text(aes(label = round(mean.predict, 5)), color = "steelblue", size = 2.5) +
+  geom_text(aes(label = round(meanPredict, 5)), color = "steelblue", size = plotScale * 2.5) +
   facet_wrap(.~output.var) + theme_bw()
+
+dev.off()
+```
+
+```{r 5_RF_coevo_tunning-plot-print, dependson='5_RF-coevo-plots', out.width = '100%'}
+knitr::include_graphics(paste0(exp_LHS_coevo_optimisationPlotName))
 ```
 
 \newpage
 
 ### Coevolution coefficients
 
-Only using those runs with any humans (coevo.H) and plants (coevo.P) at the end-state.
+Only using those runs with any humans (coevolution_coefficient_humans) and plants (coevolution_coefficient_humans) at the end-state.
 
-```{r 5_RF-coevo.H, include=FALSE, cache=TRUE}
-if(!file.exists('data/5_RF.coevo.H.RData'))
+```{r 5_RF-coevolution_coefficient_humans, include=FALSE, cache=TRUE}
+exp_RF_coevolution_coefficient_humans_dataFileName <- paste0(dataDirectory, "RF_coevolution_coefficient_humans.RData")
+
+if(!file.exists(exp_RF_coevolution_coefficient_humans_dataFileName))
 {
-  RF.coevo.H <-
+  RF_coevolution_coefficient_humans <-
   randomForest::randomForest(
-    as.formula(paste0("coevo.H ~ ", paste(LHS.parameter.names, collapse = '+'))),
-    data = exp.LHS[H.exists,],
+    as.formula(paste0("coevolution_coefficient_humans ~ ", paste(LHS_parameter_names, collapse = '+'))),
+    data = exp_LHS[humans_exists,],
     mtry = 5,
     ntree = 1000,
     importance = T
   )
-  #RF.coevo.H$error <- mean((predict(RF.coevo.H, exp.LHS[, 1:12]) - exp.LHS$coevo.H) ^ 2)
+  
   # save
-  save(RF.coevo.H, file = 'data/5_RF.coevo.H.RData')
+  save(RF_coevolution_coefficient_humans, file = exp_RF_coevolution_coefficient_humans_dataFileName)
 }
 ```
 
-```{r 5_RF-coevo.P, include=FALSE, cache=TRUE}
-if(!file.exists('data/5_RF.coevo.P.RData'))
+```{r 5_RF_coevolution_coefficient_plants, include=FALSE, cache=TRUE}
+exp_RF_coevolution_coefficient_plants_dataFileName <- paste0(dataDirectory, "RF_coevolution_coefficient_plants.RData")
+
+if(!file.exists(exp_RF_coevolution_coefficient_plants_dataFileName))
 {
-  RF.coevo.P <-
+  RF_coevolution_coefficient_plants <-
     randomForest::randomForest(
-      as.formula(paste0("coevo.P ~ ", paste(LHS.parameter.names, collapse = '+'))),
-      data = exp.LHS[P.exists,],
+      as.formula(paste0("coevolution_coefficient_plants ~ ", paste(LHS_parameter_names, collapse = '+'))),
+      data = exp_LHS[plants_exists,],
       mtry = 5,
       ntree = 1000,
       importance = T
     )
-  #RF.coevo.P$error <- mean((predict(RF.coevo.P, exp.LHS[, 1:12]) - exp.LHS$coevo.P) ^ 2)
+  
   # save
-  save(RF.coevo.P, file = 'data/5_RF.coevo.P.RData')
+  save(RF_coevolution_coefficient_plants, file = exp_RF_coevolution_coefficient_plants_dataFileName)
 }
 ```
 
-```{r 5_RF.coevo-load, include=FALSE}
+```{r 5_RF_coevo-load, include=FALSE}
 # load
-load('data/5_RF.coevo.H.RData')
-load('data/5_RF.coevo.P.RData')
+load(exp_RF_coevolution_coefficient_humans_dataFileName)
+load(exp_RF_coevolution_coefficient_plants_dataFileName)
 ```
 
-```{r 5_RF-coevo-plots, include=FALSE, cache=TRUE, dependson='5_RF.coevo-load'}
-source("library/plotting/varImpPlot2.R") # sometimes bookdown rendering will act up and ignore the chunks loading functions
+```{r 5_RF-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_plot-functions', '5_RF_coevo-load')}
+source("library/plotting/variableImportancePlot.R") # sometimes bookdown rendering will act up and ignore the chunks loading functions
+
+exp_LHS_coevo_variableImportancePlotName = paste0(plotDirectory, "LHS_coevo_variableImportancePlot.png")
 
 plotScale = 2
 
-png("plots/5_multiplePar-RF-coevo.png", width = 640 * plotScale, height = 360 * plotScale)
-varImpPlot2Pair(RF.coevo.H, RF.coevo.P, cex = plotScale)
+png(exp_LHS_coevo_variableImportancePlotName, 
+    width = 960 * plotScale, height = 380 * plotScale)
+variableImportancePlotPair(RF_coevolution_coefficient_humans, 
+                           RF_coevolution_coefficient_plants, 
+                           plot_scale = plotScale,
+                           color_variable_map = parameterColorMap)
 dev.off()
 ```
 
 ```{r 5_RF-coevo-plot-print, dependson='5_RF-coevo-plots', out.width = '100%'}
-knitr::include_graphics(paste0("plots/5_multiplePar-RF-coevo.png"))
+knitr::include_graphics(paste0(exp_LHS_coevo_variableImportancePlotName))
 ```
 
 \newpage
 
 ### Dependency coefficients
 
-Only using those runs with any humans (depend.H) and plants (depend.P) at the end-state.
+Only using those runs with any humans (dependency_coefficient_humans) and plants (dependency_coefficient_plants) at the end-state.
 
-```{r 5_RF-depend.H, include=FALSE, cache=TRUE}
-if(!file.exists('data/5_RF.depend.H.RData'))
+```{r 5_RF-dependency_coefficient_humans, include=FALSE, cache=TRUE}
+exp_RF_dependency_coefficient_humans_dataFileName <- paste0(dataDirectory, "RF_dependency_coefficient_humans.RData")
+
+if(!file.exists(exp_RF_dependency_coefficient_humans_dataFileName))
 {
-  RF.depend.H <-
+  RF_dependency_coefficient_humans <-
     randomForest::randomForest(
-      as.formula(paste0("depend.H ~ ", paste(LHS.parameter.names, collapse = '+'))),
-      data = exp.LHS[H.exists,],
+      as.formula(paste0("dependency_coefficient_humans ~ ", paste(LHS_parameter_names, collapse = '+'))),
+      data = exp_LHS[humans_exists,],
       mtry = 5,
       ntree = 1000,
       importance = T
     )
-  #RF.depend.H$error <- mean((predict(RF.depend.H, exp.LHS[, 1:12]) - exp.LHS$depend.H) ^ 2)
+  
   # save
-  save(RF.depend.H, file = 'data/5_RF.depend.H.RData')
+  save(RF_dependency_coefficient_humans, file = exp_RF_dependency_coefficient_humans_dataFileName)
 }
 ```
 
-```{r 5_RF-depend.P, include=FALSE, cache=TRUE}
-if(!file.exists('data/5_RF.depend.P.RData'))
+```{r 5_RF-dependency_coefficient_plants, include=FALSE, cache=TRUE}
+exp_RF_dependency_coefficient_plants_dataFileName <- paste0(dataDirectory, "RF_dependency_coefficient_plants.RData")
+
+if(!file.exists(exp_RF_dependency_coefficient_plants_dataFileName))
 {
-  RF.depend.P <-
+  RF_dependency_coefficient_plants <-
     randomForest::randomForest(
-      as.formula(paste0("depend.P ~ ", paste(LHS.parameter.names, collapse = '+'))),
-      data = exp.LHS[P.exists,],
+      as.formula(paste0("dependency_coefficient_plants ~ ", paste(LHS_parameter_names, collapse = '+'))),
+      data = exp_LHS[plants_exists,],
       mtry = 5,
       ntree = 1000,
       importance = T
     )
-  #RF.depend.P$error <- mean((predict(RF.depend.P, exp.LHS[, 1:12]) - exp.LHS$depend.P) ^ 2)
+  
   # save
-  save(RF.depend.P, file = 'data/5_RF.depend.P.RData')
+  save(RF_dependency_coefficient_plants, file = exp_RF_dependency_coefficient_plants_dataFileName)
 }
 ```
 
-```{r 5_RF.depend-load, include=FALSE}
+```{r 5_RF_depend-load, include=FALSE}
 # load
-load('data/5_RF.depend.H.RData')
-load('data/5_RF.depend.P.RData')
+load(exp_RF_dependency_coefficient_humans_dataFileName)
+load(exp_RF_dependency_coefficient_plants_dataFileName)
 ```
 
-```{r 5_RF-depend-plots, include=FALSE, cache=TRUE, dependson='5_RF.depend-load'}
+```{r 5_RF-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_plot-functions', '5_RF_depend-load')}
+exp_LHS_dependency_coefficient_variableImportancePlotName = paste0(plotDirectory, "LHS_dependency_coefficient_variableImportancePlot.png")
+
 plotScale = 2
 
-png("plots/5_multiplePar-RF-depend.png", width = 640 * plotScale, height = 360 * plotScale)
-varImpPlot2Pair(RF.depend.H, RF.depend.P, cex = plotScale)
+png(exp_LHS_dependency_coefficient_variableImportancePlotName, width = 960 * plotScale, height = 360 * plotScale)
+variableImportancePlotPair(RF_dependency_coefficient_humans, 
+                           RF_dependency_coefficient_plants, 
+                           plot_scale = plotScale,
+                           color_variable_map = parameterColorMap)
 dev.off()
 ```
 
-```{r 5_RF-depend.H-plot-print, dependson='5_RF-depend-plots', out.width = '100%'}
-knitr::include_graphics(paste0("plots/5_multiplePar-RF-depend.png"))
+```{r 5_RF-dependency_coefficient_humans-plot-print, dependson='5_RF-depend-plots', out.width = '100%'}
+knitr::include_graphics(exp_LHS_dependency_coefficient_variableImportancePlotName)
 ```
 
 ### Timings
 
-Only using those runs with successful human (timing.H) and plant (timing.P) evolution.
+Only using those runs with successful human (`timing_humans`) and plant (`timing_.P_plants`) evolution.
 
 ```{r 5_RF-timing.H, include=FALSE, cache=TRUE}
-if(!file.exists('data/5_RF.timing.H.RData'))
+exp_RF_timing_humans_dataFileName <- paste0(dataDirectory, "RF_timing_humans.RData")
+
+if(!file.exists(exp_RF_timing_humans_dataFileName))
 {
-  RF.timing.H <-
+  RF_timing_humans <-
     randomForest::randomForest(
-      as.formula(paste0("timing.H ~ ", paste(LHS.parameter.names, collapse = '+'))),
-      data = exp.LHS[H.fullEvolved,], # filter out cases where humans did not evolved towards n
+      as.formula(paste0("timing_humans ~ ", paste(LHS_parameter_names, collapse = '+'))),
+      data = exp_LHS[humans_fullEvolved,], # filter out cases where humans did not evolved towards n
       mtry = 5,
       ntree = 1000,
       importance = T
     )
-  #RF.timing.H$error <- mean((predict(RF.timing.H, exp.LHS[, 1:12]) - exp.LHS$timing.H) ^ 2)
+  
   # save
-  save(RF.timing.H, file = 'data/5_RF.timing.H.RData')
+  save(RF_timing_humans, file = exp_RF_timing_humans_dataFileName)
 }
 ```
 
 ```{r 5_RF-timing.P, include=FALSE, cache=TRUE}
-if(!file.exists('data/5_RF.timing.P.RData'))
+exp_RF_timing_plants_dataFileName <- paste0(dataDirectory, "RF_timing_plants.RData")
+
+if(!file.exists(exp_RF_timing_plants_dataFileName))
 {
-  RF.timing.P <-
+  RF_timing_plants <-
     randomForest::randomForest(
-      as.formula(paste0("timing.P ~ ", paste(LHS.parameter.names, collapse = '+'))),
-      data = exp.LHS[P.fullEvolved,], # filter out cases where plants did not evolved towards n
+      as.formula(paste0("timing_plants ~ ", paste(LHS_parameter_names, collapse = '+'))),
+      data = exp_LHS[plants_fullEvolved,], # filter out cases where plants did not evolved towards n
       mtry = 5,
       ntree = 1000,
       importance = T
     )
-  #RF.timing.P$error <- mean((predict(RF.timing.P, exp.LHS[, 1:12]) - exp.LHS$timing.P) ^ 2)
+  
   # save
-  save(RF.timing.P, file = 'data/5_RF.timing.P.RData')
+  save(RF_timing_plants, file = exp_RF_timing_plants_dataFileName)
 }
 ```
 
-```{r 5_RF.timing-load, include=FALSE}
+```{r 5_RF_timing-load, include=FALSE}
 # load
-load('data/5_RF.timing.H.RData')
-load('data/5_RF.timing.P.RData')
+load(exp_RF_timing_humans_dataFileName)
+load(exp_RF_timing_plants_dataFileName)
 ```
 
-```{r 5_RF-timing-plots, include=FALSE, cache=TRUE, dependson='5_RF.timing-load'}
+```{r 5_RF-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_plot-functions', '5_RF_timing-load')}
+exp_LHS_timing_variableImportancePlotName = paste0(plotDirectory, "LHS_timing_variableImportancePlot.png")
+
 plotScale = 2
 
-png("plots/5_multiplePar-RF-timing.png", width = 640 * plotScale, height = 360 * plotScale)
-varImpPlot2Pair(RF.timing.H, RF.timing.P, cex = plotScale)
+png(exp_LHS_timing_variableImportancePlotName, width = 960 * plotScale, height = 360 * plotScale)
+variableImportancePlotPair(RF_timing_humans, 
+                           RF_timing_plants, 
+                           plot_scale = plotScale,
+                           color_variable_map = parameterColorMap)
 dev.off()
 ```
 
-```{r 5_RF-timing.H-plot-print, dependson='5_RF-timing-plots', out.width = '100%'}
-knitr::include_graphics(paste0("plots/5_multiplePar-RF-timing.png"))
+```{r 5_RF-timing_humans-plot-print, dependson='5_RF-timing-plots', out.width = '100%'}
+knitr::include_graphics(exp_LHS_timing_variableImportancePlotName)
 ```
 
 \newpage
@@ -798,24 +886,30 @@ knitr::include_graphics(paste0("plots/5_multiplePar-RF-timing.png"))
 ### The effect on coevolution coefficients of the utility per capita of type n humans to plants ($\bar{U}_{H_{n}P}$)
 \sectionmark{Visualising effect of $\bar{U}_{H_{n}P}$}
 
-```{r 5_overview-collapsed-plot, include=FALSE, cache=TRUE}
-source("library/plotting/collapsed.ggplot.R")
+```{r 5_overview-collapsed-plot, include=FALSE, cache=TRUE, dependson=c('5_plot-functions', '5_run-experiments-load') }
+source("library/plotting/bifurcationPlot_twoVariables.R")
 
-parEffect.variable.name = 'coevo'
+exp_LHS_coevolution_coefficients_bifurcationPlot_twoVariables_plotName = paste0(plotDirectory, "LHS_coevolution_coefficients_bifurcationPlot_twoVariables.png")
+
 plotScale = 10
 
 #svg('plots/5_collapsed.svg', width=10, height=10)
-png(paste0("plots/5_multiplePar-", parEffect.variable.name, "_collapsed-ggplot.png"),
+png(exp_LHS_coevolution_coefficients_bifurcationPlot_twoVariables_plotName,
     width = 100 * plotScale, height = 100 * plotScale)
-collapsed.ggplot(exp.LHS,
-                 'mU.HnP', 'coevo.H', 'coevo.P',
-                 ylab = "coevolution coefficient",
-                 plotScale = plotScale)
+bifurcationPlot_twoVariables(exp_LHS,
+                             parameter_x = 'utility_per_capita_type_n_humans_to_plants', 
+                             variable_1 = 'coevolution_coefficient_humans', 
+                             variable_2 = 'coevolution_coefficient_plants',
+                             axis_x_label = '',
+                             axis_y_label = 'coevolution coefficient',
+                             variable_1_label = 'Humans',
+                             variable_2_label = 'Plants',
+                             plot_scale = plotScale)
 dev.off()
 ```
 
 ```{r 5_overview-collapsed-plot-print, dependson='5_overview-collapsed-plot', out.width = '100%'}
-knitr::include_graphics(paste0("plots/5_multiplePar-", parEffect.variable.name, "_collapsed-ggplot.png"))
+knitr::include_graphics(exp_LHS_coevolution_coefficients_bifurcationPlot_twoVariables_plotName)
 ```
 
 \newpage
@@ -824,122 +918,150 @@ knitr::include_graphics(paste0("plots/5_multiplePar-", parEffect.variable.name, 
 
 **_Coevolution coefficients_**
 
-```{r 5_scenarios-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
-source("library/plotting/parameters.effect.ggplot.R")
+```{r 5_scenarios-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_plot-functions', '5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/bifurcationPlot_twoVariables_per_parameter.R")
+
+exp_LHS_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_plotName = paste0(plotDirectory, "LHS_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter.png")
 
 plotScale = 10
 
-png("plots/5_multiplePar-coevo-ggplot.png",
+png(exp_LHS_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_plotName,
     width = 200 * plotScale,
-    height = 50 * plotScale
+    height = 200 * plotScale
 )
-parameters.effect.ggplot(exp.LHS, 
-                            LHS.parameter.names,
-                            'coevo.H', 'coevo.P',
-                            ylab = "coevolution coefficient",
-                            plotScale = plotScale)
+bifurcationPlot_twoVariables_per_parameter(exp_LHS, 
+                                           LHS_parameter_names,
+                                           variable_1 = 'coevolution_coefficient_humans', 
+                                           variable_2 = 'coevolution_coefficient_plants',
+                                           axis_x_label = 'parameter values',
+                                           axis_y_label = 'coevolution coefficient',
+                                           variable_1_label = 'Humans',
+                                           variable_2_label = 'Plants',
+                                           facet_wrap_number_of_rows = 4,
+                                           plot_scale = plotScale)
 dev.off()
 ```
 
-```{r 5_scenarios-coevo-plot-print, dependson='5_scenarios-humanImprove-coevo-plot', out.width = '100%'}
-knitr::include_graphics("plots/5_multiplePar-coevo-ggplot.png")
+```{r 5_scenarios-coevo-plot-print, dependson='5_scenarios-humansImprove-coevo-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_plotName)
 ```
 
 **_Dependency coefficients_**
 
-```{r 5_scenarios-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
-source("library/plotting/parameters.effect.ggplot.R")
+```{r 5_scenarios-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_plot-functions', '5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/bifurcationPlot_twoVariables_per_parameter.R")
+
+exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_plotName = paste0(plotDirectory, "LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter.png")
 
 plotScale = 10
 
-#svg('plots/5_collapsed.svg', width=10, height=10)
-png("plots/5_multiplePar-depend-ggplot.png",
+png(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_plotName,
     width = 200 * plotScale,
-    height = 100 * plotScale
+    height = 200 * plotScale
 )
-parameters.effect.ggplot(exp.LHS, 
-                            LHS.parameter.names,
-                            'depend.H', 'depend.P',
-                            ylab = "dependency coefficient",
-                            plotScale = plotScale,
-                            y.log = TRUE)
+bifurcationPlot_twoVariables_per_parameter(exp_LHS, 
+                                           LHS_parameter_names,
+                                           variable_1 = 'dependency_coefficient_humans', 
+                                           variable_2 = 'dependency_coefficient_plants',
+                                           axis_x_label = 'parameter values',
+                                           axis_y_label = 'dependency coefficient',
+                                           variable_1_label = 'Humans',
+                                           variable_2_label = 'Plants',
+                                           plot_scale = plotScale,
+                                           facet_wrap_number_of_rows = 4,
+                                           axis_y_log = TRUE)
 dev.off()
 ```
 
-```{r 5_scenarios-depend-plot-print, dependson='5_scenarios-humanImprove-depend-plot', out.width = '100%'}
-knitr::include_graphics("plots/5_multiplePar-depend-ggplot.png")
+```{r 5_scenarios-depend-plot-print, dependson='5_scenarios-humansImprove-depend-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_plotName)
 ```
 
 **_Timings_**
 
-```{r 5_scenarios-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+```{r 5_scenarios-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_plot-functions', '5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+exp_LHS_timing_bifurcationPlot_twoVariables_per_parameter_plotName = paste0(plotDirectory, "LHS_timing_bifurcationPlot_twoVariables_per_parameter.png")
 
 plotScale = 10
 
-#svg('plots/5_collapsed.svg', width=10, height=10)
-png("plots/5_multiplePar-timing-ggplot.png",
+png(exp_LHS_timing_bifurcationPlot_twoVariables_per_parameter_plotName,
     width = 200 * plotScale,
-    height = 100 * plotScale
+    height = 200 * plotScale
 )
-parameters.effect.ggplot(exp.LHS, 
-                            LHS.parameter.names,
-                            'timing.H', 'timing.P',
-                            ylab = "Timing",
-                            plotScale = plotScale,
-                            y.log = TRUE)
+bifurcationPlot_twoVariables_per_parameter(exp_LHS, 
+                                           LHS_parameter_names,
+                                           variable_1 = 'timing_humans', 
+                                           variable_2 = 'timing_plants',
+                                           axis_x_label = 'parameter values',
+                                           axis_y_label = 'timing of change',
+                                           variable_1_label = 'Humans',
+                                           variable_2_label = 'Plants',
+                                           plot_scale = plotScale,
+                                           facet_wrap_number_of_rows = 4,
+                                           axis_y_log = TRUE)
 dev.off()
 ```
 
-```{r 5_scenarios-timing-plot-print, dependson='5_scenarios-humanImprove-timing-plot', out.width = '100%'}
-knitr::include_graphics("plots/5_multiplePar-timing-ggplot.png")
+```{r 5_scenarios-timing-plot-print, dependson='5_scenarios-humansImprove-timing-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_timing_bifurcationPlot_twoVariables_per_parameter_plotName)
 ```
 
 \newpage
 
 ## Parameter effect split by scenarios
 
-```{r 5_split-scenarios, include=FALSE, cache=TRUE, dependson='5_run-experiments-load'}
-# exp.LHS.scenarios.names <- c(
-#   'plantImprove', 'humanImprove', 'bothImprove',
-#   'plantLessBase', 'humanLessBase', 'bothLessBase'
-# )
+**Scenario label**       | **Scenario condition**
+ ------------------ | ----------------------------------
+ plantsImprove | 'utility_per_capita_type_n_plants_to_humans > utility_per_capita_type_1_plants_to_humans'
+ humansImprove | 'utility_per_capita_type_n_humans_to_plants > utility_per_capita_type_1_humans_to_plants'
+ bothImprove | 'utility_per_capita_type_n_plants_to_humans > utility_per_capita_type_1_plants_to_humans ~~~ AND ~~~ utility_per_capita_type_n_humans_to_plants > utility_per_capita_type_1_humans_to_plants'
+ plantsLessBase | 'utility_other_to_type_1_plants > utility_other_to_type_n_plants'
+ humansLessBase | 'utility_other_to_type_1_humans > utility_other_to_type_n_humans'
+ bothLessBase | 'utility_per_capita_type_n_plants_to_humans > utility_per_capita_type_1_plants_to_humans ~~~ AND ~~~ utility_per_capita_type_n_humans_to_plants > utility_per_capita_type_1_humans_to_plants'
+ 
 
-# # mU.PnH > mU.P1H (mutualistic plant types give more utility = TRUE, else = FALSE)
-exp.LHS_plantImprove <- factor(as.character(exp.LHS$mU.PnH > exp.LHS$mU.P1H),
+```{r 5_split-scenarios, include=FALSE, cache=TRUE, dependson='5_run-experiments-load'}
+# 'plantsImprove', 'humansImprove', 'bothImprove',
+# 'plantsLessBase', 'humansLessBase', 'bothLessBase'
+
+# # utility_per_capita_type_n_plants_to_humans > utility_per_capita_type_1_plants_to_humans (mutualistic plant types give more utility = TRUE, else = FALSE)
+exp_LHS_plantsImprove <- factor(as.character(exp_LHS$utility_per_capita_type_n_plants_to_humans > exp_LHS$utility_per_capita_type_1_plants_to_humans),
                                levels = c('TRUE', 'FALSE'),
-                               labels = c('mU.PnH > mU.P1H', 
-                                          'mU.PnH <= mU.P1H')
+                               labels = c('"plantsImprove = TRUE"', 
+                                          '"plantsImprove = FALSE"')
                                )
 
-# # mU.HnP > mU.H1P (mutualistic human types give more utility = TRUE, else = FALSE)
-exp.LHS_humanImprove <- factor(as.character(exp.LHS$mU.HnP > exp.LHS$mU.H1P),
+# # utility_per_capita_type_n_humans_to_plants > utility_per_capita_type_1_humans_to_plants (mutualistic human types give more utility = TRUE, else = FALSE)
+exp_LHS_humansImprove <- factor(as.character(exp_LHS$utility_per_capita_type_n_humans_to_plants > exp_LHS$utility_per_capita_type_1_humans_to_plants),
                                levels = c('TRUE', 'FALSE'),
-                               labels = c('mU.HnP > mU.H1P',
-                                          'mU.HnP <= mU.H1P'))
+                               labels = c('"humansImprove = TRUE"',
+                                          '"humansImprove = FALSE"'))
 
-# # mU.PnH > mU.P1H AND mU.HnP > mU.H1P (mutualistic types give more utility = TRUE, else = FALSE)
-exp.LHS_bothImprove <- factor(as.character(exp.LHS$mU.PnH > exp.LHS$mU.P1H & exp.LHS$mU.HnP > exp.LHS$mU.H1P),
+# # utility_per_capita_type_n_plants_to_humans > utility_per_capita_type_1_plants_to_humans AND utility_per_capita_type_n_humans_to_plants > utility_per_capita_type_1_humans_to_plants (mutualistic types give more utility = TRUE, else = FALSE)
+exp_LHS_bothImprove <- factor(as.character(exp_LHS$utility_per_capita_type_n_plants_to_humans > exp_LHS$utility_per_capita_type_1_plants_to_humans & exp_LHS$utility_per_capita_type_n_humans_to_plants > exp_LHS$utility_per_capita_type_1_humans_to_plants),
                               levels = c('TRUE', 'FALSE'),
-                              labels = c('mU.PnH > mU.P1H ~~~ AND ~~~ mU.HnP > mU.H1P', 
-                                         'mU.PnH <= mU.P1H ~~~ AND ~~~ mU.HnP <= mU.H1P'))
+                              labels = c('"bothImprove = TRUE"', 
+                                         '"bothImprove = FALSE"'))
 
-# # U.bP1 > U.bPn (non-mutualistic plant types obtain more utility from other resources = TRUE, else = FALSE)
-exp.LHS_plantLessBase <- factor(as.character(exp.LHS$U.bP1 > exp.LHS$U.bPn),
+# # utility_other_to_type_1_plants > utility_other_to_type_n_plants (non-mutualistic plant types obtain more utility from other resources = TRUE, else = FALSE)
+exp_LHS_plantsLessBase <- factor(as.character(exp_LHS$utility_other_to_type_1_plants > exp_LHS$utility_other_to_type_n_plants),
                                 levels = c('TRUE', 'FALSE'),
-                                labels = c('U.bP1 > U.bPn',
-                                           'U.bP1 <= U.bPn'))
+                                labels = c('"plantsLessBase = TRUE"',
+                                           '"plantsLessBase = FALSE"'))
 
-# # U.bH1 > U.bHn (non-mutualistic human types obtain more utility from other resources = TRUE, else = FALSE)
-exp.LHS_humanLessBase <- factor(as.character(exp.LHS$U.bH1 > exp.LHS$U.bHn),
+# # utility_other_to_type_1_humans > utility_other_to_type_n_humans (non-mutualistic human types obtain more utility from other resources = TRUE, else = FALSE)
+exp_LHS_humansLessBase <- factor(as.character(exp_LHS$utility_other_to_type_1_humans > exp_LHS$utility_other_to_type_n_humans),
                                 levels = c('TRUE', 'FALSE'),
-                                labels = c('U.bH1 > U.bHn',
-                                           'U.bH1 <= U.bHn'))
+                                labels = c('"humansLessBase = TRUE"',
+                                           '"humansLessBase = FALSE"'))
 
-# # mU.PnH > mU.P1H AND mU.HnP > mU.H1P (non-mutualistic types obtain more utility from other resources = TRUE, else = FALSE)
-exp.LHS_bothLessBase <- factor(as.character(exp.LHS$U.bP1 > exp.LHS$U.bPn & exp.LHS$U.bH1 > exp.LHS$U.bHn),
+# # utility_per_capita_type_n_plants_to_humans > utility_per_capita_type_1_plants_to_humans AND utility_per_capita_type_n_humans_to_plants > utility_per_capita_type_1_humans_to_plants (non-mutualistic types obtain more utility from other resources = TRUE, else = FALSE)
+exp_LHS_bothLessBase <- factor(as.character(exp_LHS$utility_other_to_type_1_plants > exp_LHS$utility_other_to_type_n_plants & exp_LHS$utility_other_to_type_1_humans > exp_LHS$utility_other_to_type_n_humans),
                                levels = c('TRUE', 'FALSE'),
-                               labels = c('mU.PnH > mU.P1H ~~~ AND ~~~ mU.HnP > mU.H1P',
-                                          'mU.PnH <= mU.P1H ~~~ AND ~~~ mU.HnP <= mU.H1P'))
+                               labels = c('"bothLessBase = TRUE"',
+                                          '"bothLessBase = FALSE"'))
+
+parameterNamesSplit <- c(1, (length(LHS_parameter_names) / 3), (2 * length(LHS_parameter_names) / 3), length(LHS_parameter_names))
 ```
 
 ### Mutualistic human type gives more utility ($\bar{U}_{H_{n}P}> \bar{U}_{H_{1}P}$)
@@ -947,79 +1069,229 @@ exp.LHS_bothLessBase <- factor(as.character(exp.LHS$U.bP1 > exp.LHS$U.bPn & exp.
 
 **_Coevolution coefficients_**
 
-```{r 5_scenarios-humanImprove-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
-source("library/plotting/parameter.x.scenario.ggplot.R")
+```{r 5_scenarios-humansImprove-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_plot-functions', '5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/bifurcationPlot_twoVariables_per_parameter_and_scenario.R")
+
+exp_LHS_humansImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName = paste0(plotDirectory, "LHS_humansImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1.png")
+
+exp_LHS_humansImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName = paste0(plotDirectory, "LHS_humansImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2.png")
+
+exp_LHS_humansImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName = paste0(plotDirectory, "LHS_humansImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3.png")
 
 plotScale = 10
 
-#svg('plots/5_collapsed.svg', width=10, height=10)
-png("plots/5_multiplePar-coevo-humanImprove-ggplot.png",
+png(exp_LHS_humansImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName,
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHS, 
-                            LHS.parameter.names,
-                            'coevo.H', 'coevo.P',
-                            scenarioSplitter = exp.LHS_humanImprove,
-                            ylab = "coevolution coefficient",
-                            plotScale = plotScale)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[1]):(parameterNamesSplit[2])],
+                                                        variable_1 = 'coevolution_coefficient_humans', 
+                                                        variable_2 = 'coevolution_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_humansImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'coevolution coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale)
+dev.off()
+
+png(exp_LHS_humansImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[2] + 1):(parameterNamesSplit[3])],
+                                                        variable_1 = 'coevolution_coefficient_humans', 
+                                                        variable_2 = 'coevolution_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_humansImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'coevolution coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale)
+dev.off()
+
+png(exp_LHS_humansImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[3] + 1):(parameterNamesSplit[4])],
+                                                        variable_1 = 'coevolution_coefficient_humans', 
+                                                        variable_2 = 'coevolution_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_humansImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'coevolution coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale)
 dev.off()
 ```
 
-```{r 5_scenarios-humanImprove-coevo-plot-print, dependson='5_scenarios-humanImprove-coevo-plot', out.width = '100%'}
-knitr::include_graphics("plots/5_multiplePar-coevo-humanImprove-ggplot.png")
+```{r 5_scenarios-humansImprove-coevo-plot1-print, dependson='5_scenarios-humansImprove-coevo-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_humansImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName)
 ```
 
+```{r 5_scenarios-humansImprove-coevo-plot2-print, dependson='5_scenarios-humansImprove-coevo-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_humansImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName)
+```
+
+```{r 5_scenarios-humansImprove-coevo-plot3-print, dependson='5_scenarios-humansImprove-coevo-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_humansImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName)
+```
 **_Dependency coefficients_**
 
-```{r 5_scenarios-humanImprove-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
-source("library/plotting/parameter.x.scenario.ggplot.R")
+```{r 5_scenarios-humansImprove-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_plot-functions', '5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/bifurcationPlot_twoVariables_per_parameter_and_scenario.R")
+
+exp_LHS_humansImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName = paste0(plotDirectory, "LHS_humansImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1.png")
+
+exp_LHS_humansImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName = paste0(plotDirectory, "LHS_humansImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2.png")
+
+exp_LHS_humansImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName = paste0(plotDirectory, "LHS_humansImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3.png")
 
 plotScale = 10
 
-#svg('plots/5_collapsed.svg', width=10, height=10)
-png("plots/5_multiplePar-depend-humanImprove-ggplot.png",
+png(exp_LHS_humansImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName,
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHS, 
-                            LHS.parameter.names,
-                            'depend.H', 'depend.P',
-                            scenarioSplitter = exp.LHS_humanImprove,
-                            ylab = "dependency coefficient",
-                            plotScale = plotScale,
-                            y.log = TRUE)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[1]):(parameterNamesSplit[2])],
+                                                        variable_1 = 'dependency_coefficient_humans', 
+                                                        variable_2 = 'dependency_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_humansImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'dependency coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
+dev.off()
+
+png(exp_LHS_humansImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[2] + 1):(parameterNamesSplit[3])],
+                                                        variable_1 = 'dependency_coefficient_humans', 
+                                                        variable_2 = 'dependency_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_humansImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'dependency coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
+dev.off()
+
+png(exp_LHS_humansImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[3] + 1):(parameterNamesSplit[4])],
+                                                        variable_1 = 'dependency_coefficient_humans', 
+                                                        variable_2 = 'dependency_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_humansImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'dependency coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
 dev.off()
 ```
 
-```{r 5_scenarios-humanImprove-depend-plot-print, dependson='5_scenarios-humanImprove-depend-plot', out.width = '100%'}
-knitr::include_graphics("plots/5_multiplePar-depend-humanImprove-ggplot.png")
+```{r 5_scenarios-humansImprove-depend-plot1-print, dependson='5_scenarios-humansImprove-depend-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_humansImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName)
+```
+
+```{r 5_scenarios-humansImprove-depend-plot2-print, dependson='5_scenarios-humansImprove-depend-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_humansImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName)
+```
+
+```{r 5_scenarios-humansImprove-depend-plot3-print, dependson='5_scenarios-humansImprove-depend-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_humansImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName)
 ```
 
 **_Timings_**
 
-```{r 5_scenarios-humanImprove-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
-source("library/plotting/parameter.x.scenario.ggplot.R")
+```{r 5_scenarios-humansImprove-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_plot-functions', '5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/bifurcationPlot_twoVariables_per_parameter_and_scenario.R")
+
+exp_LHS_humansImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName = paste0(plotDirectory, "LHS_humansImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1.png")
+
+exp_LHS_humansImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName = paste0(plotDirectory, "LHS_humansImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2.png")
+
+exp_LHS_humansImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName = paste0(plotDirectory, "LHS_humansImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3.png")
 
 plotScale = 10
 
-#svg('plots/5_collapsed.svg', width=10, height=10)
-png("plots/5_multiplePar-timing-humanImprove-ggplot.png",
+png(exp_LHS_humansImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName,
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHS, 
-                            LHS.parameter.names,
-                            'timing.H', 'timing.P',
-                            scenarioSplitter = exp.LHS_humanImprove,
-                            ylab = "Timing",
-                            plotScale = plotScale,
-                            y.log = TRUE)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[1]):(parameterNamesSplit[2])],
+                                                        variable_1 = 'timing_humans', 
+                                                        variable_2 = 'timing_plants',
+                                                        scenario_splitter = exp_LHS_humansImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'timing of change',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
+dev.off()
+
+png(exp_LHS_humansImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[2] + 1):(parameterNamesSplit[3])],
+                                                        variable_1 = 'timing_humans', 
+                                                        variable_2 = 'timing_plants',
+                                                        scenario_splitter = exp_LHS_humansImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'timing of change',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
+dev.off()
+
+png(exp_LHS_humansImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[3] + 1):(parameterNamesSplit[4])],
+                                                        variable_1 = 'timing_humans', 
+                                                        variable_2 = 'timing_plants',
+                                                        scenario_splitter = exp_LHS_humansImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'timing of change',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
 dev.off()
 ```
 
-```{r 5_scenarios-humanImprove-timing-plot-print, dependson='5_scenarios-humanImprove-timing-plot', out.width = '100%'}
-knitr::include_graphics("plots/5_multiplePar-timing-humanImprove-ggplot.png")
+```{r 5_scenarios-humansImprove-timing-plot1-print, dependson='5_scenarios-humansImprove-timing-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_humansImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName)
+```
+
+```{r 5_scenarios-humansImprove-timing-plot2-print, dependson='5_scenarios-humansImprove-timing-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_humansImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName)
+```
+
+```{r 5_scenarios-humansImprove-timing-plot3-print, dependson='5_scenarios-humansImprove-timing-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_humansImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName)
 ```
 
 \newpage
@@ -1029,79 +1301,230 @@ knitr::include_graphics("plots/5_multiplePar-timing-humanImprove-ggplot.png")
 
 **_Coevolution coefficients_**
 
-```{r 5_scenarios-plantImprove-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
-source("library/plotting/parameter.x.scenario.ggplot.R")
+```{r 5_scenarios-plantsImprove-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_plot-functions', '5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/bifurcationPlot_twoVariables_per_parameter_and_scenario.R")
+
+exp_LHS_plantsImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName = paste0(plotDirectory, "LHS_plantsImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1.png")
+
+exp_LHS_plantsImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName = paste0(plotDirectory, "LHS_plantsImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2.png")
+
+exp_LHS_plantsImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName = paste0(plotDirectory, "LHS_plantsImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3.png")
 
 plotScale = 10
 
-#svg('plots/5_collapsed.svg', width=10, height=10)
-png("plots/5_multiplePar-coevo-plantImprove-ggplot.png",
+png(exp_LHS_plantsImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName,
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHS, 
-                            LHS.parameter.names,
-                            'coevo.H', 'coevo.P',
-                            scenarioSplitter = exp.LHS_plantImprove,
-                            ylab = "coevolution coefficient",
-                            plotScale = plotScale)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[1]):(parameterNamesSplit[2])],
+                                                        variable_1 = 'coevolution_coefficient_humans', 
+                                                        variable_2 = 'coevolution_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_plantsImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'coevolution coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale)
+dev.off()
+
+png(exp_LHS_plantsImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[2] + 1):(parameterNamesSplit[3])],
+                                                        variable_1 = 'coevolution_coefficient_humans', 
+                                                        variable_2 = 'coevolution_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_plantsImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'coevolution coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale)
+dev.off()
+
+png(exp_LHS_plantsImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[3] + 1):(parameterNamesSplit[4])],
+                                                        variable_1 = 'coevolution_coefficient_humans', 
+                                                        variable_2 = 'coevolution_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_plantsImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'coevolution coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale)
 dev.off()
 ```
 
-```{r 5_scenarios-plantImprove-coevo-plot-print, dependson='5_scenarios-plantImprove-coevo-plot', out.width = '100%'}
-knitr::include_graphics("plots/5_multiplePar-coevo-plantImprove-ggplot.png")
+```{r 5_scenarios-plantsImprove-coevo-plot1-print, dependson='5_scenarios-plantsImprove-coevo-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_plantsImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName)
+```
+
+```{r 5_scenarios-plantsImprove-coevo-plot2-print, dependson='5_scenarios-plantsImprove-coevo-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_plantsImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName)
+```
+
+```{r 5_scenarios-plantsImprove-coevo-plot3-print, dependson='5_scenarios-plantsImprove-coevo-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_plantsImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName)
 ```
 
 **_Dependency coefficients_**
 
-```{r 5_scenarios-plantImprove-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
-source("library/plotting/parameter.x.scenario.ggplot.R")
+```{r 5_scenarios-plantsImprove-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_plot-functions', '5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/bifurcationPlot_twoVariables_per_parameter_and_scenario.R")
+
+exp_LHS_plantsImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName = paste0(plotDirectory, "LHS_plantsImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1.png")
+
+exp_LHS_plantsImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName = paste0(plotDirectory, "LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2.png")
+
+exp_LHS_plantsImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName = paste0(plotDirectory, "LHS_plantsImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3.png")
 
 plotScale = 10
 
-#svg('plots/5_collapsed.svg', width=10, height=10)
-png("plots/5_multiplePar-depend-plantImprove-ggplot.png",
+png(exp_LHS_plantsImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName,
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHS, 
-                            LHS.parameter.names,
-                            'depend.H', 'depend.P',
-                            scenarioSplitter = exp.LHS_plantImprove,
-                            ylab = "dependency coefficient",
-                            plotScale = plotScale,
-                            y.log = TRUE)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[1]):(parameterNamesSplit[2])],
+                                                        variable_1 = 'dependency_coefficient_humans', 
+                                                        variable_2 = 'dependency_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_plantsImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'dependency coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
+dev.off()
+
+png(exp_LHS_plantsImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[2] + 1):(parameterNamesSplit[3])],
+                                                        variable_1 = 'dependency_coefficient_humans', 
+                                                        variable_2 = 'dependency_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_plantsImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'dependency coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
+dev.off()
+
+png(exp_LHS_plantsImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[3] + 1):(parameterNamesSplit[4])],
+                                                        variable_1 = 'dependency_coefficient_humans', 
+                                                        variable_2 = 'dependency_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_plantsImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'dependency coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
 dev.off()
 ```
 
-```{r 5_scenarios-plantImprove-depend-plot-print, dependson='5_scenarios-plantImprove-depend-plot', out.width = '100%'}
-knitr::include_graphics("plots/5_multiplePar-depend-plantImprove-ggplot.png")
+```{r 5_scenarios-plantsImprove-depend-plot1-print, dependson='5_scenarios-plantsImprove-depend-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_plantsImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName)
+```
+
+```{r 5_scenarios-plantsImprove-depend-plot2-print, dependson='5_scenarios-plantsImprove-depend-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_plantsImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName)
+```
+
+```{r 5_scenarios-plantsImprove-depend-plot3-print, dependson='5_scenarios-plantsImprove-depend-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_plantsImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName)
 ```
 
 **_Timings_**
 
-```{r 5_scenarios-plantImprove-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
-source("library/plotting/parameter.x.scenario.ggplot.R")
+```{r 5_scenarios-plantsImprove-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_plot-functions', '5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/bifurcationPlot_twoVariables_per_parameter_and_scenario.R")
+
+exp_LHS_plantsImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName = paste0(plotDirectory, "LHS_plantsImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1.png")
+
+exp_LHS_plantsImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName = paste0(plotDirectory, "LHS_plantsImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2.png")
+
+exp_LHS_plantsImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName = paste0(plotDirectory, "LHS_plantsImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3.png")
 
 plotScale = 10
 
-#svg('plots/5_collapsed.svg', width=10, height=10)
-png("plots/5_multiplePar-timing-plantImprove-ggplot.png",
+png(exp_LHS_plantsImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName,
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHS, 
-                            LHS.parameter.names,
-                            'timing.H', 'timing.P',
-                            scenarioSplitter = exp.LHS_plantImprove,
-                            ylab = "Timing",
-                            plotScale = plotScale,
-                            y.log = TRUE)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[1]):(parameterNamesSplit[2])],
+                                                        variable_1 = 'timing_humans', 
+                                                        variable_2 = 'timing_plants',
+                                                        scenario_splitter = exp_LHS_plantsImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'timing of change',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
+dev.off()
+
+png(exp_LHS_plantsImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[2] + 1):(parameterNamesSplit[3])],
+                                                        variable_1 = 'timing_humans', 
+                                                        variable_2 = 'timing_plants',
+                                                        scenario_splitter = exp_LHS_plantsImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'timing of change',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
+dev.off()
+
+png(exp_LHS_plantsImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[3] + 1):(parameterNamesSplit[4])],
+                                                        variable_1 = 'timing_humans', 
+                                                        variable_2 = 'timing_plants',
+                                                        scenario_splitter = exp_LHS_plantsImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'timing of change',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
 dev.off()
 ```
 
-```{r 5_scenarios-plantImprove-timing-plot-print, dependson='5_scenarios-plantImprove-timing-plot', out.width = '100%'}
-knitr::include_graphics("plots/5_multiplePar-timing-plantImprove-ggplot.png")
+```{r 5_scenarios-plantsImprove-timing-plot1-print, dependson='5_scenarios-plantsImprove-timing-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_plantsImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName)
+```
+
+```{r 5_scenarios-plantsImprove-timing-plot2-print, dependson='5_scenarios-plantsImprove-timing-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_plantsImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName)
+```
+
+```{r 5_scenarios-plantsImprove-timing-plot3-print, dependson='5_scenarios-plantsImprove-timing-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_plantsImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName)
 ```
 
 \newpage
@@ -1111,79 +1534,230 @@ knitr::include_graphics("plots/5_multiplePar-timing-plantImprove-ggplot.png")
 
 **_Coevolution coefficients_**
 
-```{r 5_scenarios-bothImprove-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
-source("library/plotting/parameter.x.scenario.ggplot.R")
+```{r 5_scenarios-bothImprove-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_plot-functions', '5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/bifurcationPlot_twoVariables_per_parameter_and_scenario.R")
+
+exp_LHS_bothImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName = paste0(plotDirectory, "LHS_bothImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1.png")
+
+exp_LHS_bothImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName = paste0(plotDirectory, "LHS_bothImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2.png")
+
+exp_LHS_bothImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName = paste0(plotDirectory, "LHS_bothImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3.png")
 
 plotScale = 10
 
-#svg('plots/5_collapsed.svg', width=10, height=10)
-png("plots/5_multiplePar-coevo-bothImprove-ggplot.png",
+png(exp_LHS_bothImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName,
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHS, 
-                            LHS.parameter.names,
-                            'coevo.H', 'coevo.P',
-                            scenarioSplitter = exp.LHS_bothImprove,
-                            ylab = "coevolution coefficient",
-                            plotScale = plotScale)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[1]):(parameterNamesSplit[2])],
+                                                        variable_1 = 'coevolution_coefficient_humans', 
+                                                        variable_2 = 'coevolution_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_bothImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'coevolution coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale)
+dev.off()
+
+png(exp_LHS_bothImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[2] + 1):(parameterNamesSplit[3])],
+                                                        variable_1 = 'coevolution_coefficient_humans', 
+                                                        variable_2 = 'coevolution_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_bothImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'coevolution coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale)
+dev.off()
+
+png(exp_LHS_bothImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[3] + 1):(parameterNamesSplit[4])],
+                                                        variable_1 = 'coevolution_coefficient_humans', 
+                                                        variable_2 = 'coevolution_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_bothImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'coevolution coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale)
 dev.off()
 ```
 
-```{r 5_scenarios-bothImprove-coevo-plot-print, dependson='5_scenarios-bothImprove-coevo-plot', out.width = '100%'}
-knitr::include_graphics("plots/5_multiplePar-coevo-bothImprove-ggplot.png")
+```{r 5_scenarios-bothImprove-coevo-plot1-print, dependson='5_scenarios-bothImprove-coevo-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_bothImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName)
+```
+
+```{r 5_scenarios-bothImprove-coevo-plot2-print, dependson='5_scenarios-bothImprove-coevo-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_bothImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName)
+```
+
+```{r 5_scenarios-bothImprove-coevo-plot3-print, dependson='5_scenarios-bothImprove-coevo-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_bothImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName)
 ```
 
 **_Dependency coefficients_**
 
-```{r 5_scenarios-bothImprove-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
-source("library/plotting/parameter.x.scenario.ggplot.R")
+```{r 5_scenarios-bothImprove-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_plot-functions', '5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/bifurcationPlot_twoVariables_per_parameter_and_scenario.R")
+
+exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName = paste0(plotDirectory, "LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1.png")
+
+exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName = paste0(plotDirectory, "LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2.png")
+
+exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName = paste0(plotDirectory, "LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3.png")
 
 plotScale = 10
 
-#svg('plots/5_collapsed.svg', width=10, height=10)
-png("plots/5_multiplePar-depend-bothImprove-ggplot.png",
+png(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName,
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHS, 
-                            LHS.parameter.names,
-                            'depend.H', 'depend.P',
-                            scenarioSplitter = exp.LHS_bothImprove,
-                            ylab = "dependency coefficient",
-                            plotScale = plotScale,
-                            y.log = TRUE)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[1]):(parameterNamesSplit[2])],
+                                                        variable_1 = 'dependency_coefficient_humans', 
+                                                        variable_2 = 'dependency_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_bothImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'dependency coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
+dev.off()
+
+png(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[2] + 1):(parameterNamesSplit[3])],
+                                                        variable_1 = 'dependency_coefficient_humans', 
+                                                        variable_2 = 'dependency_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_bothImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'dependency coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
+dev.off()
+
+png(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[3] + 1):(parameterNamesSplit[4])],
+                                                        variable_1 = 'dependency_coefficient_humans', 
+                                                        variable_2 = 'dependency_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_bothImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'dependency coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
 dev.off()
 ```
 
-```{r 5_scenarios-bothImprove-depend-plot-print, dependson='5_scenarios-bothImprove-depend-plot', out.width = '100%'}
-knitr::include_graphics("plots/5_multiplePar-depend-bothImprove-ggplot.png")
+```{r 5_scenarios-bothImprove-depend-plot1-print, dependson='5_scenarios-bothImprove-depend-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName)
+```
+
+```{r 5_scenarios-bothImprove-depend-plot2-print, dependson='5_scenarios-bothImprove-depend-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName)
+```
+
+```{r 5_scenarios-bothImprove-depend-plot3-print, dependson='5_scenarios-bothImprove-depend-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName)
 ```
 
 **_Timings_**
 
-```{r 5_scenarios-bothImprove-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
-source("library/plotting/parameter.x.scenario.ggplot.R")
+```{r 5_scenarios-bothImprove-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_plot-functions', '5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/bifurcationPlot_twoVariables_per_parameter_and_scenario.R")
+
+exp_LHS_bothImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName = paste0(plotDirectory, "LHS_bothImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1.png")
+
+exp_LHS_bothImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName = paste0(plotDirectory, "LHS_bothImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2.png")
+
+exp_LHS_bothImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName = paste0(plotDirectory, "LHS_bothImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3.png")
 
 plotScale = 10
 
-#svg('plots/5_collapsed.svg', width=10, height=10)
-png("plots/5_multiplePar-timing-bothImprove-ggplot.png",
+png(exp_LHS_bothImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName,
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHS, 
-                            LHS.parameter.names,
-                            'timing.H', 'timing.P',
-                            scenarioSplitter = exp.LHS_bothImprove,
-                            ylab = "Timing",
-                            plotScale = plotScale,
-                            y.log = TRUE)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[1]):(parameterNamesSplit[2])],
+                                                        variable_1 = 'timing_humans', 
+                                                        variable_2 = 'timing_plants',
+                                                        scenario_splitter = exp_LHS_bothImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'timing of change',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
+dev.off()
+
+png(exp_LHS_bothImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[2] + 1):(parameterNamesSplit[3])],
+                                                        variable_1 = 'timing_humans', 
+                                                        variable_2 = 'timing_plants',
+                                                        scenario_splitter = exp_LHS_bothImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'timing of change',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
+dev.off()
+
+png(exp_LHS_bothImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[3] + 1):(parameterNamesSplit[4])],
+                                                        variable_1 = 'timing_humans', 
+                                                        variable_2 = 'timing_plants',
+                                                        scenario_splitter = exp_LHS_bothImprove,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'timing of change',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
 dev.off()
 ```
 
-```{r 5_scenarios-bothImprove-timing-plot-print, dependson='5_scenarios-bothImprove-timing-plot', out.width = '100%'}
-knitr::include_graphics("plots/5_multiplePar-timing-bothImprove-ggplot.png")
+```{r 5_scenarios-bothImprove-timing-plot1-print, dependson='5_scenarios-bothImprove-timing-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_bothImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName)
+```
+
+```{r 5_scenarios-bothImprove-timing-plot2-print, dependson='5_scenarios-bothImprove-timing-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_bothImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName)
+```
+
+```{r 5_scenarios-bothImprove-timing-plot3-print, dependson='5_scenarios-bothImprove-timing-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_bothImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName)
 ```
 
 \newpage
@@ -1193,79 +1767,230 @@ knitr::include_graphics("plots/5_multiplePar-timing-bothImprove-ggplot.png")
 
 **_Coevolution coefficients_**
 
-```{r 5_scenarios-humanLessBase-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
-source("library/plotting/parameter.x.scenario.ggplot.R")
+```{r 5_scenarios-humansLessBase-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_plot-functions', '5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/bifurcationPlot_twoVariables_per_parameter_and_scenario.R")
+
+exp_LHS_humansLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName = paste0(plotDirectory, "LHS_humansLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1.png")
+
+exp_LHS_humansLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName = paste0(plotDirectory, "LHS_humansLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2.png")
+
+exp_LHS_humansLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName = paste0(plotDirectory, "LHS_humansLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3.png")
 
 plotScale = 10
 
-#svg('plots/5_collapsed.svg', width=10, height=10)
-png("plots/5_multiplePar-coevo-humanLessBase-ggplot.png",
+png(exp_LHS_humansLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName,
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHS, 
-                            LHS.parameter.names,
-                            'coevo.H', 'coevo.P',
-                            scenarioSplitter = exp.LHS_humanLessBase,
-                            ylab = "coevolution coefficient",
-                            plotScale = plotScale)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[1]):(parameterNamesSplit[2])],
+                                                        variable_1 = 'coevolution_coefficient_humans', 
+                                                        variable_2 = 'coevolution_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_humansLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'coevolution coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale)
+dev.off()
+
+png(exp_LHS_humansLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[2] + 1):(parameterNamesSplit[3])],
+                                                        variable_1 = 'coevolution_coefficient_humans', 
+                                                        variable_2 = 'coevolution_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_humansLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'coevolution coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale)
+dev.off()
+
+png(exp_LHS_humansLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[3] + 1):(parameterNamesSplit[4])],
+                                                        variable_1 = 'coevolution_coefficient_humans', 
+                                                        variable_2 = 'coevolution_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_humansLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'coevolution coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale)
 dev.off()
 ```
 
-```{r 5_scenarios-humanLessBase-coevo-plot-print, dependson='5_scenarios-humanLessBase-coevo-plot', out.width = '100%'}
-knitr::include_graphics("plots/5_multiplePar-coevo-humanLessBase-ggplot.png")
+```{r 5_scenarios-humansLessBase-coevo-plot1-print, dependson='5_scenarios-humansLessBase-coevo-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_humansLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName)
+```
+
+```{r 5_scenarios-humansLessBase-coevo-plot2-print, dependson='5_scenarios-humansLessBase-coevo-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_humansLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName)
+```
+
+```{r 5_scenarios-humansLessBase-coevo-plot3-print, dependson='5_scenarios-humansLessBase-coevo-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_humansLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName)
 ```
 
 **_Dependency coefficients_**
 
-```{r 5_scenarios-humanLessBase-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
-source("library/plotting/parameter.x.scenario.ggplot.R")
+```{r 5_scenarios-humansLessBase-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_plot-functions', '5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/bifurcationPlot_twoVariables_per_parameter_and_scenario.R")
+
+exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName = paste0(plotDirectory, "LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1.png")
+
+exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName = paste0(plotDirectory, "LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2.png")
+
+exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName = paste0(plotDirectory, "LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3.png")
 
 plotScale = 10
 
-#svg('plots/5_collapsed.svg', width=10, height=10)
-png("plots/5_multiplePar-depend-humanLessBase-ggplot.png",
+png(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName,
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHS, 
-                            LHS.parameter.names,
-                            'depend.H', 'depend.P',
-                            scenarioSplitter = exp.LHS_humanLessBase,
-                            ylab = "dependency coefficient",
-                            plotScale = plotScale,
-                            y.log = TRUE)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[1]):(parameterNamesSplit[2])],
+                                                        variable_1 = 'dependency_coefficient_humans', 
+                                                        variable_2 = 'dependency_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_humansLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'dependency coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
+dev.off()
+
+png(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[2] + 1):(parameterNamesSplit[3])],
+                                                        variable_1 = 'dependency_coefficient_humans', 
+                                                        variable_2 = 'dependency_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_humansLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'dependency coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
+dev.off()
+
+png(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[3] + 1):(parameterNamesSplit[4])],
+                                                        variable_1 = 'dependency_coefficient_humans', 
+                                                        variable_2 = 'dependency_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_humansLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'dependency coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
 dev.off()
 ```
 
-```{r 5_scenarios-humanLessBase-depend-plot-print, dependson='5_scenarios-humanLessBase-depend-plot', out.width = '100%'}
-knitr::include_graphics("plots/5_multiplePar-depend-humanLessBase-ggplot.png")
+```{r 5_scenarios-humansLessBase-depend-plot1-print, dependson='5_scenarios-humansLessBase-depend-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName)
+```
+
+```{r 5_scenarios-humansLessBase-depend-plot2-print, dependson='5_scenarios-humansLessBase-depend-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName)
+```
+
+```{r 5_scenarios-humansLessBase-depend-plot3-print, dependson='5_scenarios-humansLessBase-depend-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName)
 ```
 
 **_Timings_**
 
-```{r 5_scenarios-humanLessBase-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
-source("library/plotting/parameter.x.scenario.ggplot.R")
+```{r 5_scenarios-humansLessBase-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_plot-functions', '5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/bifurcationPlot_twoVariables_per_parameter_and_scenario.R")
+
+exp_LHS_humansLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName = paste0(plotDirectory, "LHS_humansLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1.png")
+
+exp_LHS_humansLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName = paste0(plotDirectory, "LHS_humansLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2.png")
+
+exp_LHS_humansLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName = paste0(plotDirectory, "LHS_humansLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3.png")
 
 plotScale = 10
 
-#svg('plots/5_collapsed.svg', width=10, height=10)
-png("plots/5_multiplePar-timing-humanLessBase-ggplot.png",
+png(exp_LHS_humansLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName,
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHS, 
-                            LHS.parameter.names,
-                            'timing.H', 'timing.P',
-                            scenarioSplitter = exp.LHS_humanLessBase,
-                            ylab = "Timing",
-                            plotScale = plotScale,
-                            y.log = TRUE)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[1]):(parameterNamesSplit[2])],
+                                                        variable_1 = 'timing_humans', 
+                                                        variable_2 = 'timing_plants',
+                                                        scenario_splitter = exp_LHS_humansLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'timing of change',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
+dev.off()
+
+png(exp_LHS_humansLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[2] + 1):(parameterNamesSplit[3])],
+                                                        variable_1 = 'timing_humans', 
+                                                        variable_2 = 'timing_plants',
+                                                        scenario_splitter = exp_LHS_humansLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'timing of change',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
+dev.off()
+
+png(exp_LHS_humansLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[3] + 1):(parameterNamesSplit[4])],
+                                                        variable_1 = 'timing_humans', 
+                                                        variable_2 = 'timing_plants',
+                                                        scenario_splitter = exp_LHS_humansLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'timing of change',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
 dev.off()
 ```
 
-```{r 5_scenarios-humanLessBase-timing-plot-print, dependson='5_scenarios-humanLessBase-timing-plot', out.width = '100%'}
-knitr::include_graphics("plots/5_multiplePar-timing-humanLessBase-ggplot.png")
+```{r 5_scenarios-humansLessBase-timing-plot1-print, dependson='5_scenarios-humansLessBase-timing-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_humansLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName)
+```
+
+```{r 5_scenarios-humansLessBase-timing-plot2-print, dependson='5_scenarios-humansLessBase-timing-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_humansLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName)
+```
+
+```{r 5_scenarios-humansLessBase-timing-plot3-print, dependson='5_scenarios-humansLessBase-timing-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_humansLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName)
 ```
 
 \newpage
@@ -1275,79 +2000,230 @@ knitr::include_graphics("plots/5_multiplePar-timing-humanLessBase-ggplot.png")
 
 **_Coevolution coefficients_**
 
-```{r 5_scenarios-plantLessBase-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
-source("library/plotting/parameter.x.scenario.ggplot.R")
+```{r 5_scenarios-plantsLessBase-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_plot-functions', '5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/bifurcationPlot_twoVariables_per_parameter_and_scenario.R")
+
+exp_LHS_plantsLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName = paste0(plotDirectory, "LHS_plantsLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1.png")
+
+exp_LHS_plantsLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName = paste0(plotDirectory, "LHS_plantsLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2.png")
+
+exp_LHS_plantsLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName = paste0(plotDirectory, "LHS_plantsLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3.png")
 
 plotScale = 10
 
-#svg('plots/5_collapsed.svg', width=10, height=10)
-png("plots/5_multiplePar-coevo-plantLessBase-ggplot.png",
+png(exp_LHS_plantsLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName,
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHS, 
-                            LHS.parameter.names,
-                            'coevo.H', 'coevo.P',
-                            scenarioSplitter = exp.LHS_plantLessBase,
-                            ylab = "coevolution coefficient",
-                            plotScale = plotScale)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[1]):(parameterNamesSplit[2])],
+                                                        variable_1 = 'coevolution_coefficient_humans', 
+                                                        variable_2 = 'coevolution_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_plantsLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'coevolution coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale)
+dev.off()
+
+png(exp_LHS_plantsLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[2] + 1):(parameterNamesSplit[3])],
+                                                        variable_1 = 'coevolution_coefficient_humans', 
+                                                        variable_2 = 'coevolution_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_plantsLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'coevolution coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale)
+dev.off()
+
+png(exp_LHS_plantsLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[3] + 1):(parameterNamesSplit[4])],
+                                                        variable_1 = 'coevolution_coefficient_humans', 
+                                                        variable_2 = 'coevolution_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_plantsLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'coevolution coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale)
 dev.off()
 ```
 
-```{r 5_scenarios-plantLessBase-coevo-plot-print, dependson='5_scenarios-plantLessBase-coevo-plot', out.width = '100%'}
-knitr::include_graphics("plots/5_multiplePar-coevo-plantLessBase-ggplot.png")
+```{r 5_scenarios-plantsLessBase-coevo-plot1-print, dependson='5_scenarios-plantsLessBase-coevo-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_plantsLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName)
+```
+
+```{r 5_scenarios-plantsLessBase-coevo-plot2-print, dependson='5_scenarios-plantsLessBase-coevo-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_plantsLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName)
+```
+
+```{r 5_scenarios-plantsLessBase-coevo-plot3-print, dependson='5_scenarios-plantsLessBase-coevo-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_plantsLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName)
 ```
 
 **_Dependency coefficients_**
 
-```{r 5_scenarios-plantLessBase-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
-source("library/plotting/parameter.x.scenario.ggplot.R")
+```{r 5_scenarios-plantsLessBase-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_plot-functions', '5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/bifurcationPlot_twoVariables_per_parameter_and_scenario.R")
+
+exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName = paste0(plotDirectory, "LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1.png")
+
+exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName = paste0(plotDirectory, "LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2.png")
+
+exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName = paste0(plotDirectory, "LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3.png")
 
 plotScale = 10
 
-#svg('plots/5_collapsed.svg', width=10, height=10)
-png("plots/5_multiplePar-depend-plantLessBase-ggplot.png",
+png(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName,
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHS, 
-                            LHS.parameter.names,
-                            'depend.H', 'depend.P',
-                            scenarioSplitter = exp.LHS_plantLessBase,
-                            ylab = "dependency coefficient",
-                            plotScale = plotScale,
-                            y.log = TRUE)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[1]):(parameterNamesSplit[2])],
+                                                        variable_1 = 'dependency_coefficient_humans', 
+                                                        variable_2 = 'dependency_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_plantsLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'dependency coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
+dev.off()
+
+png(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[2] + 1):(parameterNamesSplit[3])],
+                                                        variable_1 = 'dependency_coefficient_humans', 
+                                                        variable_2 = 'dependency_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_plantsLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'dependency coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
+dev.off()
+
+png(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[3] + 1):(parameterNamesSplit[4])],
+                                                        variable_1 = 'dependency_coefficient_humans', 
+                                                        variable_2 = 'dependency_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_plantsLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'dependency coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
 dev.off()
 ```
 
-```{r 5_scenarios-plantLessBase-depend-plot-print, dependson='5_scenarios-plantLessBase-depend-plot', out.width = '100%'}
-knitr::include_graphics("plots/5_multiplePar-depend-plantLessBase-ggplot.png")
+```{r 5_scenarios-plantsLessBase-depend-plot1-print, dependson='5_scenarios-plantsLessBase-depend-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName)
+```
+
+```{r 5_scenarios-plantsLessBase-depend-plot2-print, dependson='5_scenarios-plantsLessBase-depend-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName)
+```
+
+```{r 5_scenarios-plantsLessBase-depend-plot3-print, dependson='5_scenarios-plantsLessBase-depend-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName)
 ```
 
 **_Timings_**
 
-```{r 5_scenarios-plantLessBase-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
-source("library/plotting/parameter.x.scenario.ggplot.R")
+```{r 5_scenarios-plantsLessBase-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_plot-functions', '5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/bifurcationPlot_twoVariables_per_parameter_and_scenario.R")
+
+exp_LHS_plantsLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName = paste0(plotDirectory, "LHS_plantsLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1.png")
+
+exp_LHS_plantsLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName = paste0(plotDirectory, "LHS_plantsLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2.png")
+
+exp_LHS_plantsLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName = paste0(plotDirectory, "LHS_plantsLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3.png")
 
 plotScale = 10
 
-#svg('plots/5_collapsed.svg', width=10, height=10)
-png("plots/5_multiplePar-timing-plantLessBase-ggplot.png",
+png(exp_LHS_plantsLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName,
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHS, 
-                            LHS.parameter.names,
-                            'timing.H', 'timing.P',
-                            scenarioSplitter = exp.LHS_plantLessBase,
-                            ylab = "Timing",
-                            plotScale = plotScale,
-                            y.log = TRUE)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[1]):(parameterNamesSplit[2])],
+                                                        variable_1 = 'timing_humans', 
+                                                        variable_2 = 'timing_plants',
+                                                        scenario_splitter = exp_LHS_plantsLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'timing of change',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
+dev.off()
+
+png(exp_LHS_plantsLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[2] + 1):(parameterNamesSplit[3])],
+                                                        variable_1 = 'timing_humans', 
+                                                        variable_2 = 'timing_plants',
+                                                        scenario_splitter = exp_LHS_plantsLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'timing of change',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
+dev.off()
+
+png(exp_LHS_plantsLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[3] + 1):(parameterNamesSplit[4])],
+                                                        variable_1 = 'timing_humans', 
+                                                        variable_2 = 'timing_plants',
+                                                        scenario_splitter = exp_LHS_plantsLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'timing of change',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
 dev.off()
 ```
 
-```{r 5_scenarios-plantLessBase-timing-plot-print, dependson='5_scenarios-plantLessBase-timing-plot', out.width = '100%'}
-knitr::include_graphics("plots/5_multiplePar-timing-plantLessBase-ggplot.png")
+```{r 5_scenarios-plantsLessBase-timing-plot1-print, dependson='5_scenarios-plantsLessBase-timing-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_plantsLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName)
+```
+
+```{r 5_scenarios-plantsLessBase-timing-plot2-print, dependson='5_scenarios-plantsLessBase-timing-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_plantsLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName)
+```
+
+```{r 5_scenarios-plantsLessBase-timing-plot3-print, dependson='5_scenarios-plantsLessBase-timing-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_plantsLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName)
 ```
 
 \newpage
@@ -1357,78 +2233,229 @@ knitr::include_graphics("plots/5_multiplePar-timing-plantLessBase-ggplot.png")
 
 **_Coevolution coefficients_**
 
-```{r 5_scenarios-bothLessBase-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
-source("library/plotting/parameter.x.scenario.ggplot.R")
+```{r 5_scenarios-bothLessBase-coevo-plots, include=FALSE, cache=TRUE, dependson=c('5_plot-functions', '5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/bifurcationPlot_twoVariables_per_parameter_and_scenario.R")
+
+exp_LHS_bothLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName = paste0(plotDirectory, "LHS_bothLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1.png")
+
+exp_LHS_bothLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName = paste0(plotDirectory, "LHS_bothLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2.png")
+
+exp_LHS_bothLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName = paste0(plotDirectory, "LHS_bothLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3.png")
 
 plotScale = 10
 
-#svg('plots/5_collapsed.svg', width=10, height=10)
-png("plots/5_multiplePar-coevo-bothLessBase-ggplot.png",
+png(exp_LHS_bothLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName,
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHS, 
-                            LHS.parameter.names,
-                            'coevo.H', 'coevo.P',
-                            scenarioSplitter = exp.LHS_bothLessBase,
-                            ylab = "coevolution coefficient",
-                            plotScale = plotScale)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[1]):(parameterNamesSplit[2])],
+                                                        variable_1 = 'coevolution_coefficient_humans', 
+                                                        variable_2 = 'coevolution_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_bothLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'coevolution coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale)
+dev.off()
+
+png(exp_LHS_bothLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[2] + 1):(parameterNamesSplit[3])],
+                                                        variable_1 = 'coevolution_coefficient_humans', 
+                                                        variable_2 = 'coevolution_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_bothLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'coevolution coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale)
+dev.off()
+
+png(exp_LHS_bothLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[3] + 1):(parameterNamesSplit[4])],
+                                                        variable_1 = 'coevolution_coefficient_humans', 
+                                                        variable_2 = 'coevolution_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_bothLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'coevolution coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale)
 dev.off()
 ```
 
-```{r 5_scenarios-bothLessBase-coevo-plot-print, dependson='5_scenarios-bothLessBase-coevo-plot', out.width = '100%'}
-knitr::include_graphics("plots/5_multiplePar-coevo-bothLessBase-ggplot.png")
+```{r 5_scenarios-bothLessBase-coevo-plot1-print, dependson='5_scenarios-bothLessBase-coevo-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_bothLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName)
+```
+
+```{r 5_scenarios-bothLessBase-coevo-plot2-print, dependson='5_scenarios-bothLessBase-coevo-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_bothLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName)
+```
+
+```{r 5_scenarios-bothLessBase-coevo-plot3-print, dependson='5_scenarios-bothLessBase-coevo-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_bothLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName)
 ```
 
 **_Dependency coefficients_**
 
-```{r 5_scenarios-bothLessBase-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
-source("library/plotting/parameter.x.scenario.ggplot.R")
+```{r 5_scenarios-bothLessBase-depend-plots, include=FALSE, cache=TRUE, dependson=c('5_plot-functions', '5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/bifurcationPlot_twoVariables_per_parameter_and_scenario.R")
+
+exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName = paste0(plotDirectory, "LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1.png")
+
+exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName = paste0(plotDirectory, "LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2.png")
+
+exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName = paste0(plotDirectory, "LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3.png")
 
 plotScale = 10
 
-#svg('plots/5_collapsed.svg', width=10, height=10)
-png("plots/5_multiplePar-depend-bothLessBase-ggplot.png",
+png(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName,
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHS, 
-                            LHS.parameter.names,
-                            'depend.H', 'depend.P',
-                            scenarioSplitter = exp.LHS_bothLessBase,
-                            ylab = "dependency coefficient",
-                            plotScale = plotScale,
-                            y.log = TRUE)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[1]):(parameterNamesSplit[2])],
+                                                        variable_1 = 'dependency_coefficient_humans', 
+                                                        variable_2 = 'dependency_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_bothLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'dependency coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
+dev.off()
+
+png(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[2] + 1):(parameterNamesSplit[3])],
+                                                        variable_1 = 'dependency_coefficient_humans', 
+                                                        variable_2 = 'dependency_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_bothLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'dependency coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
+dev.off()
+
+png(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[3] + 1):(parameterNamesSplit[4])],
+                                                        variable_1 = 'dependency_coefficient_humans', 
+                                                        variable_2 = 'dependency_coefficient_plants',
+                                                        scenario_splitter = exp_LHS_bothLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'dependency coefficient',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
 dev.off()
 ```
 
-```{r 5_scenarios-bothLessBase-depend-plot-print, dependson='5_scenarios-bothLessBase-depend-plot', out.width = '100%'}
-knitr::include_graphics("plots/5_multiplePar-depend-bothLessBase-ggplot.png")
+```{r 5_scenarios-bothLessBase-depend-plot1-print, dependson='5_scenarios-bothLessBase-depend-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName)
+```
+
+```{r 5_scenarios-bothLessBase-depend-plot2-print, dependson='5_scenarios-bothLessBase-depend-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName)
+```
+
+```{r 5_scenarios-bothLessBase-depend-plot3-print, dependson='5_scenarios-bothLessBase-depend-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName)
 ```
 
 **_Timings_**
 
-```{r 5_scenarios-bothLessBase-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
-source("library/plotting/parameter.x.scenario.ggplot.R")
+```{r 5_scenarios-bothLessBase-timing-plots, include=FALSE, cache=TRUE, dependson=c('5_plot-functions', '5_run-experiments', '5_run-experiments-load', '5_split-scenarios')}
+source("library/plotting/bifurcationPlot_twoVariables_per_parameter_and_scenario.R")
+
+exp_LHS_bothLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName = paste0(plotDirectory, "LHS_bothLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1.png")
+
+exp_LHS_bothLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName = paste0(plotDirectory, "LHS_bothLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2.png")
+
+exp_LHS_bothLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName = paste0(plotDirectory, "LHS_bothLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3.png")
 
 plotScale = 10
 
-#svg('plots/5_collapsed.svg', width=10, height=10)
-png("plots/5_multiplePar-timing-bothLessBase-ggplot.png",
+png(exp_LHS_bothLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName,
     width = 200 * plotScale,
     height = 100 * plotScale
 )
-parameter.x.scenario.ggplot(exp.LHS, 
-                            LHS.parameter.names,
-                            'timing.H', 'timing.P',
-                            scenarioSplitter = exp.LHS_bothLessBase,
-                            ylab = "Timing",
-                            plotScale = plotScale,
-                            y.log = TRUE)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[1]):(parameterNamesSplit[2])],
+                                                        variable_1 = 'timing_humans', 
+                                                        variable_2 = 'timing_plants',
+                                                        scenario_splitter = exp_LHS_bothLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'timing of change',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
+dev.off()
+
+png(exp_LHS_bothLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[2] + 1):(parameterNamesSplit[3])],
+                                                        variable_1 = 'timing_humans', 
+                                                        variable_2 = 'timing_plants',
+                                                        scenario_splitter = exp_LHS_bothLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'timing of change',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
+dev.off()
+
+png(exp_LHS_bothLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName,
+    width = 200 * plotScale,
+    height = 100 * plotScale
+)
+bifurcationPlot_twoVariables_per_parameter_and_scenario(exp_LHS, 
+                                                        LHS_parameter_names[(parameterNamesSplit[3] + 1):(parameterNamesSplit[4])],
+                                                        variable_1 = 'timing_humans', 
+                                                        variable_2 = 'timing_plants',
+                                                        scenario_splitter = exp_LHS_bothLessBase,
+                                                        axis_x_label = 'parameter values',
+                                                        axis_y_label = 'timing of change',
+                                                        variable_1_label = 'Humans',
+                                                        variable_2_label = 'Plants',
+                                                        plot_scale = plotScale,
+                                                        axis_y_log = TRUE)
 dev.off()
 ```
 
-```{r 5_scenarios-bothLessBase-timing-plot-print, dependson='5_scenarios-bothLessBase-timing-plot', out.width = '100%'}
-knitr::include_graphics("plots/5_multiplePar-timing-bothLessBase-ggplot.png")
+```{r 5_scenarios-bothLessBase-timing-plot1-print, dependson='5_scenarios-bothLessBase-timing-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_bothLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1_plotName)
+```
+
+```{r 5_scenarios-bothLessBase-timing-plot2-print, dependson='5_scenarios-bothLessBase-timing-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_bothLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2_plotName)
+```
+
+```{r 5_scenarios-bothLessBase-timing-plot3-print, dependson='5_scenarios-bothLessBase-timing-plot', out.width = '100%'}
+knitr::include_graphics(exp_LHS_bothLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3_plotName)
 ```
 

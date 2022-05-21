@@ -19,50 +19,55 @@ require(kableExtra)
 ```
 
 ```{r 4_table-functions}
-source("library/plotting/exp.table.R")
+source("library/plotting/printTableRun.R")
+source("library/plotting/printTableExperiment.R")
 ```
 
 ```{r 4_default-values, cache=TRUE}
 # this is the 'default' parameter setting (end state is 'fast coevolution'):
 # initial populations
-iniH.default = 10
-iniP.default = 10
+initial_population_humans_default = 10
+initial_population_plants_default = 10
 # number of discrete types
-n.H.default = 30
-n.P.default = 30    
+number_types_humans_default = 30
+number_types_plants_default = 30    
 # undirected variation 
-v.H.default = 0.15
-v.P.default = 0.15
+undirected_variation_humans_default = 0.15
+undirected_variation_plants_default = 0.15
 # intrinsic growth rate 
-r.H.default = 0.04
-r.P.default = 0.1
+intrinsic_growth_rate_humans_default = 0.04
+intrinsic_growth_rate_plants_default = 0.1
 # Utility per capita of individuals of type N
-mU.PnH.default = 1.5
-mU.HnP.default = 1
+utility_per_capita_type_n_plants_to_humans_default = 1.5
+utility_per_capita_type_n_humans_to_plants_default = 1
 # Utility per capita of individuals of type 1
-mU.P1H.default = 0.15                           
-mU.H1P.default = 0                               
+utility_per_capita_type_1_plants_to_humans_default = 0.15                           
+utility_per_capita_type_1_humans_to_plants_default = 0                               
 # basic resources:
 # population of type N that can be sustained by resources independent of HP relationship
-U.bHn.default = 10                               
-U.bPn.default = 20
+utility_other_to_type_n_humans_default = 10                               
+utility_other_to_type_n_plants_default = 20
 # population of type 1 that can be sustained by resources independent of HP relationship
-U.bH1.default = 80                               
-U.bP1.default = 100                                 
+utility_other_to_type_1_humans_default = 80                               
+utility_other_to_type_1_plants_default = 100                                 
 # maximum local area to be used by populations (multiplier or scaling effect)
-MaxArea.default = 200
+max_area_default = 200
 # settings 
 # simulation flow & data
-maxIt.default = 5000
-tol.default = 6
-timing.threshold.default = 0.5
-saveTrajectories.default = TRUE
-messages.default = TRUE
+max_iterations_default = 5000
+reltol_exponential_default = 6
+coevolution_threshold_default = 0.5
+save_trajectories_default = TRUE
+messages_default = FALSE
 ```
 
 ```{r 4_plot-functions, include=FALSE}
 # this chunk is specific for this exploration 
-source("library/plotting/fourPar.ggplot.R")
+
+plotDirectory <- "plots/4_exp_"
+dataDirectory <- "data/4_exp_"
+
+source("library/plotting/tripleRaster_fourParameters.R")
 ```
 
 \newpage
@@ -70,75 +75,87 @@ source("library/plotting/fourPar.ggplot.R")
 ## Number of types and undirected variation of humans and plants ($n_{H}$ x $n_{P}$ x $v_{H}$ x $v_{P}$)
 \sectionmark{$n_{H}$ x $n_{P}$ x $v_{H}$ x $v_{P}$}
 
-```{r 4_n_v-values, cache=TRUE}
-exp.n_v.name <- "n-v"
-SEQ.n.H <- seq(5, 45, by = 10)
-SEQ.n.P <- seq(5, 45, by = 10)
-SEQ.v.H <- seq(0.05, 0.25, length.out = 5)
-SEQ.v.P <- seq(0.05, 0.25, length.out = 5)
+```{r 4_types_number_and_variation-values, cache=TRUE}
+exp_types_number_and_variation_name <- "types_number_and_variation"
+
+exp_types_number_and_variation_expDataFileName = paste0(dataDirectory, exp_types_number_and_variation_name,'.RData')
+exp_types_number_and_variation_plotName = paste0(plotDirectory, exp_types_number_and_variation_name, "-tripleRaster_fourParameterss.png")
+
+exp_number_types_humans_values <- seq(5, 45, by = 10)
+exp_number_types_plants_values <- seq(5, 45, by = 10)
+exp_undirected_variation_humans_values <- seq(0.05, 0.25, length.out = 5)
+exp_undirected_variation_plants_values <- seq(0.05, 0.25, length.out = 5)
 ```
 
-```{r 4_n_v, cache=TRUE, dependson=c('4_default-values','4_n_v-values'), results = 'hide'}
-if(!file.exists('data/4_exp.n_v.RData'))
+```{r 4_types_number_and_variation, cache=TRUE, dependson=c('4_default-values','4_types_number_and_variation-values'), results = 'hide'}
+if(!file.exists(exp_types_number_and_variation_expDataFileName))
 {
-  exp.n_v <- hpcModel.exploration(
-    iniH = iniH.default,
-    iniP = iniP.default,
-    n.H = SEQ.n.H, ###
-    n.P = SEQ.n.P, ###
-    v.H = SEQ.v.H, ###
-    v.P = SEQ.v.P, ###
-    r.H = r.H.default, 
-    r.P = r.P.default, 
-    mU.PnH = mU.PnH.default,
-    mU.HnP = mU.HnP.default,
-    mU.P1H = mU.P1H.default,                                  
-    mU.H1P = mU.H1P.default,                                   
-    U.bHn = U.bHn.default,                                
-    U.bPn = U.bPn.default, 
-    U.bH1 = U.bH1.default,                               
-    U.bP1 = U.bP1.default,                                 
-    MaxArea = MaxArea.default,
-    maxIt = maxIt.default,
-    tol = tol.default,
-    timing.threshold = timing.threshold.default,
-    messages = FALSE
+  exp_types_number_and_variation <- hpcModel.exploration(
+    initial_population_humans = initial_population_humans_default,
+    initial_population_plants = initial_population_plants_default,
+    number_types_humans = exp_number_types_humans_values, ###
+    number_types_plants = exp_number_types_plants_values, ###
+    undirected_variation_humans = exp_undirected_variation_humans_values, ###
+    undirected_variation_plants = exp_undirected_variation_plants_values, ###
+    intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+    intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+    utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_default,
+    utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+    utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_default,                                  
+    utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,                                   
+    utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+    utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+    utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+    utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+    max_area = max_area_default,
+    max_iterations = max_iterations_default,
+    reltol_exponential = reltol_exponential_default,
+    coevolution_threshold = coevolution_threshold_default,
+    messages = messages_default
   )
   # save
-  save(exp.n_v, file = 'data/4_exp.n_v.RData')
+  save(exp_types_number_and_variation, file = exp_types_number_and_variation_expDataFileName)
 }
 ```
 
-```{r 4_exp.n_v-load, include=FALSE}
+```{r 4_exp_types_number_and_variation-load, include=FALSE}
 # load
-load('data/4_exp.n_v.RData')
+load(exp_types_number_and_variation_expDataFileName)
 ```
 
-```{r 4nvtablehtml, eval=!params$ispdf, cache=TRUE, dependson='4_n_v'}
-exp.table(exp.n_v, caption = 'Parameter setting')
+```{r 4nvtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_types_number_and_variation')}
+printTableExperiment(exp_types_number_and_variation, caption = 'Parameter setting')
 ```
-```{r 4nvtablepdf, eval=params$ispdf, cache=TRUE, dependson='4_n_v'}
-exp.table(exp.n_v, caption = 'Parameter setting', output = "latex")
+```{r 4nvtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_types_number_and_variation')}
+printTableExperiment(exp_types_number_and_variation, caption = 'Parameter setting', output = "latex")
 ```
 
 \newpage
 
-```{r 4_n_v-plot, include=FALSE, cache=TRUE, dependson='4_n_v'}
-plotScale = 10#100 / length(SEQ.U.bPn)
+```{r 4_types_number_and_variation-plot, include=FALSE, cache=TRUE, dependson='4_types_number_and_variation'}
+plotScale = 10#100 / length(exp_utility_other_to_type_n_plants_values)
 
-png(paste0("plots/4_fourPar-", exp.n_v.name, "_plot.png"),
+png(exp_types_number_and_variation_plotName,
     width = 100 * plotScale, height = 100 * plotScale)
-fourPar.ggplot(exp.n_v, 'v.H', 'v.P', 'n.H', 'n.P', 'coevo.H', 'coevo.P', 
-              xlab = expression(v['H']),
-              ylab = expression(v['P']),
-              var1lab = expression('coevo'[H]),
-              var2lab = expression('coevo'[P]),
-              plotScale = plotScale)
+tripleRaster_fourParameters(exp_types_number_and_variation, 
+                            parameter_x = 'undirected_variation_humans', 
+                            parameter_y = 'undirected_variation_plants', 
+                            parameter_strip_x = 'number_types_humans', 
+                            parameter_strip_y = 'number_types_plants', 
+                            variable_1 = 'coevolution_coefficient_humans', 
+                            variable_2 = 'coevolution_coefficient_plants', 
+                            variable_3 = 'time_end',
+                            parameter_x_label = expression(paste('undirected variation in humans (', v['H'], ')')),
+                            parameter_y_label = expression(paste('undirected variation in plants ( ', v['P'], ')')),
+                            variable_1_label = expression('coevo'[H]),
+                            variable_2_label = expression('coevo'[P]),
+                            variable_3_label = expression(t['end']),
+                            plot_scale = plotScale)
 dev.off()
 ```
 
-```{r 4_n_v-plot-print, echo=FALSE, dependson='4_n_v-plot', out.width = '100%'}
-knitr::include_graphics(paste0("plots/4_fourPar-", exp.n_v.name, "_plot.png"))
+```{r 4_types_number_and_variation-plot-print, echo=FALSE, dependson='4_types_number_and_variation-plot', out.width = '100%'}
+knitr::include_graphics(exp_types_number_and_variation_plotName)
 ```
 
 **_Interpretation_**:  
@@ -153,76 +170,89 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.n_v.name, "_plot.png"))
 ## Utility per capita between humans and plants ($\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$ x $\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$)
 \sectionmark{$\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$ x $\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$}
 
-```{r 4_mU.HP_mU.PH-values, cache=TRUE}
-exp.mU.HP_mU.PH.name <- "mU.HP-mU.PH"
-SEQ.mU.HnP <- seq(0, 3, length.out = 5)
-SEQ.mU.PnH <- seq(0, 3, length.out = 5)
-SEQ.mU.H1P <- seq(0, 3, length.out = 5)
-SEQ.mU.P1H <- seq(0, 3, length.out = 5)
+```{r 4_utilities_between_populations-values, cache=TRUE}
+exp_utilities_between_populations_name <- "utilities_between_populations"
+
+exp_utilities_between_populations_expDataFileName = paste0(dataDirectory, exp_utilities_between_populations_name,'.RData')
+exp_utilities_between_populations_plotName = paste0(plotDirectory, exp_utilities_between_populations_name, "-tripleRaster_fourParameterss.png")
+
+exp_utility_per_capita_type_n_humans_to_plants_values <- seq(0, 3, length.out = 5)
+exp_utility_per_capita_type_n_plants_to_humans_values <- seq(0, 3, length.out = 5)
+exp_utility_per_capita_type_1_humans_to_plants_values <- seq(0, 3, length.out = 5)
+exp_utility_per_capita_type_1_plants_to_humans_values <- seq(0, 3, length.out = 5)
 ```
 
-```{r 4_mU.HP_mU.PH, cache=TRUE, dependson=c('4_default-values','4_mU.HP_mU.PH-values'), results = 'hide'}
-if(!file.exists('data/4_exp.mU.HP_mU.PH.RData'))
+```{r 4_utilities_between_populations, cache=TRUE, dependson=c('4_default-values','4_utilities_between_populations-values'), results = 'hide'}
+if(!file.exists(exp_utilities_between_populations_expDataFileName))
 {
-  exp.mU.HP_mU.PH <- hpcModel.exploration(
-    iniH = iniH.default,
-    iniP = iniP.default,
-    n.H = n.H.default,         
-    n.P = n.P.default,        
-    v.H = v.H.default,
-    v.P = v.P.default,
-    r.H = r.H.default, 
-    r.P = r.P.default, 
-    mU.PnH = SEQ.mU.PnH, ###
-    mU.HnP = SEQ.mU.HnP, ###
-    mU.P1H = SEQ.mU.P1H, ###
-    mU.H1P = SEQ.mU.H1P, ###
-    U.bHn = U.bHn.default,                                
-    U.bPn = U.bPn.default, 
-    U.bH1 = U.bH1.default,                               
-    U.bP1 = U.bP1.default,                                 
-    MaxArea = MaxArea.default,
-    maxIt = maxIt.default,
-    tol = tol.default,
-    timing.threshold = timing.threshold.default,
-    messages = FALSE
+  exp_utilities_between_populations <- hpcModel.exploration(
+    initial_population_humans = initial_population_humans_default,
+    initial_population_plants = initial_population_plants_default,
+    number_types_humans = number_types_humans_default,         
+    number_types_plants = number_types_plants_default,        
+    undirected_variation_humans = undirected_variation_humans_default,
+    undirected_variation_plants = undirected_variation_plants_default,
+    intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+    intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+    utility_per_capita_type_n_plants_to_humans = exp_utility_per_capita_type_n_plants_to_humans_values, ###
+    utility_per_capita_type_n_humans_to_plants = exp_utility_per_capita_type_n_humans_to_plants_values, ###
+    utility_per_capita_type_1_plants_to_humans = exp_utility_per_capita_type_1_plants_to_humans_values, ###
+    utility_per_capita_type_1_humans_to_plants = exp_utility_per_capita_type_1_humans_to_plants_values, ###
+    utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,                                
+    utility_other_to_type_n_plants = utility_other_to_type_n_plants_default, 
+    utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,                               
+    utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,                                 
+    max_area = max_area_default,
+    max_iterations = max_iterations_default,
+    reltol_exponential = reltol_exponential_default,
+    coevolution_threshold = coevolution_threshold_default,
+    messages = messages_default
   )
   # save
-  save(exp.mU.HP_mU.PH, file = 'data/4_exp.mU.HP_mU.PH.RData')
+  save(exp_utilities_between_populations, file = exp_utilities_between_populations_expDataFileName)
 }
 ```
 
-```{r 4_exp.mU.HP_mU.PH-load, include=FALSE}
+```{r 4_exp_utilities_between_populations-load, include=FALSE}
 # load
-load('data/4_exp.mU.HP_mU.PH.RData')
+load(exp_utilities_between_populations_expDataFileName)
 ```
 
-```{r 4mUHPmUPHtablehtml, eval=!params$ispdf, cache=TRUE, dependson='4_mU.HP_mU.PH'}
-exp.table(exp.mU.HP_mU.PH, caption = 'Parameter setting')
+```{r 4mUHPmUPHtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_utilities_between_populations')}
+printTableExperiment(exp_utilities_between_populations, caption = 'Parameter setting')
 ```
 
-```{r 4mUHPmUPHtablepdf, eval=params$ispdf, cache=TRUE, dependson='4_mU.HP_mU.PH'}
-exp.table(exp.mU.HP_mU.PH, caption = 'Parameter setting', output = "latex")
+```{r 4mUHPmUPHtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_utilities_between_populations')}
+printTableExperiment(exp_utilities_between_populations, caption = 'Parameter setting', output = "latex")
 ```
 
 \newpage
 
-```{r 4_mU.HP_mU.PH-plot, include=FALSE, cache=TRUE, dependson='4_mU.HP_mU.PH'}
-plotScale = 10#100 / length(SEQ.U.bPn)
+```{r 4_utilities_between_populations-plot, include=FALSE, cache=TRUE, dependson='4_utilities_between_populations'}
+plotScale = 10#100 / length(exp_utility_other_to_type_n_plants_values)
 
-png(paste0("plots/4_fourPar-", exp.mU.HP_mU.PH.name, "_plot.png"),
+png(exp_utilities_between_populations_plotName,
     width = 100 * plotScale, height = 100 * plotScale)
-fourPar.ggplot(exp.mU.HP_mU.PH, 'mU.P1H', 'mU.H1P', 'mU.PnH', 'mU.HnP', 'coevo.H', 'coevo.P', 
-              xlab = expression(bar(U)['P1H']),
-              ylab = expression(bar(U)['H1P']),
-              var1lab = expression('coevo'[H]),
-              var2lab = expression('coevo'[P]),
-              plotScale = plotScale)
+tripleRaster_fourParameters(exp_utilities_between_populations, 
+                            parameter_x = 'utility_per_capita_type_1_humans_to_plants',
+                            parameter_y = 'utility_per_capita_type_1_plants_to_humans',  
+                            parameter_strip_x = 'utility_per_capita_type_n_humans_to_plants',
+                            parameter_strip_y = 'utility_per_capita_type_n_plants_to_humans', 
+                            variable_1 = 'coevolution_coefficient_humans', 
+                            variable_2 = 'coevolution_coefficient_plants', 
+                            variable_3 = 'time_end',
+                            parameter_x_label = expression(paste('utility per capita of type 1 humans to plants (', bar(U)['H1P'], ')')),
+                            parameter_y_label = expression(paste('utility per capita of type 1 plants to humans ( ', bar(U)['P1H'], ')')),
+                            variable_1_label = expression('coevo'[H]),
+                            variable_2_label = expression('coevo'[P]),
+                            variable_3_label = expression(t['end']),
+                            plot_scale = plotScale,
+                            strip_parameter_name_max_length = 28, strip_text_size = 0.9)
 dev.off()
 ```
 
-```{r 4_mU.HP_mU.PH-plot-print, echo=FALSE, dependson='4_mU.HP_mU.PH-plot', out.width = '100%'}
-knitr::include_graphics(paste0("plots/4_fourPar-", exp.mU.HP_mU.PH.name, "_plot.png"))
+```{r 4_utilities_between_populations-plot-print, echo=FALSE, dependson='4_utilities_between_populations-plot', out.width = '100%'}
+knitr::include_graphics(exp_utilities_between_populations_plotName)
 ```
 
 **_Interpretation_**:  
@@ -240,79 +270,92 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.mU.HP_mU.PH.name, "_plot.
 
 For this experiment, consider that the default setting includes $MaxArea=200$ (i.e. the maximum for the plant population).
 
-```{r 4_U.bH_U.bP-values, cache=TRUE}
-exp.U.bH_U.bP.name <- "U.bH-U.bP"
-SEQ.U.bHn <- seq(5, 300, length.out = 5)
-SEQ.U.bPn <- seq(5, 300, length.out = 5)
-SEQ.U.bH1 <- seq(5, 300, length.out = 5)
-SEQ.U.bP1 <- seq(5, 300, length.out = 5)
+```{r 4_utilities_other_to_populations-values, cache=TRUE}
+exp_utilities_other_to_populations_name <- "utilities_other_to_populations"
+
+exp_utilities_other_to_populations_expDataFileName = paste0(dataDirectory, exp_utilities_other_to_populations_name,'.RData')
+exp_utilities_other_to_populations_plotName = paste0(plotDirectory, exp_utilities_other_to_populations_name, "-tripleRaster_fourParameterss.png")
+
+exp_utility_other_to_type_n_humans_values <- seq(5, 300, length.out = 5)
+exp_utility_other_to_type_n_plants_values <- seq(5, 300, length.out = 5)
+exp_utility_other_to_type_1_humans_values <- seq(5, 300, length.out = 5)
+exp_utility_other_to_type_1_plants_values <- seq(5, 300, length.out = 5)
 ```
 
-```{r 4_U.bH_U.bP, cache=TRUE, dependson=c('4_default-values','4_U.bH_U.bP-values'), results = 'hide'}
-if(!file.exists('data/4_exp.U.bH_U.bP.RData'))
+```{r 4_utilities_other_to_populations, cache=TRUE, dependson=c('4_default-values','4_utilities_other_to_populations-values'), results = 'hide'}
+if(!file.exists(exp_utilities_other_to_populations_expDataFileName))
 {
-  exp.U.bH_U.bP <- hpcModel.exploration(
-    iniH = iniH.default,
-    iniP = iniP.default,
-    n.H = n.H.default,         
-    n.P = n.P.default,        
-    v.H = v.H.default,
-    v.P = v.P.default,
-    r.H = r.H.default, 
-    r.P = r.P.default, 
-    mU.PnH = mU.PnH.default,
-    mU.HnP = mU.HnP.default,
-    mU.P1H = mU.P1H.default,
-    mU.H1P = mU.H1P.default,
-    U.bHn = SEQ.U.bHn, ###
-    U.bPn = SEQ.U.bPn, ###
-    U.bH1 = SEQ.U.bH1, ###
-    U.bP1 = SEQ.U.bP1, ###
-    MaxArea = MaxArea.default,
-    maxIt = maxIt.default,
-    tol = tol.default,
-    timing.threshold = timing.threshold.default,
-    messages = FALSE
+  exp_utilities_other_to_populations <- hpcModel.exploration(
+    initial_population_humans = initial_population_humans_default,
+    initial_population_plants = initial_population_plants_default,
+    number_types_humans = number_types_humans_default,         
+    number_types_plants = number_types_plants_default,        
+    undirected_variation_humans = undirected_variation_humans_default,
+    undirected_variation_plants = undirected_variation_plants_default,
+    intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+    intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+    utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_default,
+    utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+    utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_default,
+    utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,
+    utility_other_to_type_n_humans = exp_utility_other_to_type_n_humans_values, ###
+    utility_other_to_type_n_plants = exp_utility_other_to_type_n_plants_values, ###
+    utility_other_to_type_1_humans = exp_utility_other_to_type_1_humans_values, ###
+    utility_other_to_type_1_plants = exp_utility_other_to_type_1_plants_values, ###
+    max_area = max_area_default,
+    max_iterations = max_iterations_default,
+    reltol_exponential = reltol_exponential_default,
+    coevolution_threshold = coevolution_threshold_default,
+    messages = messages_default
   )
   # save
-  save(exp.U.bH_U.bP, file = 'data/4_exp.U.bH_U.bP.RData')
+  save(exp_utilities_other_to_populations, file = exp_utilities_other_to_populations_expDataFileName)
 }
 ```
 
-```{r 4_exp.U.bH_U.bP-load, include=FALSE}
+```{r 4_exp_utilities_other_to_populations-load, include=FALSE}
 # load
-load('data/4_exp.U.bH_U.bP.RData')
+load(exp_utilities_other_to_populations_expDataFileName)
 ```
 
-```{r 4UbHUbPtablehtml, eval=!params$ispdf, cache=TRUE, dependson='4_U.bH_U.bP'}
-exp.table(exp.U.bH_U.bP, caption = 'Parameter setting')
+```{r 4UbHUbPtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_utilities_other_to_populations')}
+printTableExperiment(exp_utilities_other_to_populations, caption = 'Parameter setting')
 ```
-```{r 4UbHUbPtablepdf, eval=params$ispdf, cache=TRUE, dependson='4_U.bH_U.bP'}
-exp.table(exp.U.bH_U.bP, caption = 'Parameter setting', output = "latex")
+```{r 4UbHUbPtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_utilities_other_to_populations')}
+printTableExperiment(exp_utilities_other_to_populations, caption = 'Parameter setting', output = "latex")
 ```
 
 \newpage
 
-```{r 4_U.bH_U.bP-plot, include=FALSE, cache=TRUE, dependson='4_U.bH_U.bP'}
-plotScale = 10#100 / length(SEQ.U.bPn)
+```{r 4_utilities_other_to_populations-plot, include=FALSE, cache=TRUE, dependson='4_utilities_other_to_populations'}
+plotScale = 10#100 / length(exp_utility_other_to_type_n_plants_values)
 
-png(paste0("plots/4_fourPar-", exp.U.bH_U.bP.name, "_plot.png"),
+png(exp_utilities_other_to_populations_plotName,
     width = 100 * plotScale, height = 100 * plotScale)
-fourPar.ggplot(exp.U.bH_U.bP, 'U.bP1', 'U.bH1', 'U.bPn', 'U.bHn', 'coevo.H', 'coevo.P', 
-              xlab = expression(U['bP1']),
-              ylab = expression(U['bH1']),
-              var1lab = expression('coevo'[H]),
-              var2lab = expression('coevo'[P]),
-              plotScale = plotScale)
+tripleRaster_fourParameters(exp_utilities_other_to_populations, 
+                            parameter_x = 'utility_other_to_type_1_humans', 
+                            parameter_y = 'utility_other_to_type_1_plants',
+                            parameter_strip_x = 'utility_other_to_type_n_humans', 
+                            parameter_strip_y = 'utility_other_to_type_n_plants',
+                            variable_1 = 'coevolution_coefficient_humans', 
+                            variable_2 = 'coevolution_coefficient_plants',
+                            variable_3 = 'time_end',
+                            parameter_x_label = expression(paste('utility of other to type 1 humans (', U['bH1'], ')')),
+                            parameter_y_label = expression(paste('utility of other to type 1 plants ( ', U['bP1'], ')')),
+                            variable_1_label = expression('coevo'[H]),
+                            variable_2_label = expression('coevo'[P]),
+                            variable_3_label = expression(t['end']),
+                            plot_scale = plotScale,
+                            strip_parameter_name_max_length = 22, strip_text_size = 0.9)
 dev.off()
 ```
 
-```{r 4_U.bH_U.bP-plot-print, echo=FALSE, dependson='4_U.bH_U.bP-plot', out.width = '100%'}
-knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bH_U.bP.name, "_plot.png"))
+```{r 4_utilities_other_to_populations-plot-print, echo=FALSE, dependson='4_utilities_other_to_populations-plot', out.width = '100%'}
+knitr::include_graphics(exp_utilities_other_to_populations_plotName)
 ```
 
 **_Interpretation_**:  
-- Lower values of the two human-related parameters ($U_{bH_{1}}$, $U_{bH_{n}}$) facilitate coevolution; under the 'default' setting and for all four parameters, values greater or equal to $MaxArea$ (here, `r MaxArea.default`) impede coevolution. Inversely, higher values of the plant-related parameters ($U_{bP_{1}}$, $U_{bP_{n}}$) facilitate coevolution. The human-related parameters, together regulating the scale of the subsistence alternatives for humans, are significantly more important; their relationship (if one is greater than the other) seems to be less important as long as their combined sum is small enough.  
+- Lower values of the two human-related parameters ($U_{bH_{1}}$, $U_{bH_{n}}$) facilitate coevolution; under the 'default' setting and for all four parameters, values greater or equal to $MaxArea$ (here, `r max_area_default`) impede coevolution. Inversely, higher values of the plant-related parameters ($U_{bP_{1}}$, $U_{bP_{n}}$) facilitate coevolution. The human-related parameters, together regulating the scale of the subsistence alternatives for humans, are significantly more important; their relationship (if one is greater than the other) seems to be less important as long as their combined sum is small enough.  
 - Coevolution is likely to occur when $U_{bH_{1}}=5$ (first row in small grids), unless $U_{bH_{n}}$ is too big and $U_{bP_{1}}$ is too small.  
 - As a summary of possible end-states:  
     + *'Fast' coevolution* (red square in blue tile, small *t*): most cases when $U_{bH_{1}}$ and $U_{bH_{n}}<153$.  
@@ -326,75 +369,88 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bH_U.bP.name, "_plot.pn
 
 All four parameters affect directly the carrying capacity for humans.
 
-```{r 4_U.bH_U.PH-values, cache=TRUE}
-exp.U.bH_U.PH.name <- "U.bH-U.PH"
-SEQ.U.bHn <- seq(5, 300, length.out = 5)
-SEQ.U.bH1 <- seq(5, 300, length.out = 5)
-SEQ.mU.PnH <- seq(0, 3, length.out = 5)
-SEQ.mU.P1H <- seq(0, 3, length.out = 5)
+```{r 4_utilities_to_humans-values, cache=TRUE}
+exp_utilities_to_humans_name <- "utilities_to_humans"
+
+exp_utilities_to_humans_expDataFileName = paste0(dataDirectory, exp_utilities_to_humans_name,'.RData')
+exp_utilities_to_humans_plotName = paste0(plotDirectory, exp_utilities_to_humans_name, "-tripleRaster_fourParameterss.png")
+
+exp_utility_other_to_type_n_humans_values <- seq(5, 300, length.out = 5)
+exp_utility_other_to_type_1_humans_values <- seq(5, 300, length.out = 5)
+exp_utility_per_capita_type_n_plants_to_humans_values <- seq(0, 3, length.out = 5)
+exp_utility_per_capita_type_1_plants_to_humans_values <- seq(0, 3, length.out = 5)
 ```
 
-```{r 4_U.bH_U.PH, cache=TRUE, dependson=c('4_default-values','4_U.bH_U.PH-values'), results = 'hide'}
-if(!file.exists('data/4_exp.U.bH_U.PH.RData'))
+```{r 4_utilities_to_humans, cache=TRUE, dependson=c('4_default-values','4_utilities_to_humans-values'), results = 'hide'}
+if(!file.exists(exp_utilities_to_humans_expDataFileName))
 {
-  exp.U.bH_U.PH <- hpcModel.exploration(
-    iniH = iniH.default,
-    iniP = iniP.default,
-    n.H = n.H.default,         
-    n.P = n.P.default,        
-    v.H = v.H.default,
-    v.P = v.P.default,
-    r.H = r.H.default, 
-    r.P = r.P.default, 
-    mU.PnH = SEQ.mU.PnH, ###
-    mU.HnP = mU.HnP.default,
-    mU.P1H = SEQ.mU.P1H, ###
-    mU.H1P = mU.H1P.default,
-    U.bHn = SEQ.U.bHn, ###
-    U.bPn = U.bPn.default,
-    U.bH1 = SEQ.U.bH1, ###
-    U.bP1 = U.bP1.default,
-    MaxArea = MaxArea.default,
-    maxIt = maxIt.default,
-    tol = tol.default,
-    timing.threshold = timing.threshold.default,
-    messages = FALSE
+  exp_utilities_to_humans <- hpcModel.exploration(
+    initial_population_humans = initial_population_humans_default,
+    initial_population_plants = initial_population_plants_default,
+    number_types_humans = number_types_humans_default,         
+    number_types_plants = number_types_plants_default,        
+    undirected_variation_humans = undirected_variation_humans_default,
+    undirected_variation_plants = undirected_variation_plants_default,
+    intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+    intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+    utility_per_capita_type_n_plants_to_humans = exp_utility_per_capita_type_n_plants_to_humans_values, ###
+    utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+    utility_per_capita_type_1_plants_to_humans = exp_utility_per_capita_type_1_plants_to_humans_values, ###
+    utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,
+    utility_other_to_type_n_humans = exp_utility_other_to_type_n_humans_values, ###
+    utility_other_to_type_n_plants = utility_other_to_type_n_plants_default,
+    utility_other_to_type_1_humans = exp_utility_other_to_type_1_humans_values, ###
+    utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,
+    max_area = max_area_default,
+    max_iterations = max_iterations_default,
+    reltol_exponential = reltol_exponential_default,
+    coevolution_threshold = coevolution_threshold_default,
+    messages = messages_default
   )
   # save
-  save(exp.U.bH_U.PH, file = 'data/4_exp.U.bH_U.PH.RData')
+  save(exp_utilities_to_humans, file = exp_utilities_to_humans_expDataFileName)
 }
 ```
 
-```{r 4_exp.U.bH_U.PH-load, include=FALSE}
+```{r 4_exp_utilities_to_humans-load, include=FALSE}
 # load
-load('data/4_exp.U.bH_U.PH.RData')
+load(exp_utilities_to_humans_expDataFileName)
 ```
 
-```{r 4UbHUPHtablehtml, eval=!params$ispdf, cache=TRUE, dependson='4_U.bH_U.PH'}
-exp.table(exp.U.bH_U.PH, caption = 'Parameter setting')
+```{r 4UbHUPHtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_utilities_to_humans')}
+printTableExperiment(exp_utilities_to_humans, caption = 'Parameter setting')
 ```
-```{r 4UbHUPHtablepdf, eval=params$ispdf, cache=TRUE, dependson='4_U.bH_U.PH'}
-exp.table(exp.U.bH_U.PH, caption = 'Parameter setting', output = "latex")
+```{r 4UbHUPHtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_utilities_to_humans')}
+printTableExperiment(exp_utilities_to_humans, caption = 'Parameter setting', output = "latex")
 ```
 
 \newpage
 
-```{r 4_U.bH_U.PH-plot, include=FALSE, cache=TRUE, dependson='4_U.bH_U.PH'}
+```{r 4_utilities_to_humans-plot, include=FALSE, cache=TRUE, dependson='4_utilities_to_humans'}
 plotScale = 10
 
-png(paste0("plots/4_fourPar-", exp.U.bH_U.PH.name, "_plot.png"),
+png(exp_utilities_to_humans_plotName,
     width = 100 * plotScale, height = 100 * plotScale)
-fourPar.ggplot(exp.U.bH_U.PH, 'U.bH1', 'U.bHn', 'mU.P1H', 'mU.PnH', 'coevo.H', 'coevo.P', 
-              xlab = expression(U['bH1']),
-              ylab = expression(U['bHn']),
-              var1lab = expression('coevo'[H]),
-              var2lab = expression('coevo'[P]),
-              plotScale = plotScale)
+tripleRaster_fourParameters(exp_utilities_to_humans, 
+                            parameter_x = 'utility_other_to_type_1_humans', 
+                            parameter_y = 'utility_other_to_type_n_humans', 
+                            parameter_strip_x = 'utility_per_capita_type_1_plants_to_humans', 
+                            parameter_strip_y = 'utility_per_capita_type_n_plants_to_humans', 
+                            variable_1 = 'coevolution_coefficient_humans', 
+                            variable_2 = 'coevolution_coefficient_plants',
+                            variable_3 = 'time_end',
+                            parameter_x_label = expression(paste('utility of other to type 1 humans (', U['bH1'], ')')),
+                            parameter_y_label = expression(paste('utility of other to type n humans (', U['bHn'], ')')),
+                            variable_1_label = expression('coevo'[H]),
+                            variable_2_label = expression('coevo'[P]),
+                            variable_3_label = expression(t['end']),
+                            plot_scale = plotScale,
+                            strip_parameter_name_max_length = 28, strip_text_size = 0.9)
 dev.off()
 ```
 
-```{r 4_U.bH_U.PH-plot-print, echo=FALSE, dependson='4_U.bH_U.PH-plot', out.width = '100%'}
-knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bH_U.PH.name, "_plot.png"))
+```{r 4_utilities_to_humans-plot-print, echo=FALSE, dependson='4_utilities_to_humans-plot', out.width = '100%'}
+knitr::include_graphics(exp_utilities_to_humans_plotName)
 ```
 
 \newpage
@@ -404,75 +460,88 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bH_U.PH.name, "_plot.pn
 
 All four parameters affect directly the carrying capacity for plants.
 
-```{r 4_U.bP_mU.HP-values, cache=TRUE}
-exp.U.bP_mU.HP.name <- "U.bP-mU.HP"
-SEQ.U.bPn <- seq(5, 300, length.out = 5)
-SEQ.U.bP1 <- seq(5, 300, length.out = 5)
-SEQ.mU.HnP <- seq(0, 3, length.out = 5)
-SEQ.mU.H1P <- seq(0, 3, length.out = 5)
+```{r 4_utilities_to_plants-values, cache=TRUE}
+exp_utilities_to_plants_name <- "utilities_to_plants"
+
+exp_utilities_to_plants_expDataFileName = paste0(dataDirectory, exp_utilities_to_plants_name,'.RData')
+exp_utilities_to_plants_plotName = paste0(plotDirectory, exp_utilities_to_plants_name, "-tripleRaster_fourParameterss.png")
+
+exp_utility_other_to_type_n_plants_values <- seq(5, 300, length.out = 5)
+exp_utility_other_to_type_1_plants_values <- seq(5, 300, length.out = 5)
+exp_utility_per_capita_type_n_humans_to_plants_values <- seq(0, 3, length.out = 5)
+exp_utility_per_capita_type_1_humans_to_plants_values <- seq(0, 3, length.out = 5)
 ```
 
-```{r 4_U.bP_mU.HP, cache=TRUE, dependson=c('4_default-values','4_U.bP_mU.HP-values'), results = 'hide'}
-if(!file.exists('data/4_exp.U.bP_mU.HP.RData'))
+```{r 4_utilities_to_plants, cache=TRUE, dependson=c('4_default-values','4_utilities_to_plants-values'), results = 'hide'}
+if(!file.exists(exp_utilities_to_plants_expDataFileName))
 {
-  exp.U.bP_mU.HP <- hpcModel.exploration(
-    iniH = iniH.default,
-    iniP = iniP.default,
-    n.H = n.H.default,         
-    n.P = n.P.default,        
-    v.H = v.H.default,
-    v.P = v.P.default,
-    r.H = r.H.default, 
-    r.P = r.P.default, 
-    mU.PnH = mU.PnH.default,
-    mU.HnP = SEQ.mU.HnP, ###
-    mU.P1H = mU.P1H.default,
-    mU.H1P = SEQ.mU.H1P, ###
-    U.bHn = U.bHn.default,
-    U.bPn = SEQ.U.bPn, ###
-    U.bH1 = U.bH1.default,
-    U.bP1 = SEQ.U.bP1, ###
-    MaxArea = MaxArea.default,
-    maxIt = maxIt.default,
-    tol = tol.default,
-    timing.threshold = timing.threshold.default,
-    messages = FALSE
+  exp_utilities_to_plants <- hpcModel.exploration(
+    initial_population_humans = initial_population_humans_default,
+    initial_population_plants = initial_population_plants_default,
+    number_types_humans = number_types_humans_default,         
+    number_types_plants = number_types_plants_default,        
+    undirected_variation_humans = undirected_variation_humans_default,
+    undirected_variation_plants = undirected_variation_plants_default,
+    intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+    intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+    utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_default,
+    utility_per_capita_type_n_humans_to_plants = exp_utility_per_capita_type_n_humans_to_plants_values, ###
+    utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_default,
+    utility_per_capita_type_1_humans_to_plants = exp_utility_per_capita_type_1_humans_to_plants_values, ###
+    utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,
+    utility_other_to_type_n_plants = exp_utility_other_to_type_n_plants_values, ###
+    utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,
+    utility_other_to_type_1_plants = exp_utility_other_to_type_1_plants_values, ###
+    max_area = max_area_default,
+    max_iterations = max_iterations_default,
+    reltol_exponential = reltol_exponential_default,
+    coevolution_threshold = coevolution_threshold_default,
+    messages = messages_default
   )
   # save
-  save(exp.U.bP_mU.HP, file = 'data/4_exp.U.bP_mU.HP.RData')
+  save(exp_utilities_to_plants, file = exp_utilities_to_plants_expDataFileName)
 }
 ```
 
-```{r 4_exp.U.bP_mU.HP-load, include=FALSE}
+```{r 4_exp_utilities_to_plants-load, include=FALSE}
 # load
-load('data/4_exp.U.bP_mU.HP.RData')
+load(exp_utilities_to_plants_expDataFileName)
 ```
 
-```{r 4UbPUHPtablehtml, eval=!params$ispdf, cache=TRUE, dependson='4_U.bP_mU.HP'}
-exp.table(exp.U.bP_mU.HP, caption = 'Parameter setting')
+```{r 4UbPUHPtablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_utilities_to_plants')}
+printTableExperiment(exp_utilities_to_plants, caption = 'Parameter setting')
 ```
-```{r 4UbPUHPtablepdf, eval=params$ispdf, cache=TRUE, dependson='4_U.bP_mU.HP'}
-exp.table(exp.U.bP_mU.HP, caption = 'Parameter setting', output = "latex")
+```{r 4UbPUHPtablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_utilities_to_plants')}
+printTableExperiment(exp_utilities_to_plants, caption = 'Parameter setting', output = "latex")
 ```
 
 \newpage
 
-```{r 4_U.bP_mU.HP-plot, include=FALSE, cache=TRUE, dependson='4_U.bP_mU.HP'}
+```{r 4_utilities_to_plants-plot, include=FALSE, cache=TRUE, dependson='4_utilities_to_plants'}
 plotScale = 10
 
-png(paste0("plots/4_fourPar-", exp.U.bP_mU.HP.name, "_plot.png"),
+png(exp_utilities_to_plants_plotName,
     width = 100 * plotScale, height = 100 * plotScale)
-fourPar.ggplot(exp.U.bP_mU.HP, 'U.bP1', 'U.bPn', 'mU.H1P', 'mU.HnP', 'coevo.H', 'coevo.P', 
-              xlab = expression(U['bP1']),
-              ylab = expression(U['bPn']),
-              var1lab = expression('coevo'[H]),
-              var2lab = expression('coevo'[P]),
-              plotScale = plotScale)
+tripleRaster_fourParameters(exp_utilities_to_plants, 
+                            parameter_x = 'utility_other_to_type_1_plants',
+                            parameter_y = 'utility_other_to_type_n_plants',
+                            parameter_strip_x = 'utility_per_capita_type_1_humans_to_plants', 
+                            parameter_strip_y = 'utility_per_capita_type_n_humans_to_plants', 
+                            variable_1 = 'coevolution_coefficient_humans', 
+                            variable_2 = 'coevolution_coefficient_plants',
+                            variable_3 = 'time_end',
+                            parameter_x_label = expression(paste('utility of other to type 1 plants (', U['bP1'], ')')),
+                            parameter_y_label = expression(paste('utility of other to type n plants ( ', U['bPn'], ')')),
+                            variable_1_label = expression('coevo'[H]),
+                            variable_2_label = expression('coevo'[P]),
+                            variable_3_label = expression(t['end']),
+                            plot_scale = plotScale,
+                            strip_parameter_name_max_length = 28, strip_text_size = 0.9)
 dev.off()
 ```
 
-```{r 4_U.bP_mU.HP-plot-print, echo=FALSE, dependson='4_U.bP_mU.HP-plot', out.width = '100%'}
-knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bP_mU.HP.name, "_plot.png"))
+```{r 4_utilities_to_plants-plot-print, echo=FALSE, dependson='4_utilities_to_plants-plot', out.width = '100%'}
+knitr::include_graphics(exp_utilities_to_plants_plotName)
 ```
 
 \newpage
@@ -482,75 +551,88 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bP_mU.HP.name, "_plot.p
 
 This exploration reflects the state at the start of simulations (both populations are mostly of type 1).
 
-```{r 4_U.b1_mU1_-values, cache=TRUE}
-exp.U.b1_mU1.name <- "U.b1-mU1"
-SEQ.U.bH1 <- seq(5, 300, length.out = 5)
-SEQ.U.bP1 <- seq(5, 300, length.out = 5)
-SEQ.mU.H1P <- seq(0, 3, length.out = 5)
-SEQ.mU.P1H <- seq(0, 3, length.out = 5)
+```{r 4_type_1_traits_-values, cache=TRUE}
+exp_type_1_traits_name <- "type_1_traits"
+
+exp_type_1_traits_expDataFileName = paste0(dataDirectory, exp_type_1_traits_name,'.RData')
+exp_type_1_traits_plotName = paste0(plotDirectory, exp_type_1_traits_name, "-tripleRaster_fourParameterss.png")
+
+exp_utility_other_to_type_1_humans_values <- seq(5, 300, length.out = 5)
+exp_utility_other_to_type_1_plants_values <- seq(5, 300, length.out = 5)
+exp_utility_per_capita_type_1_humans_to_plants_values <- seq(0, 3, length.out = 5)
+exp_utility_per_capita_type_1_plants_to_humans_values <- seq(0, 3, length.out = 5)
 ```
 
-```{r 4_U.b1_mU1, cache=TRUE, dependson=c('4_default-values','4_U.b1_mU1-values'), results = 'hide'}
-if(!file.exists('data/4_exp.U.b1_mU1.RData'))
+```{r 4_type_1_traits, cache=TRUE, dependson=c('4_default-values','4_type_1_traits-values'), results = 'hide'}
+if(!file.exists(exp_type_1_traits_expDataFileName))
 {
-  exp.U.b1_mU1 <- hpcModel.exploration(
-    iniH = iniH.default,
-    iniP = iniP.default,
-    n.H = n.H.default,         
-    n.P = n.P.default,        
-    v.H = v.H.default,
-    v.P = v.P.default,
-    r.H = r.H.default, 
-    r.P = r.P.default, 
-    mU.PnH = mU.PnH.default,
-    mU.HnP = mU.HnP.default,
-    mU.P1H = SEQ.mU.P1H, ###
-    mU.H1P = SEQ.mU.H1P, ###
-    U.bHn = U.bHn.default,
-    U.bPn = U.bPn.default,
-    U.bH1 = SEQ.U.bH1, ###
-    U.bP1 = SEQ.U.bP1, ###
-    MaxArea = MaxArea.default,
-    maxIt = maxIt.default,
-    tol = tol.default,
-    timing.threshold = timing.threshold.default,
-    messages = FALSE
+  exp_type_1_traits <- hpcModel.exploration(
+    initial_population_humans = initial_population_humans_default,
+    initial_population_plants = initial_population_plants_default,
+    number_types_humans = number_types_humans_default,         
+    number_types_plants = number_types_plants_default,        
+    undirected_variation_humans = undirected_variation_humans_default,
+    undirected_variation_plants = undirected_variation_plants_default,
+    intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+    intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+    utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_default,
+    utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+    utility_per_capita_type_1_plants_to_humans = exp_utility_per_capita_type_1_plants_to_humans_values, ###
+    utility_per_capita_type_1_humans_to_plants = exp_utility_per_capita_type_1_humans_to_plants_values, ###
+    utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,
+    utility_other_to_type_n_plants = utility_other_to_type_n_plants_default,
+    utility_other_to_type_1_humans = exp_utility_other_to_type_1_humans_values, ###
+    utility_other_to_type_1_plants = exp_utility_other_to_type_1_plants_values, ###
+    max_area = max_area_default,
+    max_iterations = max_iterations_default,
+    reltol_exponential = reltol_exponential_default,
+    coevolution_threshold = coevolution_threshold_default,
+    messages = messages_default
   )
   # save
-  save(exp.U.b1_mU1, file = 'data/4_exp.U.b1_mU1.RData')
+  save(exp_type_1_traits, file = exp_type_1_traits_expDataFileName)
 }
 ```
 
-```{r 4_exp.U.b1_mU1-load, include=FALSE}
+```{r 4_exp_type_1_traits-load, include=FALSE}
 # load
-load('data/4_exp.U.b1_mU1.RData')
+load(exp_type_1_traits_expDataFileName)
 ```
 
-```{r 4Ub1mU1tablehtml, eval=!params$ispdf, cache=TRUE, dependson='4_U.b1_mU1'}
-exp.table(exp.U.b1_mU1, caption = 'Parameter setting')
+```{r 4Ub1mU1tablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_type_1_traits')}
+printTableExperiment(exp_type_1_traits, caption = 'Parameter setting')
 ```
-```{r 4Ub1mU1tablepdf, eval=params$ispdf, cache=TRUE, dependson='4_U.b1_mU1'}
-exp.table(exp.U.b1_mU1, caption = 'Parameter setting', output = "latex")
+```{r 4Ub1mU1tablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_type_1_traits')}
+printTableExperiment(exp_type_1_traits, caption = 'Parameter setting', output = "latex")
 ```
 
 \newpage
 
-```{r 4_U.b1_mU1-plot, include=FALSE, cache=TRUE, dependson='4_U.b1_mU1'}
+```{r 4_type_1_traits-plot, include=FALSE, cache=TRUE, dependson='4_type_1_traits'}
 plotScale = 10
 
-png(paste0("plots/4_fourPar-", exp.U.b1_mU1.name, "_plot.png"),
+png(exp_type_1_traits_plotName,
     width = 100 * plotScale, height = 100 * plotScale)
-fourPar.ggplot(exp.U.b1_mU1, 'U.bH1', 'U.bP1', 'mU.H1P', 'mU.P1H', 'coevo.H', 'coevo.P', 
-              xlab = expression(U['bH1']),
-              ylab = expression(U['bP1']),
-              var1lab = expression('coevo'[H]),
-              var2lab = expression('coevo'[P]),
-              plotScale = plotScale)
+tripleRaster_fourParameters(exp_type_1_traits, 
+                            parameter_x = 'utility_other_to_type_1_humans', 
+                            parameter_y = 'utility_other_to_type_1_plants', 
+                            parameter_strip_x = 'utility_per_capita_type_1_humans_to_plants', 
+                            parameter_strip_y = 'utility_per_capita_type_1_plants_to_humans', 
+                            variable_1 = 'coevolution_coefficient_humans', 
+                            variable_2 = 'coevolution_coefficient_plants',
+                            variable_3 = 'time_end',
+                            parameter_x_label = expression(paste('utility of other to type 1 humans (', U['bH1'], ')')),
+                            parameter_y_label = expression(paste('utility of other to type 1 plants ( ', U['bP1'], ')')),
+                            variable_1_label = expression('coevo'[H]),
+                            variable_2_label = expression('coevo'[P]),
+                            variable_3_label = expression(t['end']),
+                            plot_scale = plotScale,
+                            strip_parameter_name_max_length = 28, strip_text_size = 0.9)
 dev.off()
 ```
 
-```{r 4_U.b1_mU1-plot-print, echo=FALSE, dependson='4_U.b1_mU1-plot', out.width = '100%'}
-knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.b1_mU1.name, "_plot.png"))
+```{r 4_type_1_traits-plot-print, echo=FALSE, dependson='4_type_1_traits-plot', out.width = '100%'}
+knitr::include_graphics(exp_type_1_traits_plotName)
 ```
 
 \newpage
@@ -560,75 +642,88 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.b1_mU1.name, "_plot.png
 
 This exploration reflects the state after a successful coevolution (both populations are mostly of type n).
 
-```{r 4_U.bn_mUn_-values, cache=TRUE}
-exp.U.bn_mUn.name <- "U.bn-mUn"
-SEQ.U.bHn <- seq(5, 300, length.out = 5)
-SEQ.U.bPn <- seq(5, 300, length.out = 5)
-SEQ.mU.HnP <- seq(0, 3, length.out = 5)
-SEQ.mU.PnH <- seq(0, 3, length.out = 5)
+```{r 4_type_n_traits_-values, cache=TRUE}
+exp_type_n_traits_name <- "type_n_traits"
+
+exp_type_n_traits_expDataFileName = paste0(dataDirectory, exp_type_n_traits_name,'.RData')
+exp_type_n_traits_plotName = paste0(plotDirectory, exp_type_n_traits_name, "-tripleRaster_fourParameterss.png")
+
+exp_utility_other_to_type_n_humans_values <- seq(5, 300, length.out = 5)
+exp_utility_other_to_type_n_plants_values <- seq(5, 300, length.out = 5)
+exp_utility_per_capita_type_n_humans_to_plants_values <- seq(0, 3, length.out = 5)
+exp_utility_per_capita_type_n_plants_to_humans_values <- seq(0, 3, length.out = 5)
 ```
 
-```{r 4_U.bn_mUn, cache=TRUE, dependson=c('4_default-values','4_U.bn_mUn-values'), results = 'hide'}
-if(!file.exists('data/4_exp.U.bn_mUn.RData'))
+```{r 4_type_n_traits, cache=TRUE, dependson=c('4_default-values','4_type_n_traits-values'), results = 'hide'}
+if(!file.exists(exp_type_n_traits_expDataFileName))
 {
-  exp.U.bn_mUn <- hpcModel.exploration(
-    iniH = iniH.default,
-    iniP = iniP.default,
-    n.H = n.H.default,         
-    n.P = n.P.default,        
-    v.H = v.H.default,
-    v.P = v.P.default,
-    r.H = r.H.default, 
-    r.P = r.P.default, 
-    mU.PnH = SEQ.mU.PnH, ###
-    mU.HnP = SEQ.mU.HnP, ###
-    mU.P1H = mU.P1H.default,
-    mU.H1P = mU.H1P.default,
-    U.bHn = SEQ.U.bHn, ###
-    U.bPn = SEQ.U.bPn, ###
-    U.bH1 = U.bH1.default,
-    U.bP1 = U.bP1.default,
-    MaxArea = MaxArea.default,
-    maxIt = maxIt.default,
-    tol = tol.default,
-    timing.threshold = timing.threshold.default,
-    messages = FALSE
+  exp_type_n_traits <- hpcModel.exploration(
+    initial_population_humans = initial_population_humans_default,
+    initial_population_plants = initial_population_plants_default,
+    number_types_humans = number_types_humans_default,         
+    number_types_plants = number_types_plants_default,        
+    undirected_variation_humans = undirected_variation_humans_default,
+    undirected_variation_plants = undirected_variation_plants_default,
+    intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+    intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+    utility_per_capita_type_n_plants_to_humans = exp_utility_per_capita_type_n_plants_to_humans_values, ###
+    utility_per_capita_type_n_humans_to_plants = exp_utility_per_capita_type_n_humans_to_plants_values, ###
+    utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_default,
+    utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,
+    utility_other_to_type_n_humans = exp_utility_other_to_type_n_humans_values, ###
+    utility_other_to_type_n_plants = exp_utility_other_to_type_n_plants_values, ###
+    utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,
+    utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,
+    max_area = max_area_default,
+    max_iterations = max_iterations_default,
+    reltol_exponential = reltol_exponential_default,
+    coevolution_threshold = coevolution_threshold_default,
+    messages = messages_default
   )
   # save
-  save(exp.U.bn_mUn, file = 'data/4_exp.U.bn_mUn.RData')
+  save(exp_type_n_traits, file = exp_type_n_traits_expDataFileName)
 }
 ```
 
-```{r 4_exp.U.bn_mUn-load, include=FALSE}
+```{r 4_exp_type_n_traits-load, include=FALSE}
 # load
-load('data/4_exp.U.bn_mUn.RData')
+load(exp_type_n_traits_expDataFileName)
 ```
 
-```{r 4UbnmUntablehtml, eval=!params$ispdf, cache=TRUE, dependson='4_U.bn_mUn'}
-exp.table(exp.U.bn_mUn, caption = 'Parameter setting')
+```{r 4UbnmUntablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_type_n_traits')}
+printTableExperiment(exp_type_n_traits, caption = 'Parameter setting')
 ```
-```{r 4UbnmUntablepdf, eval=params$ispdf, cache=TRUE, dependson='4_U.bn_mUn'}
-exp.table(exp.U.bn_mUn, caption = 'Parameter setting', output = "latex")
+```{r 4UbnmUntablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_type_n_traits')}
+printTableExperiment(exp_type_n_traits, caption = 'Parameter setting', output = "latex")
 ```
 
 \newpage
 
-```{r 4_U.bn_mUn-plot, include=FALSE, cache=TRUE, dependson='4_U.bn_mUn'}
+```{r 4_type_n_traits-plot, include=FALSE, cache=TRUE, dependson='4_type_n_traits'}
 plotScale = 10
 
-png(paste0("plots/4_fourPar-", exp.U.bn_mUn.name, "_plot.png"),
+png(exp_type_n_traits_plotName,
     width = 100 * plotScale, height = 100 * plotScale)
-fourPar.ggplot(exp.U.bn_mUn, 'U.bHn', 'U.bPn', 'mU.HnP', 'mU.PnH', 'coevo.H', 'coevo.P', 
-              xlab = expression(U['bHn']),
-              ylab = expression(U['bPn']),
-              var1lab = expression('coevo'[H]),
-              var2lab = expression('coevo'[P]),
-              plotScale = plotScale)
+tripleRaster_fourParameters(exp_type_n_traits, 
+                            parameter_x = 'utility_other_to_type_n_humans', 
+                            parameter_y = 'utility_other_to_type_n_plants', 
+                            parameter_strip_x = 'utility_per_capita_type_n_humans_to_plants', 
+                            parameter_strip_y = 'utility_per_capita_type_n_plants_to_humans', 
+                            variable_1 = 'coevolution_coefficient_humans', 
+                            variable_2 = 'coevolution_coefficient_plants',
+                            variable_3 = 'time_end',
+                            parameter_x_label = expression(paste('utility of other to type n humans (', U['bHn'], ')')),
+                            parameter_y_label = expression(paste('utility of other to type n plants ( ', U['bPn'], ')')),
+                            variable_1_label = expression('coevo'[H]),
+                            variable_2_label = expression('coevo'[P]),
+                            variable_3_label = expression(t['end']),
+                            plot_scale = plotScale,
+                            strip_parameter_name_max_length = 28, strip_text_size = 0.9)
 dev.off()
 ```
 
-```{r 4_U.bn_mUn-plot-print, echo=FALSE, dependson='4_U.bn_mUn-plot', out.width = '100%'}
-knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bn_mUn.name, "_plot.png"))
+```{r 4_type_n_traits-plot-print, echo=FALSE, dependson='4_type_n_traits-plot', out.width = '100%'}
+knitr::include_graphics(exp_type_n_traits_plotName)
 ```
 
 \newpage
@@ -636,75 +731,88 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bn_mUn.name, "_plot.png
 ## Utility from other resources to type 1 humans and plants and utility per capita of type n humans and plants ($U_{bP_{1}}$ x $U_{bH_{1}}$ x $\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$)
 \sectionmark{$U_{bP_{1}}$ x $U_{bH_{1}}$ x $\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$}
 
-```{r 4_U.b1_mUn_-values, cache=TRUE}
-exp.U.b1_mUn.name <- "U.b1-mUn"
-SEQ.U.bH1 <- seq(5, 300, length.out = 5)
-SEQ.U.bP1 <- seq(5, 300, length.out = 5)
-SEQ.mU.HnP <- seq(0, 3, length.out = 5)
-SEQ.mU.PnH <- seq(0, 3, length.out = 5)
+```{r 4_utility_boundaries_-values, cache=TRUE}
+exp_utility_boundaries_name <- "utility_boundaries"
+
+exp_utility_boundaries_expDataFileName = paste0(dataDirectory, exp_utility_boundaries_name,'.RData')
+exp_utility_boundaries_plotName = paste0(plotDirectory, exp_utility_boundaries_name, "-tripleRaster_fourParameterss.png")
+
+exp_utility_other_to_type_1_humans_values <- seq(5, 300, length.out = 5)
+exp_utility_other_to_type_1_plants_values <- seq(5, 300, length.out = 5)
+exp_utility_per_capita_type_n_humans_to_plants_values <- seq(0, 3, length.out = 5)
+exp_utility_per_capita_type_n_plants_to_humans_values <- seq(0, 3, length.out = 5)
 ```
 
-```{r 4_U.b1_mUn, cache=TRUE, dependson=c('4_default-values','4_U.b1_mUn-values'), results = 'hide'}
-if(!file.exists('data/4_exp.U.b1_mUn.RData'))
+```{r 4_utility_boundaries, cache=TRUE, dependson=c('4_default-values','4_utility_boundaries-values'), results = 'hide'}
+if(!file.exists(exp_utility_boundaries_expDataFileName))
 {
-  exp.U.b1_mUn <- hpcModel.exploration(
-    iniH = iniH.default,
-    iniP = iniP.default,
-    n.H = n.H.default,         
-    n.P = n.P.default,        
-    v.H = v.H.default,
-    v.P = v.P.default,
-    r.H = r.H.default, 
-    r.P = r.P.default, 
-    mU.PnH = SEQ.mU.PnH, ###
-    mU.HnP = SEQ.mU.HnP, ###
-    mU.P1H = mU.P1H.default,
-    mU.H1P = mU.H1P.default,
-    U.bHn = U.bHn.default,
-    U.bPn = U.bPn.default,
-    U.bH1 = SEQ.U.bH1, ###
-    U.bP1 = SEQ.U.bP1, ###
-    MaxArea = MaxArea.default,
-    maxIt = maxIt.default,
-    tol = tol.default,
-    timing.threshold = timing.threshold.default,
-    messages = FALSE
+  exp_utility_boundaries <- hpcModel.exploration(
+    initial_population_humans = initial_population_humans_default,
+    initial_population_plants = initial_population_plants_default,
+    number_types_humans = number_types_humans_default,         
+    number_types_plants = number_types_plants_default,        
+    undirected_variation_humans = undirected_variation_humans_default,
+    undirected_variation_plants = undirected_variation_plants_default,
+    intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+    intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+    utility_per_capita_type_n_plants_to_humans = exp_utility_per_capita_type_n_plants_to_humans_values, ###
+    utility_per_capita_type_n_humans_to_plants = exp_utility_per_capita_type_n_humans_to_plants_values, ###
+    utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_default,
+    utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_default,
+    utility_other_to_type_n_humans = utility_other_to_type_n_humans_default,
+    utility_other_to_type_n_plants = utility_other_to_type_n_plants_default,
+    utility_other_to_type_1_humans = exp_utility_other_to_type_1_humans_values, ###
+    utility_other_to_type_1_plants = exp_utility_other_to_type_1_plants_values, ###
+    max_area = max_area_default,
+    max_iterations = max_iterations_default,
+    reltol_exponential = reltol_exponential_default,
+    coevolution_threshold = coevolution_threshold_default,
+    messages = messages_default
   )
   # save
-  save(exp.U.b1_mUn, file = 'data/4_exp.U.b1_mUn.RData')
+  save(exp_utility_boundaries, file = exp_utility_boundaries_expDataFileName)
 }
 ```
 
-```{r 4_exp.U.b1_mUn-load, include=FALSE}
+```{r 4_exp_utility_boundaries-load, include=FALSE}
 # load
-load('data/4_exp.U.b1_mUn.RData')
+load(exp_utility_boundaries_expDataFileName)
 ```
 
-```{r 4Ub1mUntablehtml, eval=!params$ispdf, cache=TRUE, dependson='4_U.b1_mUn'}
-exp.table(exp.U.b1_mUn, caption = 'Parameter setting')
+```{r 4Ub1mUntablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_utility_boundaries')}
+printTableExperiment(exp_utility_boundaries, caption = 'Parameter setting')
 ```
-```{r 4Ub1mUntablepdf, eval=params$ispdf, cache=TRUE, dependson='4_U.b1_mUn'}
-exp.table(exp.U.b1_mUn, caption = 'Parameter setting', output = "latex")
+```{r 4Ub1mUntablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_utility_boundaries')}
+printTableExperiment(exp_utility_boundaries, caption = 'Parameter setting', output = "latex")
 ```
 
 \newpage
 
-```{r 4_U.b1_mUn-plot, include=FALSE, cache=TRUE, dependson='4_U.b1_mUn'}
+```{r 4_utility_boundaries-plot, include=FALSE, cache=TRUE, dependson='4_utility_boundaries'}
 plotScale = 10
 
-png(paste0("plots/4_fourPar-", exp.U.b1_mUn.name, "_plot.png"),
+png(exp_utility_boundaries_plotName,
     width = 100 * plotScale, height = 100 * plotScale)
-fourPar.ggplot(exp.U.b1_mUn, 'U.bH1', 'U.bP1', 'mU.HnP', 'mU.PnH', 'coevo.H', 'coevo.P', 
-              xlab = expression(U['bH1']),
-              ylab = expression(U['bP1']),
-              var1lab = expression('coevo'[H]),
-              var2lab = expression('coevo'[P]),
-              plotScale = plotScale)
+tripleRaster_fourParameters(exp_utility_boundaries, 
+                            parameter_x = 'utility_other_to_type_1_humans', 
+                            parameter_y = 'utility_other_to_type_1_plants', 
+                            parameter_strip_x = 'utility_per_capita_type_n_humans_to_plants', 
+                            parameter_strip_y = 'utility_per_capita_type_n_plants_to_humans', 
+                            variable_1 = 'coevolution_coefficient_humans', 
+                            variable_2 = 'coevolution_coefficient_plants',
+                            variable_3 = 'time_end',
+                            parameter_x_label = expression(paste('utility of other to type 1 humans (', U['bH1'], ')')),
+                            parameter_y_label = expression(paste('utility of other to type 1 plants ( ', U['bP1'], ')')),
+                            variable_1_label = expression('coevo'[H]),
+                            variable_2_label = expression('coevo'[P]),
+                            variable_3_label = expression(t['end']),
+                            plot_scale = plotScale,
+                            strip_parameter_name_max_length = 28, strip_text_size = 0.9)
 dev.off()
 ```
 
-```{r 4_U.b1_mUn-plot-print, echo=FALSE, dependson='4_U.b1_mUn-plot', out.width = '100%'}
-knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.b1_mUn.name, "_plot.png"))
+```{r 4_utility_boundaries-plot-print, echo=FALSE, dependson='4_utility_boundaries-plot', out.width = '100%'}
+knitr::include_graphics(exp_utility_boundaries_plotName)
 ```
 
 \newpage
@@ -712,74 +820,87 @@ knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.b1_mUn.name, "_plot.png
 ## Utility from other resources to type n humans and plants and utility per capita of type 1 humans and plants ($U_{bP_{n}}$ x $U_{bH_{n}}$ x $\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$)
 \sectionmark{$U_{bP_{n}}$ x $U_{bH_{n}}$ x $\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$}
 
-```{r 4_U.bn_mU1_-values, cache=TRUE}
-exp.U.bn_mU1.name <- "U.bn-mU1"
-SEQ.U.bHn <- seq(5, 300, length.out = 5)
-SEQ.U.bPn <- seq(5, 300, length.out = 5)
-SEQ.mU.H1P <- seq(0, 3, length.out = 5)
-SEQ.mU.P1H <- seq(0, 3, length.out = 5)
+```{r 4_utility_inverse_boundaries_-values, cache=TRUE}
+exp_utility_inverse_boundaries_name <- "utility_inverse_boundaries"
+
+exp_utility_inverse_boundaries_expDataFileName = paste0(dataDirectory, exp_utility_inverse_boundaries_name,'.RData')
+exp_utility_inverse_boundaries_plotName = paste0(plotDirectory, exp_utility_inverse_boundaries_name, "-tripleRaster_fourParameterss.png")
+
+exp_utility_other_to_type_n_humans_values <- seq(5, 300, length.out = 5)
+exp_utility_other_to_type_n_plants_values <- seq(5, 300, length.out = 5)
+exp_utility_per_capita_type_1_humans_to_plants_values <- seq(0, 3, length.out = 5)
+exp_utility_per_capita_type_1_plants_to_humans_values <- seq(0, 3, length.out = 5)
 ```
 
-```{r 4_U.bn_mU1, cache=TRUE, dependson=c('4_default-values','4_U.bn_mU1-values'), results = 'hide'}
-if(!file.exists('data/4_exp.U.bn_mU1.RData'))
+```{r 4_utility_inverse_boundaries, cache=TRUE, dependson=c('4_default-values','4_utility_inverse_boundaries-values'), results = 'hide'}
+if(!file.exists(exp_utility_inverse_boundaries_expDataFileName))
 {
-  exp.U.bn_mU1 <- hpcModel.exploration(
-    iniH = iniH.default,
-    iniP = iniP.default,
-    n.H = n.H.default,         
-    n.P = n.P.default,        
-    v.H = v.H.default,
-    v.P = v.P.default,
-    r.H = r.H.default, 
-    r.P = r.P.default, 
-    mU.PnH = mU.PnH.default,
-    mU.HnP = mU.HnP.default,
-    mU.P1H = SEQ.mU.P1H, ###
-    mU.H1P = SEQ.mU.H1P, ###
-    U.bHn = SEQ.U.bHn, ###
-    U.bPn = SEQ.U.bPn, ###
-    U.bH1 = U.bH1.default,
-    U.bP1 = U.bP1.default,
-    MaxArea = MaxArea.default,
-    maxIt = maxIt.default,
-    tol = tol.default,
-    timing.threshold = timing.threshold.default,
-    messages = FALSE
+  exp_utility_inverse_boundaries <- hpcModel.exploration(
+    initial_population_humans = initial_population_humans_default,
+    initial_population_plants = initial_population_plants_default,
+    number_types_humans = number_types_humans_default,         
+    number_types_plants = number_types_plants_default,        
+    undirected_variation_humans = undirected_variation_humans_default,
+    undirected_variation_plants = undirected_variation_plants_default,
+    intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_default, 
+    intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_default, 
+    utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_default,
+    utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_default,
+    utility_per_capita_type_1_plants_to_humans = exp_utility_per_capita_type_1_plants_to_humans_values, ###
+    utility_per_capita_type_1_humans_to_plants = exp_utility_per_capita_type_1_humans_to_plants_values, ###
+    utility_other_to_type_n_humans = exp_utility_other_to_type_n_humans_values, ###
+    utility_other_to_type_n_plants = exp_utility_other_to_type_n_plants_values, ###
+    utility_other_to_type_1_humans = utility_other_to_type_1_humans_default,
+    utility_other_to_type_1_plants = utility_other_to_type_1_plants_default,
+    max_area = max_area_default,
+    max_iterations = max_iterations_default,
+    reltol_exponential = reltol_exponential_default,
+    coevolution_threshold = coevolution_threshold_default,
+    messages = messages_default
   )
   # save
-  save(exp.U.bn_mU1, file = 'data/4_exp.U.bn_mU1.RData')
+  save(exp_utility_inverse_boundaries, file = exp_utility_inverse_boundaries_expDataFileName)
 }
 ```
 
-```{r 4_exp.U.bn_mU1-load, include=FALSE}
+```{r 4_exp_utility_inverse_boundaries-load, include=FALSE}
 # load
-load('data/4_exp.U.bn_mU1.RData')
+load(exp_utility_inverse_boundaries_expDataFileName)
 ```
 
-```{r 4UbnmU1tablehtml, eval=!params$ispdf, cache=TRUE, dependson='4_U.bn_mU1'}
-exp.table(exp.U.bn_mU1, caption = 'Parameter setting')
+```{r 4UbnmU1tablehtml, eval=!params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_utility_inverse_boundaries')}
+printTableExperiment(exp_utility_inverse_boundaries, caption = 'Parameter setting')
 ```
-```{r 4UbnmU1tablepdf, eval=params$ispdf, cache=TRUE, dependson='4_U.bn_mU1'}
-exp.table(exp.U.bn_mU1, caption = 'Parameter setting', output = "latex")
+```{r 4UbnmU1tablepdf, eval=params$ispdf, cache=TRUE, dependson=c('4_table-functions','4_utility_inverse_boundaries')}
+printTableExperiment(exp_utility_inverse_boundaries, caption = 'Parameter setting', output = "latex")
 ```
 
 \newpage
 
-```{r 4_U.bn_mU1-plot, include=FALSE, cache=TRUE, dependson='4_U.bn_mU1'}
+```{r 4_utility_inverse_boundaries-plot, include=FALSE, cache=TRUE, dependson='4_utility_inverse_boundaries'}
 plotScale = 10
 
-png(paste0("plots/4_fourPar-", exp.U.bn_mU1.name, "_plot.png"),
+png(exp_utility_inverse_boundaries_plotName,
     width = 100 * plotScale, height = 100 * plotScale)
-fourPar.ggplot(exp.U.bn_mU1, 'U.bHn', 'U.bPn', 'mU.H1P', 'mU.P1H', 'coevo.H', 'coevo.P', 
-              xlab = expression(U['bHn']),
-              ylab = expression(U['bPn']),
-              var1lab = expression('coevo'[H]),
-              var2lab = expression('coevo'[P]),
-              plotScale = plotScale)
+tripleRaster_fourParameters(exp_utility_inverse_boundaries, 
+                            parameter_x = 'utility_other_to_type_n_humans', 
+                            parameter_y = 'utility_other_to_type_n_plants', 
+                            parameter_strip_x = 'utility_per_capita_type_1_humans_to_plants', 
+                            parameter_strip_y = 'utility_per_capita_type_1_plants_to_humans', 
+                            variable_1 = 'coevolution_coefficient_humans', 
+                            variable_2 = 'coevolution_coefficient_plants',
+                            variable_3 = 'time_end',
+                            parameter_x_label = expression(paste('utility of other to type n humans (', U['bHn'], ')')),
+                            parameter_y_label = expression(paste('utility of other to type n plants ( ', U['bPn'], ')')),
+                            variable_1_label = expression('coevo'[H]),
+                            variable_2_label = expression('coevo'[P]),
+                            variable_3_label = expression(t['end']),
+                            plot_scale = plotScale,
+                            strip_parameter_name_max_length = 28, strip_text_size = 0.9)
 dev.off()
 ```
 
-```{r 4_U.bn_mU1-plot-print, echo=FALSE, dependson='4_U.bn_mU1-plot', out.width = '100%'}
-knitr::include_graphics(paste0("plots/4_fourPar-", exp.U.bn_mU1.name, "_plot.png"))
+```{r 4_utility_inverse_boundaries-plot-print, echo=FALSE, dependson='4_utility_inverse_boundaries-plot', out.width = '100%'}
+knitr::include_graphics(exp_utility_inverse_boundaries_plotName)
 ```
 
