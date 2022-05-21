@@ -1,36 +1,37 @@
 hpcModel.exploration <- function(
   # initial populations
-  iniH = 10,
-  iniP = 10,
+  initial_population_humans = 10,
+  initial_population_plants = 10,
   # number of discrete types
-  n.H = 30,         
-  n.P = 30,        
+  number_types_humans = 30,         
+  number_types_plants = 30,        
   # undirected variation 
-  v.H = 0.15,
-  v.P = 0.15,
+  undirected_variation_humans = 0.15,
+  undirected_variation_plants = 0.15,
   # intrinsic growth rate 
-  r.H = 0.04, 
-  r.P = 0.1, 
+  intrinsic_growth_rate_humans = 0.04, 
+  intrinsic_growth_rate_plants = 0.1, 
   # Utility per capita of individuals of type N
-  mU.PnH = 1.5,
-  mU.HnP = 1,
+  utility_per_capita_type_n_plants_to_humans = 1.5,
+  utility_per_capita_type_n_humans_to_plants = 1,
   # Utility per capita of individuals of type 1
-  mU.P1H = 0.15,                                  
-  mU.H1P = 0,                                   
+  utility_per_capita_type_1_plants_to_humans = 0.15,                                  
+  utility_per_capita_type_1_humans_to_plants = 0,                                   
   # basic resources:
   # population of type N that can be sustained by resources independent of HP relationship
-  U.bHn = 10,                                
-  U.bPn = 20, 
+  utility_other_to_type_n_humans = 10,                                
+  utility_other_to_type_n_plants = 20, 
   # population of type 1 that can be sustained by resources independent of HP relationship
-  U.bH1 = 80,                               
-  U.bP1 = 100,                                
+  utility_other_to_type_1_humans = 80,                               
+  utility_other_to_type_1_plants = 100,                                
   # maximum local area to be used by plant population
-  MaxArea = 200, 
+  max_area = 200, 
   # settings 
-  # simulation flow & data
-  maxIt = 5000,
-  tol = 6,
-  timing.threshold = 0.5,
+  # simulation flow
+  max_iterations = 5000,
+  reltol_exponential = 6,
+  coevolution_threshold = 0.5,
+  # other options
   messages = TRUE
 )
 {
@@ -38,34 +39,40 @@ hpcModel.exploration <- function(
   #source('hpModel.run.R')
   
   # acumulabe 
-  DF <- data.frame()
+  dataFrame <- data.frame()
   
   if (messages) { 
     i = 1 # experiment index for console messages
-    N = (length(r.H) * length(r.P) * length(U.bH1) * length(U.bP1) * length(mU.PnH) * length(mU.HnP) *
-           length(n.H) * length(n.P) * length(v.H) * length(v.P) * length(iniH) * length(iniP) *
-           length(mU.P1H) * length(mU.H1P) * length(U.bHn) * length(U.bPn) * length(MaxArea))
+    N = (length(initial_population_humans) * length(initial_population_plants) * 
+           length(number_types_humans) * length(number_types_plants) * 
+           length(undirected_variation_humans) * length(undirected_variation_plants) * 
+           length(intrinsic_growth_rate_humans) * length(intrinsic_growth_rate_plants) * 
+           length(utility_per_capita_type_n_plants_to_humans) * length(utility_per_capita_type_n_humans_to_plants) *
+           length(utility_per_capita_type_1_plants_to_humans) * length(utility_per_capita_type_1_humans_to_plants) * 
+           length(utility_other_to_type_n_humans) * length(utility_other_to_type_n_plants) * 
+           length(utility_other_to_type_1_humans) * length(utility_other_to_type_1_plants) * 
+           length(max_area))
     cat(paste('done\niterating parameters values (total number of combinations = ', N, '\n'))
   }
   
   # iterate for all values of every parameter
-  for (r.H.i in r.H) {
-    for (r.P.i in r.P) {
-      for (U.bH1.i in U.bH1) {
-        for (U.bP1.i in U.bP1) {
-          for (mU.PnH.i in mU.PnH) {
-            for (mU.HnP.i in mU.HnP) {
-              for (n.H.i in n.H) {
-                for (n.P.i in n.P) {
-                  for (v.H.i in v.H) {
-                    for (v.P.i in v.P) {
-                      for (iniH.i in iniH) {
-                        for (iniP.i in iniP) {
-                          for (mU.P1H.i in mU.P1H) {
-                            for (mU.H1P.i in mU.H1P) {
-                              for (U.bHn.i in U.bHn) {
-                                for (U.bPn.i in U.bPn) {
-                                  for (MaxArea.i in MaxArea) {
+for (initial_population_humans_i in initial_population_humans) {
+  for (initial_population_plants_i in initial_population_plants) {
+    for (number_types_humans_i in number_types_humans) {
+      for (number_types_plants_i in number_types_plants) {
+        for (undirected_variation_humans_i in undirected_variation_humans) {
+          for (undirected_variation_plants_i in undirected_variation_plants) {
+            for (intrinsic_growth_rate_humans_i in intrinsic_growth_rate_humans) {
+              for (intrinsic_growth_rate_plants_i in intrinsic_growth_rate_plants) {
+                for (utility_per_capita_type_n_plants_to_humans_i in utility_per_capita_type_n_plants_to_humans) {
+                  for (utility_per_capita_type_n_humans_to_plants_i in utility_per_capita_type_n_humans_to_plants) {
+                    for (utility_per_capita_type_1_plants_to_humans_i in utility_per_capita_type_1_plants_to_humans) {
+                      for (utility_per_capita_type_1_humans_to_plants_i in utility_per_capita_type_1_humans_to_plants) {
+                        for (utility_other_to_type_n_humans_i in utility_other_to_type_n_humans) {
+                          for (utility_other_to_type_n_plants_i in utility_other_to_type_n_plants) {
+                            for (utility_other_to_type_1_humans_i in utility_other_to_type_1_humans) {
+                              for (utility_other_to_type_1_plants_i in utility_other_to_type_1_plants) {
+                                for (max_area_i in max_area) {
                                     
                                     if (messages) { 
                                       cat(paste('===========================================\nexperiment ', i, ' of ', N, '\n'))
@@ -73,34 +80,34 @@ hpcModel.exploration <- function(
                                     }
                                     
                                     RUN <- hpcModel.run(
-                                      iniH = iniH.i, 
-                                      iniP = iniP.i,
-                                      r.H = r.H.i, 
-                                      r.P = r.P.i,
-                                      n.H = n.H.i, 
-                                      n.P = n.P.i,
-                                      v.H = v.H.i, 
-                                      v.P = v.P.i,
-                                      mU.PnH = mU.PnH.i,
-                                      mU.HnP = mU.HnP.i,
-                                      mU.P1H = mU.P1H.i, 
-                                      mU.H1P = mU.H1P.i,
-                                      U.bH1 = U.bH1.i, 
-                                      U.bP1 = U.bP1.i,
-                                      U.bHn = U.bHn.i, 
-                                      U.bPn = U.bPn.i,
-                                      MaxArea = MaxArea.i,
+                                      initial_population_humans = initial_population_humans_i, 
+                                      initial_population_plants = initial_population_plants_i,
+                                      number_types_humans = number_types_humans_i, 
+                                      number_types_plants = number_types_plants_i,
+                                      undirected_variation_humans = undirected_variation_humans_i, 
+                                      undirected_variation_plants = undirected_variation_plants_i,
+                                      intrinsic_growth_rate_humans = intrinsic_growth_rate_humans_i, 
+                                      intrinsic_growth_rate_plants = intrinsic_growth_rate_plants_i,
+                                      utility_per_capita_type_n_plants_to_humans = utility_per_capita_type_n_plants_to_humans_i,
+                                      utility_per_capita_type_n_humans_to_plants = utility_per_capita_type_n_humans_to_plants_i,
+                                      utility_per_capita_type_1_plants_to_humans = utility_per_capita_type_1_plants_to_humans_i, 
+                                      utility_per_capita_type_1_humans_to_plants = utility_per_capita_type_1_humans_to_plants_i,
+                                      utility_other_to_type_n_humans = utility_other_to_type_n_humans_i, 
+                                      utility_other_to_type_n_plants = utility_other_to_type_n_plants_i,
+                                      utility_other_to_type_1_humans = utility_other_to_type_1_humans_i, 
+                                      utility_other_to_type_1_plants = utility_other_to_type_1_plants_i,
+                                      max_area = max_area_i,
                                       # fixed settings
-                                      maxIt = maxIt,
-                                      tol = tol,
-                                      timing.threshold = timing.threshold,
-                                      saveTrajectories = FALSE,
+                                      max_iterations = max_iterations,
+                                      reltol_exponential = reltol_exponential,
+                                      coevolution_threshold = coevolution_threshold,
+                                      save_trajectories = FALSE,
                                       messages = messages,
-                                      plot.preview = FALSE, 
-                                      plot.save = FALSE
+                                      plot_preview = FALSE, 
+                                      plot_save = FALSE
                                     )
                                     
-                                    DF <- rbind(DF, c(RUN$PARS, RUN$END))
+                                    dataFrame <- rbind(dataFrame, c(RUN$PARAMETERS, RUN$END))
                                   }
                                 }
                               }
@@ -121,5 +128,5 @@ hpcModel.exploration <- function(
   
   if (messages) { cat('experiments finished.') }
   
-  return(DF)
+  return(dataFrame)
 }
