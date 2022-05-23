@@ -90,7 +90,7 @@
 
 \title{Human-Plant Coevolution (HPC) modelGeneral exploration and parameter sensitivity analysis}
 \author{}
-\date{\vspace{-2.5em}2020-06-10}
+\date{\vspace{-2.5em}2022-05-21}
 
 \begin{document}
 \maketitle
@@ -338,7 +338,9 @@ The fitness of human types is modified by the relative weight of plant utility i
 
 \newpage
 
-\textbf{\emph{Parameters}}
+\hypertarget{parameters-and-variables}{%
+\section*{Parameters and variables}\label{parameters-and-variables}}
+\addcontentsline{toc}{section}{Parameters and variables}
 
 \begin{longtable}[]{@{}lll@{}}
 \caption{Parameters}\tabularnewline
@@ -363,100 +365,126 @@ Description\strut
 \midrule
 \endhead
 \begin{minipage}[t]{0.27\columnwidth}\raggedright
-\texttt{iniH}, \texttt{iniP}\strut
+\texttt{initial\_population\_humans}, \texttt{initial\_population\_plants}\strut
 \end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
 \(ini_{H},\,ini_{P}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
 \textbf{initial populations of humans and plants}\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.27\columnwidth}\raggedright
-\texttt{n.H}, \texttt{n.P}\strut
+\texttt{number\_types\_humans}, \texttt{number\_types\_plants}\strut
 \end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
 \(n_{H},\,n_{P}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
 \textbf{number of types of humans and plants}. The number of phenotypic variants of each population that relate to human-plant coevolution. Types are arbitrarily ordered from type \(1\) (\emph{less} mutualistic) to type \(n\) (\emph{more} mutualistic).\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.27\columnwidth}\raggedright
-\texttt{v.H}, \texttt{v.P}\strut
+\texttt{undirected\_variation\_humans}, \texttt{undirected\_variation\_plants}\strut
 \end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
 \(v_{H},\,v_{P}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
 \textbf{level of undirected variation in humans and plants}. For any value greater than zero, these parameters regulate how even is the distribution of a population among its types.\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.27\columnwidth}\raggedright
-\texttt{r.H}, \texttt{r.P}\strut
+\texttt{intrinsic\_growth\_rate\_humans}, \texttt{intrinsic\_growth\_rate\_plants}\strut
 \end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
 \(r_{H},\,r_{P}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
 \textbf{intrinsic growth rates for human and plant populations}. The maximum rate at which a population grows when there are no external constraints.\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.27\columnwidth}\raggedright
-\texttt{mU.PnH}\strut
+\texttt{utility\_per\_capita\_type\_n\_plants\_to\_humans}\strut
 \end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
 \(\bar{U}_{P_{n}H}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
 utility per capita of \textbf{type} \(n\) \textbf{plants} to \textbf{humans}\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.27\columnwidth}\raggedright
-\texttt{mU.HnP}\strut
-\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
-\(\bar{U}_{H_{n}P}\)\strut
-\end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
-utility per capita of \textbf{type} \(n\) \textbf{humans} to \textbf{plants}\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.27\columnwidth}\raggedright
-\texttt{mU.P1H}\strut
+\texttt{utility\_per\_capita\_type\_1\_plants\_to\_humans}\strut
 \end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
 \(\bar{U}_{P_{1}H}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
 utility per capita of \textbf{type} \(1\) \textbf{plants} to \textbf{humans}\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.27\columnwidth}\raggedright
-\texttt{mU.H1P}\strut
+\texttt{utility\_per\_capita\_type\_n\_humans\_to\_plants}\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+\(\bar{U}_{H_{n}P}\)\strut
+\end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
+utility per capita of \textbf{type} \(n\) \textbf{humans} to \textbf{plants}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.27\columnwidth}\raggedright
+\texttt{utility\_per\_capita\_type\_1\_humans\_to\_plants}\strut
 \end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
 \(\bar{U}_{H_{1}P}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
 utility per capita of \textbf{type} \(1\) \textbf{humans} to \textbf{plants}\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.27\columnwidth}\raggedright
-\texttt{U.bH1}\strut
-\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
-\(U_{bH_{1}}\)\strut
-\end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
-utility of \textbf{other resources} to \textbf{type} \(1\) \textbf{humans} or the baseline carrying capacity for humans of type \(1\); i.e.~that independent of plants.\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.27\columnwidth}\raggedright
-\texttt{U.bP1}\strut
-\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
-\(U_{bP_{1}}\)\strut
-\end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
-utility of \textbf{other resources} to \textbf{type} \(1\) \textbf{plants} or the baseline carrying capacity for plants of type \(1\); i.e.~that independent of humans. (non-anthropic space)\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.27\columnwidth}\raggedright
-\texttt{U.bHn}\strut
-\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
-\(U_{bH_{n}}\)\strut
-\end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
-utility of \textbf{other resources} to \textbf{type} \(n\) \textbf{humans} or the baseline carrying capacity for humans of type \(n\), i.e.~that independent of plants\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.27\columnwidth}\raggedright
-\texttt{U.bPn}\strut
+\texttt{utility\_other\_to\_type\_n\_plants}\strut
 \end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
 \(U_{bP_{n}}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
 utility of \textbf{other resources} to \textbf{type} \(n\) \textbf{plants} or the baseline carrying capacity for plants of type \(n\); i.e.~that independent of humans.\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.27\columnwidth}\raggedright
-\texttt{MaxArea}\strut
+\texttt{utility\_other\_to\_type\_1\_plants}\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+\(U_{bP_{1}}\)\strut
+\end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
+utility of \textbf{other resources} to \textbf{type} \(1\) \textbf{plants} or the baseline carrying capacity for plants of type \(1\); i.e.~that independent of humans. (non-anthropic space)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.27\columnwidth}\raggedright
+\texttt{utility\_other\_to\_type\_n\_humans}\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+\(U_{bH_{n}}\)\strut
+\end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
+utility of \textbf{other resources} to \textbf{type} \(n\) \textbf{humans} or the baseline carrying capacity for humans of type \(n\), i.e.~that independent of plants.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.27\columnwidth}\raggedright
+\texttt{utility\_other\_to\_type\_1\_humans}\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+\(U_{bH_{1}}\)\strut
+\end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
+utility of \textbf{other resources} to \textbf{type} \(1\) \textbf{humans} or the baseline carrying capacity for humans of type \(1\); i.e.~that independent of plants.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.27\columnwidth}\raggedright
+\texttt{max\_area}\strut
 \end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
 \(MaxArea\)\strut
 \end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
 \textbf{Maximum number of plant population units fitting the contiguous area available}. It is used as the maximum carrying capacity for plants.\strut
 \end{minipage}\tabularnewline
+\begin{minipage}[t]{0.27\columnwidth}\raggedright
+\textbf{Simulation flow control}\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
+\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.27\columnwidth}\raggedright
+\texttt{max\_iterations}\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+\(time_{max}\)\strut
+\end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
+maximum number of iterations allowed before halting a simulation run.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.27\columnwidth}\raggedright
+\texttt{reltol\_exponential}\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+\(\epsilon\)\strut
+\end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
+base 10 negative exponential controlling how small population change must be to halt a simulation run.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.27\columnwidth}\raggedright
+\texttt{coevolution\_threshold}\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+\(\theta\)\strut
+\end{minipage} & \begin{minipage}[t]{0.40\columnwidth}\raggedright
+value between -1 and 1 to which to compare coevolution coefficients and decide if qualitative shift in type proportions has happened, so timing can be registered (see ``Table: Variables (output only)'' below).\strut
+\end{minipage}\tabularnewline
 \bottomrule
 \end{longtable}
-
-\newpage
 
 \begin{longtable}[]{@{}lll@{}}
 \caption{Variables}\tabularnewline
@@ -481,70 +509,70 @@ Description\strut
 \midrule
 \endhead
 \begin{minipage}[t]{0.36\columnwidth}\raggedright
-\texttt{H}, \texttt{P}\strut
+\texttt{humans}, \texttt{plants}\strut
 \end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
 \(H[t],\,P[t]\)\strut
 \end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
 \textbf{Human and plant populations} at time \(t\). Population units are abstract, arbitrarily defined units that can express individuals, working hours, households, etc. (humans), and sprouts, certain amount of biomass, soil surface, etc. (plants)\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.36\columnwidth}\raggedright
-\texttt{K.H}, \texttt{K.P}\strut
+\texttt{carrying\_capacity\_humans}, \texttt{carrying\_capacity\_plants}\strut
 \end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
 \(K_{H}[t],\,K_{P}[t]\)\strut
 \end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
 \textbf{Carrying capacity} to human and plant populations or maximum population at time \(t\), expressed in population units\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.36\columnwidth}\raggedright
-\texttt{U.HP}, \texttt{U.PH}\strut
+\texttt{utility\_humans\_to\_plants}, \texttt{utility\_plants\_to\_humans}\strut
 \end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
 \(U_{HP}[t],\,U_{PH}[t]\)\strut
 \end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
 \textbf{Utility of one population to the other} or the total contribution of a population to the carrying capacity of the other population at time \(t\), expressed in population units\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.36\columnwidth}\raggedright
-\texttt{U.bH}, \texttt{U.bP}\strut
+\texttt{utility\_other\_to\_humans}, \texttt{utility\_other\_to\_plants}\strut
 \end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
 \(U_{bH}[t],\,U_{bP}[t]\)\strut
 \end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
 \textbf{Utility of other resources to a population} at time \(t\), expressed in population units (baseline carrying capacity)\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.36\columnwidth}\raggedright
-\texttt{types.H}, \texttt{types.P}\strut
+\texttt{type\_indexes\_humans}, \texttt{type\_indexes\_plants}\strut
 \end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
 \(types_{H},\,types_{P}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
 Population types, arbitrarily ordered from \(1\) to \(n\) (vector or array).\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.36\columnwidth}\raggedright
-\texttt{pop.H}, \texttt{pop.P}\strut
+\texttt{type\_proportions\_humans}, \texttt{type\_proportions\_plants}\strut
 \end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
 \(pop_{H_{i}}[t],\,pop_{P_{i}}[t]\)\strut
 \end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
 \textbf{Proportion of a population} belonging to type \(i\) at time \(t\) (vector or array).\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.36\columnwidth}\raggedright
-\texttt{mU.HP.per.type}, \texttt{mU.PH.per.type}\strut
+\texttt{type\_utility\_per\_capita\_humans\_to\_plants}, \texttt{type\_utility\_per\_capita\_plants\_to\_humans}\strut
 \end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
 \(\bar{U}_{H_{i}P},\,\bar{U}_{P_{i}H}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
 \textbf{Utility per capita} of type \(i\) individuals of one population to the other (vector or array).\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.36\columnwidth}\raggedright
-\texttt{U.bH.per.type}, \texttt{U.bP.per.type}\strut
+\texttt{type\_utility\_other\_to\_humans}, \texttt{type\_utility\_other\_to\_plants}\strut
 \end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
 \(U_{bH_{i}},\,U_{bP_{i}}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
 \textbf{Utility of other resources} to type \(i\) individuals of a population (vector or array).\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.36\columnwidth}\raggedright
-\texttt{fitness.H}, \texttt{fitness.P}\strut
+\texttt{type\_fitness\_humans}, \texttt{type\_fitness\_plants}\strut
 \end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
 \(fitness_{H_{i}}[t]\), \(fitness_{P_{i}}[t]\)\strut
 \end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
 \textbf{Fitness score} of type \(i\) individuals of a population at time \(t\) (vector or array).\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.36\columnwidth}\raggedright
-\texttt{d.H}, \texttt{d.P}\strut
+\texttt{population\_change\_humans}, \texttt{population\_change\_plants}\strut
 \end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
 \(\Delta H[t],\,\Delta P[t]\)\strut
 \end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
@@ -559,7 +587,7 @@ Population types, arbitrarily ordered from \(1\) to \(n\) (vector or array).\str
 \section*{End-states}\label{end-states}}
 \addcontentsline{toc}{section}{End-states}
 
-A simulation ends when both populations and their respective type distributions are stable; i.e no further change occurs given current conditions. More specifically, a state is considered stable when the difference in variables between time \(t\) and \(t-1\) is very small (e.g.~less than \(10e^{-6}\)). End-states defined by unchanged variables are known as stationary points. Exceptionally, under certain parameter settings, the HPC model does not converge into a stationary point but enters an oscillatory state. To handle these rare cases and others producing extremely slow-paced dynamics, simulations are interrupted regardless of the conditions after a certain number of iterations (\texttt{maxIter}, in the implementation in R).
+A simulation ends when both populations and their respective type distributions are stable; i.e no further change occurs given current conditions. More specifically, we use the \emph{RelTol} method to decide if the absolute difference between the populations between time \(t\) and \(t-1\) are very small, less than \(10^{-\epsilon}\) (see \texttt{reltol\_exponential} in ``Table: Parameters'') where \(\epsilon=6\) in our default setting. End-states defined by unchanged variables are known as stationary points. Exceptionally, under certain parameter settings, the HPC model does not converge into a stationary point but enters an oscillatory state. To handle these rare cases and others producing extremely slow-paced dynamics, simulations are interrupted regardless of the conditions after a certain number of iterations (\(time_{max}\) or \texttt{max\_iterations} in the implementation in R).
 
 \newpage
 
@@ -602,28 +630,28 @@ Description\strut
 \midrule
 \endhead
 \begin{minipage}[t]{0.36\columnwidth}\raggedright
-\texttt{coevo.H}, \texttt{coevo.P}\strut
+\texttt{coevolution\_coefficient\_humans}, \texttt{coevolution\_coefficient\_plants}\strut
 \end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
 \(coevo_{H},\,coevo_{P}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
 \textbf{Coevolution coefficients}. A coefficient representing the distribution of the proportion of a population per type (\(pop_{A_1}\) to \(pop_{A_n}\)) weighted by type index (\(1\) to \(n\)). Each indicates \emph{if} and \emph{how much} the population distribution has been modified by the coevolutionary process. Their values range between -1, the entire population is of type \(1\), and 1, the entire population is of type \(n\).\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.36\columnwidth}\raggedright
-\texttt{depend.H}, \texttt{depend.P}\strut
+\texttt{dependency\_coefficient\_humans}, \texttt{dependency\_coefficient\_plants}\strut
 \end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
 \(depend_{H},\,depend_{P}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
 \textbf{Dependency coefficients}. The slope of the linear model of the fitness score per type (\(fitness_{A_1}\) to \(fitness_{A_n}\)) using type index (\(1\) to \(n\)). Indicate \emph{if} and \emph{how much} the overall fitness score of a population is dependent on the other population.\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.36\columnwidth}\raggedright
-\texttt{timing.H}, \texttt{timing.P}\strut
+\texttt{timing\_humans}, \texttt{timing\_plants}\strut
 \end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
 \(timing_{H},\,timing_{P}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
-\textbf{Iterations past} until \textbf{coevolution} successfully changes the proportions of population per type; generally, when \(pop_{A_1}\gg pop_{A_n}\) or, more specifically, \(coevo_A>timing.threshold\).\strut
+\textbf{Iterations past} until \textbf{coevolution} successfully changes the proportions of population per type; generally, when \(pop_{A_1}\gg pop_{A_n}\) or, more specifically, \(coevo_A>\theta\).\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.36\columnwidth}\raggedright
-\texttt{time}\strut
+\texttt{time\_end}\strut
 \end{minipage} & \begin{minipage}[t]{0.21\columnwidth}\raggedright
 \(t_{end}\)\strut
 \end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
@@ -654,51 +682,51 @@ Another kind of attractor, oscillations, exists. A special case of oscillation o
 
 \begin{table}[!h]
 
-\caption{\label{tab:1runcoevocoetaparspdf}Parameter setting}
+\caption{\label{tab:1runcoevolutionsametimingparspdf}Parameter setting}
 \centering
 \begin{tabular}[t]{l|l}
 \hline
 parameter & values\\
 \hline
-iniH & 10\\
+initial\_population\_humans & 10\\
 \hline
-iniP & 10\\
+initial\_population\_plants & 10\\
 \hline
-n.H & 30\\
+number\_types\_humans & 30\\
 \hline
-n.P & 30\\
+number\_types\_plants & 30\\
 \hline
-v.H & 0.15\\
+undirected\_variation\_humans & 0.15\\
 \hline
-v.P & 0.15\\
+undirected\_variation\_plants & 0.15\\
 \hline
-r.H & 0.04\\
+intrinsic\_growth\_rate\_humans & 0.04\\
 \hline
-r.P & 0.1\\
+intrinsic\_growth\_rate\_plants & 0.1\\
 \hline
-mU.PnH & 1.5\\
+utility\_per\_capita\_type\_n\_plants\_to\_humans & 1.5\\
 \hline
-mU.HnP & 1\\
+utility\_per\_capita\_type\_n\_humans\_to\_plants & 1\\
 \hline
-mU.P1H & 0.15\\
+utility\_per\_capita\_type\_1\_plants\_to\_humans & 0.15\\
 \hline
-mU.H1P & 0\\
+utility\_per\_capita\_type\_1\_humans\_to\_plants & 0\\
 \hline
-U.bHn & 10\\
+utility\_other\_to\_type\_n\_humans & 10\\
 \hline
-U.bPn & 20\\
+utility\_other\_to\_type\_n\_plants & 20\\
 \hline
-U.bH1 & 80\\
+utility\_other\_to\_type\_1\_humans & 80\\
 \hline
-U.bP1 & 100\\
+utility\_other\_to\_type\_1\_plants & 100\\
 \hline
-MaxArea & 200\\
+max\_area & 200\\
 \hline
-maxIt & 5000\\
+max\_iterations & 5000\\
 \hline
-tol & 6\\
+reltol\_exponential & 6\\
 \hline
-timing.threshold & 0.5\\
+coevolution\_threshold & 0.5\\
 \hline
 \end{tabular}
 \end{table}
@@ -715,28 +743,26 @@ Abbreviation & Value\tabularnewline
 Abbreviation & Value\tabularnewline
 \midrule
 \endhead
-\texttt{time} & 699\tabularnewline
-\texttt{coevo.H} & 0.6913054\tabularnewline
-\texttt{coevo.P} & 0.6763894\tabularnewline
-\texttt{depend.H} & 0.8855591\tabularnewline
-\texttt{depend.P} & 0.8058295\tabularnewline
-\texttt{timing.H} & 236\tabularnewline
-\texttt{timing.P} & 252\tabularnewline
+\texttt{time\_end} & 699\tabularnewline
+\texttt{coevolution\_coefficient\_humans} & 0.6913054\tabularnewline
+\texttt{coevolution\_coefficient\_plants} & 0.6763894\tabularnewline
+\texttt{dependency\_coefficient\_humans} & 0.8855591\tabularnewline
+\texttt{dependency\_coefficient\_plants} & 0.8058295\tabularnewline
+\texttt{timing\_humans} & 236\tabularnewline
+\texttt{timing\_plants} & 252\tabularnewline
 \bottomrule
 \end{longtable}
 
 \newpage
 
 \begin{figure}
-\centering
-\includegraphics{hpcModel-exploration_files/figure-latex/1runcoevocoetaplot-1.pdf}
-\caption{\label{fig:1runcoevocoetaplot}Plotting the end state, i.e.~both populations become stationary}
+\includegraphics[width=1\linewidth]{plots/1_singleRun_coevolution-sameTiming_defaultPlot} \caption{Plotting the end state, i.e. both populations become stationary}\label{fig:1runcoevolutionsametimingdefaultplot}
 \end{figure}
 
 \newpage
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{plots/1_singleRun-ggplot-run.coevo.coeta} \caption{Plotting population trajectories with ggplot2}\label{fig:1runcoevocoetaggplotprint}
+\includegraphics[width=1\linewidth]{plots/1_singleRun_coevolution-sameTiming_ggplot} \caption{Plotting population trajectories with ggplot2}\label{fig:1runcoevolutionsametimingggplotprint}
 \end{figure}
 
 \newpage
@@ -747,65 +773,65 @@ Abbreviation & Value\tabularnewline
 \hypertarget{no-coevolution}{%
 \section{No coevolution}\label{no-coevolution}}
 
-\includegraphics{hpcModel-exploration_files/figure-latex/1_run.no.coevo-plot-1.pdf}
+\includegraphics{hpcModel-exploration_files/figure-latex/1_run_noCoevolution-plot-1.pdf}
 
 \newpage
 
 \hypertarget{coevolution-with-early-cultivation}{%
 \section{Coevolution with early cultivation}\label{coevolution-with-early-cultivation}}
 
-\includegraphics{hpcModel-exploration_files/figure-latex/1_run.coevo.early.cult-plot-1.pdf}
+\includegraphics{hpcModel-exploration_files/figure-latex/1_run_coevolution_earlyHumanChange-plot-1.pdf}
 
 \newpage
 
 \hypertarget{coevolution-with-early-domestication}{%
 \section{Coevolution with early domestication}\label{coevolution-with-early-domestication}}
 
-\includegraphics{hpcModel-exploration_files/figure-latex/1_run.coevo.early.dom-plot-1.pdf}
+\includegraphics{hpcModel-exploration_files/figure-latex/1_run_coevolution_earlyPlantChange-plot-1.pdf}
 
 \newpage
 
 \hypertarget{cultivation-without-domestication}{%
 \section{Cultivation without domestication}\label{cultivation-without-domestication}}
 
-\includegraphics{hpcModel-exploration_files/figure-latex/1_run.cult.without.dom-plot-1.pdf}
+\includegraphics{hpcModel-exploration_files/figure-latex/1_run_partialCoevolution_noPlantChange-plot-1.pdf}
 
 \newpage
 
 \hypertarget{coevolution-with-population-bleep}{%
 \section{Coevolution with population ``bleep''}\label{coevolution-with-population-bleep}}
 
-\includegraphics{hpcModel-exploration_files/figure-latex/1_run.coevo.bleep-plot-1.pdf}
+\includegraphics{hpcModel-exploration_files/figure-latex/1_run_coevolution_bleep-plot-1.pdf}
 
 \newpage
 
 \hypertarget{coevolution-with-population-boom}{%
 \section{Coevolution with population ``boom''}\label{coevolution-with-population-boom}}
 
-\includegraphics{hpcModel-exploration_files/figure-latex/1_run.coevo.boom-plot-1.pdf}
+\includegraphics{hpcModel-exploration_files/figure-latex/1_run_coevolution_boom-plot-1.pdf}
 
 \newpage
 
 \hypertarget{coevolution-with-long-population-boom}{%
 \section{Coevolution with long population ``boom''}\label{coevolution-with-long-population-boom}}
 
-\includegraphics{hpcModel-exploration_files/figure-latex/1_run.coevo.long.boom-plot-1.pdf}
+\includegraphics{hpcModel-exploration_files/figure-latex/1_run_coevolution_longBoom-plot-1.pdf}
 
 \newpage
 
 \hypertarget{semi-coevolution-stationary-point}{%
 \section{Semi-coevolution (stationary point)}\label{semi-coevolution-stationary-point}}
 
-\includegraphics{hpcModel-exploration_files/figure-latex/1_run.semicoevo-plot-1.pdf}
+\includegraphics{hpcModel-exploration_files/figure-latex/1_run_partialCoevolution-plot-1.pdf}
 
 \newpage
 
 \hypertarget{semi-coevolution-oscillations}{%
 \section{Semi-coevolution (oscillations)}\label{semi-coevolution-oscillations}}
 
-\includegraphics{hpcModel-exploration_files/figure-latex/1_run.semicoevo.osc1-plot-1.pdf}
+\includegraphics{hpcModel-exploration_files/figure-latex/1_run_partialCoevolution_oscillation1-plot-1.pdf}
 
-\includegraphics{hpcModel-exploration_files/figure-latex/1_run.semicoevo.osc2-plot-1.pdf}
+\includegraphics{hpcModel-exploration_files/figure-latex/1_run_partialCoevolution_oscillation2-plot-1.pdf}
 
 \hypertarget{one-parameter-exploration}{%
 \chapter{One parameter exploration}\label{one-parameter-exploration}}
@@ -818,6 +844,11 @@ Abbreviation & Value\tabularnewline
 \hypertarget{utility-per-capita-of-type-n-plants-to-humans-baru_p_nh}{%
 \subsection{\texorpdfstring{utility per capita \textbf{of} type n plants \textbf{to} humans (\(\bar{U}_{P_{n}H}\)):}{utility per capita of type n plants to humans (\textbackslash bar\{U\}\_\{P\_\{n\}H\}):}}\label{utility-per-capita-of-type-n-plants-to-humans-baru_p_nh}}
 
+\begin{verbatim}
+## [1] 31
+## [1] 31
+\end{verbatim}
+
 \begin{table}[!h]
 
 \caption{\label{tab:2mUPnHtablepdf}Parameter setting}
@@ -826,48 +857,76 @@ Abbreviation & Value\tabularnewline
 \hline
 parameter & value\\
 \hline
-iniH & 10\\
+initial\_population\_humans & 10\\
 \hline
-iniP & 10\\
+initial\_population\_plants & 10\\
 \hline
-n.H & 30\\
+number\_types\_humans & 30\\
 \hline
-n.P & 30\\
+number\_types\_plants & 30\\
 \hline
-v.H & 0.15\\
+undirected\_variation\_humans & 0.15\\
 \hline
-v.P & 0.15\\
+undirected\_variation\_plants & 0.15\\
 \hline
-r.H & 0.04\\
+intrinsic\_growth\_rate\_humans & 0.04\\
 \hline
-r.P & 0.1\\
+intrinsic\_growth\_rate\_plants & 0.1\\
 \hline
-mU.PnH & 0.5 - 2.5 (sample = 100 )\\
+utility\_per\_capita\_type\_n\_plants\_to\_humans & 0.5 - 2.5 (sample = 100 )\\
 \hline
-mU.HnP & 1\\
+utility\_per\_capita\_type\_n\_humans\_to\_plants & 1\\
 \hline
-mU.P1H & 0.15\\
+utility\_per\_capita\_type\_1\_plants\_to\_humans & 0.15\\
 \hline
-mU.H1P & 0\\
+utility\_per\_capita\_type\_1\_humans\_to\_plants & 0\\
 \hline
-U.bHn & 10\\
+utility\_other\_to\_type\_n\_humans & 10\\
 \hline
-U.bPn & 20\\
+utility\_other\_to\_type\_n\_plants & 20\\
 \hline
-U.bH1 & 80\\
+utility\_other\_to\_type\_1\_humans & 80\\
 \hline
-U.bP1 & 100\\
+utility\_other\_to\_type\_1\_plants & 100\\
 \hline
-MaxArea & 200\\
+max\_area & 200\\
+\hline
+max\_iterations & 5000\\
+\hline
+reltol\_exponential & 6\\
+\hline
+coevolution\_threshold & 0.5\\
+\hline
+humans & 89.8095348728372 - 472.074840353865 (sample = 100 )\\
+\hline
+plants & 104.041173556269 - 200 (sample = 45 )\\
+\hline
+coevolution\_coefficient\_humans & -0.618988585806422 - 0.698779265650612 (sample = 100 )\\
+\hline
+coevolution\_coefficient\_plants & -0.67653715347976 - 0.690301736910053 (sample = 100 )\\
+\hline
+dependency\_coefficient\_humans & -0.569716349279568 - 0.931253547354916 (sample = 100 )\\
+\hline
+dependency\_coefficient\_plants & -0.765398002302459 - 0.879740522206507 (sample = 100 )\\
+\hline
+timing\_humans & 0 - 574 (sample = 56 )\\
+\hline
+timing\_plants & 0 - 591 (sample = 54 )\\
+\hline
+time\_end & 431 - 1189 (sample = 86 )\\
+\hline
+adaptativeCost.H & 0\\
+\hline
+adaptativeCost.P & 0\\
 \hline
 \end{tabular}
 \end{table}
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{plots/2_onePar-mU.PnH_ggbifplot} \caption{Bifurcation plot (ggplot2)}\label{fig:2mUPnHbifplot1print}
+\includegraphics[width=1\linewidth]{plots/2_exp_utility_per_capita_type_n_plants_to_humans_bifurcationPlotSimple} \caption{Bifurcation plot (ggplot2)}\label{fig:2mUPnHbifplot1print}
 \end{figure}
 
-\includegraphics[width=1\linewidth]{plots/2_onePar-mU.PnH_bifplot-pair}
+\includegraphics[width=1\linewidth]{plots/2_exp_utility_per_capita_type_n_plants_to_humans_bifurcationPlotPair}
 
 \newpage
 
@@ -877,75 +936,75 @@ MaxArea & 200\\
 \hypertarget{initial-populations-of-humans-and-plants-init_hinit_p}{%
 \subsection{\texorpdfstring{Initial populations of humans and plants (\(init_{H},\,init_{P}\))}{Initial populations of humans and plants (init\_\{H\},\textbackslash,init\_\{P\})}}\label{initial-populations-of-humans-and-plants-init_hinit_p}}
 
-\includegraphics[width=1\linewidth]{plots/2_onePar-init.H_bifplot-pair}
+\includegraphics[width=1\linewidth]{plots/2_exp_initial_population_humans_bifurcationPlotPair}
 
-\includegraphics[width=1\linewidth]{plots/2_onePar-init.P_bifplot-pair}
+\includegraphics[width=1\linewidth]{plots/2_exp_initial_population_plants_bifurcationPlotPair}
 
 \hypertarget{number-of-types-of-humans-and-plants-n_hn_p}{%
 \subsection{\texorpdfstring{Number of types of humans and plants (\(n_{H},\,n_{P}\)):}{Number of types of humans and plants (n\_\{H\},\textbackslash,n\_\{P\}):}}\label{number-of-types-of-humans-and-plants-n_hn_p}}
 
-\includegraphics[width=1\linewidth]{plots/2_onePar-n.H_bifplot-pair}
+\includegraphics[width=1\linewidth]{plots/2_exp_number_types_humans_bifurcationPlotPair}
 
-\includegraphics[width=1\linewidth]{plots/2_onePar-n.P_bifplot-pair}
+\includegraphics[width=1\linewidth]{plots/2_exp_number_types_plants_bifurcationPlotPair}
 
 \hypertarget{level-of-undirected-variation-in-humans-and-plants-v_hv_p}{%
 \subsection{\texorpdfstring{level of undirected variation in humans and plants (\(v_{H},\,v_{P}\)):}{level of undirected variation in humans and plants (v\_\{H\},\textbackslash,v\_\{P\}):}}\label{level-of-undirected-variation-in-humans-and-plants-v_hv_p}}
 
-\includegraphics[width=1\linewidth]{plots/2_onePar-v.H_bifplot-pair}
+\includegraphics[width=1\linewidth]{plots/2_exp_undirected_variation_humans_bifurcationPlotPair}
 
-\includegraphics[width=1\linewidth]{plots/2_onePar-v.P_bifplot-pair}
+\includegraphics[width=1\linewidth]{plots/2_exp_undirected_variation_plants_bifurcationPlotPair}
 
 \hypertarget{intrinsic-growth-rates-for-human-and-plant-populations-r_hr_p}{%
 \subsection{\texorpdfstring{intrinsic growth rates for human and plant populations (\(r_{H},\,r_{P}\)):}{intrinsic growth rates for human and plant populations (r\_\{H\},\textbackslash,r\_\{P\}):}}\label{intrinsic-growth-rates-for-human-and-plant-populations-r_hr_p}}
 
-\includegraphics[width=1\linewidth]{plots/2_onePar-r.H_bifplot-pair}
+\includegraphics[width=1\linewidth]{plots/2_exp_intrinsic_growth_rate_humans_bifurcationPlotPair}
 
-\includegraphics[width=1\linewidth]{plots/2_onePar-r.P_bifplot-pair}
+\includegraphics[width=1\linewidth]{plots/2_exp_intrinsic_growth_rate_plants_bifurcationPlotPair}
 
 \hypertarget{utility-per-capita-of-type-n-plants-to-humans-baru_p_nh-1}{%
 \subsection{\texorpdfstring{utility per capita \textbf{of} type n plants \textbf{to} humans (\(\bar{U}_{P_{n}H}\)):}{utility per capita of type n plants to humans (\textbackslash bar\{U\}\_\{P\_\{n\}H\}):}}\label{utility-per-capita-of-type-n-plants-to-humans-baru_p_nh-1}}
 
-\includegraphics[width=1\linewidth]{plots/2_onePar-mU.PnH_bifplot-pair}
+\includegraphics[width=1\linewidth]{plots/2_exp_utility_per_capita_type_n_plants_to_humans_bifurcationPlotPair}
 
 \hypertarget{utility-per-capita-of-type-n-human-to-plants-baru_h_np}{%
 \subsection{\texorpdfstring{utility per capita \textbf{of} type n human \textbf{to} plants (\(\bar{U}_{H_{n}P}\)):}{utility per capita of type n human to plants (\textbackslash bar\{U\}\_\{H\_\{n\}P\}):}}\label{utility-per-capita-of-type-n-human-to-plants-baru_h_np}}
 
-\includegraphics[width=1\linewidth]{plots/2_onePar-mU.HnP_bifplot-pair}
+\includegraphics[width=1\linewidth]{plots/2_exp_utility_per_capita_type_n_humans_to_plants_bifurcationPlotPair}
 
 \hypertarget{utility-per-capita-of-type-1-plants-to-humans-baru_p_1h}{%
 \subsection{\texorpdfstring{utility per capita \textbf{of} type 1 plants \textbf{to} humans (\(\bar{U}_{P_{1}H}\)):}{utility per capita of type 1 plants to humans (\textbackslash bar\{U\}\_\{P\_\{1\}H\}):}}\label{utility-per-capita-of-type-1-plants-to-humans-baru_p_1h}}
 
-\includegraphics[width=1\linewidth]{plots/2_onePar-mU.P1H_bifplot-pair}
+\includegraphics[width=1\linewidth]{plots/2_exp_utility_per_capita_type_1_plants_to_humans_bifurcationPlotPair}
 
 \hypertarget{utility-per-capita-of-type-1-humans-to-plants-baru_h_1p}{%
 \subsection{\texorpdfstring{utility per capita \textbf{of} type 1 humans \textbf{to} plants (\(\bar{U}_{H_{1}P}\)):}{utility per capita of type 1 humans to plants (\textbackslash bar\{U\}\_\{H\_\{1\}P\}):}}\label{utility-per-capita-of-type-1-humans-to-plants-baru_h_1p}}
 
-\includegraphics[width=1\linewidth]{plots/2_onePar-mU.H1P_bifplot-pair}
+\includegraphics[width=1\linewidth]{plots/2_exp_utility_per_capita_type_1_humans_to_plants_bifurcationPlotPair}
 
 \hypertarget{utility-of-other-resources-to-humans-of-type-1-u_bh_1}{%
 \subsection{\texorpdfstring{utility \textbf{of} other resources \textbf{to} humans of type 1 (\(U_{bH_{1}}\)):}{utility of other resources to humans of type 1 (U\_\{bH\_\{1\}\}):}}\label{utility-of-other-resources-to-humans-of-type-1-u_bh_1}}
 
-\includegraphics[width=1\linewidth]{plots/2_onePar-U.bH1_bifplot-pair}
+\includegraphics[width=1\linewidth]{plots/2_exp_utility_other_to_type_1_humans_bifurcationPlotPair}
 
 \hypertarget{utility-of-non-anthropic-space-to-type-1-plants-u_bp_1}{%
 \subsection{\texorpdfstring{utility \textbf{of} non-anthropic space \textbf{to} type 1 plants (\(U_{bP_{1}}\)):}{utility of non-anthropic space to type 1 plants (U\_\{bP\_\{1\}\}):}}\label{utility-of-non-anthropic-space-to-type-1-plants-u_bp_1}}
 
-\includegraphics[width=1\linewidth]{plots/2_onePar-U.bP1_bifplot-pair}
+\includegraphics[width=1\linewidth]{plots/2_exp_utility_other_to_type_1_plants_bifurcationPlotPair}
 
 \hypertarget{utility-of-other-resources-to-type-n-humans-u_bh_n}{%
 \subsection{\texorpdfstring{utility \textbf{of} other resources \textbf{to} type n humans (\(U_{bH_{n}}\)):}{utility of other resources to type n humans (U\_\{bH\_\{n\}\}):}}\label{utility-of-other-resources-to-type-n-humans-u_bh_n}}
 
-\includegraphics[width=1\linewidth]{plots/2_onePar-U.bHn_bifplot-pair}
+\includegraphics[width=1\linewidth]{plots/2_exp_utility_other_to_type_n_humans_bifurcationPlotPair}
 
 \hypertarget{utility-of-non-anthropic-space-to-type-n-plants-u_bp_n}{%
 \subsection{\texorpdfstring{utility \textbf{of} non-anthropic space \textbf{to} type n plants (\(U_{bP_{n}}\)):}{utility of non-anthropic space to type n plants (U\_\{bP\_\{n\}\}):}}\label{utility-of-non-anthropic-space-to-type-n-plants-u_bp_n}}
 
-\includegraphics[width=1\linewidth]{plots/2_onePar-U.bPn_bifplot-pair}
+\includegraphics[width=1\linewidth]{plots/2_exp_utility_other_to_type_n_plants_bifurcationPlotPair}
 
-\hypertarget{maximum-contiguous-area-to-be-used-by-plants-maxarea}{%
-\subsection{\texorpdfstring{maximum contiguous area to be used by plants (\(MaxArea\)):}{maximum contiguous area to be used by plants (MaxArea):}}\label{maximum-contiguous-area-to-be-used-by-plants-maxarea}}
+\hypertarget{maximum-contiguous-area-to-be-used-by-plants-max_area}{%
+\subsection{\texorpdfstring{maximum contiguous area to be used by plants (\(max_area\)):}{maximum contiguous area to be used by plants (max\_area):}}\label{maximum-contiguous-area-to-be-used-by-plants-max_area}}
 
-\includegraphics[width=1\linewidth]{plots/2_onePar-MaxArea_bifplot-pair}
+\includegraphics[width=1\linewidth]{plots/2_exp_max_area_bifurcationPlotPair}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
@@ -954,9 +1013,9 @@ MaxArea & 200\\
 
 Bifurcation plot with last 100 time steps (of 1000) to capture oscillations or `slow' asymptotic stability
 
-\includegraphics[width=1\linewidth]{plots/2_onePar-mU.HnP.osc_bifplot-pair}
+\includegraphics[width=1\linewidth]{plots/2_exp_utility_per_capita_type_n_humans_to_plants_oscillation_bifurcationPlotPair}
 
-\includegraphics[width=1\linewidth]{plots/2_onePar-mU.PnH.osc_bifplot-pair}
+\includegraphics[width=1\linewidth]{plots/2_exp_utility_per_capita_type_n_plants_to_humans_oscillation_bifurcationPlotPair}
 
 \hypertarget{two-parameter-exploration}{%
 \chapter{Two parameter exploration}\label{two-parameter-exploration}}
@@ -971,6 +1030,11 @@ Bifurcation plot with last 100 time steps (of 1000) to capture oscillations or `
 
 \sectionmark{$\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$}
 
+\begin{verbatim}
+## [1] 31
+## [1] 31
+\end{verbatim}
+
 \begin{table}[!h]
 
 \caption{\label{tab:3mUHnPmUPnHtablepdf}Parameter setting}
@@ -979,46 +1043,74 @@ Bifurcation plot with last 100 time steps (of 1000) to capture oscillations or `
 \hline
 parameter & value\\
 \hline
-iniH & 10\\
+initial\_population\_humans & 10\\
 \hline
-iniP & 10\\
+initial\_population\_plants & 10\\
 \hline
-n.H & 30\\
+number\_types\_humans & 30\\
 \hline
-n.P & 30\\
+number\_types\_plants & 30\\
 \hline
-v.H & 0.15\\
+undirected\_variation\_humans & 0.15\\
 \hline
-v.P & 0.15\\
+undirected\_variation\_plants & 0.15\\
 \hline
-r.H & 0.04\\
+intrinsic\_growth\_rate\_humans & 0.04\\
 \hline
-r.P & 0.1\\
+intrinsic\_growth\_rate\_plants & 0.1\\
 \hline
-mU.PnH & 0 - 3 (sample = 15 )\\
+utility\_per\_capita\_type\_n\_plants\_to\_humans & 0 - 3 (sample = 15 )\\
 \hline
-mU.HnP & 0 - 3 (sample = 15 )\\
+utility\_per\_capita\_type\_n\_humans\_to\_plants & 0 - 3 (sample = 15 )\\
 \hline
-mU.P1H & 0.15\\
+utility\_per\_capita\_type\_1\_plants\_to\_humans & 0.15\\
 \hline
-mU.H1P & 0\\
+utility\_per\_capita\_type\_1\_humans\_to\_plants & 0\\
 \hline
-U.bHn & 10\\
+utility\_other\_to\_type\_n\_humans & 10\\
 \hline
-U.bPn & 20\\
+utility\_other\_to\_type\_n\_plants & 20\\
 \hline
-U.bH1 & 80\\
+utility\_other\_to\_type\_1\_humans & 80\\
 \hline
-U.bP1 & 100\\
+utility\_other\_to\_type\_1\_plants & 100\\
 \hline
-MaxArea & 200\\
+max\_area & 200\\
+\hline
+max\_iterations & 5000\\
+\hline
+reltol\_exponential & 6\\
+\hline
+coevolution\_threshold & 0.5\\
+\hline
+humans & 83.2614080618352 - 567.203133144437 (sample = 225 )\\
+\hline
+plants & 93.7854570454264 - 200 (sample = 91 )\\
+\hline
+coevolution\_coefficient\_humans & -0.659187038874794 - 0.700598035631623 (sample = 225 )\\
+\hline
+coevolution\_coefficient\_plants & -0.717940961816382 - 0.70401267833436 (sample = 215 )\\
+\hline
+dependency\_coefficient\_humans & -0.695128994570018 - 0.943047405719581 (sample = 225 )\\
+\hline
+dependency\_coefficient\_plants & -1 - 0.965964431960564 (sample = 212 )\\
+\hline
+timing\_humans & 0 - 797 (sample = 82 )\\
+\hline
+timing\_plants & 0 - 882 (sample = 83 )\\
+\hline
+time\_end & 380 - 1407 (sample = 122 )\\
+\hline
+adaptativeCost.H & 0\\
+\hline
+adaptativeCost.P & 0\\
 \hline
 \end{tabular}
 \end{table}
 
 \newpage
 
-\includegraphics[width=1\linewidth]{plots/3_twoPar-mU.HnP-mU.PnH_plot}
+\includegraphics[width=1\linewidth]{plots/3_exp_utility_per_capita_type_n-tripleRaster_twoParameters}
 
 \newpage
 
@@ -1030,7 +1122,7 @@ MaxArea & 200\\
 
 \sectionmark{$n_{H}$ x $n_{P}$}
 
-\includegraphics[width=1\linewidth]{plots/3_twoPar-n.H-n.P_plot}
+\includegraphics[width=1\linewidth]{plots/3_exp_number_types-tripleRaster_twoParameters}
 
 \newpage
 
@@ -1039,7 +1131,7 @@ MaxArea & 200\\
 
 \sectionmark{$v_{H}$ x $v_{P}$}
 
-\includegraphics[width=1\linewidth]{plots/3_twoPar-v.H-v.P_plot}
+\includegraphics[width=1\linewidth]{plots/3_exp_undirected_variation-tripleRaster_twoParameters}
 
 \newpage
 
@@ -1048,7 +1140,7 @@ MaxArea & 200\\
 
 \sectionmark{$\bar{U}_{H_{1}P}$ x $\bar{U}_{P_{1}H}$}
 
-\includegraphics[width=1\linewidth]{plots/3_twoPar-mU.H1P-mU.P1H_plot}
+\includegraphics[width=1\linewidth]{plots/3_exp_utility_per_capita_type_1-tripleRaster_twoParameters}
 
 \newpage
 
@@ -1057,7 +1149,7 @@ MaxArea & 200\\
 
 \sectionmark{$\bar{U}_{H_{n}P}$ x $\bar{U}_{P_{n}H}$}
 
-\includegraphics[width=1\linewidth]{plots/3_twoPar-mU.HnP-mU.PnH_plot}
+\includegraphics[width=1\linewidth]{plots/3_exp_utility_per_capita_type_n-tripleRaster_twoParameters}
 
 \newpage
 
@@ -1066,7 +1158,7 @@ MaxArea & 200\\
 
 \sectionmark{$\bar{U}_{H_{1}P}$ x $\bar{U}_{H_{n}P}$}
 
-\includegraphics[width=1\linewidth]{plots/3_twoPar-mU.H1P-mU.HnP_plot}
+\includegraphics[width=1\linewidth]{plots/3_exp_utility_per_capita_type_humans_to_plants-tripleRaster_twoParameters}
 
 \newpage
 
@@ -1075,7 +1167,7 @@ MaxArea & 200\\
 
 \sectionmark{$\bar{U}_{P_{1}H}$ x $\bar{U}_{P_{n}H}$}
 
-\includegraphics[width=1\linewidth]{plots/3_twoPar-mU.P1H-mU.PnH_plot}
+\includegraphics[width=1\linewidth]{plots/3_exp_utility_per_capita_type_plants_to_humans-tripleRaster_twoParameters}
 
 \newpage
 
@@ -1084,7 +1176,7 @@ MaxArea & 200\\
 
 \sectionmark{$U_{bH_{1}}$ x $U_{bP_{1}}$}
 
-\includegraphics[width=1\linewidth]{plots/3_twoPar-U.bH1-U.bP1_plot}
+\includegraphics[width=1\linewidth]{plots/3_exp_utility_other_to_type_1-tripleRaster_twoParameters}
 
 \newpage
 
@@ -1093,7 +1185,7 @@ MaxArea & 200\\
 
 \sectionmark{$U_{bH_{n}}$ x $U_{bP_{n}}$}
 
-\includegraphics[width=1\linewidth]{plots/3_twoPar-U.bHn-U.bPn_plot}
+\includegraphics[width=1\linewidth]{plots/3_exp_utility_other_to_type_n-tripleRaster_twoParameters}
 
 \newpage
 
@@ -1102,7 +1194,7 @@ MaxArea & 200\\
 
 \sectionmark{$U_{bH_{1}}$ x $U_{bH_{n}}$}
 
-\includegraphics[width=1\linewidth]{plots/3_twoPar-U.bH1-U.bHn_plot}
+\includegraphics[width=1\linewidth]{plots/3_exp_utility_other_to_type_humans-tripleRaster_twoParameters}
 
 \newpage
 
@@ -1111,35 +1203,35 @@ MaxArea & 200\\
 
 \sectionmark{$U_{bP_{1}}$ x $U_{bP_{n}}$}
 
-\includegraphics[width=1\linewidth]{plots/3_twoPar-U.bP1-U.bPn_plot}
+\includegraphics[width=1\linewidth]{plots/3_exp_utility_other_to_type_plants-tripleRaster_twoParameters}
 
 \hypertarget{utility-of-other-resources-to-type-1-humans-and-utility-per-capita-of-type-1-humans-to-plants-u_bh_1-x-baru_h_1p}{%
 \subsection{\texorpdfstring{Utility of other resources to type 1 humans and utility per capita of type 1 humans to plants (\(U_{bH_{1}}\) x \(\bar{U}_{H_{1}P}\))}{Utility of other resources to type 1 humans and utility per capita of type 1 humans to plants (U\_\{bH\_\{1\}\} x \textbackslash bar\{U\}\_\{H\_\{1\}P\})}}\label{utility-of-other-resources-to-type-1-humans-and-utility-per-capita-of-type-1-humans-to-plants-u_bh_1-x-baru_h_1p}}
 
 \sectionmark{$U_{bH_{1}}$ x $\bar{U}_{H_{1}P}$}
 
-\includegraphics[width=1\linewidth]{plots/3_twoPar-U.bH1-mU.H1P_plot}
+\includegraphics[width=1\linewidth]{plots/3_exp_type_1_humans_traits-tripleRaster_twoParameters}
 
 \newpage
 
 \hypertarget{utility-of-other-resources-to-type-1-plants-and-utility-per-capita-of-type-1-plants-to-humans-u_bp_1-x-baru_p_1h}{%
 \subsection{\texorpdfstring{Utility of other resources to type 1 plants and utility per capita of type 1 plants to humans (\(U_{bP_{1}}\) x \(\bar{U}_{P_{1}H}\))}{Utility of other resources to type 1 plants and utility per capita of type 1 plants to humans (U\_\{bP\_\{1\}\} x \textbackslash bar\{U\}\_\{P\_\{1\}H\})}}\label{utility-of-other-resources-to-type-1-plants-and-utility-per-capita-of-type-1-plants-to-humans-u_bp_1-x-baru_p_1h}}
 
-\includegraphics[width=1\linewidth]{plots/3_twoPar-U.bP1-mU.P1H_plot}
+\includegraphics[width=1\linewidth]{plots/3_exp_type_1_plants_traits-tripleRaster_twoParameters}
 
 \newpage
 
 \hypertarget{utility-of-other-resources-to-type-n-humans-and-utility-per-capita-of-type-n-humans-to-plants-u_bh_n-x-baru_h_np}{%
 \subsection{\texorpdfstring{Utility of other resources to type n humans and utility per capita of type n humans to plants (\(U_{bH_{n}}\) x \(\bar{U}_{H_{n}P}\))}{Utility of other resources to type n humans and utility per capita of type n humans to plants (U\_\{bH\_\{n\}\} x \textbackslash bar\{U\}\_\{H\_\{n\}P\})}}\label{utility-of-other-resources-to-type-n-humans-and-utility-per-capita-of-type-n-humans-to-plants-u_bh_n-x-baru_h_np}}
 
-\includegraphics[width=1\linewidth]{plots/3_twoPar-U.bHn-mU.HnP_plot}
+\includegraphics[width=1\linewidth]{plots/3_exp_type_n_humans_traits-tripleRaster_twoParameters}
 
 \newpage
 
 \hypertarget{utility-of-other-resources-to-type-n-plants-and-utility-per-capita-of-type-n-plants-to-humans-u_bp_n-x-baru_p_nh}{%
 \subsection{\texorpdfstring{Utility of other resources to type n plants and utility per capita of type n plants to humans (\(U_{bP_{n}}\) x \(\bar{U}_{P_{n}H}\))}{Utility of other resources to type n plants and utility per capita of type n plants to humans (U\_\{bP\_\{n\}\} x \textbackslash bar\{U\}\_\{P\_\{n\}H\})}}\label{utility-of-other-resources-to-type-n-plants-and-utility-per-capita-of-type-n-plants-to-humans-u_bp_n-x-baru_p_nh}}
 
-\includegraphics[width=1\linewidth]{plots/3_twoPar-U.bPn-mU.PnH_plot}
+\includegraphics[width=1\linewidth]{plots/3_exp_type_n_plants_traits-tripleRaster_twoParameters}
 
 \newpage
 
@@ -1161,46 +1253,74 @@ MaxArea & 200\\
 \hline
 parameter & value\\
 \hline
-iniH & 10\\
+initial\_population\_humans & 10\\
 \hline
-iniP & 10\\
+initial\_population\_plants & 10\\
 \hline
-n.H & 5 - 45 (sample = 5 )\\
+number\_types\_humans & 5 - 45 (sample = 5 )\\
 \hline
-n.P & 5 - 45 (sample = 5 )\\
+number\_types\_plants & 5 - 45 (sample = 5 )\\
 \hline
-v.H & 0.05 - 0.25 (sample = 5 )\\
+undirected\_variation\_humans & 0.05 - 0.25 (sample = 5 )\\
 \hline
-v.P & 0.05 - 0.25 (sample = 5 )\\
+undirected\_variation\_plants & 0.05 - 0.25 (sample = 5 )\\
 \hline
-r.H & 0.04\\
+intrinsic\_growth\_rate\_humans & 0.04\\
 \hline
-r.P & 0.1\\
+intrinsic\_growth\_rate\_plants & 0.1\\
 \hline
-mU.PnH & 1.5\\
+utility\_per\_capita\_type\_n\_plants\_to\_humans & 1.5\\
 \hline
-mU.HnP & 1\\
+utility\_per\_capita\_type\_n\_humans\_to\_plants & 1\\
 \hline
-mU.P1H & 0.15\\
+utility\_per\_capita\_type\_1\_plants\_to\_humans & 0.15\\
 \hline
-mU.H1P & 0\\
+utility\_per\_capita\_type\_1\_humans\_to\_plants & 0\\
 \hline
-U.bHn & 10\\
+utility\_other\_to\_type\_n\_humans & 10\\
 \hline
-U.bPn & 20\\
+utility\_other\_to\_type\_n\_plants & 20\\
 \hline
-U.bH1 & 80\\
+utility\_other\_to\_type\_1\_humans & 80\\
 \hline
-U.bP1 & 100\\
+utility\_other\_to\_type\_1\_plants & 100\\
 \hline
-MaxArea & 200\\
+max\_area & 200\\
+\hline
+max\_iterations & 5000\\
+\hline
+reltol\_exponential & 6\\
+\hline
+coevolution\_threshold & 0.5\\
+\hline
+humans & 85.1414283817248 - 303.920561546526 (sample = 625 )\\
+\hline
+plants & 93.5982997036815 - 200 (sample = 372 )\\
+\hline
+coevolution\_coefficient\_humans & -0.893138319410505 - 0.796970470817761 (sample = 625 )\\
+\hline
+coevolution\_coefficient\_plants & -0.918044258212089 - 0.784003454561172 (sample = 625 )\\
+\hline
+dependency\_coefficient\_humans & -0.632605349151667 - 0.897316999088837 (sample = 625 )\\
+\hline
+dependency\_coefficient\_plants & -0.943727131580906 - 0.820755925015822 (sample = 625 )\\
+\hline
+timing\_humans & 0 - 1117 (sample = 131 )\\
+\hline
+timing\_plants & 0 - 1074 (sample = 84 )\\
+\hline
+time\_end & 427 - 3284 (sample = 240 )\\
+\hline
+adaptativeCost.H & 0\\
+\hline
+adaptativeCost.P & 0\\
 \hline
 \end{tabular}
 \end{table}
 
 \newpage
 
-\includegraphics[width=1\linewidth]{plots/4_fourPar-n-v_plot}
+\includegraphics[width=1\linewidth]{plots/4_exp_types_number_and_variation-tripleRaster_fourParameterss}
 
 \textbf{\emph{Interpretation}}:\\
 - Higher values of all four parameters facilitate coevolution. Undirected variation has a stronger effect than number of types.
@@ -1224,46 +1344,74 @@ MaxArea & 200\\
 \hline
 parameter & value\\
 \hline
-iniH & 10\\
+initial\_population\_humans & 10\\
 \hline
-iniP & 10\\
+initial\_population\_plants & 10\\
 \hline
-n.H & 30\\
+number\_types\_humans & 30\\
 \hline
-n.P & 30\\
+number\_types\_plants & 30\\
 \hline
-v.H & 0.15\\
+undirected\_variation\_humans & 0.15\\
 \hline
-v.P & 0.15\\
+undirected\_variation\_plants & 0.15\\
 \hline
-r.H & 0.04\\
+intrinsic\_growth\_rate\_humans & 0.04\\
 \hline
-r.P & 0.1\\
+intrinsic\_growth\_rate\_plants & 0.1\\
 \hline
-mU.PnH & 0 - 3 (sample = 5 )\\
+utility\_per\_capita\_type\_n\_plants\_to\_humans & 0 - 3 (sample = 5 )\\
 \hline
-mU.HnP & 0 - 3 (sample = 5 )\\
+utility\_per\_capita\_type\_n\_humans\_to\_plants & 0 - 3 (sample = 5 )\\
 \hline
-mU.P1H & 0 - 3 (sample = 5 )\\
+utility\_per\_capita\_type\_1\_plants\_to\_humans & 0 - 3 (sample = 5 )\\
 \hline
-mU.H1P & 0 - 3 (sample = 5 )\\
+utility\_per\_capita\_type\_1\_humans\_to\_plants & 0 - 3 (sample = 5 )\\
 \hline
-U.bHn & 10\\
+utility\_other\_to\_type\_n\_humans & 10\\
 \hline
-U.bPn & 20\\
+utility\_other\_to\_type\_n\_plants & 20\\
 \hline
-U.bH1 & 80\\
+utility\_other\_to\_type\_1\_humans & 80\\
 \hline
-U.bP1 & 100\\
+utility\_other\_to\_type\_1\_plants & 100\\
 \hline
-MaxArea & 200\\
+max\_area & 200\\
+\hline
+max\_iterations & 5000\\
+\hline
+reltol\_exponential & 6\\
+\hline
+coevolution\_threshold & 0.5\\
+\hline
+humans & 74.5622526385153 - 616.122991274673 (sample = 611 )\\
+\hline
+plants & 93.7854569646093 - 200 (sample = 222 )\\
+\hline
+coevolution\_coefficient\_humans & -0.717940961994967 - 0.701298246126613 (sample = 611 )\\
+\hline
+coevolution\_coefficient\_plants & -0.717941007482056 - 0.704797600572959 (sample = 625 )\\
+\hline
+dependency\_coefficient\_humans & -1 - 0.947663005457465 (sample = 601 )\\
+\hline
+dependency\_coefficient\_plants & -1 - 0.971381159245891 (sample = 602 )\\
+\hline
+timing\_humans & 0 - 219 (sample = 70 )\\
+\hline
+timing\_plants & 0 - 290 (sample = 85 )\\
+\hline
+time\_end & 300 - 4999 (sample = 248 )\\
+\hline
+adaptativeCost.H & 0\\
+\hline
+adaptativeCost.P & 0\\
 \hline
 \end{tabular}
 \end{table}
 
 \newpage
 
-\includegraphics[width=1\linewidth]{plots/4_fourPar-mU.HP-mU.PH_plot}
+\includegraphics[width=1\linewidth]{plots/4_exp_utilities_between_populations-tripleRaster_fourParameterss}
 
 \textbf{\emph{Interpretation}}:\\
 - Higher values of all four parameters facilitate coevolution; under the `default' setting, a value around 1 is enough for all four parameters (intermediate values in this exploration).\\
@@ -1290,46 +1438,74 @@ For this experiment, consider that the default setting includes \(MaxArea=200\) 
 \hline
 parameter & value\\
 \hline
-iniH & 10\\
+initial\_population\_humans & 10\\
 \hline
-iniP & 10\\
+initial\_population\_plants & 10\\
 \hline
-n.H & 30\\
+number\_types\_humans & 30\\
 \hline
-n.P & 30\\
+number\_types\_plants & 30\\
 \hline
-v.H & 0.15\\
+undirected\_variation\_humans & 0.15\\
 \hline
-v.P & 0.15\\
+undirected\_variation\_plants & 0.15\\
 \hline
-r.H & 0.04\\
+intrinsic\_growth\_rate\_humans & 0.04\\
 \hline
-r.P & 0.1\\
+intrinsic\_growth\_rate\_plants & 0.1\\
 \hline
-mU.PnH & 1.5\\
+utility\_per\_capita\_type\_n\_plants\_to\_humans & 1.5\\
 \hline
-mU.HnP & 1\\
+utility\_per\_capita\_type\_n\_humans\_to\_plants & 1\\
 \hline
-mU.P1H & 0.15\\
+utility\_per\_capita\_type\_1\_plants\_to\_humans & 0.15\\
 \hline
-mU.H1P & 0\\
+utility\_per\_capita\_type\_1\_humans\_to\_plants & 0\\
 \hline
-U.bHn & 5 - 300 (sample = 5 )\\
+utility\_other\_to\_type\_n\_humans & 5 - 300 (sample = 5 )\\
 \hline
-U.bPn & 5 - 300 (sample = 5 )\\
+utility\_other\_to\_type\_n\_plants & 5 - 300 (sample = 5 )\\
 \hline
-U.bH1 & 5 - 300 (sample = 5 )\\
+utility\_other\_to\_type\_1\_humans & 5 - 300 (sample = 5 )\\
 \hline
-U.bP1 & 5 - 300 (sample = 5 )\\
+utility\_other\_to\_type\_1\_plants & 5 - 300 (sample = 5 )\\
 \hline
-MaxArea & 200\\
+max\_area & 200\\
+\hline
+max\_iterations & 5000\\
+\hline
+reltol\_exponential & 6\\
+\hline
+coevolution\_threshold & 0.5\\
+\hline
+humans & 7.02756257875232 - 560.973786604167 (sample = 625 )\\
+\hline
+plants & 6.24776319282656 - 200 (sample = 256 )\\
+\hline
+coevolution\_coefficient\_humans & -0.662899373475303 - 0.703777349450851 (sample = 625 )\\
+\hline
+coevolution\_coefficient\_plants & -0.682616984408088 - 0.704560157675581 (sample = 625 )\\
+\hline
+dependency\_coefficient\_humans & -0.709161863456466 - 0.964351497555221 (sample = 625 )\\
+\hline
+dependency\_coefficient\_plants & -0.793157825095748 - 0.969736541196175 (sample = 625 )\\
+\hline
+timing\_humans & 0 - 1593 (sample = 54 )\\
+\hline
+timing\_plants & 0 - 2475 (sample = 54 )\\
+\hline
+time\_end & 359 - 4999 (sample = 362 )\\
+\hline
+adaptativeCost.H & 0\\
+\hline
+adaptativeCost.P & 0\\
 \hline
 \end{tabular}
 \end{table}
 
 \newpage
 
-\includegraphics[width=1\linewidth]{plots/4_fourPar-U.bH-U.bP_plot}
+\includegraphics[width=1\linewidth]{plots/4_exp_utilities_other_to_populations-tripleRaster_fourParameterss}
 
 \textbf{\emph{Interpretation}}:\\
 - Lower values of the two human-related parameters (\(U_{bH_{1}}\), \(U_{bH_{n}}\)) facilitate coevolution; under the `default' setting and for all four parameters, values greater or equal to \(MaxArea\) (here, 200) impede coevolution. Inversely, higher values of the plant-related parameters (\(U_{bP_{1}}\), \(U_{bP_{n}}\)) facilitate coevolution. The human-related parameters, together regulating the scale of the subsistence alternatives for humans, are significantly more important; their relationship (if one is greater than the other) seems to be less important as long as their combined sum is small enough.\\
@@ -1356,46 +1532,74 @@ All four parameters affect directly the carrying capacity for humans.
 \hline
 parameter & value\\
 \hline
-iniH & 10\\
+initial\_population\_humans & 10\\
 \hline
-iniP & 10\\
+initial\_population\_plants & 10\\
 \hline
-n.H & 30\\
+number\_types\_humans & 30\\
 \hline
-n.P & 30\\
+number\_types\_plants & 30\\
 \hline
-v.H & 0.15\\
+undirected\_variation\_humans & 0.15\\
 \hline
-v.P & 0.15\\
+undirected\_variation\_plants & 0.15\\
 \hline
-r.H & 0.04\\
+intrinsic\_growth\_rate\_humans & 0.04\\
 \hline
-r.P & 0.1\\
+intrinsic\_growth\_rate\_plants & 0.1\\
 \hline
-mU.PnH & 0 - 3 (sample = 5 )\\
+utility\_per\_capita\_type\_n\_plants\_to\_humans & 0 - 3 (sample = 5 )\\
 \hline
-mU.HnP & 1\\
+utility\_per\_capita\_type\_n\_humans\_to\_plants & 1\\
 \hline
-mU.P1H & 0 - 3 (sample = 5 )\\
+utility\_per\_capita\_type\_1\_plants\_to\_humans & 0 - 3 (sample = 5 )\\
 \hline
-mU.H1P & 0\\
+utility\_per\_capita\_type\_1\_humans\_to\_plants & 0\\
 \hline
-U.bHn & 5 - 300 (sample = 5 )\\
+utility\_other\_to\_type\_n\_humans & 5 - 300 (sample = 5 )\\
 \hline
-U.bPn & 20\\
+utility\_other\_to\_type\_n\_plants & 20\\
 \hline
-U.bH1 & 5 - 300 (sample = 5 )\\
+utility\_other\_to\_type\_1\_humans & 5 - 300 (sample = 5 )\\
 \hline
-U.bP1 & 100\\
+utility\_other\_to\_type\_1\_plants & 100\\
 \hline
-MaxArea & 200\\
+max\_area & 200\\
+\hline
+max\_iterations & 5000\\
+\hline
+reltol\_exponential & 6\\
+\hline
+coevolution\_threshold & 0.5\\
+\hline
+humans & 5.00002240303587 - 899.99997719765 (sample = 625 )\\
+\hline
+plants & 94.1200898799022 - 200 (sample = 271 )\\
+\hline
+coevolution\_coefficient\_humans & -0.717941202547936 - 0.706520099888421 (sample = 625 )\\
+\hline
+coevolution\_coefficient\_plants & -0.716798037205644 - 0.697896212142682 (sample = 625 )\\
+\hline
+dependency\_coefficient\_humans & -1 - 0.983471074380165 (sample = 602 )\\
+\hline
+dependency\_coefficient\_plants & -0.991746501733027 - 0.925626655652406 (sample = 625 )\\
+\hline
+timing\_humans & 0 - 384 (sample = 135 )\\
+\hline
+timing\_plants & 0 - 2535 (sample = 100 )\\
+\hline
+time\_end & 256 - 2965 (sample = 270 )\\
+\hline
+adaptativeCost.H & 0\\
+\hline
+adaptativeCost.P & 0\\
 \hline
 \end{tabular}
 \end{table}
 
 \newpage
 
-\includegraphics[width=1\linewidth]{plots/4_fourPar-U.bH-U.PH_plot}
+\includegraphics[width=1\linewidth]{plots/4_exp_utilities_to_humans-tripleRaster_fourParameterss}
 
 \newpage
 
@@ -1414,46 +1618,74 @@ All four parameters affect directly the carrying capacity for plants.
 \hline
 parameter & value\\
 \hline
-iniH & 10\\
+initial\_population\_humans & 10\\
 \hline
-iniP & 10\\
+initial\_population\_plants & 10\\
 \hline
-n.H & 30\\
+number\_types\_humans & 30\\
 \hline
-n.P & 30\\
+number\_types\_plants & 30\\
 \hline
-v.H & 0.15\\
+undirected\_variation\_humans & 0.15\\
 \hline
-v.P & 0.15\\
+undirected\_variation\_plants & 0.15\\
 \hline
-r.H & 0.04\\
+intrinsic\_growth\_rate\_humans & 0.04\\
 \hline
-r.P & 0.1\\
+intrinsic\_growth\_rate\_plants & 0.1\\
 \hline
-mU.PnH & 1.5\\
+utility\_per\_capita\_type\_n\_plants\_to\_humans & 1.5\\
 \hline
-mU.HnP & 0 - 3 (sample = 5 )\\
+utility\_per\_capita\_type\_n\_humans\_to\_plants & 0 - 3 (sample = 5 )\\
 \hline
-mU.P1H & 0.15\\
+utility\_per\_capita\_type\_1\_plants\_to\_humans & 0.15\\
 \hline
-mU.H1P & 0 - 3 (sample = 5 )\\
+utility\_per\_capita\_type\_1\_humans\_to\_plants & 0 - 3 (sample = 5 )\\
 \hline
-U.bHn & 10\\
+utility\_other\_to\_type\_n\_humans & 10\\
 \hline
-U.bPn & 5 - 300 (sample = 5 )\\
+utility\_other\_to\_type\_n\_plants & 5 - 300 (sample = 5 )\\
 \hline
-U.bH1 & 80\\
+utility\_other\_to\_type\_1\_humans & 80\\
 \hline
-U.bP1 & 5 - 300 (sample = 5 )\\
+utility\_other\_to\_type\_1\_plants & 5 - 300 (sample = 5 )\\
 \hline
-MaxArea & 200\\
+max\_area & 200\\
+\hline
+max\_iterations & 5000\\
+\hline
+reltol\_exponential & 6\\
+\hline
+coevolution\_threshold & 0.5\\
+\hline
+humans & 75.6396438991906 - 293.849206414227 (sample = 616 )\\
+\hline
+plants & 5.00000000000001 - 200 (sample = 87 )\\
+\hline
+coevolution\_coefficient\_humans & -0.713157644428381 - 0.691647445194847 (sample = 616 )\\
+\hline
+coevolution\_coefficient\_plants & -0.717940962059172 - 0.707255595709155 (sample = 610 )\\
+\hline
+dependency\_coefficient\_humans & -0.966304662195923 - 0.887558668374038 (sample = 617 )\\
+\hline
+dependency\_coefficient\_plants & -1 - 0.988720290052166 (sample = 602 )\\
+\hline
+timing\_humans & 0 - 723 (sample = 93 )\\
+\hline
+timing\_plants & 0 - 460 (sample = 169 )\\
+\hline
+time\_end & 265 - 3596 (sample = 330 )\\
+\hline
+adaptativeCost.H & 0\\
+\hline
+adaptativeCost.P & 0\\
 \hline
 \end{tabular}
 \end{table}
 
 \newpage
 
-\includegraphics[width=1\linewidth]{plots/4_fourPar-U.bP-mU.HP_plot}
+\includegraphics[width=1\linewidth]{plots/4_exp_utilities_to_plants-tripleRaster_fourParameterss}
 
 \newpage
 
@@ -1472,46 +1704,74 @@ This exploration reflects the state at the start of simulations (both population
 \hline
 parameter & value\\
 \hline
-iniH & 10\\
+initial\_population\_humans & 10\\
 \hline
-iniP & 10\\
+initial\_population\_plants & 10\\
 \hline
-n.H & 30\\
+number\_types\_humans & 30\\
 \hline
-n.P & 30\\
+number\_types\_plants & 30\\
 \hline
-v.H & 0.15\\
+undirected\_variation\_humans & 0.15\\
 \hline
-v.P & 0.15\\
+undirected\_variation\_plants & 0.15\\
 \hline
-r.H & 0.04\\
+intrinsic\_growth\_rate\_humans & 0.04\\
 \hline
-r.P & 0.1\\
+intrinsic\_growth\_rate\_plants & 0.1\\
 \hline
-mU.PnH & 1.5\\
+utility\_per\_capita\_type\_n\_plants\_to\_humans & 1.5\\
 \hline
-mU.HnP & 1\\
+utility\_per\_capita\_type\_n\_humans\_to\_plants & 1\\
 \hline
-mU.P1H & 0 - 3 (sample = 5 )\\
+utility\_per\_capita\_type\_1\_plants\_to\_humans & 0 - 3 (sample = 5 )\\
 \hline
-mU.H1P & 0 - 3 (sample = 5 )\\
+utility\_per\_capita\_type\_1\_humans\_to\_plants & 0 - 3 (sample = 5 )\\
 \hline
-U.bHn & 10\\
+utility\_other\_to\_type\_n\_humans & 10\\
 \hline
-U.bPn & 20\\
+utility\_other\_to\_type\_n\_plants & 20\\
 \hline
-U.bH1 & 5 - 300 (sample = 5 )\\
+utility\_other\_to\_type\_1\_humans & 5 - 300 (sample = 5 )\\
 \hline
-U.bP1 & 5 - 300 (sample = 5 )\\
+utility\_other\_to\_type\_1\_plants & 5 - 300 (sample = 5 )\\
 \hline
-MaxArea & 200\\
+max\_area & 200\\
+\hline
+max\_iterations & 5000\\
+\hline
+reltol\_exponential & 6\\
+\hline
+coevolution\_threshold & 0.5\\
+\hline
+humans & 6.65445468351648 - 373.829001349403 (sample = 580 )\\
+\hline
+plants & 7.25341088271487 - 200 (sample = 22 )\\
+\hline
+coevolution\_coefficient\_humans & -0.689067710065305 - 0.700801110595132 (sample = 580 )\\
+\hline
+coevolution\_coefficient\_plants & -0.700948542920777 - 0.6969339607777 (sample = 625 )\\
+\hline
+dependency\_coefficient\_humans & -0.82470273295647 - 0.944381662989186 (sample = 580 )\\
+\hline
+dependency\_coefficient\_plants & -0.889305217158245 - 0.919567244926042 (sample = 625 )\\
+\hline
+timing\_humans & 0 - 674 (sample = 127 )\\
+\hline
+timing\_plants & 0 - 4012 (sample = 149 )\\
+\hline
+time\_end & 326 - 4456 (sample = 235 )\\
+\hline
+adaptativeCost.H & 0\\
+\hline
+adaptativeCost.P & 0\\
 \hline
 \end{tabular}
 \end{table}
 
 \newpage
 
-\includegraphics[width=1\linewidth]{plots/4_fourPar-U.b1-mU1_plot}
+\includegraphics[width=1\linewidth]{plots/4_exp_type_1_traits-tripleRaster_fourParameterss}
 
 \newpage
 
@@ -1530,46 +1790,74 @@ This exploration reflects the state after a successful coevolution (both populat
 \hline
 parameter & value\\
 \hline
-iniH & 10\\
+initial\_population\_humans & 10\\
 \hline
-iniP & 10\\
+initial\_population\_plants & 10\\
 \hline
-n.H & 30\\
+number\_types\_humans & 30\\
 \hline
-n.P & 30\\
+number\_types\_plants & 30\\
 \hline
-v.H & 0.15\\
+undirected\_variation\_humans & 0.15\\
 \hline
-v.P & 0.15\\
+undirected\_variation\_plants & 0.15\\
 \hline
-r.H & 0.04\\
+intrinsic\_growth\_rate\_humans & 0.04\\
 \hline
-r.P & 0.1\\
+intrinsic\_growth\_rate\_plants & 0.1\\
 \hline
-mU.PnH & 0 - 3 (sample = 5 )\\
+utility\_per\_capita\_type\_n\_plants\_to\_humans & 0 - 3 (sample = 5 )\\
 \hline
-mU.HnP & 0 - 3 (sample = 5 )\\
+utility\_per\_capita\_type\_n\_humans\_to\_plants & 0 - 3 (sample = 5 )\\
 \hline
-mU.P1H & 0.15\\
+utility\_per\_capita\_type\_1\_plants\_to\_humans & 0.15\\
 \hline
-mU.H1P & 0\\
+utility\_per\_capita\_type\_1\_humans\_to\_plants & 0\\
 \hline
-U.bHn & 5 - 300 (sample = 5 )\\
+utility\_other\_to\_type\_n\_humans & 5 - 300 (sample = 5 )\\
 \hline
-U.bPn & 5 - 300 (sample = 5 )\\
+utility\_other\_to\_type\_n\_plants & 5 - 300 (sample = 5 )\\
 \hline
-U.bH1 & 80\\
+utility\_other\_to\_type\_1\_humans & 80\\
 \hline
-U.bP1 & 100\\
+utility\_other\_to\_type\_1\_plants & 100\\
 \hline
-MaxArea & 200\\
+max\_area & 200\\
+\hline
+max\_iterations & 5000\\
+\hline
+reltol\_exponential & 6\\
+\hline
+coevolution\_threshold & 0.5\\
+\hline
+humans & 64.1666430895196 - 807.328991049208 (sample = 625 )\\
+\hline
+plants & 92.6202301643023 - 200 (sample = 277 )\\
+\hline
+coevolution\_coefficient\_humans & -0.679128503735363 - 0.70302520295008 (sample = 625 )\\
+\hline
+coevolution\_coefficient\_plants & -0.717940999312672 - 0.706962738602103 (sample = 547 )\\
+\hline
+dependency\_coefficient\_humans & -0.777008961746428 - 0.959230192691127 (sample = 625 )\\
+\hline
+dependency\_coefficient\_plants & -1 - 0.986623853348364 (sample = 502 )\\
+\hline
+timing\_humans & 0 - 1987 (sample = 118 )\\
+\hline
+timing\_plants & 0 - 1996 (sample = 134 )\\
+\hline
+time\_end & 333 - 2463 (sample = 293 )\\
+\hline
+adaptativeCost.H & 0\\
+\hline
+adaptativeCost.P & 0\\
 \hline
 \end{tabular}
 \end{table}
 
 \newpage
 
-\includegraphics[width=1\linewidth]{plots/4_fourPar-U.bn-mUn_plot}
+\includegraphics[width=1\linewidth]{plots/4_exp_type_n_traits-tripleRaster_fourParameterss}
 
 \newpage
 
@@ -1586,46 +1874,74 @@ MaxArea & 200\\
 \hline
 parameter & value\\
 \hline
-iniH & 10\\
+initial\_population\_humans & 10\\
 \hline
-iniP & 10\\
+initial\_population\_plants & 10\\
 \hline
-n.H & 30\\
+number\_types\_humans & 30\\
 \hline
-n.P & 30\\
+number\_types\_plants & 30\\
 \hline
-v.H & 0.15\\
+undirected\_variation\_humans & 0.15\\
 \hline
-v.P & 0.15\\
+undirected\_variation\_plants & 0.15\\
 \hline
-r.H & 0.04\\
+intrinsic\_growth\_rate\_humans & 0.04\\
 \hline
-r.P & 0.1\\
+intrinsic\_growth\_rate\_plants & 0.1\\
 \hline
-mU.PnH & 0 - 3 (sample = 5 )\\
+utility\_per\_capita\_type\_n\_plants\_to\_humans & 0 - 3 (sample = 5 )\\
 \hline
-mU.HnP & 0 - 3 (sample = 5 )\\
+utility\_per\_capita\_type\_n\_humans\_to\_plants & 0 - 3 (sample = 5 )\\
 \hline
-mU.P1H & 0.15\\
+utility\_per\_capita\_type\_1\_plants\_to\_humans & 0.15\\
 \hline
-mU.H1P & 0\\
+utility\_per\_capita\_type\_1\_humans\_to\_plants & 0\\
 \hline
-U.bHn & 10\\
+utility\_other\_to\_type\_n\_humans & 10\\
 \hline
-U.bPn & 20\\
+utility\_other\_to\_type\_n\_plants & 20\\
 \hline
-U.bH1 & 5 - 300 (sample = 5 )\\
+utility\_other\_to\_type\_1\_humans & 5 - 300 (sample = 5 )\\
 \hline
-U.bP1 & 5 - 300 (sample = 5 )\\
+utility\_other\_to\_type\_1\_plants & 5 - 300 (sample = 5 )\\
 \hline
-MaxArea & 200\\
+max\_area & 200\\
+\hline
+max\_iterations & 5000\\
+\hline
+reltol\_exponential & 6\\
+\hline
+coevolution\_threshold & 0.5\\
+\hline
+humans & 6.38567677603494 - 589.026150117979 (sample = 601 )\\
+\hline
+plants & 6.1652021286834 - 200 (sample = 161 )\\
+\hline
+coevolution\_coefficient\_humans & -0.717093307895232 - 0.704001346199569 (sample = 601 )\\
+\hline
+coevolution\_coefficient\_plants & -0.717942713336574 - 0.705583334637245 (sample = 550 )\\
+\hline
+dependency\_coefficient\_humans & -0.99386768837643 - 0.965886637096393 (sample = 601 )\\
+\hline
+dependency\_coefficient\_plants & -1 - 0.976861123972666 (sample = 502 )\\
+\hline
+timing\_humans & 0 - 626 (sample = 165 )\\
+\hline
+timing\_plants & 0 - 931 (sample = 145 )\\
+\hline
+time\_end & 233 - 4539 (sample = 258 )\\
+\hline
+adaptativeCost.H & 0\\
+\hline
+adaptativeCost.P & 0\\
 \hline
 \end{tabular}
 \end{table}
 
 \newpage
 
-\includegraphics[width=1\linewidth]{plots/4_fourPar-U.b1-mUn_plot}
+\includegraphics[width=1\linewidth]{plots/4_exp_utility_boundaries-tripleRaster_fourParameterss}
 
 \newpage
 
@@ -1642,46 +1958,74 @@ MaxArea & 200\\
 \hline
 parameter & value\\
 \hline
-iniH & 10\\
+initial\_population\_humans & 10\\
 \hline
-iniP & 10\\
+initial\_population\_plants & 10\\
 \hline
-n.H & 30\\
+number\_types\_humans & 30\\
 \hline
-n.P & 30\\
+number\_types\_plants & 30\\
 \hline
-v.H & 0.15\\
+undirected\_variation\_humans & 0.15\\
 \hline
-v.P & 0.15\\
+undirected\_variation\_plants & 0.15\\
 \hline
-r.H & 0.04\\
+intrinsic\_growth\_rate\_humans & 0.04\\
 \hline
-r.P & 0.1\\
+intrinsic\_growth\_rate\_plants & 0.1\\
 \hline
-mU.PnH & 1.5\\
+utility\_per\_capita\_type\_n\_plants\_to\_humans & 1.5\\
 \hline
-mU.HnP & 1\\
+utility\_per\_capita\_type\_n\_humans\_to\_plants & 1\\
 \hline
-mU.P1H & 0 - 3 (sample = 5 )\\
+utility\_per\_capita\_type\_1\_plants\_to\_humans & 0 - 3 (sample = 5 )\\
 \hline
-mU.H1P & 0 - 3 (sample = 5 )\\
+utility\_per\_capita\_type\_1\_humans\_to\_plants & 0 - 3 (sample = 5 )\\
 \hline
-U.bHn & 5 - 300 (sample = 5 )\\
+utility\_other\_to\_type\_n\_humans & 5 - 300 (sample = 5 )\\
 \hline
-U.bPn & 5 - 300 (sample = 5 )\\
+utility\_other\_to\_type\_n\_plants & 5 - 300 (sample = 5 )\\
 \hline
-U.bH1 & 80\\
+utility\_other\_to\_type\_1\_humans & 80\\
 \hline
-U.bP1 & 100\\
+utility\_other\_to\_type\_1\_plants & 100\\
 \hline
-MaxArea & 200\\
+max\_area & 200\\
+\hline
+max\_iterations & 5000\\
+\hline
+reltol\_exponential & 6\\
+\hline
+coevolution\_threshold & 0.5\\
+\hline
+humans & 85.9008612229338 - 612.763495452455 (sample = 625 )\\
+\hline
+plants & 100.91653600923 - 200 (sample = 35 )\\
+\hline
+coevolution\_coefficient\_humans & -0.668621412131363 - 0.70045091719619 (sample = 602 )\\
+\hline
+coevolution\_coefficient\_plants & -0.687782870795182 - 0.704835508737043 (sample = 625 )\\
+\hline
+dependency\_coefficient\_humans & -0.731815848104177 - 0.942083141982177 (sample = 601 )\\
+\hline
+dependency\_coefficient\_plants & -0.818236588616326 - 0.971644214855913 (sample = 625 )\\
+\hline
+timing\_humans & 0 - 181 (sample = 94 )\\
+\hline
+timing\_plants & 0 - 291 (sample = 142 )\\
+\hline
+time\_end & 318 - 1892 (sample = 261 )\\
+\hline
+adaptativeCost.H & 0\\
+\hline
+adaptativeCost.P & 0\\
 \hline
 \end{tabular}
 \end{table}
 
 \newpage
 
-\includegraphics[width=1\linewidth]{plots/4_fourPar-U.bn-mU1_plot}
+\includegraphics[width=1\linewidth]{plots/4_exp_utility_inverse_boundaries-tripleRaster_fourParameterss}
 
 \hypertarget{multiple-parameter-exploration}{%
 \chapter{Multiple parameter exploration}\label{multiple-parameter-exploration}}
@@ -1694,23 +2038,68 @@ MaxArea & 200\\
 \begin{longtable}[]{@{}ll@{}}
 \caption{Ranges of parameter exploration}\tabularnewline
 \toprule
-\textbf{parameter} & \textbf{value}\tabularnewline
+\begin{minipage}[b]{0.33\columnwidth}\raggedright
+\textbf{parameter}\strut
+\end{minipage} & \begin{minipage}[b]{0.62\columnwidth}\raggedright
+\textbf{value}\strut
+\end{minipage}\tabularnewline
 \midrule
 \endfirsthead
 \toprule
-\textbf{parameter} & \textbf{value}\tabularnewline
+\begin{minipage}[b]{0.33\columnwidth}\raggedright
+\textbf{parameter}\strut
+\end{minipage} & \begin{minipage}[b]{0.62\columnwidth}\raggedright
+\textbf{value}\strut
+\end{minipage}\tabularnewline
 \midrule
 \endhead
-\texttt{n.H}, \texttt{n.P} & {[}3, 50{]}, {[}3, 50{]}\tabularnewline
-\texttt{v.H}, \texttt{v.P} & {[}0.1, 0.3{]}, {[}0.1, 0.3{]}\tabularnewline
-\texttt{r.H}, \texttt{r.P} & {[}0.01, 0.3{]}, {[}0.01, 0.3{]}\tabularnewline
-\texttt{mU.PnH}, \texttt{mU.HnP} & {[}0, 3{]}, {[}0, 3{]}\tabularnewline
-\texttt{mU.P1H}, \texttt{mU.H1P} & {[}0, 3{]}, {[}0, 3{]}\tabularnewline
-\texttt{U.bH1}, \texttt{U.bP1} & {[}1, 300{]}, {[}1, 300{]}\tabularnewline
-\texttt{U.bHn}, \texttt{U.bPn} & {[}1, 300{]}, {[}1, 300{]}\tabularnewline
-\texttt{MaxArea} & {[}1, 300{]}\tabularnewline
+\begin{minipage}[t]{0.33\columnwidth}\raggedright
+\texttt{number\_types\_humans}, \texttt{number\_types\_plants}\strut
+\end{minipage} & \begin{minipage}[t]{0.62\columnwidth}\raggedright
+{[}3, 50{]}, {[}3, 50{]}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.33\columnwidth}\raggedright
+\texttt{undirected\_variation\_humans}, \texttt{undirected\_variation\_plants}\strut
+\end{minipage} & \begin{minipage}[t]{0.62\columnwidth}\raggedright
+{[}0.1, 0.3{]}, {[}0.1, 0.3{]}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.33\columnwidth}\raggedright
+\texttt{intrinsic\_growth\_rate\_humans}, \texttt{intrinsic\_growth\_rate\_plants}\strut
+\end{minipage} & \begin{minipage}[t]{0.62\columnwidth}\raggedright
+{[}0.01, 0.3{]}, {[}0.01, 0.3{]}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.33\columnwidth}\raggedright
+\texttt{utility\_per\_capita\_type\_n\_plants\_to\_humans}, \texttt{utility\_per\_capita\_type\_n\_humans\_to\_plants}\strut
+\end{minipage} & \begin{minipage}[t]{0.62\columnwidth}\raggedright
+{[}0, 3{]}, {[}0, 3{]}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.33\columnwidth}\raggedright
+\texttt{utility\_per\_capita\_type\_1\_plants\_to\_humans}, \texttt{utility\_per\_capita\_type\_1\_humans\_to\_plants}\strut
+\end{minipage} & \begin{minipage}[t]{0.62\columnwidth}\raggedright
+{[}0, 3{]}, {[}0, 3{]}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.33\columnwidth}\raggedright
+\texttt{utility\_other\_to\_type\_n\_humans}, \texttt{utility\_other\_to\_type\_n\_plants}\strut
+\end{minipage} & \begin{minipage}[t]{0.62\columnwidth}\raggedright
+{[}1, 300{]}, {[}1, 300{]}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.33\columnwidth}\raggedright
+\texttt{max\_area}\strut
+\end{minipage} & \begin{minipage}[t]{0.62\columnwidth}\raggedright
+{[}, {]}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.33\columnwidth}\raggedright
+\texttt{utility\_other\_to\_type\_1\_humans}, \texttt{utility\_other\_to\_type\_1\_plants}\strut
+\end{minipage} & \begin{minipage}[t]{0.62\columnwidth}\raggedright
+{[}1, 300{]}, {[}1, 300{]}\strut
+\end{minipage}\tabularnewline
 \bottomrule
 \end{longtable}
+
+\begin{verbatim}
+## [1] 15
+## [1] 15
+\end{verbatim}
 
 \begin{table}[!h]
 
@@ -1720,42 +2109,42 @@ MaxArea & 200\\
 \hline
 parameter & value\\
 \hline
-n.H & 3 - 50 (sample = 48 )\\
+number\_types\_humans & 3 - 50 (sample = 48 )\\
 \hline
-n.P & 3 - 50 (sample = 48 )\\
+number\_types\_plants & 3 - 50 (sample = 48 )\\
 \hline
-v.H & 0.10001 - 0.29999 (sample = 7838 )\\
+undirected\_variation\_humans & 0.10005 - 0.29998 (sample = 7821 )\\
 \hline
-v.P & 0.10001 - 0.3 (sample = 7820 )\\
+undirected\_variation\_plants & 0.10003 - 0.29994 (sample = 7911 )\\
 \hline
-r.H & 0.01001 - 0.3 (sample = 8465 )\\
+intrinsic\_growth\_rate\_humans & 0.01 - 0.29999 (sample = 8471 )\\
 \hline
-r.P & 0.01004 - 0.29998 (sample = 8461 )\\
+intrinsic\_growth\_rate\_plants & 0.01002 - 0.29995 (sample = 8446 )\\
 \hline
-mU.PnH & 0.0012 - 2.9999 (sample = 8515 )\\
+utility\_per\_capita\_type\_n\_plants\_to\_humans & 2e-04 - 2.9996 (sample = 8529 )\\
 \hline
-mU.HnP & 2e-04 - 2.9998 (sample = 8472 )\\
+utility\_per\_capita\_type\_n\_humans\_to\_plants & 4e-04 - 3 (sample = 8483 )\\
 \hline
-mU.P1H & 0 - 2.9997 (sample = 8515 )\\
+utility\_per\_capita\_type\_1\_plants\_to\_humans & 6e-04 - 2.9998 (sample = 8503 )\\
 \hline
-mU.H1P & 5e-04 - 3 (sample = 8509 )\\
+utility\_per\_capita\_type\_1\_humans\_to\_plants & 8e-04 - 2.9999 (sample = 8515 )\\
 \hline
-U.bHn & 1.0171 - 299.9473 (sample = 9987 )\\
+utility\_other\_to\_type\_n\_humans & 1.0158 - 299.9876 (sample = 9985 )\\
 \hline
-U.bPn & 1.0217 - 299.9923 (sample = 9988 )\\
+utility\_other\_to\_type\_n\_plants & 1.0571 - 299.9363 (sample = 9982 )\\
 \hline
-U.bH1 & 1.043 - 299.9984 (sample = 9980 )\\
+utility\_other\_to\_type\_1\_humans & 1.0081 - 299.9701 (sample = 9978 )\\
 \hline
-U.bP1 & 1.0541 - 299.986 (sample = 9983 )\\
+utility\_other\_to\_type\_1\_plants & 1.0246 - 299.9917 (sample = 9987 )\\
 \hline
-MaxArea & 1.0026 - 299.958 (sample = 9979 )\\
+max\_area & 1.0577 - 299.9854 (sample = 9972 )\\
 \hline
 \end{tabular}
 \end{table}
 
 \newpage
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-LHS_pairs-plot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_parameter_values_pairsPlot}
 
 \newpage
 
@@ -1769,11 +2158,11 @@ MaxArea & 1.0026 - 299.958 (sample = 9979 )\\
 
 \begin{tabular}{l|r}
 \hline
-H.exists & Freq\\
+humans\_exists & Freq\\
 \hline
-FALSE & 18\\
+FALSE & 15\\
 \hline
-TRUE & 9982\\
+TRUE & 9985\\
 \hline
 \end{tabular}
 
@@ -1781,11 +2170,11 @@ TRUE & 9982\\
 
 \begin{tabular}{l|r}
 \hline
-P.exists & Freq\\
+plants\_exists & Freq\\
 \hline
-FALSE & 18\\
+FALSE & 15\\
 \hline
-TRUE & 9982\\
+TRUE & 9985\\
 \hline
 \end{tabular}
 
@@ -1793,11 +2182,11 @@ TRUE & 9982\\
 
 \begin{tabular}{l|r}
 \hline
-H.notByFarEvolved & Freq\\
+humans\_notByFarEvolved & Freq\\
 \hline
-FALSE & 8490\\
+FALSE & 8561\\
 \hline
-TRUE & 1510\\
+TRUE & 1439\\
 \hline
 \end{tabular}
 
@@ -1805,11 +2194,11 @@ TRUE & 1510\\
 
 \begin{tabular}{l|r}
 \hline
-P.notByFarEvolved & Freq\\
+plants\_notByFarEvolved & Freq\\
 \hline
-FALSE & 9759\\
+FALSE & 9792\\
 \hline
-TRUE & 241\\
+TRUE & 208\\
 \hline
 \end{tabular}
 
@@ -1817,11 +2206,11 @@ TRUE & 241\\
 
 \begin{tabular}{l|r}
 \hline
-H.mildEvolved & Freq\\
+humans\_mildEvolved & Freq\\
 \hline
-FALSE & 6033\\
+FALSE & 5966\\
 \hline
-TRUE & 3967\\
+TRUE & 4034\\
 \hline
 \end{tabular}
 
@@ -1829,11 +2218,11 @@ TRUE & 3967\\
 
 \begin{tabular}{l|r}
 \hline
-P.mildEvolved & Freq\\
+plants\_mildEvolved & Freq\\
 \hline
-FALSE & 5340\\
+FALSE & 5471\\
 \hline
-TRUE & 4660\\
+TRUE & 4529\\
 \hline
 \end{tabular}
 
@@ -1841,11 +2230,11 @@ TRUE & 4660\\
 
 \begin{tabular}{l|r}
 \hline
-H.fullEvolved & Freq\\
+humans\_fullEvolved & Freq\\
 \hline
-FALSE & 8166\\
+FALSE & 8162\\
 \hline
-TRUE & 1834\\
+TRUE & 1838\\
 \hline
 \end{tabular}
 
@@ -1853,26 +2242,26 @@ TRUE & 1834\\
 
 \begin{tabular}{l|r}
 \hline
-P.fullEvolved & Freq\\
+plants\_fullEvolved & Freq\\
 \hline
-FALSE & 5802\\
+FALSE & 5671\\
 \hline
-TRUE & 4198\\
+TRUE & 4329\\
 \hline
 \end{tabular}
 
 \textbf{\emph{Population and output variables}}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-variables-ggplot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_summary_plot}
 
 \hypertarget{trajectories}{%
 \subsection{Trajectories}\label{trajectories}}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-pop_trajectories-ggplot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_trajectoriesOverview}
 
 \newpage
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-coevo_endstates-ggplot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_coevo_end_state}
 
 \newpage
 
@@ -1882,32 +2271,37 @@ TRUE & 4198\\
 \hypertarget{optimisation}{%
 \subsection{Optimisation}\label{optimisation}}
 
-\includegraphics[width=1\linewidth]{hpcModel-exploration_files/figure-latex/5_RF.coevo.tunning-plot-1}
+\begin{verbatim}
+## pdf 
+##   2
+\end{verbatim}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_coevo_optimisationPlot}
 
 \newpage
 
 \hypertarget{coevolution-coefficients}{%
 \subsection{Coevolution coefficients}\label{coevolution-coefficients}}
 
-Only using those runs with any humans (coevo.H) and plants (coevo.P) at the end-state.
+Only using those runs with any humans (coevolution\_coefficient\_humans) and plants (coevolution\_coefficient\_humans) at the end-state.
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-RF-coevo}
+\includegraphics[width=1\linewidth]{plots/5_LHS_coevo_variableImportancePlot}
 
 \newpage
 
 \hypertarget{dependency-coefficients}{%
 \subsection{Dependency coefficients}\label{dependency-coefficients}}
 
-Only using those runs with any humans (depend.H) and plants (depend.P) at the end-state.
+Only using those runs with any humans (dependency\_coefficient\_humans) and plants (dependency\_coefficient\_plants) at the end-state.
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-RF-depend}
+\includegraphics[width=1\linewidth]{plots/5_LHS_dependency_coefficient_variableImportancePlot}
 
 \hypertarget{timings}{%
 \subsection{Timings}\label{timings}}
 
-Only using those runs with successful human (timing.H) and plant (timing.P) evolution.
+Only using those runs with successful human (\texttt{timing\_humans}) and plant (\texttt{timing\_.P\_plants}) evolution.
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-RF-timing}
+\includegraphics[width=1\linewidth]{plots/5_LHS_timing_variableImportancePlot}
 
 \newpage
 
@@ -1919,7 +2313,7 @@ Only using those runs with successful human (timing.H) and plant (timing.P) evol
 
 \sectionmark{Visualising effect of $\bar{U}_{H_{n}P}$}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-coevo_collapsed-ggplot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_coevolution_coefficients_bifurcationPlot_twoVariables}
 
 \newpage
 
@@ -1928,20 +2322,62 @@ Only using those runs with successful human (timing.H) and plant (timing.P) evol
 
 \textbf{\emph{Coevolution coefficients}}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-coevo-ggplot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter}
 
 \textbf{\emph{Dependency coefficients}}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-depend-ggplot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter}
 
 \textbf{\emph{Timings}}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-timing-ggplot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_timing_bifurcationPlot_twoVariables_per_parameter}
 
 \newpage
 
 \hypertarget{parameter-effect-split-by-scenarios}{%
 \section{Parameter effect split by scenarios}\label{parameter-effect-split-by-scenarios}}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+\begin{minipage}[b]{0.33\columnwidth}\raggedright
+\textbf{Scenario label}\strut
+\end{minipage} & \begin{minipage}[b]{0.62\columnwidth}\raggedright
+\textbf{Scenario condition}\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.33\columnwidth}\raggedright
+plantsImprove\strut
+\end{minipage} & \begin{minipage}[t]{0.62\columnwidth}\raggedright
+`utility\_per\_capita\_type\_n\_plants\_to\_humans \textgreater{} utility\_per\_capita\_type\_1\_plants\_to\_humans'\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.33\columnwidth}\raggedright
+humansImprove\strut
+\end{minipage} & \begin{minipage}[t]{0.62\columnwidth}\raggedright
+`utility\_per\_capita\_type\_n\_humans\_to\_plants \textgreater{} utility\_per\_capita\_type\_1\_humans\_to\_plants'\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.33\columnwidth}\raggedright
+bothImprove\strut
+\end{minipage} & \begin{minipage}[t]{0.62\columnwidth}\raggedright
+`utility\_per\_capita\_type\_n\_plants\_to\_humans \textgreater{} utility\_per\_capita\_type\_1\_plants\_to\_humans \textasciitilde\textasciitilde\textasciitilde{} AND \textasciitilde\textasciitilde\textasciitilde{} utility\_per\_capita\_type\_n\_humans\_to\_plants \textgreater{} utility\_per\_capita\_type\_1\_humans\_to\_plants'\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.33\columnwidth}\raggedright
+plantsLessBase\strut
+\end{minipage} & \begin{minipage}[t]{0.62\columnwidth}\raggedright
+`utility\_other\_to\_type\_1\_plants \textgreater{} utility\_other\_to\_type\_n\_plants'\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.33\columnwidth}\raggedright
+humansLessBase\strut
+\end{minipage} & \begin{minipage}[t]{0.62\columnwidth}\raggedright
+`utility\_other\_to\_type\_1\_humans \textgreater{} utility\_other\_to\_type\_n\_humans'\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.33\columnwidth}\raggedright
+bothLessBase\strut
+\end{minipage} & \begin{minipage}[t]{0.62\columnwidth}\raggedright
+`utility\_per\_capita\_type\_n\_plants\_to\_humans \textgreater{} utility\_per\_capita\_type\_1\_plants\_to\_humans \textasciitilde\textasciitilde\textasciitilde{} AND \textasciitilde\textasciitilde\textasciitilde{} utility\_per\_capita\_type\_n\_humans\_to\_plants \textgreater{} utility\_per\_capita\_type\_1\_humans\_to\_plants'\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
 
 \hypertarget{mutualistic-human-type-gives-more-utility-baru_h_np-baru_h_1p}{%
 \subsection{\texorpdfstring{Mutualistic human type gives more utility (\(\bar{U}_{H_{n}P}> \bar{U}_{H_{1}P}\))}{Mutualistic human type gives more utility (\textbackslash bar\{U\}\_\{H\_\{n\}P\}\textgreater{} \textbackslash bar\{U\}\_\{H\_\{1\}P\})}}\label{mutualistic-human-type-gives-more-utility-baru_h_np-baru_h_1p}}
@@ -1950,15 +2386,26 @@ Only using those runs with successful human (timing.H) and plant (timing.P) evol
 
 \textbf{\emph{Coevolution coefficients}}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-coevo-humanImprove-ggplot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_humansImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1}
 
+\includegraphics[width=1\linewidth]{plots/5_LHS_humansImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_humansImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3}
 \textbf{\emph{Dependency coefficients}}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-depend-humanImprove-ggplot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_humansImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_humansImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_humansImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3}
 
 \textbf{\emph{Timings}}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-timing-humanImprove-ggplot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_humansImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_humansImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_humansImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3}
 
 \newpage
 
@@ -1969,15 +2416,27 @@ Only using those runs with successful human (timing.H) and plant (timing.P) evol
 
 \textbf{\emph{Coevolution coefficients}}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-coevo-plantImprove-ggplot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_plantsImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_plantsImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_plantsImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3}
 
 \textbf{\emph{Dependency coefficients}}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-depend-plantImprove-ggplot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_plantsImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_plantsImprove_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3}
 
 \textbf{\emph{Timings}}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-timing-plantImprove-ggplot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_plantsImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_plantsImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_plantsImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3}
 
 \newpage
 
@@ -1988,15 +2447,27 @@ Only using those runs with successful human (timing.H) and plant (timing.P) evol
 
 \textbf{\emph{Coevolution coefficients}}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-coevo-bothImprove-ggplot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_bothImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_bothImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_bothImprove_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3}
 
 \textbf{\emph{Dependency coefficients}}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-depend-bothImprove-ggplot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3}
 
 \textbf{\emph{Timings}}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-timing-bothImprove-ggplot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_bothImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_bothImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_bothImprove_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3}
 
 \newpage
 
@@ -2007,15 +2478,27 @@ Only using those runs with successful human (timing.H) and plant (timing.P) evol
 
 \textbf{\emph{Coevolution coefficients}}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-coevo-humanLessBase-ggplot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_humansLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_humansLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_humansLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3}
 
 \textbf{\emph{Dependency coefficients}}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-depend-humanLessBase-ggplot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3}
 
 \textbf{\emph{Timings}}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-timing-humanLessBase-ggplot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_humansLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_humansLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_humansLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3}
 
 \newpage
 
@@ -2026,15 +2509,27 @@ Only using those runs with successful human (timing.H) and plant (timing.P) evol
 
 \textbf{\emph{Coevolution coefficients}}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-coevo-plantLessBase-ggplot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_plantsLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_plantsLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_plantsLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3}
 
 \textbf{\emph{Dependency coefficients}}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-depend-plantLessBase-ggplot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3}
 
 \textbf{\emph{Timings}}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-timing-plantLessBase-ggplot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_plantsLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_plantsLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_plantsLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3}
 
 \newpage
 
@@ -2045,15 +2540,27 @@ Only using those runs with successful human (timing.H) and plant (timing.P) evol
 
 \textbf{\emph{Coevolution coefficients}}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-coevo-bothLessBase-ggplot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_bothLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_bothLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_bothLessBase_coevolution_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3}
 
 \textbf{\emph{Dependency coefficients}}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-depend-bothLessBase-ggplot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_dependency_coefficients_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3}
 
 \textbf{\emph{Timings}}
 
-\includegraphics[width=1\linewidth]{plots/5_multiplePar-timing-bothLessBase-ggplot}
+\includegraphics[width=1\linewidth]{plots/5_LHS_bothLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part1}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_bothLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part2}
+
+\includegraphics[width=1\linewidth]{plots/5_LHS_bothLessBase_timing_bifurcationPlot_twoVariables_per_parameter_and_scenario_part3}
 
 \hypertarget{references}{%
 \chapter{References}\label{references}}
