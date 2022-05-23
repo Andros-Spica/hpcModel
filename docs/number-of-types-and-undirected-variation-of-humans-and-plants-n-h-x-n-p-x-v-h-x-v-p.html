@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>4.1 Number of types and undirected variation of humans and plants (\(n_{H}\) x \(n_{P}\) x \(v_{H}\) x \(v_{P}\)) | Human-Plant Coevolution (HPC) model General exploration and parameter sensitivity analysis</title>
   <meta name="description" content="The Human-Plant Coevolution (HPC) model represents the dynamics of coevolution between a human and a plant population. The model consists of an ecological positive feedback system (mutualism), which can be reinforced by positive evolutionary feedback (coevolution). The model is the result of wiring together relatively simple simulation models of population ecology and evolution, through a computational implementation in R." />
-  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="4.1 Number of types and undirected variation of humans and plants (\(n_{H}\) x \(n_{P}\) x \(v_{H}\) x \(v_{P}\)) | Human-Plant Coevolution (HPC) model General exploration and parameter sensitivity analysis" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://andros-spica.github.io/hpcModel/" />
-  <meta property="og:image" content="https://andros-spica.github.io/hpcModel/images/hpcModel-logo_v2.png" />
+  <meta property="og:image" content="https://andros-spica.github.io/hpcModel//images/hpcModel-logo_v2.png" />
   <meta property="og:description" content="The Human-Plant Coevolution (HPC) model represents the dynamics of coevolution between a human and a plant population. The model consists of an ecological positive feedback system (mutualism), which can be reinforced by positive evolutionary feedback (coevolution). The model is the result of wiring together relatively simple simulation models of population ecology and evolution, through a computational implementation in R." />
   <meta name="github-repo" content="Andros-Spica/hpcModel" />
 
@@ -19,11 +19,11 @@
   <meta name="twitter:title" content="4.1 Number of types and undirected variation of humans and plants (\(n_{H}\) x \(n_{P}\) x \(v_{H}\) x \(v_{P}\)) | Human-Plant Coevolution (HPC) model General exploration and parameter sensitivity analysis" />
   
   <meta name="twitter:description" content="The Human-Plant Coevolution (HPC) model represents the dynamics of coevolution between a human and a plant population. The model consists of an ecological positive feedback system (mutualism), which can be reinforced by positive evolutionary feedback (coevolution). The model is the result of wiring together relatively simple simulation models of population ecology and evolution, through a computational implementation in R." />
-  <meta name="twitter:image" content="https://andros-spica.github.io/hpcModel/images/hpcModel-logo_v2.png" />
+  <meta name="twitter:image" content="https://andros-spica.github.io/hpcModel//images/hpcModel-logo_v2.png" />
 
 
 
-<meta name="date" content="2020-06-10" />
+<meta name="date" content="2022-05-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
 <link rel="prev" href="four-parameter-exploration.html"/>
 <link rel="next" href="utility-per-capita-between-humans-and-plants-baru-h-1p-x-baru-p-1h-x-baru-h-np-x-baru-p-nh.html"/>
-<script src="assets/header-attrs-2.1/header-attrs.js"></script>
+<script src="assets/header-attrs-2.9/header-attrs.js"></script>
 <script src="assets/jquery-2.2.3/jquery.min.js"></script>
 <link href="assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="assets/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -50,7 +50,12 @@
 
 
 
+<script src="assets/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="assets/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="assets/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="assets/kePrint-0.0.1/kePrint.js"></script>
+<link href="assets/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
 
 
 
@@ -77,6 +82,7 @@ Andreas Angourakis & Jonàs Alcaina
 <li class="chapter" data-level="" data-path="ecological-relationships-and-population-dynamics.html"><a href="ecological-relationships-and-population-dynamics.html"><i class="fa fa-check"></i>Ecological relationships and population dynamics</a></li>
 <li class="chapter" data-level="" data-path="population-diversity.html"><a href="population-diversity.html"><i class="fa fa-check"></i>Population diversity</a></li>
 <li class="chapter" data-level="" data-path="coevolutionary-dynamics.html"><a href="coevolutionary-dynamics.html"><i class="fa fa-check"></i>Coevolutionary dynamics</a></li>
+<li class="chapter" data-level="" data-path="parameters-and-variables.html"><a href="parameters-and-variables.html"><i class="fa fa-check"></i>Parameters and variables</a></li>
 <li class="chapter" data-level="" data-path="end-states.html"><a href="end-states.html"><i class="fa fa-check"></i>End-states</a></li>
 <li class="chapter" data-level="" data-path="output-variables.html"><a href="output-variables.html"><i class="fa fa-check"></i>Output variables</a></li>
 <li class="chapter" data-level="" data-path="experimental-design.html"><a href="experimental-design.html"><i class="fa fa-check"></i>Experimental design</a></li>
@@ -114,7 +120,7 @@ Andreas Angourakis & Jonàs Alcaina
 <li class="chapter" data-level="2.2.10" data-path="exploration-on-default-setting-for-each-parameter.html"><a href="exploration-on-default-setting-for-each-parameter.html#utility-of-non-anthropic-space-to-type-1-plants-u_bp_1"><i class="fa fa-check"></i><b>2.2.10</b> utility <strong>of</strong> non-anthropic space <strong>to</strong> type 1 plants (<span class="math inline">\(U_{bP_{1}}\)</span>):</a></li>
 <li class="chapter" data-level="2.2.11" data-path="exploration-on-default-setting-for-each-parameter.html"><a href="exploration-on-default-setting-for-each-parameter.html#utility-of-other-resources-to-type-n-humans-u_bh_n"><i class="fa fa-check"></i><b>2.2.11</b> utility <strong>of</strong> other resources <strong>to</strong> type n humans (<span class="math inline">\(U_{bH_{n}}\)</span>):</a></li>
 <li class="chapter" data-level="2.2.12" data-path="exploration-on-default-setting-for-each-parameter.html"><a href="exploration-on-default-setting-for-each-parameter.html#utility-of-non-anthropic-space-to-type-n-plants-u_bp_n"><i class="fa fa-check"></i><b>2.2.12</b> utility <strong>of</strong> non-anthropic space <strong>to</strong> type n plants (<span class="math inline">\(U_{bP_{n}}\)</span>):</a></li>
-<li class="chapter" data-level="2.2.13" data-path="exploration-on-default-setting-for-each-parameter.html"><a href="exploration-on-default-setting-for-each-parameter.html#maximum-contiguous-area-to-be-used-by-plants-maxarea"><i class="fa fa-check"></i><b>2.2.13</b> maximum contiguous area to be used by plants (<span class="math inline">\(MaxArea\)</span>):</a></li>
+<li class="chapter" data-level="2.2.13" data-path="exploration-on-default-setting-for-each-parameter.html"><a href="exploration-on-default-setting-for-each-parameter.html#maximum-contiguous-area-to-be-used-by-plants-max_area"><i class="fa fa-check"></i><b>2.2.13</b> maximum contiguous area to be used by plants (<span class="math inline">\(max_area\)</span>):</a></li>
 </ul></li>
 <li class="chapter" data-level="2.3" data-path="oscilations.html"><a href="oscilations.html"><i class="fa fa-check"></i><b>2.3</b> Oscilations</a></li>
 </ul></li>
@@ -224,7 +230,7 @@ value
 <tbody>
 <tr>
 <td style="text-align:left;">
-iniH
+initial_population_humans
 </td>
 <td style="text-align:left;">
 10
@@ -232,7 +238,7 @@ iniH
 </tr>
 <tr>
 <td style="text-align:left;">
-iniP
+initial_population_plants
 </td>
 <td style="text-align:left;">
 10
@@ -240,7 +246,7 @@ iniP
 </tr>
 <tr>
 <td style="text-align:left;">
-n.H
+number_types_humans
 </td>
 <td style="text-align:left;">
 5 - 45 (sample = 5 )
@@ -248,7 +254,7 @@ n.H
 </tr>
 <tr>
 <td style="text-align:left;">
-n.P
+number_types_plants
 </td>
 <td style="text-align:left;">
 5 - 45 (sample = 5 )
@@ -256,7 +262,7 @@ n.P
 </tr>
 <tr>
 <td style="text-align:left;">
-v.H
+undirected_variation_humans
 </td>
 <td style="text-align:left;">
 0.05 - 0.25 (sample = 5 )
@@ -264,7 +270,7 @@ v.H
 </tr>
 <tr>
 <td style="text-align:left;">
-v.P
+undirected_variation_plants
 </td>
 <td style="text-align:left;">
 0.05 - 0.25 (sample = 5 )
@@ -272,7 +278,7 @@ v.P
 </tr>
 <tr>
 <td style="text-align:left;">
-r.H
+intrinsic_growth_rate_humans
 </td>
 <td style="text-align:left;">
 0.04
@@ -280,7 +286,7 @@ r.H
 </tr>
 <tr>
 <td style="text-align:left;">
-r.P
+intrinsic_growth_rate_plants
 </td>
 <td style="text-align:left;">
 0.1
@@ -288,7 +294,7 @@ r.P
 </tr>
 <tr>
 <td style="text-align:left;">
-mU.PnH
+utility_per_capita_type_n_plants_to_humans
 </td>
 <td style="text-align:left;">
 1.5
@@ -296,7 +302,7 @@ mU.PnH
 </tr>
 <tr>
 <td style="text-align:left;">
-mU.HnP
+utility_per_capita_type_n_humans_to_plants
 </td>
 <td style="text-align:left;">
 1
@@ -304,7 +310,7 @@ mU.HnP
 </tr>
 <tr>
 <td style="text-align:left;">
-mU.P1H
+utility_per_capita_type_1_plants_to_humans
 </td>
 <td style="text-align:left;">
 0.15
@@ -312,7 +318,7 @@ mU.P1H
 </tr>
 <tr>
 <td style="text-align:left;">
-mU.H1P
+utility_per_capita_type_1_humans_to_plants
 </td>
 <td style="text-align:left;">
 0
@@ -320,7 +326,7 @@ mU.H1P
 </tr>
 <tr>
 <td style="text-align:left;">
-U.bHn
+utility_other_to_type_n_humans
 </td>
 <td style="text-align:left;">
 10
@@ -328,7 +334,7 @@ U.bHn
 </tr>
 <tr>
 <td style="text-align:left;">
-U.bPn
+utility_other_to_type_n_plants
 </td>
 <td style="text-align:left;">
 20
@@ -336,7 +342,7 @@ U.bPn
 </tr>
 <tr>
 <td style="text-align:left;">
-U.bH1
+utility_other_to_type_1_humans
 </td>
 <td style="text-align:left;">
 80
@@ -344,7 +350,7 @@ U.bH1
 </tr>
 <tr>
 <td style="text-align:left;">
-U.bP1
+utility_other_to_type_1_plants
 </td>
 <td style="text-align:left;">
 100
@@ -352,16 +358,128 @@ U.bP1
 </tr>
 <tr>
 <td style="text-align:left;">
-MaxArea
+max_area
 </td>
 <td style="text-align:left;">
 200
 </td>
 </tr>
+<tr>
+<td style="text-align:left;">
+max_iterations
+</td>
+<td style="text-align:left;">
+5000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+reltol_exponential
+</td>
+<td style="text-align:left;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+coevolution_threshold
+</td>
+<td style="text-align:left;">
+0.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+humans
+</td>
+<td style="text-align:left;">
+85.1414283817248 - 303.920561546526 (sample = 625 )
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+plants
+</td>
+<td style="text-align:left;">
+93.5982997036815 - 200 (sample = 372 )
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+coevolution_coefficient_humans
+</td>
+<td style="text-align:left;">
+-0.893138319410505 - 0.796970470817761 (sample = 625 )
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+coevolution_coefficient_plants
+</td>
+<td style="text-align:left;">
+-0.918044258212089 - 0.784003454561172 (sample = 625 )
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+dependency_coefficient_humans
+</td>
+<td style="text-align:left;">
+-0.632605349151667 - 0.897316999088837 (sample = 625 )
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+dependency_coefficient_plants
+</td>
+<td style="text-align:left;">
+-0.943727131580906 - 0.820755925015822 (sample = 625 )
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+timing_humans
+</td>
+<td style="text-align:left;">
+0 - 1117 (sample = 131 )
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+timing_plants
+</td>
+<td style="text-align:left;">
+0 - 1074 (sample = 84 )
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+time_end
+</td>
+<td style="text-align:left;">
+427 - 3284 (sample = 240 )
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+adaptativeCost.H
+</td>
+<td style="text-align:left;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+adaptativeCost.P
+</td>
+<td style="text-align:left;">
+0
+</td>
+</tr>
 </tbody>
 </table>
 <div style="page-break-after: always;"></div>
-<p><img src="plots/4_fourPar-n-v_plot.png" width="100%" /></p>
+<p><img src="plots/4_exp_types_number_and_variation-tripleRaster_fourParameterss.png" width="100%" /></p>
 <p><strong><em>Interpretation</em></strong>:<br />
 - Higher values of all four parameters facilitate coevolution. Undirected variation has a stronger effect than number of types.
 - As a summary of possible end-states:<br />
@@ -399,6 +517,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {

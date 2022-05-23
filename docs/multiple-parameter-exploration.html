@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 5 Multiple parameter exploration | Human-Plant Coevolution (HPC) model General exploration and parameter sensitivity analysis</title>
   <meta name="description" content="The Human-Plant Coevolution (HPC) model represents the dynamics of coevolution between a human and a plant population. The model consists of an ecological positive feedback system (mutualism), which can be reinforced by positive evolutionary feedback (coevolution). The model is the result of wiring together relatively simple simulation models of population ecology and evolution, through a computational implementation in R." />
-  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 Multiple parameter exploration | Human-Plant Coevolution (HPC) model General exploration and parameter sensitivity analysis" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://andros-spica.github.io/hpcModel/" />
-  <meta property="og:image" content="https://andros-spica.github.io/hpcModel/images/hpcModel-logo_v2.png" />
+  <meta property="og:image" content="https://andros-spica.github.io/hpcModel//images/hpcModel-logo_v2.png" />
   <meta property="og:description" content="The Human-Plant Coevolution (HPC) model represents the dynamics of coevolution between a human and a plant population. The model consists of an ecological positive feedback system (mutualism), which can be reinforced by positive evolutionary feedback (coevolution). The model is the result of wiring together relatively simple simulation models of population ecology and evolution, through a computational implementation in R." />
   <meta name="github-repo" content="Andros-Spica/hpcModel" />
 
@@ -19,11 +19,11 @@
   <meta name="twitter:title" content="Chapter 5 Multiple parameter exploration | Human-Plant Coevolution (HPC) model General exploration and parameter sensitivity analysis" />
   
   <meta name="twitter:description" content="The Human-Plant Coevolution (HPC) model represents the dynamics of coevolution between a human and a plant population. The model consists of an ecological positive feedback system (mutualism), which can be reinforced by positive evolutionary feedback (coevolution). The model is the result of wiring together relatively simple simulation models of population ecology and evolution, through a computational implementation in R." />
-  <meta name="twitter:image" content="https://andros-spica.github.io/hpcModel/images/hpcModel-logo_v2.png" />
+  <meta name="twitter:image" content="https://andros-spica.github.io/hpcModel//images/hpcModel-logo_v2.png" />
 
 
 
-<meta name="date" content="2020-06-10" />
+<meta name="date" content="2022-05-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
 <link rel="prev" href="utility-from-other-resources-to-type-n-humans-and-plants-and-utility-per-capita-of-type-1-humans-and-plants-u-bp-n-x-u-bh-n-x-baru-h-1p-x-baru-p-1h.html"/>
 <link rel="next" href="sampling-parameter-values-with-latin-hypercube-sampling-lhs.html"/>
-<script src="assets/header-attrs-2.1/header-attrs.js"></script>
+<script src="assets/header-attrs-2.9/header-attrs.js"></script>
 <script src="assets/jquery-2.2.3/jquery.min.js"></script>
 <link href="assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="assets/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -50,7 +50,12 @@
 
 
 
+<script src="assets/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="assets/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="assets/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="assets/kePrint-0.0.1/kePrint.js"></script>
+<link href="assets/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
 
 
 
@@ -77,6 +82,7 @@ Andreas Angourakis & Jonàs Alcaina
 <li class="chapter" data-level="" data-path="ecological-relationships-and-population-dynamics.html"><a href="ecological-relationships-and-population-dynamics.html"><i class="fa fa-check"></i>Ecological relationships and population dynamics</a></li>
 <li class="chapter" data-level="" data-path="population-diversity.html"><a href="population-diversity.html"><i class="fa fa-check"></i>Population diversity</a></li>
 <li class="chapter" data-level="" data-path="coevolutionary-dynamics.html"><a href="coevolutionary-dynamics.html"><i class="fa fa-check"></i>Coevolutionary dynamics</a></li>
+<li class="chapter" data-level="" data-path="parameters-and-variables.html"><a href="parameters-and-variables.html"><i class="fa fa-check"></i>Parameters and variables</a></li>
 <li class="chapter" data-level="" data-path="end-states.html"><a href="end-states.html"><i class="fa fa-check"></i>End-states</a></li>
 <li class="chapter" data-level="" data-path="output-variables.html"><a href="output-variables.html"><i class="fa fa-check"></i>Output variables</a></li>
 <li class="chapter" data-level="" data-path="experimental-design.html"><a href="experimental-design.html"><i class="fa fa-check"></i>Experimental design</a></li>
@@ -114,7 +120,7 @@ Andreas Angourakis & Jonàs Alcaina
 <li class="chapter" data-level="2.2.10" data-path="exploration-on-default-setting-for-each-parameter.html"><a href="exploration-on-default-setting-for-each-parameter.html#utility-of-non-anthropic-space-to-type-1-plants-u_bp_1"><i class="fa fa-check"></i><b>2.2.10</b> utility <strong>of</strong> non-anthropic space <strong>to</strong> type 1 plants (<span class="math inline">\(U_{bP_{1}}\)</span>):</a></li>
 <li class="chapter" data-level="2.2.11" data-path="exploration-on-default-setting-for-each-parameter.html"><a href="exploration-on-default-setting-for-each-parameter.html#utility-of-other-resources-to-type-n-humans-u_bh_n"><i class="fa fa-check"></i><b>2.2.11</b> utility <strong>of</strong> other resources <strong>to</strong> type n humans (<span class="math inline">\(U_{bH_{n}}\)</span>):</a></li>
 <li class="chapter" data-level="2.2.12" data-path="exploration-on-default-setting-for-each-parameter.html"><a href="exploration-on-default-setting-for-each-parameter.html#utility-of-non-anthropic-space-to-type-n-plants-u_bp_n"><i class="fa fa-check"></i><b>2.2.12</b> utility <strong>of</strong> non-anthropic space <strong>to</strong> type n plants (<span class="math inline">\(U_{bP_{n}}\)</span>):</a></li>
-<li class="chapter" data-level="2.2.13" data-path="exploration-on-default-setting-for-each-parameter.html"><a href="exploration-on-default-setting-for-each-parameter.html#maximum-contiguous-area-to-be-used-by-plants-maxarea"><i class="fa fa-check"></i><b>2.2.13</b> maximum contiguous area to be used by plants (<span class="math inline">\(MaxArea\)</span>):</a></li>
+<li class="chapter" data-level="2.2.13" data-path="exploration-on-default-setting-for-each-parameter.html"><a href="exploration-on-default-setting-for-each-parameter.html#maximum-contiguous-area-to-be-used-by-plants-max_area"><i class="fa fa-check"></i><b>2.2.13</b> maximum contiguous area to be used by plants (<span class="math inline">\(max_area\)</span>):</a></li>
 </ul></li>
 <li class="chapter" data-level="2.3" data-path="oscilations.html"><a href="oscilations.html"><i class="fa fa-check"></i><b>2.3</b> Oscilations</a></li>
 </ul></li>
@@ -238,6 +244,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
