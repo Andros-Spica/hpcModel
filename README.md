@@ -8,7 +8,9 @@ Contents related to the Human-Plant Coevolution model implemented in R.
 
 This repository includes the source files (library) and documentation of the HPC model, the sensitive analysis report (Rmarkdown), and a user interface for running and visualising simulations (Shiny app). 
 
-The entire repository is the directory of an R Project that runs in RStudio. Download it to consult and use all files locally. Created and tested with R 3.6.2 and should be mostly compatible with later versions. There are no package dependency for the model code. To re-run all experiment analyses (both R and Rmd scripts), the following packages must be installed: ggplot2 (3.3.1), scales (1.1.1), reshape2 (1.4.4), ggpubr (0.4.0), randomForest (4.6.14), kableExtra (0.3.4), magick (2.7.2). To re-compile the html booklet the following packages are also needed: knitr (1.33), bookdown (0.22). The Shiny app was built with shiny (1.6.0).
+The entire repository is the directory of an R Project that runs in RStudio. Download it to consult and use all files locally. Created and tested with R 3.6.2 and should be mostly compatible with later versions. There are no package dependency for the model code (`library/hpcModel.(...).R` files).
+
+To re-run all experiment analyses (both R and Rmd scripts), the following packages and minimum versions must be installed: ggplot2 (3.3.1), scales (1.1.1), reshape2 (1.4.4), ggpubr (0.4.0), randomForest (4.6-14), kableExtra (0.3.4), magick (2.7.2). To re-compile the html booklet the following packages are also needed: knitr (1.33), bookdown (0.22). The Shiny app was built with shiny (1.6.0).
 
 Alternatively, explore the following online features:
 
@@ -23,4 +25,4 @@ Dedicated article:
 
 Cite this repository as:
 
->Angourakis, Andreas, & Alcaina-Mateos, Jonas. (2020, June 6). Andros-Spica/hpcModel: Human-Plant Coevolution model: source files, simulation interface, sensitivity analysis report and documentation (Version v1.1). Zenodo. http://doi.org/10.5281/zenodo.3881916
+>Angourakis, Andreas, & Alcaina-Mateos, Jonas. (2022, May 23). Andros-Spica/hpcModel: Human-Plant Coevolution model: source files, simulation interface, sensitivity analysis report and documentation (Version v1.2). Zenodo. http://doi.org/10.5281/zenodo.3881916
