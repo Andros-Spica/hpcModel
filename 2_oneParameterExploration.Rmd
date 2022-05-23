@@ -139,7 +139,7 @@ plotScale = 10
 
 #svg(paste0(plotDirectory, exp_utility_per_capita_type_n_plants_to_humans_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
 png(paste0(plotDirectory, exp_utility_per_capita_type_n_plants_to_humans_name, "_bifurcationPlotPair.png"),
-    width = 400 * plotScale, height = 100 * plotScale)
+    width = 400 * plotScale, height = 150 * plotScale)
 bifurcationPlotPair(cbind(exp_utility_per_capita_type_n_plants_to_humans_values, exp_utility_per_capita_type_n_plants_to_humans$coevolution_coefficient_humans), 
                     cbind(exp_utility_per_capita_type_n_plants_to_humans_values, exp_utility_per_capita_type_n_plants_to_humans$coevolution_coefficient_plants), 
                     parameter_x_label = expression(paste('utility per capita of type n plants to humans (', bar('U')['PnH'], ')')),
@@ -223,7 +223,7 @@ plotScale = 10
 
 #svg(paste0(plotDirectory, exp_initial_population_humans_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
 png(paste0(plotDirectory, exp_initial_population_humans_name, "_bifurcationPlotPair.png"),
-    width = 400 * plotScale, height = 100 * plotScale)
+    width = 400 * plotScale, height = 150 * plotScale)
 bifurcationPlotPair(cbind(exp_initial_population_humans_values, exp_initial_population_humans$coevolution_coefficient_humans), 
                     cbind(exp_initial_population_humans_values, exp_initial_population_humans$coevolution_coefficient_plants), 
                     parameter_x_label = expression(paste('Initial human population (',
@@ -239,7 +239,7 @@ plotScale = 10
 
 #svg(paste0(plotDirectory, exp_initial_population_plants_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
 png(paste0(plotDirectory, exp_initial_population_plants_name, "_bifurcationPlotPair.png"),
-    width = 400 * plotScale, height = 100 * plotScale)
+    width = 400 * plotScale, height = 150 * plotScale)
 bifurcationPlotPair(cbind(exp_initial_population_plants_values, exp_initial_population_plants$coevolution_coefficient_humans), 
                     cbind(exp_initial_population_plants_values, exp_initial_population_plants$coevolution_coefficient_plants), 
                     parameter_x_label = expression(paste('Initial plant population (',
@@ -324,7 +324,7 @@ plotScale = 10
 
 #svg(paste0(plotDirectory, exp1_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
 png(paste0(plotDirectory, exp_number_types_humans_name, "_bifurcationPlotPair.png"),
-    width = 400 * plotScale, height = 100 * plotScale)
+    width = 400 * plotScale, height = 150 * plotScale)
 bifurcationPlotPair(cbind(exp_number_types_humans_values, exp_number_types_humans$coevolution_coefficient_humans), 
                     cbind(exp_number_types_humans_values, exp_number_types_humans$coevolution_coefficient_plants), 
                     parameter_x_label = expression(paste('number of human types (',
@@ -340,7 +340,7 @@ plotScale = 10
 
 #svg(paste0(plotDirectory, exp_number_types_plants_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
 png(paste0(plotDirectory, exp_number_types_plants_name, "_bifurcationPlotPair.png"),
-    width = 400 * plotScale, height = 100 * plotScale)
+    width = 400 * plotScale, height = 150 * plotScale)
 bifurcationPlotPair(cbind(exp_number_types_plants_values, exp_number_types_plants$coevolution_coefficient_humans), 
                     cbind(exp_number_types_plants_values, exp_number_types_plants$coevolution_coefficient_plants), 
                     parameter_x_label = expression(paste('number of plant types (',
@@ -425,7 +425,7 @@ plotScale = 10
 
 #svg(paste0(plotDirectory, exp_undirected_variation_humans_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
 png(paste0(plotDirectory, exp_undirected_variation_humans_name, "_bifurcationPlotPair.png"),
-    width = 400 * plotScale, height = 100 * plotScale)
+    width = 400 * plotScale, height = 150 * plotScale)
 bifurcationPlotPair(cbind(exp_undirected_variation_humans_values, exp_undirected_variation_humans$coevolution_coefficient_humans), 
                     cbind(exp_undirected_variation_humans_values, exp_undirected_variation_humans$coevolution_coefficient_plants), 
                     parameter_x_label = expression(paste('undirected variation in humans (',
@@ -441,7 +441,7 @@ plotScale = 10
 
 #svg(paste0(plotDirectory, exp_undirected_variation_plants_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
 png(paste0(plotDirectory, exp_undirected_variation_plants_name, "_bifurcationPlotPair.png"),
-    width = 400 * plotScale, height = 100 * plotScale)
+    width = 400 * plotScale, height = 150 * plotScale)
 bifurcationPlotPair(cbind(exp_undirected_variation_plants_values, exp_undirected_variation_plants$coevolution_coefficient_humans), 
                     cbind(exp_undirected_variation_plants_values, exp_undirected_variation_plants$coevolution_coefficient_plants), 
                     parameter_x_label = expression(paste('undirected variation in plants (',
@@ -526,7 +526,7 @@ plotScale = 10
 
 #svg(paste0(plotDirectory, exp_intrinsic_growth_rate_humans_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
 png(paste0(plotDirectory, exp_intrinsic_growth_rate_humans_name, "_bifurcationPlotPair.png"),
-    width = 400 * plotScale, height = 100 * plotScale)
+    width = 400 * plotScale, height = 150 * plotScale)
 bifurcationPlotPair(cbind(exp_intrinsic_growth_rate_humans_values, exp_intrinsic_growth_rate_humans$coevolution_coefficient_humans), 
                     cbind(exp_intrinsic_growth_rate_humans_values, exp_intrinsic_growth_rate_humans$coevolution_coefficient_plants), 
                     parameter_x_label = expression(paste('human instrinsic growth rate (',
@@ -542,7 +542,7 @@ plotScale = 10
 
 #svg(paste0(plotDirectory, exp_intrinsic_growth_rate_plants_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
 png(paste0(plotDirectory, exp_intrinsic_growth_rate_plants_name, "_bifurcationPlotPair.png"),
-    width = 400 * plotScale, height = 100 * plotScale)
+    width = 400 * plotScale, height = 150 * plotScale)
 bifurcationPlotPair(cbind(exp_intrinsic_growth_rate_plants_values, exp_intrinsic_growth_rate_plants$coevolution_coefficient_humans), 
                     cbind(exp_intrinsic_growth_rate_plants_values, exp_intrinsic_growth_rate_plants$coevolution_coefficient_plants), 
                     parameter_x_label = expression(paste('plant instrinsic growth rate (',
@@ -605,7 +605,7 @@ plotScale = 10
 
 #svg(paste0(plotDirectory, exp_utility_per_capita_type_n_humans_to_plants_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
 png(paste0(plotDirectory, exp_utility_per_capita_type_n_humans_to_plants_name, "_bifurcationPlotPair.png"),
-    width = 400 * plotScale, height = 100 * plotScale)
+    width = 400 * plotScale, height = 150 * plotScale)
 bifurcationPlotPair(cbind(exp_utility_per_capita_type_n_humans_to_plants_values, 
                           exp_utility_per_capita_type_n_humans_to_plants$coevolution_coefficient_humans), 
                     cbind(exp_utility_per_capita_type_n_humans_to_plants_values, 
@@ -659,7 +659,7 @@ plotScale = 10
 
 #svg(paste0(plotDirectory, exp_utility_per_capita_type_1_plants_to_humans_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
 png(paste0(plotDirectory, exp_utility_per_capita_type_1_plants_to_humans_name, "_bifurcationPlotPair.png"),
-    width = 400 * plotScale, height = 100 * plotScale)
+    width = 400 * plotScale, height = 150 * plotScale)
 bifurcationPlotPair(cbind(exp_utility_per_capita_type_1_plants_to_humans_values, 
                           exp_utility_per_capita_type_1_plants_to_humans$coevolution_coefficient_humans), 
                     cbind(exp_utility_per_capita_type_1_plants_to_humans_values, 
@@ -713,7 +713,7 @@ plotScale = 10
 
 #svg(paste0(plotDirectory, exp_utility_per_capita_type_1_humans_to_plants_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
 png(paste0(plotDirectory, exp_utility_per_capita_type_1_humans_to_plants_name, "_bifurcationPlotPair.png"),
-    width = 400 * plotScale, height = 100 * plotScale)
+    width = 400 * plotScale, height = 150 * plotScale)
 bifurcationPlotPair(cbind(exp_utility_per_capita_type_1_humans_to_plants_values, 
                           exp_utility_per_capita_type_1_humans_to_plants$coevolution_coefficient_humans), 
                     cbind(exp_utility_per_capita_type_1_humans_to_plants_values, 
@@ -767,7 +767,7 @@ plotScale = 10
 
 #svg(paste0(plotDirectory, exp1_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
 png(paste0(plotDirectory, exp_utility_other_to_type_1_humans_name, "_bifurcationPlotPair.png"),
-    width = 400 * plotScale, height = 100 * plotScale)
+    width = 400 * plotScale, height = 150 * plotScale)
 bifurcationPlotPair(cbind(exp_utility_other_to_type_1_humans_values, exp_utility_other_to_type_1_humans$coevolution_coefficient_humans), 
                     cbind(exp_utility_other_to_type_1_humans_values, exp_utility_other_to_type_1_humans$coevolution_coefficient_plants), 
                     parameter_x_label = expression(paste('Baseline carrying capacity for type 1 humans (', bar(U)['bH'[1]], ')')),
@@ -819,7 +819,7 @@ plotScale = 10
 
 #svg(paste0(plotDirectory, exp_utility_other_to_type_1_plants_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
 png(paste0(plotDirectory, exp_utility_other_to_type_1_plants_name, "_bifurcationPlotPair.png"),
-    width = 400 * plotScale, height = 100 * plotScale)
+    width = 400 * plotScale, height = 150 * plotScale)
 bifurcationPlotPair(cbind(exp_utility_other_to_type_1_plants_values, exp_utility_other_to_type_1_plants$coevolution_coefficient_humans), 
                     cbind(exp_utility_other_to_type_1_plants_values, exp_utility_other_to_type_1_plants$coevolution_coefficient_plants), 
                     parameter_x_label = expression(paste('utility of non-anthropic space to type 1 plants (', bar('U')['bP1'], ')')),
@@ -871,7 +871,7 @@ plotScale = 10
 
 #svg(paste0(plotDirectory, exp_utility_other_to_type_n_humans_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
 png(paste0(plotDirectory, exp_utility_other_to_type_n_humans_name, "_bifurcationPlotPair.png"),
-    width = 400 * plotScale, height = 100 * plotScale)
+    width = 400 * plotScale, height = 150 * plotScale)
 bifurcationPlotPair(cbind(exp_utility_other_to_type_n_humans_values, exp_utility_other_to_type_n_humans$coevolution_coefficient_humans), 
                     cbind(exp_utility_other_to_type_n_humans_values, exp_utility_other_to_type_n_humans$coevolution_coefficient_plants), 
                     parameter_x_label = expression(paste('utility of other resources to type n humans (', bar('U')['bHn'], ')')),
@@ -923,7 +923,7 @@ plotScale = 10
 
 #svg(paste0(plotDirectory, exp_utility_other_to_type_n_plants_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
 png(paste0(plotDirectory, exp_utility_other_to_type_n_plants_name, "_bifurcationPlotPair.png"),
-    width = 400 * plotScale, height = 100 * plotScale)
+    width = 400 * plotScale, height = 150 * plotScale)
 bifurcationPlotPair(cbind(exp_utility_other_to_type_n_plants_values, exp_utility_other_to_type_n_plants$coevolution_coefficient_humans), 
                     cbind(exp_utility_other_to_type_n_plants_values, exp_utility_other_to_type_n_plants$coevolution_coefficient_plants), 
                     parameter_x_label = expression(paste('utility of non-anthropic space to type n plants (', bar('U')['bPn'], ')')),
@@ -974,7 +974,7 @@ exp_max_area <- hpcModel.exploration(
 plotScale = 10
 
 png(paste0(plotDirectory, exp_max_area_name, "_bifurcationPlotPair.png"),
-    width = 400 * plotScale, height = 100 * plotScale)
+    width = 400 * plotScale, height = 150 * plotScale)
 bifurcationPlotPair(cbind(exp_max_area_values, exp_max_area$coevolution_coefficient_humans), 
                     cbind(exp_max_area_values, exp_max_area$coevolution_coefficient_plants), 
                     parameter_x_label = expression('max_area'),
@@ -1083,7 +1083,7 @@ plotScale = 10
 
 #svg(paste0(plotDirectory, exp_osc_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
 png(paste0(plotDirectory, exp_utility_per_capita_type_n_humans_to_plants_oscillation_name, "_bifurcationPlotPair.png"),
-    width = 400 * plotScale, height = 100 * plotScale)
+    width = 400 * plotScale, height = 150 * plotScale)
 bifurcationPlotPair(exp_utility_per_capita_type_n_humans_to_plants_oscillation_humans, exp_utility_per_capita_type_n_humans_to_plants_oscillation_plants, 
                     parameter_x_label = expression(paste('utility per capita of type n humans to plants (', bar('U')['HnP'], ')')),
                     variable_y_label_A = expression(paste('coevolution coefficient of humans (', 'coevo'['H'], ')')),
@@ -1155,7 +1155,7 @@ plotScale = 10
 
 #svg(paste0(plotDirectory, exp_osc_name, "_bifurcationPlotPair.svg"), width=plotScale, height=plot_scale)
 png(paste0(plotDirectory, exp_utility_per_capita_type_n_plants_to_humans_oscillation_name, "_bifurcationPlotPair.png"),
-    width = 400 * plotScale, height = 100 * plotScale)
+    width = 400 * plotScale, height = 150 * plotScale)
 bifurcationPlotPair(exp_utility_per_capita_type_n_plants_to_humans_oscillation_humans, exp_utility_per_capita_type_n_plants_to_humans_oscillation_plants, 
                     parameter_x_label = expression(paste('utility per capita of type n plants to humans (', bar('U')['PnH'], ')')),
                     variable_y_label_A = expression(paste('coevolution coefficient of humans (', 'coevo'['H'], ')')),
