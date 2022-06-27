@@ -21,8 +21,8 @@ Alternatively, explore the following online features:
 - See our a presentation overviewing the model and its results, hosted in another repository: https://github.com/Andros-Spica/ENE-Angourakis-et-al-2019
 
 Dedicated article: 
->Angourakis, A., Alcaina-Mateos, J., Madella, M., and Zurro, D. (to be anounced) *Human-Plant Coevolution: a modelling framework for theory-building on the origin of agriculture*.
+>Angourakis, Andreas, Jonas Alcaina-Mateos, Marco Madella, and Debora Zurro. 2021 (preprint). ‘Human-Plant Coevolution: A Modelling Framework for Theory-Building on the Origins of Agriculture’. bioRxiv. https://doi.org/10.1101/2021.11.19.469342.
 
 Cite this repository as:
 
->Angourakis, Andreas, & Alcaina-Mateos, Jonas. (2022, May 23). Andros-Spica/hpcModel: Human-Plant Coevolution model: source files, simulation interface, sensitivity analysis report and documentation (Version v1.2). Zenodo. http://doi.org/10.5281/zenodo.3881916
+>Angourakis, Andreas, & Alcaina-Mateos, Jonas. (2022, May 27). Andros-Spica/hpcModel: Human-Plant Coevolution model: source files, simulation interface, sensitivity analysis report and documentation (Version v1.3). Zenodo. http://doi.org/10.5281/zenodo.3881916
