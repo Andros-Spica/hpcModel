@@ -25,4 +25,4 @@ Dedicated article:
 
 Cite this repository as:
 
->Angourakis, Andreas, & Alcaina-Mateos, Jonas. (2022, May 27). Andros-Spica/hpcModel: Human-Plant Coevolution model: source files, simulation interface, sensitivity analysis report and documentation (Version v1.3). Zenodo. http://doi.org/10.5281/zenodo.3881916
+>Angourakis, Andreas, & Alcaina-Mateos, Jonas. (2022, Jun 27). Andros-Spica/hpcModel: Human-Plant Coevolution model: source files, simulation interface, sensitivity analysis report and documentation (Version v1.3). Zenodo. http://doi.org/10.5281/zenodo.3881916
