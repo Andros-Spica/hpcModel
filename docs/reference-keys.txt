@@ -1,3 +1,5 @@
+fig:infographic
+fig:forrester-diagram
 tab:1runcoevolutionsametimingparshtml
 fig:1runcoevolutionsametimingdefaultplot
 fig:1runcoevolutionsametimingggplotprint

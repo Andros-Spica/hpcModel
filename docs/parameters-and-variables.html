@@ -76,8 +76,7 @@
 Andreas Angourakis & Jonàs Alcaina
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>_______</a></li>
-<li class="chapter" data-level="" data-path="model-overview.html"><a href="model-overview.html"><i class="fa fa-check"></i>Model overview</a>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Model overview</a>
 <ul>
 <li class="chapter" data-level="" data-path="ecological-relationships-and-population-dynamics.html"><a href="ecological-relationships-and-population-dynamics.html"><i class="fa fa-check"></i>Ecological relationships and population dynamics</a></li>
 <li class="chapter" data-level="" data-path="population-diversity.html"><a href="population-diversity.html"><i class="fa fa-check"></i>Population diversity</a></li>
@@ -213,7 +212,12 @@ Andreas Angourakis & Jonàs Alcaina
             <section class="normal" id="section-">
 <div id="parameters-and-variables" class="section level2 unnumbered" number="">
 <h2>Parameters and variables</h2>
-<p><img src="images/Forrester-diagram.png" width="100%" /></p>
+<div class="figure" style="text-align: center"><span id="fig:forrester-diagram"></span>
+<img src="images/Forrester-diagram.png" alt="The HPC model (Forrester diagram)" width="100%" />
+<p class="caption">
+Figure 0.2: The HPC model (Forrester diagram)
+</p>
+</div>
 <table>
 <caption>Parameters</caption>
 <colgroup>
@@ -223,163 +227,163 @@ Andreas Angourakis & Jonàs Alcaina
 </colgroup>
 <thead>
 <tr class="header">
-<th>R notation</th>
-<th>Math notation</th>
-<th>Description</th>
+<th align="left">R notation</th>
+<th align="right">Math notation</th>
+<th align="left">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>initial_population_humans</code>, <code>initial_population_plants</code></td>
-<td><span class="math inline">\(ini_{H},\,ini_{P}\)</span></td>
-<td><strong>initial populations of humans and plants</strong></td>
+<td align="left"><code>initial_population_humans</code>, <code>initial_population_plants</code></td>
+<td align="right"><span class="math inline">\(ini_{H},\,ini_{P}\)</span></td>
+<td align="left"><strong>initial populations of humans and plants</strong></td>
 </tr>
 <tr class="even">
-<td><code>number_types_humans</code>, <code>number_types_plants</code></td>
-<td><span class="math inline">\(n_{H},\,n_{P}\)</span></td>
-<td><strong>number of types of humans and plants</strong>. The number of phenotypic variants of each population that relate to human-plant coevolution. Types are arbitrarily ordered from type <span class="math inline">\(1\)</span> (<em>less</em> mutualistic) to type <span class="math inline">\(n\)</span> (<em>more</em> mutualistic).</td>
+<td align="left"><code>number_types_humans</code>, <code>number_types_plants</code></td>
+<td align="right"><span class="math inline">\(n_{H},\,n_{P}\)</span></td>
+<td align="left"><strong>number of types of humans and plants</strong>. The number of phenotypic variants of each population that relate to human-plant coevolution. Types are arbitrarily ordered from type <span class="math inline">\(1\)</span> (<em>less</em> mutualistic) to type <span class="math inline">\(n\)</span> (<em>more</em> mutualistic).</td>
 </tr>
 <tr class="odd">
-<td><code>undirected_variation_humans</code>, <code>undirected_variation_plants</code></td>
-<td><span class="math inline">\(v_{H},\,v_{P}\)</span></td>
-<td><strong>level of undirected variation in humans and plants</strong>. For any value greater than zero, these parameters regulate how even is the distribution of a population among its types.</td>
+<td align="left"><code>undirected_variation_humans</code>, <code>undirected_variation_plants</code></td>
+<td align="right"><span class="math inline">\(v_{H},\,v_{P}\)</span></td>
+<td align="left"><strong>level of undirected variation in humans and plants</strong>. For any value greater than zero, these parameters regulate how even is the distribution of a population among its types.</td>
 </tr>
 <tr class="even">
-<td><code>intrinsic_growth_rate_humans</code>, <code>intrinsic_growth_rate_plants</code></td>
-<td><span class="math inline">\(r_{H},\,r_{P}\)</span></td>
-<td><strong>intrinsic growth rates for human and plant populations</strong>. The maximum rate at which a population grows when there are no external constraints.</td>
+<td align="left"><code>intrinsic_growth_rate_humans</code>, <code>intrinsic_growth_rate_plants</code></td>
+<td align="right"><span class="math inline">\(r_{H},\,r_{P}\)</span></td>
+<td align="left"><strong>intrinsic growth rates for human and plant populations</strong>. The maximum rate at which a population grows when there are no external constraints.</td>
 </tr>
 <tr class="odd">
-<td><code>utility_per_capita_type_n_plants_to_humans</code></td>
-<td><span class="math inline">\(\bar{U}_{P_{n}H}\)</span></td>
-<td>utility per capita of <strong>type</strong> <span class="math inline">\(n\)</span> <strong>plants</strong> to <strong>humans</strong></td>
+<td align="left"><code>utility_per_capita_type_n_plants_to_humans</code></td>
+<td align="right"><span class="math inline">\(\bar{U}_{P_{n}H}\)</span></td>
+<td align="left">utility per capita of <strong>type</strong> <span class="math inline">\(n\)</span> <strong>plants</strong> to <strong>humans</strong></td>
 </tr>
 <tr class="even">
-<td><code>utility_per_capita_type_1_plants_to_humans</code></td>
-<td><span class="math inline">\(\bar{U}_{P_{1}H}\)</span></td>
-<td>utility per capita of <strong>type</strong> <span class="math inline">\(1\)</span> <strong>plants</strong> to <strong>humans</strong></td>
+<td align="left"><code>utility_per_capita_type_1_plants_to_humans</code></td>
+<td align="right"><span class="math inline">\(\bar{U}_{P_{1}H}\)</span></td>
+<td align="left">utility per capita of <strong>type</strong> <span class="math inline">\(1\)</span> <strong>plants</strong> to <strong>humans</strong></td>
 </tr>
 <tr class="odd">
-<td><code>utility_per_capita_type_n_humans_to_plants</code></td>
-<td><span class="math inline">\(\bar{U}_{H_{n}P}\)</span></td>
-<td>utility per capita of <strong>type</strong> <span class="math inline">\(n\)</span> <strong>humans</strong> to <strong>plants</strong></td>
+<td align="left"><code>utility_per_capita_type_n_humans_to_plants</code></td>
+<td align="right"><span class="math inline">\(\bar{U}_{H_{n}P}\)</span></td>
+<td align="left">utility per capita of <strong>type</strong> <span class="math inline">\(n\)</span> <strong>humans</strong> to <strong>plants</strong></td>
 </tr>
 <tr class="even">
-<td><code>utility_per_capita_type_1_humans_to_plants</code></td>
-<td><span class="math inline">\(\bar{U}_{H_{1}P}\)</span></td>
-<td>utility per capita of <strong>type</strong> <span class="math inline">\(1\)</span> <strong>humans</strong> to <strong>plants</strong></td>
+<td align="left"><code>utility_per_capita_type_1_humans_to_plants</code></td>
+<td align="right"><span class="math inline">\(\bar{U}_{H_{1}P}\)</span></td>
+<td align="left">utility per capita of <strong>type</strong> <span class="math inline">\(1\)</span> <strong>humans</strong> to <strong>plants</strong></td>
 </tr>
 <tr class="odd">
-<td><code>utility_other_to_type_n_plants</code></td>
-<td><span class="math inline">\(U_{bP_{n}}\)</span></td>
-<td>utility of <strong>other resources</strong> to <strong>type</strong> <span class="math inline">\(n\)</span> <strong>plants</strong> or the baseline carrying capacity for plants of type <span class="math inline">\(n\)</span>; i.e. that independent of humans.</td>
+<td align="left"><code>utility_other_to_type_n_plants</code></td>
+<td align="right"><span class="math inline">\(U_{bP_{n}}\)</span></td>
+<td align="left">utility of <strong>other resources</strong> to <strong>type</strong> <span class="math inline">\(n\)</span> <strong>plants</strong> or the baseline carrying capacity for plants of type <span class="math inline">\(n\)</span>; i.e. that independent of humans.</td>
 </tr>
 <tr class="even">
-<td><code>utility_other_to_type_1_plants</code></td>
-<td><span class="math inline">\(U_{bP_{1}}\)</span></td>
-<td>utility of <strong>other resources</strong> to <strong>type</strong> <span class="math inline">\(1\)</span> <strong>plants</strong> or the baseline carrying capacity for plants of type <span class="math inline">\(1\)</span>; i.e. that independent of humans. (non-anthropic space)</td>
+<td align="left"><code>utility_other_to_type_1_plants</code></td>
+<td align="right"><span class="math inline">\(U_{bP_{1}}\)</span></td>
+<td align="left">utility of <strong>other resources</strong> to <strong>type</strong> <span class="math inline">\(1\)</span> <strong>plants</strong> or the baseline carrying capacity for plants of type <span class="math inline">\(1\)</span>; i.e. that independent of humans. (non-anthropic space)</td>
 </tr>
 <tr class="odd">
-<td><code>utility_other_to_type_n_humans</code></td>
-<td><span class="math inline">\(U_{bH_{n}}\)</span></td>
-<td>utility of <strong>other resources</strong> to <strong>type</strong> <span class="math inline">\(n\)</span> <strong>humans</strong> or the baseline carrying capacity for humans of type <span class="math inline">\(n\)</span>, i.e. that independent of plants.</td>
+<td align="left"><code>utility_other_to_type_n_humans</code></td>
+<td align="right"><span class="math inline">\(U_{bH_{n}}\)</span></td>
+<td align="left">utility of <strong>other resources</strong> to <strong>type</strong> <span class="math inline">\(n\)</span> <strong>humans</strong> or the baseline carrying capacity for humans of type <span class="math inline">\(n\)</span>, i.e. that independent of plants.</td>
 </tr>
 <tr class="even">
-<td><code>utility_other_to_type_1_humans</code></td>
-<td><span class="math inline">\(U_{bH_{1}}\)</span></td>
-<td>utility of <strong>other resources</strong> to <strong>type</strong> <span class="math inline">\(1\)</span> <strong>humans</strong> or the baseline carrying capacity for humans of type <span class="math inline">\(1\)</span>; i.e. that independent of plants.</td>
+<td align="left"><code>utility_other_to_type_1_humans</code></td>
+<td align="right"><span class="math inline">\(U_{bH_{1}}\)</span></td>
+<td align="left">utility of <strong>other resources</strong> to <strong>type</strong> <span class="math inline">\(1\)</span> <strong>humans</strong> or the baseline carrying capacity for humans of type <span class="math inline">\(1\)</span>; i.e. that independent of plants.</td>
 </tr>
 <tr class="odd">
-<td><code>max_area</code></td>
-<td><span class="math inline">\(MaxArea\)</span></td>
-<td><strong>Maximum number of plant population units fitting the contiguous area available</strong>. It is used as the maximum carrying capacity for plants.</td>
+<td align="left"><code>max_area</code></td>
+<td align="right"><span class="math inline">\(MaxArea\)</span></td>
+<td align="left"><strong>Maximum number of plant population units fitting the contiguous area available</strong>. It is used as the maximum carrying capacity for plants.</td>
 </tr>
 <tr class="even">
-<td><strong>Simulation flow control</strong></td>
-<td></td>
-<td></td>
+<td align="left"><strong>Simulation flow control</strong></td>
+<td align="right"></td>
+<td align="left"></td>
 </tr>
 <tr class="odd">
-<td><code>max_iterations</code></td>
-<td><span class="math inline">\(time_{max}\)</span></td>
-<td>maximum number of iterations allowed before halting a simulation run.</td>
+<td align="left"><code>max_iterations</code></td>
+<td align="right"><span class="math inline">\(time_{max}\)</span></td>
+<td align="left">maximum number of iterations allowed before halting a simulation run.</td>
 </tr>
 <tr class="even">
-<td><code>reltol_exponential</code></td>
-<td><span class="math inline">\(\epsilon\)</span></td>
-<td>base 10 negative exponential controlling how small population change must be to halt a simulation run.</td>
+<td align="left"><code>reltol_exponential</code></td>
+<td align="right"><span class="math inline">\(\epsilon\)</span></td>
+<td align="left">base 10 negative exponential controlling how small population change must be to halt a simulation run.</td>
 </tr>
 <tr class="odd">
-<td><code>coevolution_threshold</code></td>
-<td><span class="math inline">\(coevo_{\theta}\)</span></td>
-<td>value between -1 and 1 to which to compare coevolution coefficients and decide if qualitative shift in type proportions has happened, so timing can be registered (see “Table: Variables (output only)” below).</td>
+<td align="left"><code>coevolution_threshold</code></td>
+<td align="right"><span class="math inline">\(coevo_{\theta}\)</span></td>
+<td align="left">value between -1 and 1 to which to compare coevolution coefficients and decide if qualitative shift in type proportions has happened, so timing can be registered (see “Table: Variables (output only)” below).</td>
 </tr>
 </tbody>
 </table>
 <table>
 <caption>Variables</caption>
 <colgroup>
-<col width="39%" />
+<col width="38%" />
 <col width="23%" />
 <col width="37%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th>R notation</th>
-<th>Math notation</th>
-<th>Description</th>
+<th align="left">R notation</th>
+<th align="right">Math notation</th>
+<th align="left">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>humans</code>, <code>plants</code></td>
-<td><span class="math inline">\(H[t],\,P[t]\)</span></td>
-<td><strong>Human and plant populations</strong> at time <span class="math inline">\(t\)</span>. Population units are abstract, arbitrarily defined units that can express individuals, working hours, households, etc. (humans), and sprouts, certain amount of biomass, soil surface, etc. (plants)</td>
+<td align="left"><code>humans</code>, <code>plants</code></td>
+<td align="right"><span class="math inline">\(H[t],\,P[t]\)</span></td>
+<td align="left"><strong>Human and plant populations</strong> at time <span class="math inline">\(t\)</span>. Population units are abstract, arbitrarily defined units that can express individuals, working hours, households, etc. (humans), and sprouts, certain amount of biomass, soil surface, etc. (plants)</td>
 </tr>
 <tr class="even">
-<td><code>carrying_capacity_humans</code>, <code>carrying_capacity_plants</code></td>
-<td><span class="math inline">\(K_{H}[t],\,K_{P}[t]\)</span></td>
-<td><strong>Carrying capacity</strong> to human and plant populations or maximum population at time <span class="math inline">\(t\)</span>, expressed in population units</td>
+<td align="left"><code>carrying_capacity_humans</code>, <code>carrying_capacity_plants</code></td>
+<td align="right"><span class="math inline">\(K_{H}[t],\,K_{P}[t]\)</span></td>
+<td align="left"><strong>Carrying capacity</strong> to human and plant populations or maximum population at time <span class="math inline">\(t\)</span>, expressed in population units</td>
 </tr>
 <tr class="odd">
-<td><code>utility_humans_to_plants</code>, <code>utility_plants_to_humans</code></td>
-<td><span class="math inline">\(U_{HP}[t],\,U_{PH}[t]\)</span></td>
-<td><strong>Utility of one population to the other</strong> or the total contribution of a population to the carrying capacity of the other population at time <span class="math inline">\(t\)</span>, expressed in population units</td>
+<td align="left"><code>utility_humans_to_plants</code>, <code>utility_plants_to_humans</code></td>
+<td align="right"><span class="math inline">\(U_{HP}[t],\,U_{PH}[t]\)</span></td>
+<td align="left"><strong>Utility of one population to the other</strong> or the total contribution of a population to the carrying capacity of the other population at time <span class="math inline">\(t\)</span>, expressed in population units</td>
 </tr>
 <tr class="even">
-<td><code>utility_other_to_humans</code>, <code>utility_other_to_plants</code></td>
-<td><span class="math inline">\(U_{bH}[t],\,U_{bP}[t]\)</span></td>
-<td><strong>Utility of other resources to a population</strong> at time <span class="math inline">\(t\)</span>, expressed in population units (baseline carrying capacity)</td>
+<td align="left"><code>utility_other_to_humans</code>, <code>utility_other_to_plants</code></td>
+<td align="right"><span class="math inline">\(U_{bH}[t],\,U_{bP}[t]\)</span></td>
+<td align="left"><strong>Utility of other resources to a population</strong> at time <span class="math inline">\(t\)</span>, expressed in population units (baseline carrying capacity)</td>
 </tr>
 <tr class="odd">
-<td><code>type_indexes_humans</code>, <code>type_indexes_plants</code></td>
-<td><span class="math inline">\(types_{H},\,types_{P}\)</span></td>
-<td><strong>Population types</strong>, arbitrarily ordered from <span class="math inline">\(1\)</span> to <span class="math inline">\(n\)</span> (vector or array).</td>
+<td align="left"><code>type_indexes_humans</code>, <code>type_indexes_plants</code></td>
+<td align="right"><span class="math inline">\(types_{H},\,types_{P}\)</span></td>
+<td align="left"><strong>Population types</strong>, arbitrarily ordered from <span class="math inline">\(1\)</span> to <span class="math inline">\(n\)</span> (vector or array).</td>
 </tr>
 <tr class="even">
-<td><code>type_proportions_humans</code>, <code>type_proportions_plants</code></td>
-<td><span class="math inline">\(pop_{H_{i}}[t],\,pop_{P_{i}}[t]\)</span></td>
-<td><strong>Proportion of a population</strong> belonging to each type at time <span class="math inline">\(t\)</span> (vector or array).</td>
+<td align="left"><code>type_proportions_humans</code>, <code>type_proportions_plants</code></td>
+<td align="right"><span class="math inline">\(pop_{H_{i}}[t],\,pop_{P_{i}}[t]\)</span></td>
+<td align="left"><strong>Proportion of a population</strong> belonging to each type at time <span class="math inline">\(t\)</span> (vector or array).</td>
 </tr>
 <tr class="odd">
-<td><code>type_utility_per_capita_humans_to_plants</code>, <code>type_utility_per_capita_plants_to_humans</code></td>
-<td><span class="math inline">\(\bar{U}_{H_{i}P},\,\bar{U}_{P_{i}H}\)</span></td>
-<td><strong>Utility per capita</strong> of type <span class="math inline">\(i\)</span> individuals of one population to the other (vector or array).</td>
+<td align="left"><code>type_utility_per_capita_humans_to_plants</code>, <code>type_utility_per_capita_plants_to_humans</code></td>
+<td align="right"><span class="math inline">\(\bar{U}_{H_{i}P},\,\bar{U}_{P_{i}H}\)</span></td>
+<td align="left"><strong>Utility per capita</strong> of type <span class="math inline">\(i\)</span> individuals of one population to the other (vector or array).</td>
 </tr>
 <tr class="even">
-<td><code>type_utility_other_to_humans</code>, <code>type_utility_other_to_plants</code></td>
-<td><span class="math inline">\(U_{bH_{i}},\,U_{bP_{i}}\)</span></td>
-<td><strong>Utility of other resources</strong> to type <span class="math inline">\(i\)</span> individuals of a population (vector or array).</td>
+<td align="left"><code>type_utility_other_to_humans</code>, <code>type_utility_other_to_plants</code></td>
+<td align="right"><span class="math inline">\(U_{bH_{i}},\,U_{bP_{i}}\)</span></td>
+<td align="left"><strong>Utility of other resources</strong> to type <span class="math inline">\(i\)</span> individuals of a population (vector or array).</td>
 </tr>
 <tr class="odd">
-<td><code>type_fitness_humans</code>, <code>type_fitness_plants</code></td>
-<td><span class="math inline">\(fitness_{H_{i}}[t]\)</span>, <span class="math inline">\(fitness_{P_{i}}[t]\)</span></td>
-<td><strong>Fitness score</strong> of type <span class="math inline">\(i\)</span> individuals of a population at time <span class="math inline">\(t\)</span> (vector or array).</td>
+<td align="left"><code>type_fitness_humans</code>, <code>type_fitness_plants</code></td>
+<td align="right"><span class="math inline">\(fitness_{H_{i}}[t]\)</span>, <span class="math inline">\(fitness_{P_{i}}[t]\)</span></td>
+<td align="left"><strong>Fitness score</strong> of type <span class="math inline">\(i\)</span> individuals of a population at time <span class="math inline">\(t\)</span> (vector or array).</td>
 </tr>
 <tr class="even">
-<td><code>population_change_humans</code>, <code>population_change_plants</code></td>
-<td><span class="math inline">\(\Delta H[t],\,\Delta P[t]\)</span></td>
-<td><strong>Population change</strong> (<em>delta</em>) at time <span class="math inline">\(t\)</span> in respect to time <span class="math inline">\(t -1\)</span> (vector or array).</td>
+<td align="left"><code>population_change_humans</code>, <code>population_change_plants</code></td>
+<td align="right"><span class="math inline">\(\Delta H[t],\,\Delta P[t]\)</span></td>
+<td align="left"><strong>Population change</strong> (<em>delta</em>) at time <span class="math inline">\(t\)</span> in respect to time <span class="math inline">\(t -1\)</span> (vector or array).</td>
 </tr>
 </tbody>
 </table>

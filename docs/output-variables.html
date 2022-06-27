@@ -76,8 +76,7 @@
 Andreas Angourakis & Jonàs Alcaina
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>_______</a></li>
-<li class="chapter" data-level="" data-path="model-overview.html"><a href="model-overview.html"><i class="fa fa-check"></i>Model overview</a>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Model overview</a>
 <ul>
 <li class="chapter" data-level="" data-path="ecological-relationships-and-population-dynamics.html"><a href="ecological-relationships-and-population-dynamics.html"><i class="fa fa-check"></i>Ecological relationships and population dynamics</a></li>
 <li class="chapter" data-level="" data-path="population-diversity.html"><a href="population-diversity.html"><i class="fa fa-check"></i>Population diversity</a></li>
@@ -228,37 +227,37 @@ coevo_P[t]=\frac{\sum_{i=1}^{n_P}pop_{P_i}[t] * (types_{P_i} - 1))}{n_P - 1} * 2
 <table>
 <caption>Variables (output only)</caption>
 <colgroup>
-<col width="39%" />
+<col width="38%" />
 <col width="23%" />
 <col width="37%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th>R notation</th>
-<th>Math notation</th>
-<th>Description</th>
+<th align="left">R notation</th>
+<th align="right">Math notation</th>
+<th align="left">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>coevolution_coefficient_humans</code>, <code>coevolution_coefficient_plants</code></td>
-<td><span class="math inline">\(coevo_{H},\,coevo_{P}\)</span></td>
-<td><strong>Coevolution coefficients</strong>. A coefficient representing the distribution of the proportion of a population per type (<span class="math inline">\(pop_{A_1}\)</span> to <span class="math inline">\(pop_{A_n}\)</span>) weighted by type index (<span class="math inline">\(1\)</span> to <span class="math inline">\(n\)</span>). Each indicates <em>if</em> and <em>how much</em> the population distribution has been modified by the coevolutionary process. Their values range between -1, the entire population is of type <span class="math inline">\(1\)</span>, and 1, the entire population is of type <span class="math inline">\(n\)</span>.</td>
+<td align="left"><code>coevolution_coefficient_humans</code>, <code>coevolution_coefficient_plants</code></td>
+<td align="right"><span class="math inline">\(coevo_{H},\,coevo_{P}\)</span></td>
+<td align="left"><strong>Coevolution coefficients</strong>. A coefficient representing the distribution of the proportion of a population per type (<span class="math inline">\(pop_{A_1}\)</span> to <span class="math inline">\(pop_{A_n}\)</span>) weighted by type index (<span class="math inline">\(1\)</span> to <span class="math inline">\(n\)</span>). Each indicates <em>if</em> and <em>how much</em> the population distribution has been modified by the coevolutionary process. Their values range between -1, the entire population is of type <span class="math inline">\(1\)</span>, and 1, the entire population is of type <span class="math inline">\(n\)</span>.</td>
 </tr>
 <tr class="even">
-<td><code>dependency_coefficient_humans</code>, <code>dependency_coefficient_plants</code></td>
-<td><span class="math inline">\(depend_{H},\,depend_{P}\)</span></td>
-<td><strong>Dependency coefficients</strong>. The slope of the linear model of the fitness score per type (<span class="math inline">\(fitness_{A_1}\)</span> to <span class="math inline">\(fitness_{A_n}\)</span>) using type index (<span class="math inline">\(1\)</span> to <span class="math inline">\(n\)</span>). Indicate <em>if</em> and <em>how much</em> the overall fitness score of a population is dependent on the other population.</td>
+<td align="left"><code>dependency_coefficient_humans</code>, <code>dependency_coefficient_plants</code></td>
+<td align="right"><span class="math inline">\(depend_{H},\,depend_{P}\)</span></td>
+<td align="left"><strong>Dependency coefficients</strong>. The slope of the linear model of the fitness score per type (<span class="math inline">\(fitness_{A_1}\)</span> to <span class="math inline">\(fitness_{A_n}\)</span>) using type index (<span class="math inline">\(1\)</span> to <span class="math inline">\(n\)</span>). Indicate <em>if</em> and <em>how much</em> the overall fitness score of a population is dependent on the other population.</td>
 </tr>
 <tr class="odd">
-<td><code>timing_humans</code>, <code>timing_plants</code></td>
-<td><span class="math inline">\(timing_{H},\,timing_{P}\)</span></td>
-<td><strong>Iterations past</strong> until <strong>coevolution</strong> successfully changes the proportions of population per type; generally, when <span class="math inline">\(pop_{A_1}\gg pop_{A_n}\)</span> or, more specifically, <span class="math inline">\(coevo_A&gt;coevo_{\theta}\)</span>.</td>
+<td align="left"><code>timing_humans</code>, <code>timing_plants</code></td>
+<td align="right"><span class="math inline">\(timing_{H},\,timing_{P}\)</span></td>
+<td align="left"><strong>Iterations past</strong> until <strong>coevolution</strong> successfully changes the proportions of population per type; generally, when <span class="math inline">\(pop_{A_1}\gg pop_{A_n}\)</span> or, more specifically, <span class="math inline">\(coevo_A&gt;coevo_{\theta}\)</span>.</td>
 </tr>
 <tr class="even">
-<td><code>time_end</code></td>
-<td><span class="math inline">\(t_{end}\)</span></td>
-<td><strong>Iterations past</strong> until the <strong>end state</strong> (<em>stationary point</em>)</td>
+<td align="left"><code>time_end</code></td>
+<td align="right"><span class="math inline">\(t_{end}\)</span></td>
+<td align="left"><strong>Iterations past</strong> until the <strong>end state</strong> (<em>stationary point</em>)</td>
 </tr>
 </tbody>
 </table>
