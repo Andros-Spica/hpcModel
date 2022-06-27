@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2022-05-21" />
+<meta name="date" content="2022-06-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -213,7 +213,7 @@ Andreas Angourakis & Jonàs Alcaina
             <section class="normal" id="section-">
 <div id="end-states" class="section level2 unnumbered" number="">
 <h2>End-states</h2>
-<p>A simulation ends when both populations and their respective type distributions are stable; i.e no further change occurs given current conditions. More specifically, we use the <em>RelTol</em> method to decide if the absolute difference between the populations between time <span class="math inline">\(t\)</span> and <span class="math inline">\(t-1\)</span> are very small, less than <span class="math inline">\(10^{-\epsilon}\)</span> (see <code>reltol_exponential</code> in “Table: Parameters”) where <span class="math inline">\(\epsilon=6\)</span> in our default setting. End-states defined by unchanged variables are known as stationary points. Exceptionally, under certain parameter settings, the HPC model does not converge into a stationary point but enters an oscillatory state. To handle these rare cases and others producing extremely slow-paced dynamics, simulations are interrupted regardless of the conditions after a certain number of iterations (<span class="math inline">\(time_{max}\)</span> or <code>max_iterations</code> in the implementation in R).</p>
+<p>A simulation ends when both populations and their respective type distributions are stable; i.e no further change occurs given current conditions. More specifically, we use the <em>RelTol</em> method to decide if the absolute difference between the populations between time <span class="math inline">\(t\)</span> and <span class="math inline">\(t-1\)</span> are very small, less than <span class="math inline">\(10^{-\epsilon}\)</span> (see <code>reltol_exponential</code> in “Table: Parameters”) where <span class="math inline">\(\epsilon=6\)</span> in our default setting. End-states defined by unchanged variables are known as stationary points. Exceptionally, under certain parameter settings, the HPC model does not converge into a stationary point but enters an oscillatory state. To handle these rare cases and others producing extremely slow-paced dynamics, simulations are interrupted regardless of the conditions after a certain number of iterations (<span class="math inline">\(time_{max}\)</span> or <code>max_iterations</code>).</p>
 <div style="page-break-after: always;"></div>
 </div>
             </section>

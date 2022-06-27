@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (MiKTeX 2.9.7250 64-bit) (preloaded format=xelatex 2020.3.20)  21 MAY 2022 12:43
+This is XeTeX, Version 3.14159265-2.6-0.999991 (MiKTeX 2.9.7250 64-bit) (preloaded format=xelatex 2020.3.20)  27 JUN 2022 10:47
 entering extended mode
 **./hpcModel-exploration.tex
 (hpcModel-exploration.tex
@@ -1072,177 +1072,177 @@ Missing character: There is no ﻿ in font [lmroman10-regular]:mapping=tex-text;
 Missing character: There is no ﻿ in font [lmroman10-regular]:mapping=tex-text;!
 Missing character: There is no ﻿ in font [lmroman10-regular]:mapping=tex-text;!
 [10] [11]
-Overfull \hbox (39.48853pt too wide) in paragraph at lines 368--369
+Overfull \hbox (39.48853pt too wide) in paragraph at lines 432--433
 []\TU/lmtt/m/n/10 initial_population_humans\TU/lmr/m/n/10 , 
  []
 
 
-Overfull \hbox (38.09853pt too wide) in paragraph at lines 368--369
+Overfull \hbox (38.09853pt too wide) in paragraph at lines 432--433
 \TU/lmtt/m/n/10 initial_population_plants|  
  []
 
 
-Overfull \hbox (7.98853pt too wide) in paragraph at lines 375--376
+Overfull \hbox (7.98853pt too wide) in paragraph at lines 439--440
 []\TU/lmtt/m/n/10 number_types_humans\TU/lmr/m/n/10 , 
  []
 
 
-Overfull \hbox (6.59853pt too wide) in paragraph at lines 375--376
+Overfull \hbox (6.59853pt too wide) in paragraph at lines 439--440
 \TU/lmtt/m/n/10 number_types_plants|  
  []
 
 
-Overfull \hbox (49.98853pt too wide) in paragraph at lines 382--383
+Overfull \hbox (49.98853pt too wide) in paragraph at lines 446--447
 []\TU/lmtt/m/n/10 undirected_variation_humans\TU/lmr/m/n/10 , 
  []
 
 
-Overfull \hbox (48.59853pt too wide) in paragraph at lines 382--383
+Overfull \hbox (48.59853pt too wide) in paragraph at lines 446--447
 \TU/lmtt/m/n/10 undirected_variation_plants|  
  []
 
 
-Overfull \hbox (55.23853pt too wide) in paragraph at lines 389--390
+Overfull \hbox (55.23853pt too wide) in paragraph at lines 453--454
 []\TU/lmtt/m/n/10 intrinsic_growth_rate_humans\TU/lmr/m/n/10 , 
  []
 
 
-Overfull \hbox (53.84853pt too wide) in paragraph at lines 389--390
+Overfull \hbox (53.84853pt too wide) in paragraph at lines 453--454
 \TU/lmtt/m/n/10 intrinsic_growth_rate_plants|  
  []
 
 
-Overfull \hbox (127.34853pt too wide) in paragraph at lines 396--397
+Overfull \hbox (127.34853pt too wide) in paragraph at lines 460--461
 []\TU/lmtt/m/n/10 utility_per_capita_type_n_plants_to_humans|  
  []
 
 
-Overfull \hbox (127.34853pt too wide) in paragraph at lines 403--404
+Overfull \hbox (127.34853pt too wide) in paragraph at lines 467--468
 []\TU/lmtt/m/n/10 utility_per_capita_type_1_plants_to_humans|  
  []
 
 
-Overfull \hbox (127.34853pt too wide) in paragraph at lines 410--411
+Overfull \hbox (127.34853pt too wide) in paragraph at lines 474--475
 []\TU/lmtt/m/n/10 utility_per_capita_type_n_humans_to_plants|  
  []
 
 
-Overfull \hbox (127.34853pt too wide) in paragraph at lines 417--418
+Overfull \hbox (127.34853pt too wide) in paragraph at lines 481--482
 []\TU/lmtt/m/n/10 utility_per_capita_type_1_humans_to_plants|  
  []
 
 
-Overfull \hbox (64.34853pt too wide) in paragraph at lines 424--425
+Overfull \hbox (64.34853pt too wide) in paragraph at lines 488--489
 []\TU/lmtt/m/n/10 utility_other_to_type_n_plants|  
  []
 
 
-Overfull \hbox (64.34853pt too wide) in paragraph at lines 431--432
+Overfull \hbox (64.34853pt too wide) in paragraph at lines 495--496
 []\TU/lmtt/m/n/10 utility_other_to_type_1_plants|  
  []
 
 
-Overfull \hbox (64.34853pt too wide) in paragraph at lines 438--439
+Overfull \hbox (64.34853pt too wide) in paragraph at lines 502--503
 []\TU/lmtt/m/n/10 utility_other_to_type_n_humans|  
  []
 
 
-Overfull \hbox (64.34853pt too wide) in paragraph at lines 445--446
+Overfull \hbox (64.34853pt too wide) in paragraph at lines 509--510
 []\TU/lmtt/m/n/10 utility_other_to_type_1_humans|  
  []
 
 
-Overfull \hbox (1.34853pt too wide) in paragraph at lines 473--474
+Overfull \hbox (1.34853pt too wide) in paragraph at lines 537--538
 []\TU/lmtt/m/n/10 reltol_exponential|  
  []
 
 
-Overfull \hbox (17.09853pt too wide) in paragraph at lines 480--481
+Overfull \hbox (17.09853pt too wide) in paragraph at lines 544--545
 []\TU/lmtt/m/n/10 coevolution_threshold|  
  []
 
 [12]
-Overfull \hbox (3.18979pt too wide) in paragraph at lines 519--520
+Overfull \hbox (3.18979pt too wide) in paragraph at lines 583--584
 []\TU/lmtt/m/n/10 carrying_capacity_humans\TU/lmr/m/n/10 , 
  []
 
 
-Overfull \hbox (1.79979pt too wide) in paragraph at lines 519--520
+Overfull \hbox (1.79979pt too wide) in paragraph at lines 583--584
 \TU/lmtt/m/n/10 carrying_capacity_plants|  
  []
 
 
-Overfull \hbox (3.18979pt too wide) in paragraph at lines 526--527
+Overfull \hbox (3.18979pt too wide) in paragraph at lines 590--591
 []\TU/lmtt/m/n/10 utility_humans_to_plants\TU/lmr/m/n/10 , 
  []
 
 
-Overfull \hbox (1.79979pt too wide) in paragraph at lines 526--527
+Overfull \hbox (1.79979pt too wide) in paragraph at lines 590--591
 \TU/lmtt/m/n/10 utility_plants_to_humans|  
  []
 
 
-Overfull \hbox (1.46228pt too wide) in paragraph at lines 549--550
+Overfull \hbox (1.46228pt too wide) in paragraph at lines 613--614
 []$[][][][][][][][]  [][][][][][][]$|  
  []
 
 
-Overfull \hbox (87.18979pt too wide) in paragraph at lines 554--555
+Overfull \hbox (87.18979pt too wide) in paragraph at lines 618--619
 []\TU/lmtt/m/n/10 type_utility_per_capita_humans_to_plants\TU/lmr/m/n/10 , 
  []
 
 
-Overfull \hbox (85.79979pt too wide) in paragraph at lines 554--555
+Overfull \hbox (85.79979pt too wide) in paragraph at lines 618--619
 \TU/lmtt/m/n/10 type_utility_per_capita_plants_to_humans|  
  []
 
 
-Overfull \hbox (24.18979pt too wide) in paragraph at lines 561--562
+Overfull \hbox (24.18979pt too wide) in paragraph at lines 625--626
 []\TU/lmtt/m/n/10 type_utility_other_to_humans\TU/lmr/m/n/10 , 
  []
 
 
-Overfull \hbox (22.79979pt too wide) in paragraph at lines 561--562
+Overfull \hbox (22.79979pt too wide) in paragraph at lines 625--626
 \TU/lmtt/m/n/10 type_utility_other_to_plants|  
  []
 
 
-Overfull \hbox (3.18979pt too wide) in paragraph at lines 575--576
+Overfull \hbox (3.18979pt too wide) in paragraph at lines 639--640
 []\TU/lmtt/m/n/10 population_change_humans\TU/lmr/m/n/10 , 
  []
 
 
-Overfull \hbox (1.79979pt too wide) in paragraph at lines 575--576
+Overfull \hbox (1.79979pt too wide) in paragraph at lines 639--640
 \TU/lmtt/m/n/10 population_change_plants|  
  []
 
 [13] [14] [15] [16]
-Overfull \hbox (34.68979pt too wide) in paragraph at lines 633--634
+Overfull \hbox (34.68979pt too wide) in paragraph at lines 703--704
 []\TU/lmtt/m/n/10 coevolution_coefficient_humans\TU/lmr/m/n/10 , 
  []
 
 
-Overfull \hbox (33.29979pt too wide) in paragraph at lines 633--634
+Overfull \hbox (33.29979pt too wide) in paragraph at lines 703--704
 \TU/lmtt/m/n/10 coevolution_coefficient_plants|  
  []
 
 
-Overfull \hbox (29.43979pt too wide) in paragraph at lines 640--641
+Overfull \hbox (29.43979pt too wide) in paragraph at lines 710--711
 []\TU/lmtt/m/n/10 dependency_coefficient_humans\TU/lmr/m/n/10 , 
  []
 
 
-Overfull \hbox (28.04979pt too wide) in paragraph at lines 640--641
+Overfull \hbox (28.04979pt too wide) in paragraph at lines 710--711
 \TU/lmtt/m/n/10 dependency_coefficient_plants|  
  []
 
 
-Overfull \hbox (9.89131pt too wide) in paragraph at lines 642--643
+Overfull \hbox (9.89131pt too wide) in paragraph at lines 712--713
 []$[][][][][][][][]  [][][][][][][]$|  
  []
 
 
-Overfull \hbox (7.73131pt too wide) in paragraph at lines 649--650
+Overfull \hbox (7.73131pt too wide) in paragraph at lines 719--720
 []$[][][][][][][][]  [][][][][][][]$|  
  []
 
@@ -1314,7 +1314,7 @@ Chapter 2.
 [35
 
 ]
-Overfull \hbox (145.60004pt too wide) in paragraph at lines 856--923
+Overfull \hbox (145.60004pt too wide) in paragraph at lines 926--993
  [][] 
  []
 
@@ -1330,7 +1330,7 @@ r.png Graphic file (type bmp)
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [36] [37]
-Overfull \hbox (3.46838pt too wide) in paragraph at lines 937--937
+Overfull \hbox (3.46838pt too wide) in paragraph at lines 1007--1007
 []\TU/lmr/bx/n/12 Initial populations of humans and plants ($[][][][][][]  [][]
 [][][]$) 
  []
@@ -1438,7 +1438,7 @@ Chapter 3.
 [45
 
 ]
-Overfull \hbox (145.60004pt too wide) in paragraph at lines 1042--1109
+Overfull \hbox (145.60004pt too wide) in paragraph at lines 1112--1179
  [][] 
  []
 
@@ -1512,13 +1512,13 @@ ile (type bmp)
 Chapter 4.
 [63]
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 14.4pt on input line 1244.
+(Font)              scaled to size 14.4pt on input line 1314.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 14.40152pt on input line 1244.
+(Font)              scaled to size 14.40152pt on input line 1314.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 14.39845pt on input line 1244.
+(Font)              scaled to size 14.39845pt on input line 1314.
 
-Overfull \hbox (145.60004pt too wide) in paragraph at lines 1252--1319
+Overfull \hbox (145.60004pt too wide) in paragraph at lines 1322--1389
  [][] 
  []
 
@@ -1527,12 +1527,12 @@ File: plots/4_exp_types_number_and_variation-tripleRaster_fourParameterss.png G
 raphic file (type bmp)
 <plots/4_exp_types_number_and_variation-tripleRaster_fourParameterss.png>
 [65]
-Underfull \hbox (badness 1331) in paragraph at lines 1335--1335
+Underfull \hbox (badness 1331) in paragraph at lines 1405--1405
 []\TU/lmr/bx/n/14.4 Utility per capita between humans and
  []
 
 
-Overfull \hbox (145.60004pt too wide) in paragraph at lines 1343--1410
+Overfull \hbox (145.60004pt too wide) in paragraph at lines 1413--1480
  [][] 
  []
 
@@ -1541,7 +1541,7 @@ File: plots/4_exp_utilities_between_populations-tripleRaster_fourParameterss.pn
 g Graphic file (type bmp)
 <plots/4_exp_utilities_between_populations-tripleRaster_fourParameterss.png>
 [67]
-Overfull \hbox (145.60004pt too wide) in paragraph at lines 1437--1504
+Overfull \hbox (145.60004pt too wide) in paragraph at lines 1507--1574
  [][] 
  []
 
@@ -1553,7 +1553,7 @@ ng Graphic file (type bmp)
 Underfull \vbox (badness 4291) has occurred while \output is active []
 
 [69] [70]
-Overfull \hbox (145.60004pt too wide) in paragraph at lines 1531--1598
+Overfull \hbox (145.60004pt too wide) in paragraph at lines 1601--1668
  [][] 
  []
 
@@ -1568,7 +1568,7 @@ File: plots/4_exp_utilities_to_humans-tripleRaster_fourParameterss.png Graphic
 file (type bmp)
 <plots/4_exp_utilities_to_humans-tripleRaster_fourParameterss.png>
 [72]
-Overfull \hbox (145.60004pt too wide) in paragraph at lines 1617--1684
+Overfull \hbox (145.60004pt too wide) in paragraph at lines 1687--1754
  [][] 
  []
 
@@ -1583,7 +1583,7 @@ File: plots/4_exp_utilities_to_plants-tripleRaster_fourParameterss.png Graphic
 file (type bmp)
 <plots/4_exp_utilities_to_plants-tripleRaster_fourParameterss.png>
 [74]
-Overfull \hbox (145.60004pt too wide) in paragraph at lines 1703--1770
+Overfull \hbox (145.60004pt too wide) in paragraph at lines 1773--1840
  [][] 
  []
 
@@ -1598,7 +1598,7 @@ File: plots/4_exp_type_1_traits-tripleRaster_fourParameterss.png Graphic file (
 type bmp)
 <plots/4_exp_type_1_traits-tripleRaster_fourParameterss.png>
 [76]
-Overfull \hbox (145.60004pt too wide) in paragraph at lines 1789--1856
+Overfull \hbox (145.60004pt too wide) in paragraph at lines 1859--1926
  [][] 
  []
 
@@ -1613,7 +1613,7 @@ File: plots/4_exp_type_n_traits-tripleRaster_fourParameterss.png Graphic file (
 type bmp)
 <plots/4_exp_type_n_traits-tripleRaster_fourParameterss.png>
 [78]
-Overfull \hbox (145.60004pt too wide) in paragraph at lines 1873--1940
+Overfull \hbox (145.60004pt too wide) in paragraph at lines 1943--2010
  [][] 
  []
 
@@ -1629,7 +1629,7 @@ File: plots/4_exp_utility_boundaries-tripleRaster_fourParameterss.png Graphic f
 ile (type bmp)
 <plots/4_exp_utility_boundaries-tripleRaster_fourParameterss.png>
 [80]
-Overfull \hbox (145.60004pt too wide) in paragraph at lines 1957--2024
+Overfull \hbox (145.60004pt too wide) in paragraph at lines 2027--2094
  [][] 
  []
 
@@ -1649,67 +1649,67 @@ Chapter 5.
 [83
 
 ]
-Overfull \hbox (29.28937pt too wide) in paragraph at lines 2062--2063
+Overfull \hbox (29.28937pt too wide) in paragraph at lines 2132--2133
 []\TU/lmtt/m/n/10 undirected_variation_humans\TU/lmr/m/n/10 , 
  []
 
 
-Overfull \hbox (27.89937pt too wide) in paragraph at lines 2062--2063
+Overfull \hbox (27.89937pt too wide) in paragraph at lines 2132--2133
 \TU/lmtt/m/n/10 undirected_variation_plants|  
  []
 
 
-Overfull \hbox (34.53937pt too wide) in paragraph at lines 2067--2068
+Overfull \hbox (34.53937pt too wide) in paragraph at lines 2137--2138
 []\TU/lmtt/m/n/10 intrinsic_growth_rate_humans\TU/lmr/m/n/10 , 
  []
 
 
-Overfull \hbox (33.14937pt too wide) in paragraph at lines 2067--2068
+Overfull \hbox (33.14937pt too wide) in paragraph at lines 2137--2138
 \TU/lmtt/m/n/10 intrinsic_growth_rate_plants|  
  []
 
 
-Overfull \hbox (108.03937pt too wide) in paragraph at lines 2072--2073
+Overfull \hbox (108.03937pt too wide) in paragraph at lines 2142--2143
 []\TU/lmtt/m/n/10 utility_per_capita_type_n_plants_to_humans\TU/lmr/m/n/10 , 
  []
 
 
-Overfull \hbox (106.64937pt too wide) in paragraph at lines 2072--2073
+Overfull \hbox (106.64937pt too wide) in paragraph at lines 2142--2143
 \TU/lmtt/m/n/10 utility_per_capita_type_n_humans_to_plants|  
  []
 
 
-Overfull \hbox (108.03937pt too wide) in paragraph at lines 2077--2078
+Overfull \hbox (108.03937pt too wide) in paragraph at lines 2147--2148
 []\TU/lmtt/m/n/10 utility_per_capita_type_1_plants_to_humans\TU/lmr/m/n/10 , 
  []
 
 
-Overfull \hbox (106.64937pt too wide) in paragraph at lines 2077--2078
+Overfull \hbox (106.64937pt too wide) in paragraph at lines 2147--2148
 \TU/lmtt/m/n/10 utility_per_capita_type_1_humans_to_plants|  
  []
 
 
-Overfull \hbox (45.03937pt too wide) in paragraph at lines 2082--2083
+Overfull \hbox (45.03937pt too wide) in paragraph at lines 2152--2153
 []\TU/lmtt/m/n/10 utility_other_to_type_n_humans\TU/lmr/m/n/10 , 
  []
 
 
-Overfull \hbox (43.64937pt too wide) in paragraph at lines 2082--2083
+Overfull \hbox (43.64937pt too wide) in paragraph at lines 2152--2153
 \TU/lmtt/m/n/10 utility_other_to_type_n_plants|  
  []
 
 
-Overfull \hbox (45.03937pt too wide) in paragraph at lines 2092--2093
+Overfull \hbox (45.03937pt too wide) in paragraph at lines 2162--2163
 []\TU/lmtt/m/n/10 utility_other_to_type_1_humans\TU/lmr/m/n/10 , 
  []
 
 
-Overfull \hbox (43.64937pt too wide) in paragraph at lines 2092--2093
+Overfull \hbox (43.64937pt too wide) in paragraph at lines 2162--2163
 \TU/lmtt/m/n/10 utility_other_to_type_1_plants|  
  []
 
 
-Overfull \hbox (47.27003pt too wide) in paragraph at lines 2108--2143
+Overfull \hbox (47.27003pt too wide) in paragraph at lines 2178--2213
  [][] 
  []
 
@@ -1775,42 +1775,42 @@ File: plots/5_LHS_timing_bifurcationPlot_twoVariables_per_parameter.png Graphic
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [95] [96]
-Overfull \hbox (1.2817pt too wide) in paragraph at lines 2352--2353
+Overfull \hbox (1.2817pt too wide) in paragraph at lines 2422--2423
 []\TU/lmr/m/n/10 ‘utility_per_capita_type_n_plants_to_humans 
  []
 
 
-Overfull \hbox (2.11168pt too wide) in paragraph at lines 2352--2353
+Overfull \hbox (2.11168pt too wide) in paragraph at lines 2422--2423
 \TU/lmr/m/n/10 utility_per_capita_type_1_plants_to_humans’|  
  []
 
 
-Overfull \hbox (1.2817pt too wide) in paragraph at lines 2357--2358
+Overfull \hbox (1.2817pt too wide) in paragraph at lines 2427--2428
 []\TU/lmr/m/n/10 ‘utility_per_capita_type_n_humans_to_plants 
  []
 
 
-Overfull \hbox (2.11168pt too wide) in paragraph at lines 2357--2358
+Overfull \hbox (2.11168pt too wide) in paragraph at lines 2427--2428
 \TU/lmr/m/n/10 utility_per_capita_type_1_humans_to_plants’|  
  []
 
 
-Overfull \hbox (1.2817pt too wide) in paragraph at lines 2362--2363
+Overfull \hbox (1.2817pt too wide) in paragraph at lines 2432--2433
 []\TU/lmr/m/n/10 ‘utility_per_capita_type_n_plants_to_humans 
  []
 
 
-Overfull \hbox (2.11168pt too wide) in paragraph at lines 2362--2363
+Overfull \hbox (2.11168pt too wide) in paragraph at lines 2432--2433
 \TU/lmr/m/n/10 utility_per_capita_type_1_humans_to_plants’|  
  []
 
 
-Overfull \hbox (1.2817pt too wide) in paragraph at lines 2377--2378
+Overfull \hbox (1.2817pt too wide) in paragraph at lines 2447--2448
 []\TU/lmr/m/n/10 ‘utility_per_capita_type_n_plants_to_humans 
  []
 
 
-Overfull \hbox (2.11168pt too wide) in paragraph at lines 2377--2378
+Overfull \hbox (2.11168pt too wide) in paragraph at lines 2447--2448
 \TU/lmr/m/n/10 utility_per_capita_type_1_humans_to_plants’|  
  []
 
@@ -1831,7 +1831,7 @@ iables_per_parameter_and_scenario_part3.png Graphic file (type bmp)
 <plots/5_LHS_humansImprove_coevolution_coefficients_bifurcationPlot_twoVariable
 s_per_parameter_and_scenario_part3.png>
 
-Underfull \hbox (badness 10000) in paragraph at lines 2393--2395
+Underfull \hbox (badness 10000) in paragraph at lines 2463--2465
 [][]
  []
 
@@ -2108,14 +2108,14 @@ r_and_scenario_part3.png Graphic file (type bmp)
 _scenario_part3.png>
 [120]
 Chapter 6.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2583.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2653.
 [121
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 2583.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 2653.
 (hpcModel-exploration.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 2583.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 2583.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 2653.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 2653.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -2123,7 +2123,7 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 Here is how much of TeX's memory you used:
  29489 strings out of 427272
  610326 string characters out of 3146596
- 788007 words of memory out of 3000000
+ 788012 words of memory out of 3000000
  33553 multiletter control sequences out of 15000+200000
  539757 words of font info for 91 fonts, out of 3000000 for 9000
  1348 hyphenation exceptions out of 8191

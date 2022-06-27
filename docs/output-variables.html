@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2022-05-21" />
+<meta name="date" content="2022-06-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -214,10 +214,17 @@ Andreas Angourakis & Jonàs Alcaina
 <div id="output-variables" class="section level2 unnumbered" number="">
 <h2>Output variables</h2>
 <p>The most important output variables are the coevolution coefficients (<span class="math inline">\(coevo_H\)</span>, <span class="math inline">\(coevo_P\)</span>), which measure the trend in the distribution of a population among its types.</p>
-<span class="math display">\[coevo_A[t]=\frac{\sum_{i=1}^{n_A}pop_{A_i}[t] * (types_{A_i} - 1))}{n_A - 1} * 2 - 1\]</span>
+<p><span class="math display">\[\begin{equation}
+\tag{Eq. 17}
+coevo_H[t]=\frac{\sum_{i=1}^{n_H}pop_{H_i}[t] * (types_{H_i} - 1))}{n_H - 1} * 2 - 1
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+\tag{Eq. 18}
+coevo_P[t]=\frac{\sum_{i=1}^{n_P}pop_{P_i}[t] * (types_{P_i} - 1))}{n_P - 1} * 2 - 1
+\end{equation}\]</span></p>
 <p>The dependency coefficients (<span class="math inline">\(depend_H\)</span>, <span class="math inline">\(depend_P\)</span>) express the direction and intensity of the selective pressure caused by the other population. It is calculated as the slope coefficient of a linear model of the fitness scores (<span class="math inline">\(fitness_A[t]\)</span>) using the type indexes (<span class="math inline">\(types_A\)</span>) as an independent variable.</p>
 <p>Positive values of both these coefficients reflect the tendency of a population towards the most mutualistic types (effective coevolution), while negative values indicate an inclination towards the non-mutualistic type due to a low selective pressure exerted by the mutualistic relationship.</p>
-<p>We recorded the time step at the end of simulations (<span class="math inline">\(time_{end}\)</span>), obtaining a measure of the overall duration of the process. Whenever applicable, we register the duration of change towards more mutualistic types in both populations (<span class="math inline">\(timing_H, timing_P\)</span>). We consider change to be effective when the respective coevolution coefficient is greater than 0.5 (‘timing-threshold’, in the implementation in R), meaning that at least half of the population is concentrated on the higher quarter of the type spectrum.</p>
+<p>We recorded the time step at the end of simulations (<span class="math inline">\(time_{end}\)</span>), obtaining a measure of the overall duration of the process. Whenever applicable, we register the duration of change towards more mutualistic types in both populations (<span class="math inline">\(timing_H, timing_P\)</span>). We consider change to be effective when the respective coevolution coefficient is greater than 0.5 (<code>coevolution_threshold</code>, in the implementation in R), meaning that at least half of the population is concentrated on the higher quarter of the type spectrum.</p>
 <table>
 <caption>Variables (output only)</caption>
 <colgroup>
@@ -246,7 +253,7 @@ Andreas Angourakis & Jonàs Alcaina
 <tr class="odd">
 <td><code>timing_humans</code>, <code>timing_plants</code></td>
 <td><span class="math inline">\(timing_{H},\,timing_{P}\)</span></td>
-<td><strong>Iterations past</strong> until <strong>coevolution</strong> successfully changes the proportions of population per type; generally, when <span class="math inline">\(pop_{A_1}\gg pop_{A_n}\)</span> or, more specifically, <span class="math inline">\(coevo_A&gt;\theta\)</span>.</td>
+<td><strong>Iterations past</strong> until <strong>coevolution</strong> successfully changes the proportions of population per type; generally, when <span class="math inline">\(pop_{A_1}\gg pop_{A_n}\)</span> or, more specifically, <span class="math inline">\(coevo_A&gt;coevo_{\theta}\)</span>.</td>
 </tr>
 <tr class="even">
 <td><code>time_end</code></td>

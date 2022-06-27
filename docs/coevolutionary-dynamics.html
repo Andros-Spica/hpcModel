@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2022-05-21" />
+<meta name="date" content="2022-06-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -213,12 +213,33 @@ Andreas Angourakis & Jonàs Alcaina
             <section class="normal" id="section-">
 <div id="coevolutionary-dynamics" class="section level2 unnumbered" number="">
 <h2>Coevolutionary dynamics</h2>
-<p>Undirected variation, which causes part of the population to randomly change to other types, represents the effect of mutation in genetic transmission or of innovation, error, and other mechanisms in cultural transmission. The balance of the subpopulation A of type <span class="math inline">\(i\)</span> depends on the level of undirected variation (<span class="math inline">\(v_{A}\)</span>) and on the degree and sign of the difference between the current subpopulation (<span class="math inline">\(pop_{A_{i}}[t]\)</span>) and the averaged subpopulation (<span class="math inline">\(1/n_{A}\)</span>), which refers to the completely uniform distribution among types (Eq. 8).</p>
-<p><span class="math display">\[pop_{A}[t]&#39;=pop_{A}[t]+v_{A}\left(\tfrac{1}{n_{A}}-pop_{A}[t]\right)\]</span> [Eq. 8]</p>
-<p>By considering inertia, we are assuming that the more frequent a type is, the more likely that it is transmitted. Selection is implemented by assigning a fitness score to each type (<span class="math inline">\(fitness_{A_{i}}[t]\)</span>), which in turn biases its transmission. Equation 9 summarizes the combined effect that inertia and selection have on the proportion of population A belonging to type <span class="math inline">\(i\)</span> (<span class="math inline">\(pop_{A_{i}}[t]\)</span>) [for a formal similarity of the discrete replicator dynamic and Bayesian inference see Harper2009].</p>
-<p><span class="math display">\[pop_{A_{i}}[t+1]=\frac{fitness_{A_{i}}[t]\cdot pop_{A_{i}}[t]}{\sum_{j=1}^{n_{A}}fitness_{A_{j}}[t]\cdot pop_{A_{j}}[t]}\]</span> [Eq. 9]</p>
+<p>Undirected variation, which causes part of the population to randomly change to other types, represents the effect of mutation in genetic transmission or of innovation, error, and other mechanisms in cultural transmission. The balance of the subpopulation A of type <span class="math inline">\(i\)</span> depends on the level of undirected variation (<span class="math inline">\(v_{A}\)</span>) and on the degree and sign of the difference between the current subpopulation (<span class="math inline">\(pop_{A_{i}}[t]\)</span>) and the averaged subpopulation (<span class="math inline">\(1/n_{A}\)</span>), which refers to the completely uniform distribution among types (Eq. 11 and 12).</p>
+<p><span class="math display">\[\begin{equation}
+\tag{Eq. 11}
+pop_{H}[t]&#39;=pop_{H}[t]+v_{H}\left(\tfrac{1}{n_{H}}-pop_{H}[t]\right)
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+\tag{Eq. 12}
+pop_{P}[t]&#39;=pop_{P}[t]+v_{P}\left(\tfrac{1}{n_{P}}-pop_{P}[t]\right)
+\end{equation}\]</span></p>
+<p>By considering inertia, we are assuming that the more frequent a type is, the more likely that it is transmitted. Selection is implemented by assigning a fitness score to each type (<span class="math inline">\(fitness_{A_{i}}[t]\)</span>), which in turn biases its transmission. Equations 13 and 14 summarizes the combined effect that inertia and selection have on the proportion of population A belonging to type <span class="math inline">\(i\)</span> (<span class="math inline">\(pop_{A_{i}}[t]\)</span>) [for a formal similarity of the discrete replicator dynamic and Bayesian inference see Harper2009].</p>
+<p><span class="math display">\[\begin{equation}
+\tag{Eq. 13}
+pop_{H_{i}}[t+1]=\frac{fitness_{H_{i}}[t]\cdot pop_{H_{i}}[t]}{\sum_{j=1}^{n_{H}}fitness_{H_{j}}[t]\cdot pop_{H_{j}}[t]}
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+\tag{Eq. 14}
+pop_{P_{i}}[t+1]=\frac{fitness_{P_{i}}[t]\cdot pop_{P_{i}}[t]}{\sum_{j=1}^{n_{P}}fitness_{P_{j}}[t]\cdot pop_{P_{j}}[t]}
+\end{equation}\]</span></p>
 <p>This mechanism defines how a trait evolves in a single population. However, coevolution can also be represented when the selective pressure on this population is modified by the changing traits of another population. In order to link the two populations, fitness scores of population A are derived from the weight of the contribution or utility of population B (<span class="math inline">\(U_{BA}[t]\)</span>) in relation to the base carrying capacity of A (<span class="math inline">\(K_{A}[t]\)</span>) (Eq. 10).</p>
-<p><span class="math display">\[fitness_{A_{i}}[t]=\frac{(n_{A}-i)\,U_{bA}[t]+i\,U_{BA}[t]}{U_{bA}[t]+U_{BA}[t]}\]</span> [Eq. 10]</p>
+<p><span class="math display">\[\begin{equation}
+\tag{Eq. 15}
+fitness_{H_{i}}[t]=\frac{(n_{H}-i)\,U_{bH}[t]+i\,U_{PH}[t]}{U_{bH}[t]+U_{PH}[t]}
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+\tag{Eq. 16}
+fitness_{P_{i}}[t]=\frac{(n_{P}-i)\,U_{bP}[t]+i\,U_{HP}[t]}{U_{bP}[t]+U_{HP}[t]}
+\end{equation}\]</span></p>
 <p>As a consequence of this model design, types of both human and plant populations span from a non-mutualistic type (<span class="math inline">\(i=1\)</span>), which has the best fitness score when there is no positive interaction with the other population (<span class="math inline">\(U_{BA}[t]\approx 0\)</span>), to a mutualistic type (<span class="math inline">\(i=n\)</span>), which is the optimum when nearly the whole of the carrying capacity is due to such relationship (<span class="math inline">\(U_{BA}[t]\approx K_{A}[t]\)</span>).</p>
 <table>
 <caption>Assumptions on population diversity and coevolution</caption>

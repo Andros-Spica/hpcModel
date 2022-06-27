@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2022-05-21" />
+<meta name="date" content="2022-06-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -213,10 +213,24 @@ Andreas Angourakis & Jonàs Alcaina
             <section class="normal" id="section-">
 <div id="population-diversity" class="section level2 unnumbered" number="">
 <h2>Population diversity</h2>
-<p>The HPC model contemplates a vector (pop) of length n, containing the population fractions of each type. The number of types are population-specific and are given as two parameters (<span class="math inline">\(n_{H}\)</span>, <span class="math inline">\(n_{P}\)</span>). These types include all possible variations within a population so that this vector amounts to the unity (<span class="math inline">\(\sum_{i=1}^{n}{pop_{i}}=1\)</span>).</p>
-<p>To account for multiple types, we replace Eq. 5 with Eq. 6, where the utility of population A to B at any given time (<span class="math inline">\(U_{AB}[t]\)</span>) is calculated by summing up the utility per capita of each type (<span class="math inline">\(\bar{U}_{A_{i}B}\)</span>) proportionally to the share of population of the respective type (<span class="math inline">\(pop_{A_{i}}[t]\)</span>), and multiplying the result by the population at a given time. The baseline carrying capacity (<span class="math inline">\(U_{bA_{i}}[t]\)</span>) is calculated in a similar manner, though using the utility that each type is able to gain from other resources (<span class="math inline">\(U_{bA_{i}}\)</span>) (Eq. 7).</p>
-<p><span class="math display">\[U_{AB}[t]=A[t]\sum_{i=1}^{n_{A}}{pop_{A_{i}}[t]\cdot \bar{U}_{A_{i}B}}\]</span> [Eq. 6]
-<span class="math display">\[U_{bA}[t]=\sum_{i=1}^{n_{A}}{pop_{A_{i}}[t]\cdot U_{bA_{i}}}\]</span> [Eq. 7]</p>
+<p>The HPC model contemplates a vector (pop) of length n, containing the population fractions of each type. The number of types are population-specific and are given as two parameters (<span class="math inline">\(n_{H}\)</span>, <span class="math inline">\(n_{P}\)</span>). These types include all possible variations within a population so that this vector amounts to the unity (<span class="math inline">\(\sum_{i=1}^{n}{pop_{A_{i}}}=1\)</span>).</p>
+<p>To account for multiple types, we replace Eq. 5 and 6 with Eq. 7 and 8, where the utility of population A to B at any given time (<span class="math inline">\(U_{AB}[t]\)</span>) is calculated by summing up the utility per capita of each type (<span class="math inline">\(\bar{U}_{A_{i}B}\)</span>) proportionally to the share of population of the respective type (<span class="math inline">\(pop_{A_{i}}[t]\)</span>), and multiplying the result by the population at a given time. The baseline carrying capacity (<span class="math inline">\(U_{bA_{i}}[t]\)</span>) is calculated in a similar manner, though using the utility that each type is able to gain from other resources (<span class="math inline">\(U_{bA_{i}}\)</span>) (Eq. 9 and 10).</p>
+<p><span class="math display">\[\begin{equation}
+\tag{Eq. 7}
+U_{HP}[t]=H[t]\sum_{i=1}^{n_{H}}{pop_{H_{i}}[t]\cdot \bar{U}_{H_{i}P}}
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+\tag{Eq. 8}
+U_{PH}[t]=P[t]\sum_{i=1}^{n_{P}}{pop_{P_{i}}[t]\cdot \bar{U}_{P_{i}H}}
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+\tag{Eq. 9}
+U_{bH}[t]=\sum_{i=1}^{n_{H}}{pop_{H_{i}}[t]\cdot U_{bH_{i}}}
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+\tag{Eq. 10}
+U_{bP}[t]=\sum_{i=1}^{n_{P}}{pop_{P_{i}}[t]\cdot U_{bP_{i}}}
+\end{equation}\]</span></p>
 <p>Types relate to population-specific values of utility per capita (<span class="math inline">\(\bar{U}_{A_{i}B}\)</span>) and baseline carrying capacity (<span class="math inline">\(U_{bA_{i}}\)</span>). These values are defined by linear interpolation between pairs of parameters representing the values corresponding to types <span class="math inline">\(1\)</span> and <span class="math inline">\(n\)</span> (e.g., if <span class="math inline">\(n_P=10\)</span>, <span class="math inline">\(\bar{U}_{P_{1}H}=1\)</span> and <span class="math inline">\(\bar{U}_{P_{n}H}=10\)</span>, then <span class="math inline">\(\bar{U}_{P_{5}H}=5\)</span>). The shares of population within types follow a one-tail distribution rather than a normal distribution, which would be more adequate but less straightforward to use in a theoretical model. Under this circumstance, the distribution of population within types will always be biased towards the intermediate types.</p>
 </div>
             </section>

@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2022-05-21" />
+<meta name="date" content="2022-06-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -214,13 +214,32 @@ Andreas Angourakis & Jonàs Alcaina
 <div id="ecological-relationships-and-population-dynamics" class="section level2 unnumbered" number="">
 <h2>Ecological relationships and population dynamics</h2>
 <p>The model can be expressed by a relatively simple system of two discrete-time difference equations (Eq. 1 and 2), based on the Verhulst-Pearl Logistic equation <span class="citation">(chapter 9, Kingsland 1982; Pianka 1974)</span>. The change of both populations (<span class="math inline">\(\Delta H[t]\)</span>, <span class="math inline">\(\Delta P[t]\)</span>; see Table 3) depends on an intrinsic growth rate (<span class="math inline">\(r_{H}, r_{P}\)</span>), the population at a given time (<span class="math inline">\(H[t]\)</span>, <span class="math inline">\(P[t]\)</span>) and the respective carrying capacity of the environment for each population (<span class="math inline">\(K_{H}[t]\)</span>, <span class="math inline">\(K_{P}[t]\)</span>), which may vary over time.</p>
-<p><span class="math display">\[H[t+1]=H[t]+r_{H}H[t]-r_{H}\frac{H[t]^{2}}{K_{H}[t]}\]</span> [Eq. 1]
-<span class="math display">\[P[t+1]=P[t]+r_{P}P[t]-r_{P}\frac{P[t]^{2}}{K_{P}[t]}\]</span> [Eq. 2]</p>
-<p>Human and plant populations engage in a mutualistic relationship, where one species is to some extent sustained by the other (Eq. 3 and 4). The mutualistic relationship is defined in the model as an increment of the carrying capacity of population B caused by population A (<span class="math inline">\(U_{AB}[t]\)</span>). This increment, expressed as the utility of A to B at a given time is the product of the utility per capita of A to B (<span class="math inline">\(\bar{U}_{AB}\)</span>) and the population A at a given time (Eq. 5).</p>
+<p><span class="math display">\[\begin{equation}
+\tag{Eq. 1}
+H[t+1]=H[t]+r_{H}H[t]-r_{H}\frac{H[t]^{2}}{K_{H}[t]}
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+\tag{Eq. 2}
+P[t+1]=P[t]+r_{P}P[t]-r_{P}\frac{P[t]^{2}}{K_{P}[t]}
+\end{equation}\]</span></p>
+<p>Human and plant populations engage in a mutualistic relationship, where one species is to some extent sustained by the other (Eq. 3 and 4). The mutualistic relationship is defined in the model as an increment of the carrying capacity of population B caused by population A (<span class="math inline">\(U_{AB}[t]\)</span>). This increment, expressed as the utility of A to B at a given time is the product of the utility per capita of A to B (<span class="math inline">\(\bar{U}_{AB}\)</span>) and the population A at a given time (Eq. 5 and 6).</p>
 <p>We consider that both populations are sustained also by an independent term, representing the baseline carrying capacity of the environment or the utility gain from other resources, which is time-dependent (<span class="math inline">\(U_{bH}[t]\)</span>, <span class="math inline">\(U_{bP}[t]\)</span>). While we assume that the growth of the human population has no predefined ceiling, the expansion of the plant population is considered limited as the area over which plants can grow contiguously (<span class="math inline">\(MaxArea\)</span>), and represented as a compendium of both space and the maximum energy available in a discrete location (Eq. 4).</p>
-<p><span class="math display">\[K_{H}[t]=U_{PH}[t]+U_{bH}[t]\]</span> [Eq. 3]
-<span class="math display">\[K_{P}[t]=\min(U_{HP}[t]+U_{bP}[t],\, MaxArea)\]</span> [Eq. 4]
-<span class="math display">\[U_{AB}[t]=A[t]\cdot \bar{U}_{AB}\]</span> [Eq. 5]</p>
+<p><span class="math display">\[\begin{equation}
+\tag{Eq. 3}
+K_{H}[t]=U_{PH}[t]+U_{bH}[t]
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+\tag{Eq. 4}
+K_{P}[t]=\min(U_{HP}[t]+U_{bP}[t],\, MaxArea)
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+\tag{Eq. 5}
+U_{HP}[t]=H[t]\cdot \bar{U}_{HP}
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+\tag{Eq. 6}
+U_{PH}[t]=P[t]\cdot \bar{U}_{PH}
+\end{equation}\]</span></p>
 <p>Considering that mutualistic relationships involve a positive feedback loop, the population growth at time t improves the conditions for both humans and plants at time <span class="math inline">\(t + 1\)</span>, sustaining their growth even further.</p>
 <table>
 <caption>Assumptions on ecological relationships and population dynamics</caption>

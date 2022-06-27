@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2022-05-21" />
+<meta name="date" content="2022-06-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -213,6 +213,7 @@ Andreas Angourakis & Jonàs Alcaina
             <section class="normal" id="section-">
 <div id="parameters-and-variables" class="section level2 unnumbered" number="">
 <h2>Parameters and variables</h2>
+<p><img src="images/Forrester-diagram.png" width="100%" /></p>
 <table>
 <caption>Parameters</caption>
 <colgroup>
@@ -310,7 +311,7 @@ Andreas Angourakis & Jonàs Alcaina
 </tr>
 <tr class="odd">
 <td><code>coevolution_threshold</code></td>
-<td><span class="math inline">\(\theta\)</span></td>
+<td><span class="math inline">\(coevo_{\theta}\)</span></td>
 <td>value between -1 and 1 to which to compare coevolution coefficients and decide if qualitative shift in type proportions has happened, so timing can be registered (see “Table: Variables (output only)” below).</td>
 </tr>
 </tbody>
@@ -353,12 +354,12 @@ Andreas Angourakis & Jonàs Alcaina
 <tr class="odd">
 <td><code>type_indexes_humans</code>, <code>type_indexes_plants</code></td>
 <td><span class="math inline">\(types_{H},\,types_{P}\)</span></td>
-<td>Population types, arbitrarily ordered from <span class="math inline">\(1\)</span> to <span class="math inline">\(n\)</span> (vector or array).</td>
+<td><strong>Population types</strong>, arbitrarily ordered from <span class="math inline">\(1\)</span> to <span class="math inline">\(n\)</span> (vector or array).</td>
 </tr>
 <tr class="even">
 <td><code>type_proportions_humans</code>, <code>type_proportions_plants</code></td>
 <td><span class="math inline">\(pop_{H_{i}}[t],\,pop_{P_{i}}[t]\)</span></td>
-<td><strong>Proportion of a population</strong> belonging to type <span class="math inline">\(i\)</span> at time <span class="math inline">\(t\)</span> (vector or array).</td>
+<td><strong>Proportion of a population</strong> belonging to each type at time <span class="math inline">\(t\)</span> (vector or array).</td>
 </tr>
 <tr class="odd">
 <td><code>type_utility_per_capita_humans_to_plants</code>, <code>type_utility_per_capita_plants_to_humans</code></td>
